@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filmc.Wpf", "Filmc.Wpf\Filmc.Wpf.csproj", "{A18996C6-3FEC-48BB-80F1-BD89EBFA49AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filmc.Xtl", "Filmc.Xtl\Filmc.Xtl.csproj", "{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A18996C6-3FEC-48BB-80F1-BD89EBFA49AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A18996C6-3FEC-48BB-80F1-BD89EBFA49AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A18996C6-3FEC-48BB-80F1-BD89EBFA49AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A18996C6-3FEC-48BB-80F1-BD89EBFA49AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {657E9673-58FA-4DB8-8159-814ABE6BA260}
+	EndGlobalSection
+EndGlobal
