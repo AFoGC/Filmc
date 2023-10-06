@@ -49,6 +49,7 @@ namespace Filmc.Xtl
                     tb.SetEntityId(x => x.Id);
                     tb.AddEntitySaveRule(x => x.Name);
                     tb.AddEntitySaveRule(x => x.HideName);
+                    tb.AddEntitySaveRule(x => x.RawMark);
                     tb.AddEntitySaveRule(x => x.Priority);
                 });
 
@@ -73,6 +74,110 @@ namespace Filmc.Xtl
                     tb.AddEntitySaveRule(x => x.FilmId);
                     tb.AddEntitySaveRule(x => x.TagId);
                 });
+
+                builder.AddTable<FilmInPrioritiesTable, FilmInPriority>(tb =>
+                {
+                    tb.DefaultRecord = new FilmInPriority();
+
+                    tb.SetEntityId(x => x.Id);
+                    tb.AddEntitySaveRule(x => x.CreationTime);
+                });
+
+                builder.AddTable<FilmTagsTable, FilmTag>(tb =>
+                {
+                    tb.DefaultRecord = new FilmTag();
+
+                    tb.SetIdGeneration(id => id++);
+
+                    tb.SetEntityId(x => x.Id);
+                    tb.AddEntitySaveRule(x => x.Name);
+                });
+
+                builder.AddTable<BooksTable, Book>(tb =>
+                {
+                    tb.DefaultRecord = new Book();
+
+                    tb.SetIdGeneration(id => id++);
+
+                    tb.SetEntityId(x => x.Id);
+                    tb.AddEntitySaveRule(x => x.Name);
+                    tb.AddEntitySaveRule(x => x.Author);
+                    tb.AddEntitySaveRule(x => x.GenreId);
+                    tb.AddEntitySaveRule(x => x.PublicationYear);
+                    tb.AddEntitySaveRule(x => x.IsReaded);
+                    tb.AddEntitySaveRule(x => x.FullReadDate);
+                    tb.AddEntitySaveRule(x => x.CountOfReadings);
+                    tb.AddEntitySaveRule(x => x.Bookmark);
+                    tb.AddEntitySaveRule(x => x.CategoryId);
+                    tb.AddEntitySaveRule(x => x.CategoryListId);
+                    tb.AddEntitySaveRule(x => x.RawMark);
+                    tb.AddEntitySaveRule(x => x.Sources);
+                });
+
+                builder.AddTable<BookCategoriesTable, BookCategory>(tb =>
+                {
+                    tb.DefaultRecord = new BookCategory();
+
+                    tb.SetIdGeneration(id => id++);
+                    tb.AddTableSaveRule(x => x.MarkSystem, 6);
+
+                    tb.SetEntityId(x => x.Id);
+                    tb.AddEntitySaveRule(x => x.Name);
+                    tb.AddEntitySaveRule(x => x.HideName);
+                    tb.AddEntitySaveRule(x => x.RawMark);
+                    tb.AddEntitySaveRule(x => x.Priority);
+                });
+
+                builder.AddTable<BookGenresTable, BookGenre>(tb =>
+                {
+                    tb.DefaultRecord = new BookGenre();
+
+                    tb.SetIdGeneration(id => id++);
+
+                    tb.SetEntityId(x => x.Id);
+                    tb.AddEntitySaveRule(x => x.Name);
+                });
+
+                builder.AddTable<BookHasTagTable, BookHasTag>(tb =>
+                {
+                    tb.DefaultRecord = new BookHasTag();
+
+                    tb.SetIdGeneration(id => id++);
+
+                    tb.SetEntityId(x => x.Id);
+                    tb.AddEntitySaveRule(x => x.BookId);
+                    tb.AddEntitySaveRule(x => x.TagId);
+                });
+
+                builder.AddTable<BookInPrioritiesTable, BookInPriority>(tb =>
+                {
+                    tb.DefaultRecord = new BookInPriority();
+
+                    tb.SetEntityId(x => x.Id);
+                    tb.AddEntitySaveRule(x => x.CreationTime);
+                });
+
+                builder.AddTable<BookTagsTable, BookTag>(tb =>
+                {
+                    tb.DefaultRecord = new BookTag();
+
+                    tb.SetIdGeneration(id => id++);
+
+                    tb.SetEntityId(x => x.Id);
+                    tb.AddEntitySaveRule(x => x.Name);
+                });
+
+                builder.AddOneToMany<FilmGenre, Film>(x => x.GenreId, x => x.Genre, x => x.Films);
+                builder.AddOneToMany<FilmCategory, Film>(x => x.CategoryId, x => x.Category, x => x.Films);
+                builder.AddOneToOne<FilmInPriority, Film>(x => x.Film);
+                builder.AddOneToMany<Film, FilmHasTag>(x => x.FilmId, x => x.Film, x => x.HasTags);
+                builder.AddOneToMany<FilmTag, FilmHasTag>(x => x.FilmId, x => x.Tag, x => x.HasFilms);
+
+                builder.AddOneToMany<BookGenre, Book>(x => x.GenreId, x => x.Genre, x => x.Books);
+                builder.AddOneToMany<BookCategory, Book>(x => x.CategoryId, x => x.Category, x => x.Books);
+                builder.AddOneToOne<BookInPriority, Book>(x => x.Book);
+                builder.AddOneToMany<Book, BookHasTag>(x => x.BookId, x => x.Book, x => x.HasTags);
+                builder.AddOneToMany<BookTag, BookHasTag>(x => x.BookId, x => x.Tag, x => x.HasBooks);
             });
         }
 

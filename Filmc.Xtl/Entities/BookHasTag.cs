@@ -39,7 +39,7 @@ namespace Filmc.Xtl.Entities
             set { _tagId = value; OnPropertyChanged(); }
         }
 
-        public Book Film
+        public Book Book
         {
             get => _book;
             set { _book = value; OnPropertyChanged(); }

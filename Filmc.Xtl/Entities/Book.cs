@@ -98,6 +98,12 @@ namespace Filmc.Xtl.Entities
             set { _categoryListId = value; OnPropertyChanged(); }
         }
 
+        internal int RawMark
+        {
+            get => Mark.RawMark;
+            set => Mark.RawMark = value;
+        }
+
         public Mark Mark 
         { 
             get => _mark;
