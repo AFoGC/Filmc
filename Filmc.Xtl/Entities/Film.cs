@@ -131,12 +131,12 @@ namespace Filmc.Xtl.Entities
         public FilmCategory? Category
         { 
             get => _category;
-            set { _category = value; OnPropertyChanged(); }
+            private set { _category = value; OnPropertyChanged(); }
         }
         public FilmGenre Genre
         {
             get => _genre; 
-            set { _genre = value; OnPropertyChanged(); }
+            private set { _genre = value; OnPropertyChanged(); }
         }
         public RecordsCollection<FilmHasTag> HasTags => _hasTags;
 

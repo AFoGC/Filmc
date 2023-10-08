@@ -42,12 +42,12 @@ namespace Filmc.Xtl.Entities
         public Book Book
         {
             get => _book;
-            set { _book = value; OnPropertyChanged(); }
+            private set { _book = value; OnPropertyChanged(); }
         }
         public BookTag Tag
         {
             get => _tag;
-            set { _tag = value; OnPropertyChanged(); }
+            private set { _tag = value; OnPropertyChanged(); }
 
         }
 

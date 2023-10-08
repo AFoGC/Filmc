@@ -42,12 +42,12 @@ namespace Filmc.Xtl.Entities
         public Film Film
         { 
             get => _film;
-            set { _film = value; OnPropertyChanged(); } 
+            private set { _film = value; OnPropertyChanged(); } 
         }
         public FilmTag Tag
         { 
             get => _tag; 
-            set { _tag = value; OnPropertyChanged(); }
+            private set { _tag = value; OnPropertyChanged(); }
             
         }
 

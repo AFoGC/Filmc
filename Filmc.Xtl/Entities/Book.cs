@@ -118,12 +118,12 @@ namespace Filmc.Xtl.Entities
         public BookCategory? Category
         {
             get => _category;
-            set { _category = value; OnPropertyChanged(); }
+            private set { _category = value; OnPropertyChanged(); }
         }
         public BookGenre Genre
         {
             get => _genre;
-            set { _genre = value; OnPropertyChanged(); }
+            private set { _genre = value; OnPropertyChanged(); }
         }
         public RecordsCollection<BookHasTag> HasTags => _hasTags;
 
