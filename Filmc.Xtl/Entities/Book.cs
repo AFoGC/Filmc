@@ -28,6 +28,7 @@ namespace Filmc.Xtl.Entities
 
         private BookCategory? _category;
         private BookGenre _genre = null!;
+        private BookInPriority? _priority;
         private readonly RecordsCollection<BookHasTag> _hasTags;
 
         public Book()
@@ -124,6 +125,11 @@ namespace Filmc.Xtl.Entities
         {
             get => _genre;
             private set { _genre = value; OnPropertyChanged(); }
+        }
+        public BookInPriority? Priority
+        {
+            get => _priority;
+            private set { _priority = value; OnPropertyChanged(); }
         }
         public RecordsCollection<BookHasTag> HasTags => _hasTags;
 

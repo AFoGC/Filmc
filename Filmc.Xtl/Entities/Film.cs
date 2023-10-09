@@ -31,6 +31,7 @@ namespace Filmc.Xtl.Entities
 
         private FilmCategory? _category;
         private FilmGenre _genre = null!;
+        private FilmInPriority? _priority;
         private readonly RecordsCollection<FilmHasTag> _hasTags;
 
         public Film()
@@ -137,6 +138,11 @@ namespace Filmc.Xtl.Entities
         {
             get => _genre; 
             private set { _genre = value; OnPropertyChanged(); }
+        }
+        public FilmInPriority? Priority
+        {
+            get => _priority;
+            private set { _priority = value; OnPropertyChanged(); }
         }
         public RecordsCollection<FilmHasTag> HasTags => _hasTags;
 
