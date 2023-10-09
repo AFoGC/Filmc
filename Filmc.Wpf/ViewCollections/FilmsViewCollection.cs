@@ -29,7 +29,7 @@ namespace Filmc.Wpf.ViewCollections
             yield return "Serie.CountOfWatchedSeries";
             yield return "Serie.TotalSeries";
             */
-            throw new NotImplementedException();
+            return new string[0];
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new Film();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
                     tb.AddTableSaveRule(x => x.MarkSystem, 6);
 
                     tb.SetEntityId(x => x.Id);
@@ -43,7 +43,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new FilmCategory();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
                     tb.AddTableSaveRule(x => x.MarkSystem, 6);
 
                     tb.SetEntityId(x => x.Id);
@@ -57,7 +57,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new FilmGenre();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
 
                     tb.SetEntityId(x => x.Id);
                     tb.AddEntitySaveRule(x => x.Name);
@@ -68,7 +68,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new FilmHasTag();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
 
                     tb.SetEntityId(x => x.Id);
                     tb.AddEntitySaveRule(x => x.FilmId);
@@ -87,7 +87,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new FilmTag();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
 
                     tb.SetEntityId(x => x.Id);
                     tb.AddEntitySaveRule(x => x.Name);
@@ -97,7 +97,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new Book();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
 
                     tb.SetEntityId(x => x.Id);
                     tb.AddEntitySaveRule(x => x.Name);
@@ -118,7 +118,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new BookCategory();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
                     tb.AddTableSaveRule(x => x.MarkSystem, 6);
 
                     tb.SetEntityId(x => x.Id);
@@ -132,7 +132,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new BookGenre();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
 
                     tb.SetEntityId(x => x.Id);
                     tb.AddEntitySaveRule(x => x.Name);
@@ -142,7 +142,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new BookHasTag();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
 
                     tb.SetEntityId(x => x.Id);
                     tb.AddEntitySaveRule(x => x.BookId);
@@ -161,7 +161,7 @@ namespace Filmc.Xtl
                 {
                     tb.DefaultRecord = new BookTag();
 
-                    tb.SetIdGeneration(id => id++);
+                    tb.SetIdGeneration(id => ++id);
 
                     tb.SetEntityId(x => x.Id);
                     tb.AddEntitySaveRule(x => x.Name);

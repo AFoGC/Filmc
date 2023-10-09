@@ -35,6 +35,7 @@ namespace Filmc.Wpf.ViewModels
             FilmsSimplifiedVC = new FilmsSimplifiedViewCollection(FilmVMs);
             FilmsVC = new FilmsViewCollection(FilmVMs);
             SeriesVC = new FilmSeriesViewCollection(FilmVMs);
+            PrioritiesVC = new FilmsInPriorityViewCollection(FilmVMs);
         }
 
         public ObservableCollection<FilmViewModel> FilmVMs { get; }
@@ -45,6 +46,7 @@ namespace Filmc.Wpf.ViewModels
         public FilmsSimplifiedViewCollection FilmsSimplifiedVC { get; }
         public FilmsViewCollection FilmsVC { get; }
         public FilmSeriesViewCollection SeriesVC { get; }
+        public FilmsInPriorityViewCollection PrioritiesVC { get; }
 
         private void OnTablesContextChanged()
         {
@@ -56,6 +58,15 @@ namespace Filmc.Wpf.ViewModels
             }
 
             _tablesContext = _model.TablesContext;
+
+            foreach (var item in _tablesContext.Films)
+                FilmVMs.Add(new FilmViewModel(item));
+
+            foreach (var item in _tablesContext.FilmCategories)
+                CategoryVMs.Add(new FilmCategoryViewModel(item));
+
+            foreach (var item in _tablesContext.FilmGenres)
+                GenreVMs.Add(new FilmGenreViewModel(item));
 
             _tablesContext.Films.CollectionChanged += OnFilmsChanged;
             _tablesContext.FilmGenres.CollectionChanged += OnGenresCollectionChanged;

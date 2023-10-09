@@ -9,9 +9,9 @@ using System.Windows.Data;
 
 namespace Filmc.Wpf.ViewCollections
 {
-    public class FilmsSimplifiedViewCollection : BaseEntityViewCollection
+    public class FilmsInPriorityViewCollection : BaseEntityViewCollection
     {
-        public FilmsSimplifiedViewCollection(ObservableCollection<FilmViewModel> source)
+        public FilmsInPriorityViewCollection(ObservableCollection<FilmViewModel> source)
         {
             CollectionViewSource.Source = source;
             CollectionViewSource.Filter += OnCollectionFilter;
@@ -23,13 +23,13 @@ namespace Filmc.Wpf.ViewCollections
 
             if (vm != null)
             {
-                if (vm.Model.Category != null)
+                if (vm.Model.Priority != null)
                 {
-                    e.Accepted = false;
+                    e.Accepted = true;
                 }
                 else
                 {
-                    e.Accepted = true;
+                    e.Accepted = false;
                 }
             }
         }

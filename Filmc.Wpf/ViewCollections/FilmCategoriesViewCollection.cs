@@ -17,7 +17,7 @@ namespace Filmc.Wpf.ViewCollections
 
         protected override IEnumerable<string> GetDescendingProperties()
         {
-            throw new NotImplementedException();
+            return new string[0];
         }
     }
 }
