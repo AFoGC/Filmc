@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\Dictionaries\TableControls\" />
     <Folder Include="Services\" />
-    <Folder Include="Resources\" />
     <Folder Include="EntityViews\" />
   </ItemGroup>
 

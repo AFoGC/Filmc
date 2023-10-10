@@ -3,6 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Filmc.Wpf">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Dictionaries/ButtonDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Dictionaries/ImagesDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Dictionaries/ScrollBarDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Dictionaries/TextBoxDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Dictionaries/ComboBoxDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Dictionaries/ContextMenuDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Dictionaries/ColorsDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/Dictionaries/ToolTipDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
