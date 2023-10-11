@@ -20,7 +20,7 @@ namespace Filmc.Wpf
         {
             ProfilesModel profiles = new ProfilesModel();
             FilmsModel filmsModel = new FilmsModel(profiles);
-            FilmsViewModel filmsViewModel = new FilmsViewModel(filmsModel);
+            FilmsMenuViewModel filmsViewModel = new FilmsMenuViewModel(filmsModel);
 
             MainWindow = new MainWindow();
             MainWindow.DataContext = filmsViewModel;

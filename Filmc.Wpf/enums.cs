@@ -6,5 +6,18 @@ using System.Threading.Tasks;
 
 namespace Filmc.Wpf
 {
-    
+    public enum FilmsMenuMode
+    {
+        Categories,
+        Films,
+        Series,
+        Priorities
+    }
+
+    public enum BooksMenuMode
+    {
+        Categories,
+        Books,
+        Priorities
+    }
 }

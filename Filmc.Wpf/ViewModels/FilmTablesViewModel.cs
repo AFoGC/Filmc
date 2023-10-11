@@ -3,7 +3,6 @@ using Filmc.Wpf.Models;
 using Filmc.Wpf.ViewCollections;
 using Filmc.Xtl;
 using Filmc.Xtl.Entities;
-using Filmc.Xtl.Tables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,18 +10,20 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
 
 namespace Filmc.Wpf.ViewModels
 {
-    public class FilmsViewModel
+    public class FilmTablesViewModel : BaseViewModel
     {
         private readonly FilmsModel _model;
 
         private TablesContext? _tablesContext;
+        private FilmsMenuMode _menuMode;
 
-        public FilmsViewModel(FilmsModel model)
+        public FilmTablesViewModel(FilmsModel model)
         {
+            _menuMode = FilmsMenuMode.Films;
+
             FilmVMs = new ObservableCollection<FilmViewModel>();
             CategoryVMs = new ObservableCollection<FilmCategoryViewModel>();
             GenreVMs = new ObservableCollection<FilmGenreViewModel>();
@@ -47,6 +48,12 @@ namespace Filmc.Wpf.ViewModels
         public FilmsViewCollection FilmsVC { get; }
         public FilmSeriesViewCollection SeriesVC { get; }
         public FilmsInPriorityViewCollection PrioritiesVC { get; }
+
+        public FilmsMenuMode MenuMode
+        {
+            get => _menuMode;
+            set { _menuMode = value; OnPropertyChanged(); }
+        }
 
         private void OnTablesContextChanged()
         {
@@ -75,7 +82,7 @@ namespace Filmc.Wpf.ViewModels
 
         private void OnFilmsChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            if(e.Action == NotifyCollectionChangedAction.Add)
+            if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 Film film = (Film)e.NewItems[0]!;
                 FilmVMs.Insert(e.NewStartingIndex, new FilmViewModel(film));
@@ -118,7 +125,7 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 FilmGenre entity = (FilmGenre)e.NewItems[0]!;
-                GenreVMs.Insert(e.NewStartingIndex, new FilmGenreViewModel(entity));
+                GenreVMs.Insert(e.NewStartingIndex, new FilmGenreViewModel(entity)); ;
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove)

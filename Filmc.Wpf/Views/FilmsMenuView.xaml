@@ -3,9 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ev="clr-namespace:Filmc.Wpf.EntityViews"
+             xmlns:global="clr-namespace:Filmc.Wpf"
+             xmlns:cont="clr-namespace:Filmc.Wpf.Controls"
              xmlns:local="clr-namespace:Filmc.Wpf.Views"
              mc:Ignorable="d" 
              d:DesignHeight="705" d:DesignWidth="1265">
+    <UserControl.Resources>
+        <Style x:Key="CategoriesVisiblity" TargetType="FrameworkElement">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MenuMode}" Value="Categories">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="FilmsVisiblity" TargetType="FrameworkElement">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MenuMode}" Value="Films">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SeriesVisiblity" TargetType="FrameworkElement">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MenuMode}" Value="Series">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="PrioritiesVisiblity" TargetType="FrameworkElement">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MenuMode}" Value="Priorities">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid Background="{StaticResource MainBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -16,11 +54,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="35"/>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Grid Width="180" Grid.Column="1" Grid.Row="1" Height="20" HorizontalAlignment="Left">
-            <TextBox Text="Search" Foreground="WhiteSmoke" IsReadOnly="True"
+            <TextBox Text="{DynamicResource serch_btn}" Foreground="WhiteSmoke" IsReadOnly="True"
                            Background="{StaticResource TextBoxColor}"/>
             
             <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SearchTextBox}"/>
@@ -29,7 +67,161 @@
         <Grid Grid.Column="1" Grid.Row="2">
             
         </Grid>
-        
-        
+
+        <ScrollViewer Grid.Column="1" Grid.Row="3">
+            <ScrollViewer.Resources>
+                <Style TargetType="ItemsControl">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate >
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ScrollViewer.Resources>
+
+            <StackPanel DataContext="{Binding TablesViewModel}">
+                <!--Categories Menu-->
+                <ItemsControl ItemsSource="{Binding CategoriesVC.View}"
+                              Style="{StaticResource CategoriesVisiblity}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ev:FilmCategoryView />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding FilmsSimplifiedVC.View}"
+                              Style="{StaticResource CategoriesVisiblity}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ev:FilmSimplifiedView />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!--Films Menu-->
+                <ItemsControl ItemsSource="{Binding FilmsVC.View}"
+                              Style="{StaticResource FilmsVisiblity}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ev:FilmView />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!--Series Menu-->
+                <ItemsControl ItemsSource="{Binding SeriesVC.View}"
+                              Style="{StaticResource SeriesVisiblity}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ev:FilmSerieView/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!--Priority Menu-->
+                <ItemsControl ItemsSource="{Binding PrioritiesVC.View}"
+                              Style="{StaticResource PrioritiesVisiblity}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ev:FilmInPriorityView/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border BorderBrush="White" BorderThickness="1" Width="268"
+                Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
+                VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Border.Resources>
+                <Style x:Key="BB" TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                    <Setter Property="Height" Value="23"/>
+                </Style>
+                <Style x:Key="GB" TargetType="Button" BasedOn="{StaticResource GrayButton}">
+                    <Setter Property="Height" Value="23"/>
+                </Style>
+            </Border.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="28"/>
+                    </Grid.RowDefinitions>
+                    <Button Style="{StaticResource BB}" Content="{DynamicResource save_tab_btn}"
+							VerticalAlignment="Top" Command="{Binding SaveTablesCommand}"
+                            Grid.ColumnSpan="3" Margin="60,0,60,0"/>
+
+                    <Button Style="{StaticResource GB}" Content="{DynamicResource add_cat_btn}"
+                            VerticalAlignment="Top" Command="{Binding AddCategoryCommand}"
+                            Grid.Column="0" Grid.Row="1"/>
+
+                    <Button Content="{DynamicResource add_film_btn}" Style="{StaticResource GB}"
+                            VerticalAlignment="Top" Command="{Binding AddFilmCommand}"
+                            Grid.Column="0" Grid.Row="2"/>
+
+                    <Button Content="{DynamicResource show_cat_btn}" Style="{StaticResource GB}"
+                            VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"
+                            Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Categories}"/>
+
+                    <Button Content="{DynamicResource show_film_btn}" Style="{StaticResource GB}"
+                            VerticalAlignment="Top" Grid.Column="2" Grid.Row="2"
+                            Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Films}"/>
+
+                    <Button Content="{DynamicResource show_serie_btn}" Style="{StaticResource GB}"
+                            VerticalAlignment="Top" Grid.Column="2" Grid.Row="3"
+                            Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Series}"/>
+
+                    <Button Content="{DynamicResource show_bprior_btn}" Style="{StaticResource GB}" 
+                            VerticalAlignment="Top" Grid.Column="2" Grid.Row="4"
+                            Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Priorities}"/>
+                </Grid>
+                <StackPanel Grid.Row="1">
+                    <StackPanel.Resources>
+                        <Style TargetType="ToggleButton" BasedOn="{StaticResource RequestToggleButton}">
+                            <Setter Property="Width" Value="131"/>
+                            <Setter Property="Margin" Value="1,0"/>
+                            <Setter Property="IsChecked" Value="True"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Separator Background="White"/>
+                    <Label Foreground="White" Content="{DynamicResource filter_title}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                    <StackPanel Orientation="Horizontal" Height="20" Margin="0,0,0,5">
+                        <ToggleButton IsChecked="{Binding IsWatchedChecked}" Content="{DynamicResource watched_btn}"
+                                      Command="{Binding FilterCommand}"/>
+                        <ToggleButton IsChecked="{Binding IsUnWatchedChecked}" Content="{DynamicResource unwatched_btn}"
+                                      Command="{Binding FilterCommand}"/>
+                    </StackPanel>
+                    <Label Foreground="White" Content="{DynamicResource filter_by_genre}" HorizontalAlignment="Center"/>
+
+                    <ItemsControl ItemsSource="{Binding TablesViewModel.GenreVMs}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <cont:GenreButton Command="{Binding Path=DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=Grid}, Mode=Default}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Rectangle Height="23"/>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Filmc.Wpf.EntityViews.FilmView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Filmc.Wpf.EntityViews"
+             mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+    <Grid Style="{DynamicResource TControl}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{DynamicResource row_height}"/>
+            <RowDefinition>
+                <RowDefinition.Style>
+                    <Style TargetType="RowDefinition">
+                        <Setter Property="Height" Value="0"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsCommentVisible}" Value="True">
+                                <Setter Property="Height" Value="Auto"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </RowDefinition.Style>
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition x:Name="MidColumn"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
+        </Grid.Resources>
+        <Grid.ContextMenu>
+            <ContextMenu x:Name="cm">
+
+            </ContextMenu>
+        </Grid.ContextMenu>
+        <TextBox Text="{Binding ID}" ToolTip="{DynamicResource id_tt}" 
+                 Width="{DynamicResource id_width}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding SelectCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding SelectCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <TextBox Text="{Binding Name}" ToolTip="{StaticResource NameToolTip}" 
+                     Width="{DynamicResource name_width}"/>
+
+            <TextBox Text="{Binding Genre.Name}" ToolTip="{StaticResource FilmGenreToolTip}" 
+                     Width="{DynamicResource genre_width}"/>
+
+            <TextBox Text="{Binding RealiseYear}" ToolTip="{DynamicResource year_tt}" 
+                     Width="{DynamicResource id_width}"/>
+
+            <CheckBox IsChecked="{Binding Watched}" ToolTip="{DynamicResource watched_tt}" 
+                      Margin="20,0" IsEnabled="False"/>
+
+            <TextBox Text="{Binding DateOfWatchTxt}" ToolTip="{DynamicResource end_watch_date_tt}" 
+                     Width="{DynamicResource date_width}"/>
+
+            <TextBox Text="{Binding Mark}" ToolTip="{DynamicResource mark_tt}" 
+                     Width="{DynamicResource mark_width}"/>
+
+            <TextBox Text="{Binding CountOfViews}" ToolTip="{DynamicResource cov_tt}" 
+                     Width="{DynamicResource id_width}"/>
+        </StackPanel>
+
+        <Button Content="⋮" Grid.Column="2" Click="OpenCM"/>
+
+        <TextBox HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Text="{Binding Comment}"
+                 ToolTip="{DynamicResource comment_tt}" Width="{Binding ElementName=MidColumn, Path=ActualWidth}"/>
+    </Grid>
+</UserControl>
