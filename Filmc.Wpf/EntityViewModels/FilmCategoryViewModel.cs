@@ -16,7 +16,7 @@ namespace Filmc.Wpf.EntityViewModels
             Model = model;
         }
 
-        public override bool SetFinded(string search)
+        public override bool Search(string search)
         {
             throw new NotImplementedException();
         }

@@ -122,10 +122,18 @@ namespace Filmc.Wpf.ViewModels
 
                     foreach (var item in TablesViewModel.FilmVMs)
                     {
-                        //доделать
+                        if ()
+                        {
+
+                        }
                     }
                 }));
             }
+        }
+
+        private void FilterFilm(IEnumerable<FilmGenreViewModel> genres, Film film)
+        {
+            genres.Any(x => x.Model == film.Genre) && film.IsWatched == 
         }
 
 

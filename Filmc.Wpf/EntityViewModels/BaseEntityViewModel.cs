@@ -9,6 +9,28 @@ namespace Filmc.Wpf.EntityViewModels
 {
     public abstract class BaseEntityViewModel : BaseViewModel
     {
-        public abstract bool SetFinded(string search);
+        private bool _isFiltered;
+        private bool _isFinded;
+
+        public BaseEntityViewModel()
+        {
+            _isFiltered = true;
+            _isFinded = true;
+        }
+
+        public bool IsFiltered
+        {
+            get => _isFiltered;
+            set { _isFiltered = value; OnPropertyChanged(); }
+        }
+
+        public bool IsFinded
+        {
+            get => _isFinded;
+            set { _isFinded = value; OnPropertyChanged(); }
+        }
+
+        public abstract bool Search(string search);
+        //public abstract bool PassFilter();
     }
 }

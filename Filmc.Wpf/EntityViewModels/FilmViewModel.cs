@@ -15,6 +15,8 @@ namespace Filmc.Wpf.EntityViewModels
     {
         public Film Model { get; }
 
+        
+
         public FilmViewModel(Film model)
         {
             Model = model;
@@ -82,7 +84,9 @@ namespace Filmc.Wpf.EntityViewModels
             set => Model.TotalSeries = value;
         }
 
-        public override bool SetFinded(string search)
+        
+
+        public override bool Search(string search)
         {
             throw new NotImplementedException();
         }
