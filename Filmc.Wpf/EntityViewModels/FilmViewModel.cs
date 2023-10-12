@@ -1,5 +1,6 @@
 ﻿using Filmc.Wpf.ViewModels;
 using Filmc.Xtl.Entities;
+using Filmc.Xtl.EntityProperties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,12 +16,17 @@ namespace Filmc.Wpf.EntityViewModels
     {
         public Film Model { get; }
 
-        
+        private bool _isCommentVisible;
+        private bool _isSelected;
 
         public FilmViewModel(Film model)
         {
             Model = model;
             Model.PropertyChanged += OnModelPropertyChanged;
+            Model.Mark.PropertyChanged += OnModelPropertyChanged;
+
+            _isCommentVisible = false;
+            _isSelected = false;
         }
 
         public int Id
@@ -83,8 +89,28 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.TotalSeries;
             set => Model.TotalSeries = value;
         }
-
         
+        public int FormatedMark
+        {
+            get => Model.Mark.FormatedMark;
+            set => Model.Mark.FormatedMark = value;
+        }
+        public int MarkSystem
+        {
+            get => Model.Mark.MarkSystem;
+            set => Model.Mark.MarkSystem = value;
+        }
+
+        public bool IsCommentVisible
+        {
+            get => _isCommentVisible;
+            set { _isCommentVisible = value; OnPropertyChanged(); }
+        }
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set { _isSelected = value; OnPropertyChanged(); }
+        }
 
         public override bool Search(string search)
         {
@@ -93,7 +119,7 @@ namespace Filmc.Wpf.EntityViewModels
 
         private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            
+            OnPropertyChanged(e.PropertyName);
         }
     }
 }

@@ -29,12 +29,35 @@ namespace Filmc.Xtl.EntityProperties
             set { _rawMark = value; OnPropertyChanged(); }
         }
 
-        public int MarkSystem => _maxMark;
-
-        public void SetMarkSystem(int maxMark)
+        public int MarkSystem
         {
-            _maxMark = maxMark;
-            OnPropertyChanged(nameof(MarkSystem));
+            get => _maxMark;
+            set { _maxMark = value; OnPropertyChanged(); }
+        }
+
+        public int FormatedMark
+        {
+            get
+            {
+                int modifier = MaxRawMark / MarkSystem;
+                int outMark = 0;
+                for (int i = 0; i <= MarkSystem; i++)
+                {
+                    outMark = modifier * i;
+                    if (outMark >= RawMark)
+                    {
+                        return i;
+                    }
+                }
+
+                return 0;
+            }
+            set
+            {
+                int modifier = MaxRawMark / MarkSystem;
+                RawMark = modifier * value;
+                OnPropertyChanged();
+            }
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")

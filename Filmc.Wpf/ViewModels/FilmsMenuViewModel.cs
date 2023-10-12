@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace Filmc.Wpf.ViewModels
@@ -23,6 +24,7 @@ namespace Filmc.Wpf.ViewModels
         private string _searchText;
         private bool _isWatchedChecked;
         private bool _isUnWatchedChecked;
+        private FilmViewModel? _selectedFilm;
 
         private RelayCommand? changeMenuModeCommand;
         private RelayCommand? addCategoryCommand;
@@ -30,6 +32,7 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? saveTablesCommand;
         private RelayCommand? filterCommand;
         private RelayCommand? sortTable;
+        private RelayCommand? selectCommand;
 
         public FilmsMenuViewModel(FilmsModel model)
         {
@@ -52,13 +55,44 @@ namespace Filmc.Wpf.ViewModels
         public bool IsWatchedChecked
         {
             get => _isWatchedChecked;
-            set { _isWatchedChecked = value; OnPropertyChanged(); }
+            set
+            {
+                if (IsUnWatchedChecked != false || value != false)
+                {
+                    _isWatchedChecked = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public bool IsUnWatchedChecked
         {
             get => _isUnWatchedChecked;
-            set { _isUnWatchedChecked = value; OnPropertyChanged(); }
+            set
+            {
+                if (IsWatchedChecked != false || value != false)
+                {
+                    _isUnWatchedChecked = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public FilmViewModel? SelectedFilm
+        {
+            get => _selectedFilm;
+            set
+            {
+                if (_selectedFilm != null)
+                    _selectedFilm.IsSelected = false;
+
+                _selectedFilm = value;
+
+                if (_selectedFilm != null)
+                    _selectedFilm.IsSelected = true;
+
+                OnPropertyChanged();
+            }
         }
 
         public RelayCommand ChangeMenuModeCommand
@@ -122,20 +156,13 @@ namespace Filmc.Wpf.ViewModels
 
                     foreach (var item in TablesViewModel.FilmVMs)
                     {
-                        if ()
-                        {
-
-                        }
+                        item.IsFiltered = IsFilmPassingFilter(selectedGenres, item.Model);
                     }
+
+                    
                 }));
             }
         }
-
-        private void FilterFilm(IEnumerable<FilmGenreViewModel> genres, Film film)
-        {
-            genres.Any(x => x.Model == film.Genre) && film.IsWatched == 
-        }
-
 
         public RelayCommand SortTable
         {
@@ -166,6 +193,29 @@ namespace Filmc.Wpf.ViewModels
                     }
                 }));
             }
+        }
+
+        public RelayCommand SelectCommand
+        {
+            get
+            {
+                return selectCommand ??
+                (selectCommand = new RelayCommand(obj =>
+                {
+                    FilmViewModel? viewModel = obj as FilmViewModel;
+                    SelectedFilm = viewModel;
+                }));
+            }
+        }
+
+        private bool IsFilmPassingFilter(IEnumerable<FilmGenreViewModel> genres, Film film)
+        {
+            bool exp = false;
+
+            if (genres.Any(x => x.Model == film.Genre))
+                exp = film.IsWatched == IsWatchedChecked || film.IsWatched != IsUnWatchedChecked;
+
+            return exp;
         }
     }
 }
