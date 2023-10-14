@@ -4,9 +4,59 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Filmc.Wpf.EntityViews"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:menus="clr-namespace:Filmc.Wpf.Views"
+             mc:Ignorable="d">
+    <Grid Style="{DynamicResource TControl}" Height="{DynamicResource control_height}">
+        <Grid.Resources>
+            <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
+        </Grid.Resources>
+        <Grid.ContextMenu>
+            <ContextMenu x:Name="cm" >
+
+            </ContextMenu>
+        </Grid.ContextMenu>
+        <StackPanel Orientation="Horizontal">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectCommand, 
+                                           RelativeSource={RelativeSource AncestorType={x:Type menus:FilmsMenuView}}, Mode=Default}"
+                                           CommandParameter="{Binding}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <TextBox Text="{Binding Id}" ToolTip="{DynamicResource id_tt}" 
+                     Width="{DynamicResource id_width}"/>
+
+            <TextBox Text="{Binding Name, Mode=OneWay}" ToolTip="{StaticResource NameToolTip}" 
+                     Width="{DynamicResource name_width}"/>
+
+            <TextBox Text="{Binding Genre.Name}" ToolTip="{StaticResource FilmGenreToolTip}" 
+                     Width="{DynamicResource genre_width}"/>
+
+            <TextBox Text="{Binding RealiseYear}" ToolTip="{DynamicResource year_tt}" 
+                     Width="{DynamicResource id_width}"/>
+
+            <CheckBox IsChecked="{Binding IsWatched}" ToolTip="{DynamicResource watched_tt}" 
+                      Margin="20,0" IsEnabled="False"/>
+
+            <TextBox ToolTip="{DynamicResource mark_tt}" 
+                     Width="{DynamicResource mark_width}">
+                <TextBox.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}">
+                        <Binding Path="FormatedMark" />
+                        <Binding Path="MarkSystem" />
+                    </MultiBinding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Button Content="⋮" Click="OpenCM">
+                <!--
+                <Button.ToolTip>
+                    <local:FilmToolTip/>
+                </Button.ToolTip>
+                -->
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -24,5 +24,10 @@ namespace Filmc.Wpf.EntityViews
         {
             InitializeComponent();
         }
+
+        private void OpenCM(object sender, RoutedEventArgs e)
+        {
+            cm.IsOpen = true;
+        }
     }
 }

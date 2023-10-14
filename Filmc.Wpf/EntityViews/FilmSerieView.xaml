@@ -4,9 +4,101 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Filmc.Wpf.EntityViews"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:menus="clr-namespace:Filmc.Wpf.Views"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
+    </UserControl.Resources>
+    <Grid Style="{DynamicResource TControl}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{DynamicResource row_height}"/>
+            <RowDefinition>
+                <RowDefinition.Style>
+                    <Style TargetType="RowDefinition">
+                        <Setter Property="Height" Value="0"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsCommentVisible}" Value="True">
+                                <Setter Property="Height" Value="Auto"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </RowDefinition.Style>
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition x:Name="MidColumn" Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.ContextMenu>
+            <ContextMenu x:Name="cm">
+                
+            </ContextMenu>
+        </Grid.ContextMenu>
+
+        <TextBox Text="{Binding Id}" ToolTip="{DynamicResource id_tt}" 
+                 Width="{DynamicResource id_width}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectCommand, 
+                                           RelativeSource={RelativeSource AncestorType={x:Type menus:FilmsMenuView}}, Mode=Default}"
+                                           CommandParameter="{Binding}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectCommand, 
+                                           RelativeSource={RelativeSource AncestorType={x:Type menus:FilmsMenuView}}, Mode=Default}"
+                                           CommandParameter="{Binding}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <TextBox Text="{Binding Name}" ToolTip="{StaticResource NameToolTip}" 
+                     Width="{DynamicResource name_width}"/>
+
+            <TextBox Text="{Binding Genre.Name}" ToolTip="{StaticResource FilmGenreToolTip}" 
+                     Width="{DynamicResource genre_width}"/>
+
+            <TextBox Text="{Binding RealiseYear}" ToolTip="{DynamicResource year_tt}" 
+                     Width="{DynamicResource id_width}"/>
+
+            <CheckBox IsChecked="{Binding IsWatched}" ToolTip="{DynamicResource watched_tt}" 
+                      Margin="20,0" IsEnabled="False"/>
+
+            <TextBox Text="{Binding StartWatchDate, StringFormat=dd.MM.yyyy}" ToolTip="{DynamicResource start_watch_date_tt}" 
+                     Width="{DynamicResource date_width}"/>
+
+            <TextBox Text="{Binding WatchedSeries}" ToolTip="{DynamicResource watched_series_tt}" 
+                     Width="{DynamicResource id_width}"/>
+
+            <TextBox Text="{Binding EndWatchDate}" ToolTip="{DynamicResource end_watch_date_tt}" 
+                     Width="{DynamicResource date_width}"/>
+
+            <TextBox Text="{Binding TotalSeries}" ToolTip="{DynamicResource total_series_tt}" 
+                     Width="{DynamicResource id_width}"/>
+
+            <TextBox ToolTip="{DynamicResource mark_tt}" 
+                     Width="{DynamicResource mark_width}">
+                <TextBox.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}">
+                        <Binding Path="FormatedMark" />
+                        <Binding Path="MarkSystem" />
+                    </MultiBinding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBox Text="{Binding CountOfViews}" ToolTip="{DynamicResource cov_tt}" 
+                     Width="{DynamicResource id_width}"/>
+        </StackPanel>
+
+        <Button Content="⋮" Grid.Column="2" Click="OpenCM"/>
+
+        <TextBox HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Text="{Binding Comment}"
+                 ToolTip="{DynamicResource comment_tt}" Width="{Binding ElementName=MidColumn, Path=ActualWidth}"/>
+
     </Grid>
 </UserControl>

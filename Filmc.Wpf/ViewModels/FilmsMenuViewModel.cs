@@ -31,7 +31,6 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? addBookCommand;
         private RelayCommand? saveTablesCommand;
         private RelayCommand? filterCommand;
-        private RelayCommand? sortTable;
         private RelayCommand? selectCommand;
 
         public FilmsMenuViewModel(FilmsModel model)
@@ -159,37 +158,11 @@ namespace Filmc.Wpf.ViewModels
                         item.IsFiltered = IsFilmPassingFilter(selectedGenres, item.Model);
                     }
 
-                    
-                }));
-            }
-        }
-
-        public RelayCommand SortTable
-        {
-            get
-            {
-                return sortTable ?? (sortTable = new RelayCommand(obj =>
-                {
-                    string str = obj as string;
-
-                    switch (TablesViewModel.MenuMode)
+                    foreach (var item in TablesViewModel.CategoryVMs)
                     {
-                        case FilmsMenuMode.Categories:
-                            TablesViewModel.CategoriesVC.ChangeSortProperty(str);
-                            TablesViewModel.FilmsSimplifiedVC.ChangeSortProperty(str);
-                            break;
-
-                        case FilmsMenuMode.Films:
-                            TablesViewModel.FilmsVC.ChangeSortProperty(str);
-                            break;
-
-                        case FilmsMenuMode.Series:
-                            TablesViewModel.SeriesVC.ChangeSortProperty(str);
-                            break;
-
-                        case FilmsMenuMode.Priorities:
-                            TablesViewModel.PrioritiesVC.ChangeSortProperty(str);
-                            break;
+                        item.IsFiltered = TablesViewModel.FilmVMs
+                            .Where(x => x.Model.Category == item.Model)
+                            .Any(x => x.IsFiltered);
                     }
                 }));
             }

@@ -32,7 +32,7 @@ namespace Filmc.Xtl.EntityProperties
         public int MarkSystem
         {
             get => _maxMark;
-            set { _maxMark = value; OnPropertyChanged(); }
+            set { _maxMark = value; OnPropertyChanged(); OnPropertyChanged(nameof(FormatedMark)); }
         }
 
         public int FormatedMark

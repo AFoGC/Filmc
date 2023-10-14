@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Filmc.Wpf.EntityViews
 {
     /// <summary>
-    /// Логика взаимодействия для FilmSerieView.xaml
+    /// Логика взаимодействия для FilmInCategorySimplifiedView.xaml
     /// </summary>
-    public partial class FilmSerieView : UserControl
+    public partial class FilmInCategorySimplifiedView : UserControl
     {
-        public FilmSerieView()
+        public FilmInCategorySimplifiedView()
         {
             InitializeComponent();
         }

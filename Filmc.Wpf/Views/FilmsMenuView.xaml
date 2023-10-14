@@ -48,7 +48,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="23"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="22"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -64,8 +64,139 @@
             <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SearchTextBox}"/>
         </Grid>
 
-        <Grid Grid.Column="1" Grid.Row="2">
+        <Grid Grid.Column="1" Grid.Row="2" Height="20" 
+              Margin="0,0,0,1" DataContext="{Binding TablesViewModel}">
             
+            <Grid.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource GrayButton}">
+                    <Setter Property="Height" Value="20"/>
+                    <Setter Property="Margin" Value="1,0"/>
+                </Style>
+            </Grid.Resources>
+            <StackPanel Style="{StaticResource CategoriesVisiblity}" Orientation="Horizontal">
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
+                        ToolTip="{DynamicResource id_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Id"/>
+
+                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
+                        ToolTip="{DynamicResource name_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Name"/>
+
+                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
+                        ToolTip="{DynamicResource mark_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Mark.RawMark"/>
+            </StackPanel>
+
+            <StackPanel Style="{StaticResource FilmsVisiblity}" Orientation="Horizontal">
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
+                        ToolTip="{DynamicResource id_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Id"/>
+
+                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
+                        ToolTip="{DynamicResource name_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Name"/>
+
+                <Button Width="{DynamicResource genre_width}" Content="{DynamicResource genre_sort}" 
+                        ToolTip="{DynamicResource genre_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Genre.Name"/>
+
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource year_sort}" 
+                        ToolTip="{DynamicResource year_tt}"
+                        Command="{Binding SortTable}" CommandParameter="RealiseYear"/>
+
+                <Rectangle Width="56"/>
+                <Button Width="{DynamicResource date_width}" Content="{DynamicResource date_sort}" 
+                        ToolTip="{DynamicResource end_watch_date_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="EndWatchDate"/>
+
+                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
+                        ToolTip="{DynamicResource mark_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Model.Mark.RawMark"/>
+
+                <Button Width="{DynamicResource id_width}" ToolTip="{DynamicResource cov_tt}"
+                        Command="{Binding SortTable}" CommandParameter="CountOfViews">
+                    <Button.Content>
+                        <Path Style="{StaticResource ArrowDownImage}"/>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+            <StackPanel Style="{StaticResource SeriesVisiblity}" Orientation="Horizontal">
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
+                        ToolTip="{DynamicResource id_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Id"/>
+
+                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
+                        ToolTip="{DynamicResource name_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Name"/>
+
+                <Button Width="{DynamicResource genre_width}" Content="{DynamicResource genre_sort}" 
+                        ToolTip="{DynamicResource genre_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Genre.Name"/>
+
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource year_sort}"
+                        ToolTip="{DynamicResource year_tt}"
+                        Command="{Binding SortTable}" CommandParameter="RealiseYear"/>
+
+                <Rectangle Width="56"/>
+                <Button Width="{DynamicResource date_width}" Content="{DynamicResource date_sort}" 
+                        ToolTip="{DynamicResource start_watch_date_tt}"
+                        Command="{Binding SortTable}" CommandParameter="StartWatchDate"/>
+
+                <Button Width="{DynamicResource id_width}" ToolTip="{DynamicResource watched_series_tt}"
+                        Command="{Binding SortTable}" CommandParameter="WatchedSeries">
+
+                    <Button.Content>
+                        <Path Style="{StaticResource ArrowDownImage}"/>
+                    </Button.Content>
+                </Button>
+
+                <Button Width="{DynamicResource date_width}" Content="{DynamicResource date_sort}" 
+                        ToolTip="{DynamicResource end_watch_date_tt}"
+                        Command="{Binding SortTable}" CommandParameter="EndWatchDate"/>
+
+                <Button Width="{DynamicResource id_width}" ToolTip="{DynamicResource total_series_tt}"
+                        Command="{Binding SortTable}" CommandParameter="TotalSeries">
+
+                    <Button.Content>
+                        <Path Style="{StaticResource ArrowDownImage}"/>
+                    </Button.Content>
+                </Button>
+
+                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
+                        ToolTip="{DynamicResource mark_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Mark.RawMark"/>
+
+                <Button Width="{DynamicResource id_width}" ToolTip="{DynamicResource cov_tt}"
+                        Command="{Binding SortTable}" CommandParameter="CountOfViews">
+
+                    <Button.Content>
+                        <Path Style="{StaticResource ArrowDownImage}"/>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Style="{StaticResource PrioritiesVisiblity}" Orientation="Horizontal">
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
+                        ToolTip="{DynamicResource id_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Id"/>
+
+                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
+                        ToolTip="{DynamicResource name_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Name"/>
+
+                <Button Width="{DynamicResource genre_width}" Content="{DynamicResource genre_sort}" 
+                        ToolTip="{DynamicResource genre_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Genre.Name"/>
+
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource year_sort}" 
+                        ToolTip="{DynamicResource year_tt}"
+                        Command="{Binding SortTable}" CommandParameter="RealiseYear"/>
+
+                <Rectangle Width="56"/>
+                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
+                        ToolTip="{DynamicResource mark_tt}"
+                        Command="{Binding SortTable}" CommandParameter="Model.Mark.RawMark"/>
+            </StackPanel>
         </Grid>
 
         <ScrollViewer Grid.Column="1" Grid.Row="3">

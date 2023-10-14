@@ -1,4 +1,5 @@
-﻿using Filmc.Wpf.EntityViewModels;
+﻿using Filmc.Wpf.Commands;
+using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Models;
 using Filmc.Wpf.ViewCollections;
 using Filmc.Xtl;
@@ -20,9 +21,11 @@ namespace Filmc.Wpf.ViewModels
         private TablesContext? _tablesContext;
         private FilmsMenuMode _menuMode;
 
+        private RelayCommand? sortTable;
+
         public FilmTablesViewModel(FilmsModel model)
         {
-            _menuMode = FilmsMenuMode.Films;
+            _menuMode = FilmsMenuMode.Categories;
 
             FilmVMs = new ObservableCollection<FilmViewModel>();
             CategoryVMs = new ObservableCollection<FilmCategoryViewModel>();
@@ -70,7 +73,7 @@ namespace Filmc.Wpf.ViewModels
                 FilmVMs.Add(new FilmViewModel(item));
 
             foreach (var item in _tablesContext.FilmCategories)
-                CategoryVMs.Add(new FilmCategoryViewModel(item));
+                CategoryVMs.Add(new FilmCategoryViewModel(item, FilmVMs));
 
             foreach (var item in _tablesContext.FilmGenres)
                 GenreVMs.Add(new FilmGenreViewModel(item));
@@ -78,6 +81,37 @@ namespace Filmc.Wpf.ViewModels
             _tablesContext.Films.CollectionChanged += OnFilmsChanged;
             _tablesContext.FilmGenres.CollectionChanged += OnGenresCollectionChanged;
             _tablesContext.FilmCategories.CollectionChanged += OnCategoriesCollectionChanged;
+        }
+
+        public RelayCommand SortTable
+        {
+            get
+            {
+                return sortTable ?? (sortTable = new RelayCommand(obj =>
+                {
+                    string str = obj as string;
+
+                    switch (MenuMode)
+                    {
+                        case FilmsMenuMode.Categories:
+                            CategoriesVC.ChangeSortProperty(str);
+                            FilmsSimplifiedVC.ChangeSortProperty(str);
+                            break;
+
+                        case FilmsMenuMode.Films:
+                            FilmsVC.ChangeSortProperty(str);
+                            break;
+
+                        case FilmsMenuMode.Series:
+                            SeriesVC.ChangeSortProperty(str);
+                            break;
+
+                        case FilmsMenuMode.Priorities:
+                            PrioritiesVC.ChangeSortProperty(str);
+                            break;
+                    }
+                }));
+            }
         }
 
         private void OnFilmsChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -105,7 +139,7 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 FilmCategory entity = (FilmCategory)e.NewItems[0]!;
-                CategoryVMs.Insert(e.NewStartingIndex, new FilmCategoryViewModel(entity));
+                CategoryVMs.Insert(e.NewStartingIndex, new FilmCategoryViewModel(entity, FilmVMs));
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove)

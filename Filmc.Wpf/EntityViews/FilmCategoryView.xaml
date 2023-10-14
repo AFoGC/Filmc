@@ -3,10 +3,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:local="clr-namespace:Filmc.Wpf.EntityViews"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+             mc:Ignorable="d">
+    <Grid Style="{DynamicResource TControl}" Height="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{DynamicResource row_height}"/>
+            <RowDefinition>
+                <RowDefinition.Style>
+                    <Style TargetType="RowDefinition">
+                        <Setter Property="Height" Value="Auto"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsCollectionVisible}" Value="False">
+                                <Setter Property="Height" Value="0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </RowDefinition.Style>
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
+        </Grid.Resources>
+        <Grid.ContextMenu>
+            <ContextMenu x:Name="cm">
+                
+            </ContextMenu>
+        </Grid.ContextMenu>
+
+        <TextBox Text="{Binding Id}" ToolTip="{DynamicResource id_tt}" Width="{DynamicResource id_width}"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <TextBox Text="{Binding Name}" ToolTip="{StaticResource NameToolTip}" Width="{DynamicResource name_width}"/>
             
+            <TextBox ToolTip="{DynamicResource mark_tt}" Width="{DynamicResource mark_width}">
+                <TextBox.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}">
+                        <Binding Path="FormatedMark" />
+                        <Binding Path="MarkSystem" />
+                    </MultiBinding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Button Content="V" ToolTip="{DynamicResource collapse_category_tt}"
+                    Command="{Binding CollapseCommand}"/>
+
+            <Button Content="⋮" Click="OpenCM"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+            <ItemsControl ItemsSource="{Binding FilmsVC.View}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:FilmInCategorySimplifiedView />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button ToolTip="{DynamicResource add_in_category_tt}" HorizontalAlignment="Left" 
+                    Content="+" Margin="1,1,1,5" 
+                    Command="{Binding CreateFilmCommand}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

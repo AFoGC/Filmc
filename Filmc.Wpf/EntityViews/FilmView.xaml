@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Filmc.Wpf.EntityViews"
+             xmlns:menus="clr-namespace:Filmc.Wpf.Views"
              mc:Ignorable="d" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
     <Grid Style="{DynamicResource TControl}">
@@ -40,7 +41,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                     <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectCommand, 
-                                           RelativeSource={RelativeSource AncestorType=ScrollViewer}, Mode=Default}"
+                                           RelativeSource={RelativeSource AncestorType={x:Type menus:FilmsMenuView}}, Mode=Default}"
                                            CommandParameter="{Binding}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
@@ -50,7 +51,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                     <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectCommand, 
-                                           RelativeSource={RelativeSource AncestorType=ScrollViewer}, Mode=Default}"
+                                           RelativeSource={RelativeSource AncestorType={x:Type menus:FilmsMenuView}}, Mode=Default}"
                                            CommandParameter="{Binding}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
