@@ -233,6 +233,54 @@ namespace Filmc.Wpf.ViewModels
             }
         }
 
+        private RelayCommand? addFilmToPriorityCommand;
+        private RelayCommand? deleteFilmCommand;
+        public RelayCommand AddFilmToPriorityCommand
+        {
+            get
+            {
+                return addFilmToPriorityCommand ??
+                (addFilmToPriorityCommand = new RelayCommand(obj =>
+                {
+                    FilmViewModel? viewModel = obj as FilmViewModel;
+
+                    if (viewModel != null)
+                    {
+                        if (_model.TablesContext.FilmInPriorities.All(x => x.Id != viewModel.Model.Id))
+                        {
+                            FilmInPriority priority = new FilmInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
+                            _model.TablesContext.FilmInPriorities.Add(priority);
+                        }
+                    }
+                }));
+            }
+        }
+
+        public RelayCommand DeleteFilmCommand
+        {
+            get
+            {
+                return deleteFilmCommand ??
+                (deleteFilmCommand = new RelayCommand(obj =>
+                {
+                    FilmViewModel? viewModel = obj as FilmViewModel;
+
+                    if (viewModel != null)
+                    {
+                        Film film = viewModel.Model;
+
+                        if (film.CategoryId != 0)
+                            film.CategoryId = 0;
+
+                        if (film.Priority != null)
+                            _model.TablesContext.FilmInPriorities.Remove(film.Priority);
+
+                        _model.TablesContext.Films.Remove(film);
+                    }
+                }));
+            }
+        }
+
         private bool IsFilmPassingFilter(IEnumerable<FilmGenreViewModel> genres, Film film)
         {
             bool exp = false;

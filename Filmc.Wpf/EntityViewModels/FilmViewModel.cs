@@ -1,8 +1,11 @@
-﻿using Filmc.Wpf.ViewModels;
+﻿using Filmc.Wpf.Commands;
+using Filmc.Wpf.ViewModels;
 using Filmc.Xtl.Entities;
 using Filmc.Xtl.EntityProperties;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
@@ -19,11 +22,14 @@ namespace Filmc.Wpf.EntityViewModels
         private bool _isCommentVisible;
         private bool _isSelected;
 
+        private RelayCommand? copyUrlCommand;
+
         public FilmViewModel(Film model)
         {
             Model = model;
             Model.PropertyChanged += OnModelPropertyChanged;
             Model.Mark.PropertyChanged += OnModelPropertyChanged;
+            Model.Sources.CollectionChanged += OnSourcesCollectionChanged;
 
             _isCommentVisible = false;
             _isSelected = false;
@@ -92,6 +98,10 @@ namespace Filmc.Wpf.EntityViewModels
         {
             get => Model.CategoryId;
         }
+        public ObservableCollection<Source> Sources
+        {
+            get => Model.Sources;
+        }
         
         public int FormatedMark
         {
@@ -108,6 +118,15 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Mark.RawMark;
         }
 
+        public bool HasPriority
+        {
+            get => Model.Priority != null;
+        }
+        public DateTime? AddToPriorityTime
+        {
+            get => Model.Priority?.CreationTime;
+        }
+
         public bool IsCommentVisible
         {
             get => _isCommentVisible;
@@ -118,15 +137,60 @@ namespace Filmc.Wpf.EntityViewModels
             get => _isSelected;
             set { _isSelected = value; OnPropertyChanged(); }
         }
+        public string SourcesText
+        {
+            get
+            {
+                if (Model.Sources.Count != 0)
+                {
+                    if (Model.Sources[0].Name == String.Empty)
+                    {
+                        return "Copy url";
+                    }
+                    else
+                    {
+                        return Model.Sources[0].Name;
+                    }
+                }
+                else
+                {
+                    return "No url";
+                }
+            }
+        }
+
+        public RelayCommand CopyUrlCommand
+        {
+            get
+            {
+                return copyUrlCommand ??
+                (copyUrlCommand = new RelayCommand(obj =>
+                {
+                    Sources.Add(new Source() { Name = "AAHH", Url = "Https"});
+                }));
+            }
+        }
 
         public override bool Search(string search)
         {
             throw new NotImplementedException();
         }
 
+        private void OnSourcesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(SourcesText));
+        }
+
         private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
+
+            if (e.PropertyName == nameof(Model.Priority))
+            {
+                OnPropertyChanged(nameof(HasPriority));
+                OnPropertyChanged(nameof(AddToPriorityTime));
+            }
+                
         }
     }
 }

@@ -118,6 +118,61 @@ namespace Filmc.Wpf.EntityViewModels
             }
         }
 
+        private RelayCommand? upInCategoryCommand;
+        private RelayCommand? downInCategoryCommand;
+        private RelayCommand? removeFromCategoryCommand;
+
+        public RelayCommand UpInCategoryCommand
+        {
+            get
+            {
+                return upInCategoryCommand ??
+                (upInCategoryCommand = new RelayCommand(obj =>
+                {
+                    FilmViewModel? filmViewModel = obj as FilmViewModel;
+
+                    if (filmViewModel != null)
+                    {
+                        Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId - 1);
+                    }
+                }));
+            }
+        }
+
+        public RelayCommand DownInCategoryCommand
+        {
+            get
+            {
+                return downInCategoryCommand ??
+                (downInCategoryCommand = new RelayCommand(obj =>
+                {
+                    FilmViewModel? filmViewModel = obj as FilmViewModel;
+
+                    if (filmViewModel != null)
+                    {
+                        Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId + 1);
+                    }
+                }));
+            }
+        }
+
+        public RelayCommand RemoveFromCategoryCommand
+        {
+            get
+            {
+                return removeFromCategoryCommand ??
+                (removeFromCategoryCommand = new RelayCommand(obj =>
+                {
+                    FilmViewModel? filmViewModel = obj as FilmViewModel;
+
+                    if (filmViewModel != null)
+                    {
+                        Model.RemoveFilmInOrder(filmViewModel.Model);
+                    }
+                }));
+            }
+        }
+
         public override bool Search(string search)
         {
             throw new NotImplementedException();

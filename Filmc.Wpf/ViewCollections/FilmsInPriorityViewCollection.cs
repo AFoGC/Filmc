@@ -15,6 +15,14 @@ namespace Filmc.Wpf.ViewCollections
         {
             CollectionViewSource.Source = source;
             CollectionViewSource.Filter += OnCollectionFilter;
+
+            CollectionViewSource.IsLiveFilteringRequested = true;
+            CollectionViewSource.LiveFilteringProperties.Add("HasPriority");
+
+            CollectionViewSource.IsLiveSortingRequested = true;
+            CollectionViewSource.LiveSortingProperties.Add("AddToPriorityTime");
+
+            this.ChangeSortProperty("AddToPriorityTime");
         }
 
         private void OnCollectionFilter(object sender, FilterEventArgs e)

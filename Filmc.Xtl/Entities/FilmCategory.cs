@@ -91,13 +91,27 @@ namespace Filmc.Xtl.Entities
         {
             if (Films.Contains(film))
             {
+                var plusCollection = Films
+                    .Where(x => x.CategoryListId >= newListId && x.CategoryListId < film.CategoryListId)
+                    .OrderBy(x => x.CategoryListId);
+
+                var minusCollection = Films
+                    .Where(x => x.CategoryListId <= newListId && x.CategoryListId > film.CategoryListId)
+                    .OrderBy(x => x.CategoryListId);
+
+                foreach (Film item in plusCollection)
+                    item.CategoryListId++;
+
+                foreach (Film item in minusCollection)
+                    item.CategoryListId--;
+
+                if (newListId < 0)
+                    newListId = 0;
+
+                if (newListId >= Films.Count)
+                    newListId = Films.Count - 1;
+
                 film.CategoryListId = newListId;
-                var sortedFilms = Films.OrderBy(x => x.CategoryListId);
-
-                int i = 0;
-                foreach(Film item in sortedFilms)
-                    item.CategoryListId = i++;
-
                 return true;
             }
             else
