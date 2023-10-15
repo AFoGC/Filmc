@@ -20,6 +20,8 @@ namespace Filmc.Wpf.EntityViewModels
 
         private RelayCommand? createFilmCommand;
         private RelayCommand? collapseCommand;
+        private RelayCommand? openedContextMenuCommand;
+        private RelayCommand? closedContextMenuCommand;
 
         public FilmCategoryViewModel(FilmCategory model, ObservableCollection<FilmViewModel> filmsViewModel)
         {
@@ -28,7 +30,7 @@ namespace Filmc.Wpf.EntityViewModels
             Model.Mark.PropertyChanged += OnModelPropertyChanged;
 
             _isCollectionVisible = true;
-            FilmsVC = new FilmsInCategoryViewCollection(model.Id, filmsViewModel);
+            FilmsVC = new FilmsInCategoryViewCollection(model, filmsViewModel);
         }
 
         public FilmsInCategoryViewCollection FilmsVC { get; }
@@ -69,23 +71,15 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Mark.MarkSystem;
             set => Model.Mark.MarkSystem = value;
         }
+        public int RawMark
+        {
+            get => Model.Mark.RawMark;
+        }
 
         public bool IsSelected
         {
             get => _isSelected;
             set { _isSelected = value; OnPropertyChanged(); }
-        }
-
-        public RelayCommand CreateFilmCommand
-        {
-            get
-            {
-                return createFilmCommand ??
-                (createFilmCommand = new RelayCommand(obj =>
-                {
-                    
-                }));
-            }
         }
 
         public RelayCommand CollapseCommand
@@ -96,6 +90,30 @@ namespace Filmc.Wpf.EntityViewModels
                 (collapseCommand = new RelayCommand(obj =>
                 {
                     IsCollectionVisible = !IsCollectionVisible;
+                }));
+            }
+        }
+
+        public RelayCommand OpenedContextMenuCommand
+        {
+            get
+            {
+                return openedContextMenuCommand ??
+                (openedContextMenuCommand = new RelayCommand(obj =>
+                {
+                    IsSelected = true;
+                }));
+            }
+        }
+
+        public RelayCommand ClosedContextMenuCommand
+        {
+            get
+            {
+                return closedContextMenuCommand ??
+                (closedContextMenuCommand = new RelayCommand(obj =>
+                {
+                    IsSelected = false;
                 }));
             }
         }

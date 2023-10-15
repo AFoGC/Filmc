@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:local="clr-namespace:Filmc.Wpf.EntityViews"
+             xmlns:menus="clr-namespace:Filmc.Wpf.Views"
              mc:Ignorable="d">
     <Grid Style="{DynamicResource TControl}" Height="Auto">
         <Grid.RowDefinitions>
@@ -28,10 +29,34 @@
         </Grid.ColumnDefinitions>
         <Grid.Resources>
             <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
+            <local:BindingProxy x:Key="menuProxy" Data="{Binding Path=DataContext, 
+                                RelativeSource={RelativeSource AncestorType={x:Type menus:FilmsMenuView}}, 
+                                Mode=Default}"/>
         </Grid.Resources>
         <Grid.ContextMenu>
             <ContextMenu x:Name="cm">
-                
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Opened">
+                        <i:InvokeCommandAction Command="{Binding Path=Data.OpenedContextMenuCommand, Source={StaticResource proxy}}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Closed">
+                        <i:InvokeCommandAction Command="{Binding Path=Data.ClosedContextMenuCommand, Source={StaticResource proxy}}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <MenuItem Header="{DynamicResource edit_category_btn}" ToolTip="{DynamicResource open_edit_tt}"
+                          />
+
+                <Separator />
+
+                <MenuItem Header="{DynamicResource add_selected_btn}"
+                          Command="{Binding Path=Data.AddSelectedToCategory, Source={StaticResource menuProxy}, Mode=Default}"
+                          CommandParameter="{Binding Path=Data, Source={StaticResource proxy}, Mode=Default}"/>
+
+                <MenuItem Header="{DynamicResource remove_selected_cm}"
+                          Command="{Binding Path=Data.RemoveSelectedFromCategory, Source={StaticResource menuProxy}, Mode=Default}"
+                          CommandParameter="{Binding Path=Data, Source={StaticResource proxy}, Mode=Default}"/>
+
             </ContextMenu>
         </Grid.ContextMenu>
 
@@ -39,16 +64,10 @@
 
         <StackPanel Orientation="Horizontal" Grid.Column="1">
             <TextBox Text="{Binding Name}" ToolTip="{StaticResource NameToolTip}" Width="{DynamicResource name_width}"/>
-            
-            <TextBox ToolTip="{DynamicResource mark_tt}" Width="{DynamicResource mark_width}">
-                <TextBox.Text>
-                    <MultiBinding StringFormat="{}{0}/{1}">
-                        <Binding Path="FormatedMark" />
-                        <Binding Path="MarkSystem" />
-                    </MultiBinding>
-                </TextBox.Text>
-            </TextBox>
 
+            <TextBox ToolTip="{DynamicResource mark_tt}" Width="{DynamicResource mark_width}"
+                     Style="{DynamicResource MarkTextBox}"/>
+            
             <Button Content="V" ToolTip="{DynamicResource collapse_category_tt}"
                     Command="{Binding CollapseCommand}"/>
 
@@ -69,8 +88,9 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <Button ToolTip="{DynamicResource add_in_category_tt}" HorizontalAlignment="Left" 
-                    Content="+" Margin="1,1,1,5" 
-                    Command="{Binding CreateFilmCommand}"/>
+                    Content="+" Margin="1,1,1,5" Command="{Binding Path=DataContext.AddFilmIncategoryCommand, 
+                    RelativeSource={RelativeSource AncestorType={x:Type menus:FilmsMenuView}}, Mode=Default}"
+                    CommandParameter="{Binding}"/>
         </StackPanel>
     </Grid>
 </UserControl>

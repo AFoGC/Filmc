@@ -28,10 +28,13 @@ namespace Filmc.Wpf.ViewModels
 
         private RelayCommand? changeMenuModeCommand;
         private RelayCommand? addCategoryCommand;
-        private RelayCommand? addBookCommand;
+        private RelayCommand? addFilmCommand;
+        private RelayCommand? addFilmInCategoryCommand;
         private RelayCommand? saveTablesCommand;
         private RelayCommand? filterCommand;
         private RelayCommand? selectCommand;
+        private RelayCommand? addSelectedToCategory;
+        private RelayCommand? removeSelectedFromCategory;
 
         public FilmsMenuViewModel(FilmsModel model)
         {
@@ -123,14 +126,29 @@ namespace Filmc.Wpf.ViewModels
         {
             get
             {
-                return addBookCommand ?? 
-                (addBookCommand = new RelayCommand(obj =>
+                return addFilmCommand ?? 
+                (addFilmCommand = new RelayCommand(obj =>
                 {
                     _model.AddFilm();
                 }));
             }
         }
-            
+
+        public RelayCommand AddFilmIncategoryCommand
+        {
+            get
+            {
+                return addFilmInCategoryCommand ??
+                (addFilmInCategoryCommand = new RelayCommand(obj =>
+                {
+                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+
+                    if (categoryVM != null)
+                        _model.AddFilm(categoryVM.Model.Id);
+                }));
+            }
+        }
+
 
         public RelayCommand SaveTablesCommand
         {
@@ -177,6 +195,40 @@ namespace Filmc.Wpf.ViewModels
                 {
                     FilmViewModel? viewModel = obj as FilmViewModel;
                     SelectedFilm = viewModel;
+                }));
+            }
+        }
+
+        public RelayCommand AddSelectedToCategory
+        {
+            get
+            {
+                return addSelectedToCategory ??
+                (addSelectedToCategory = new RelayCommand(obj => 
+                {
+                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+
+                    if (categoryVM != null && SelectedFilm != null)
+                    {
+                        categoryVM.Model.AddFilmInOrder(SelectedFilm.Model);
+                    }
+                }));
+            }
+        }
+
+        public RelayCommand RemoveSelectedFromCategory
+        {
+            get
+            {
+                return removeSelectedFromCategory ??
+                (removeSelectedFromCategory = new RelayCommand(obj =>
+                {
+                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+
+                    if (categoryVM != null && SelectedFilm != null)
+                    {
+                        categoryVM.Model.RemoveFilmInOrder(SelectedFilm.Model);
+                    }
                 }));
             }
         }

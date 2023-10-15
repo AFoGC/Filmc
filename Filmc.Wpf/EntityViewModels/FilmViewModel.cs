@@ -72,7 +72,6 @@ namespace Filmc.Wpf.EntityViewModels
         public int CategoryListId
         {
             get => Model.CategoryListId;
-            set => Model.CategoryListId = value;
         }
         public DateTime StartWatchDate
         {
@@ -89,6 +88,10 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.TotalSeries;
             set => Model.TotalSeries = value;
         }
+        public int CategoryId
+        {
+            get => Model.CategoryId;
+        }
         
         public int FormatedMark
         {
@@ -99,6 +102,10 @@ namespace Filmc.Wpf.EntityViewModels
         {
             get => Model.Mark.MarkSystem;
             set => Model.Mark.MarkSystem = value;
+        }
+        public int RawMark
+        {
+            get => Model.Mark.RawMark;
         }
 
         public bool IsCommentVisible

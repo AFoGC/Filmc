@@ -1,7 +1,9 @@
 ﻿using Filmc.Wpf.EntityViewModels;
+using Filmc.Xtl.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,14 +13,23 @@ namespace Filmc.Wpf.ViewCollections
 {
     public class FilmsInCategoryViewCollection : BaseEntityViewCollection
     {
-        private readonly int _categoryId;
+        private readonly FilmCategory _category;
 
-        public FilmsInCategoryViewCollection(int categoryId, ObservableCollection<FilmViewModel> source)
+        public FilmsInCategoryViewCollection(FilmCategory category, ObservableCollection<FilmViewModel> source)
         {
-            _categoryId = categoryId;
+            _category = category;
 
             CollectionViewSource.Source = source;
             CollectionViewSource.Filter += OnCollectionFilter;
+
+            CollectionViewSource.IsLiveFilteringRequested = true;
+            CollectionViewSource.LiveFilteringProperties.Add("CategoryId");
+
+            CollectionViewSource.IsLiveSortingRequested = true;
+            CollectionViewSource.LiveSortingProperties.Add("CategoryListId");
+
+            ChangeSortProperty("CategoryListId");
+
         }
 
         private void OnCollectionFilter(object sender, FilterEventArgs e)
@@ -27,7 +38,7 @@ namespace Filmc.Wpf.ViewCollections
 
             if (vm != null)
             {
-                e.Accepted = vm.Model.CategoryId == _categoryId;
+                e.Accepted = vm.Model.CategoryId == _category.Id;
             }
         }
 

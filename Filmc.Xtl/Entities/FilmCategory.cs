@@ -1,6 +1,7 @@
 ﻿using Filmc.Xtl.EntityProperties;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,46 @@ namespace Filmc.Xtl.Entities
         }
 
         public RecordsCollection<Film> Films => _films;
+
+        public void AddFilmInOrder(Film film)
+        {
+            if (Films.Contains(film) == false)
+            {
+                film.CategoryListId = Films.Count;
+                Films.Add(film);
+            }
+        }
+
+        public void RemoveFilmInOrder(Film film)
+        {
+            if (Films.Remove(film))
+            {
+                var sortedFilms = Films.OrderBy(x => x.CategoryListId);
+
+                int i = 0;
+                foreach (Film item in sortedFilms)
+                    item.CategoryListId = i++;
+            }
+        }
+
+        public bool ChangeCategoryListId(Film film, int newListId)
+        {
+            if (Films.Contains(film))
+            {
+                film.CategoryListId = newListId;
+                var sortedFilms = Films.OrderBy(x => x.CategoryListId);
+
+                int i = 0;
+                foreach(Film item in sortedFilms)
+                    item.CategoryListId = i++;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public override object Clone()
         {

@@ -41,6 +41,14 @@ namespace Filmc.Wpf.Models
             TablesContext.Films.Add(film);
         }
 
+        public void AddFilm(int categoryId)
+        {
+            Film film = new Film();
+            film.CategoryId = categoryId;
+            film.GenreId = TablesContext.FilmGenres.First().Id;
+            TablesContext.Films.Add(film);
+        }
+
         public void SaveTables()
         {
             _profilesModel.SelectedProfile.SaveTables();

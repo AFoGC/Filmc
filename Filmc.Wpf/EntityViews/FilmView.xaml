@@ -62,7 +62,7 @@
             <TextBox Text="{Binding Genre.Name}" ToolTip="{StaticResource FilmGenreToolTip}" 
                      Width="{DynamicResource genre_width}"/>
 
-            <TextBox Text="{Binding RealiseYear}" ToolTip="{DynamicResource year_tt}" 
+            <TextBox Text="{Binding RealiseYear, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource year_tt}" 
                      Width="{DynamicResource id_width}"/>
 
             <CheckBox IsChecked="{Binding IsWatched}" ToolTip="{DynamicResource watched_tt}" 
@@ -72,16 +72,10 @@
                      Width="{DynamicResource date_width}"/>
 
             <TextBox ToolTip="{DynamicResource mark_tt}" 
-                     Width="{DynamicResource mark_width}">
-                <TextBox.Text>
-                    <MultiBinding StringFormat="{}{0}/{1}">
-                        <Binding Path="FormatedMark" />
-                        <Binding Path="MarkSystem" />
-                    </MultiBinding>
-                </TextBox.Text>
-            </TextBox>
+                     Width="{DynamicResource mark_width}"
+                     Style="{DynamicResource MarkTextBox}"/>
 
-            <TextBox Text="{Binding CountOfViews}" ToolTip="{DynamicResource cov_tt}" 
+                <TextBox Text="{Binding CountOfViews, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource cov_tt}" 
                      Width="{DynamicResource id_width}"/>
         </StackPanel>
 

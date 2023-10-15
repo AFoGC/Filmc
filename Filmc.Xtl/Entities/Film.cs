@@ -94,7 +94,7 @@ namespace Filmc.Xtl.Entities
         public int CategoryListId 
         { 
             get => _categoryListId; 
-            set { _categoryListId = value; OnPropertyChanged(); }
+            internal set { _categoryListId = value; OnPropertyChanged(); }
         }
         public DateTime StartWatchDate 
         { 

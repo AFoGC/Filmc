@@ -15,6 +15,9 @@ namespace Filmc.Wpf.ViewCollections
         {
             CollectionViewSource.Source = source;
             CollectionViewSource.Filter += OnCollectionFilter;
+
+            CollectionViewSource.IsLiveFilteringRequested = true;
+            CollectionViewSource.LiveFilteringProperties.Add("CategoryId");
         }
 
         private void OnCollectionFilter(object sender, FilterEventArgs e)

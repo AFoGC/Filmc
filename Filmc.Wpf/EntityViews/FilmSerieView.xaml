@@ -63,7 +63,7 @@
             <TextBox Text="{Binding Genre.Name}" ToolTip="{StaticResource FilmGenreToolTip}" 
                      Width="{DynamicResource genre_width}"/>
 
-            <TextBox Text="{Binding RealiseYear}" ToolTip="{DynamicResource year_tt}" 
+            <TextBox Text="{Binding RealiseYear, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource year_tt}" 
                      Width="{DynamicResource id_width}"/>
 
             <CheckBox IsChecked="{Binding IsWatched}" ToolTip="{DynamicResource watched_tt}" 
@@ -72,26 +72,19 @@
             <TextBox Text="{Binding StartWatchDate, StringFormat=dd.MM.yyyy}" ToolTip="{DynamicResource start_watch_date_tt}" 
                      Width="{DynamicResource date_width}"/>
 
-            <TextBox Text="{Binding WatchedSeries}" ToolTip="{DynamicResource watched_series_tt}" 
+            <TextBox Text="{Binding WatchedSeries, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource watched_series_tt}" 
                      Width="{DynamicResource id_width}"/>
 
-            <TextBox Text="{Binding EndWatchDate}" ToolTip="{DynamicResource end_watch_date_tt}" 
+            <TextBox Text="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" ToolTip="{DynamicResource end_watch_date_tt}" 
                      Width="{DynamicResource date_width}"/>
 
-            <TextBox Text="{Binding TotalSeries}" ToolTip="{DynamicResource total_series_tt}" 
+            <TextBox Text="{Binding TotalSeries, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource total_series_tt}" 
                      Width="{DynamicResource id_width}"/>
 
-            <TextBox ToolTip="{DynamicResource mark_tt}" 
-                     Width="{DynamicResource mark_width}">
-                <TextBox.Text>
-                    <MultiBinding StringFormat="{}{0}/{1}">
-                        <Binding Path="FormatedMark" />
-                        <Binding Path="MarkSystem" />
-                    </MultiBinding>
-                </TextBox.Text>
-            </TextBox>
+            <TextBox ToolTip="{DynamicResource mark_tt}" Width="{DynamicResource mark_width}"
+                     Style="{DynamicResource MarkTextBox}"/>
 
-            <TextBox Text="{Binding CountOfViews}" ToolTip="{DynamicResource cov_tt}" 
+            <TextBox Text="{Binding CountOfViews, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource cov_tt}" 
                      Width="{DynamicResource id_width}"/>
         </StackPanel>
 
