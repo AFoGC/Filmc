@@ -30,10 +30,36 @@
         </Grid.ColumnDefinitions>
         <Grid.Resources>
             <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
+            <local:BindingProxy x:Key="menuProxy" Data="{Binding Path=DataContext, 
+                                RelativeSource={RelativeSource AncestorType={x:Type menus:FilmsMenuView}}, 
+                                Mode=Default}"/>
         </Grid.Resources>
         <Grid.ContextMenu>
             <ContextMenu x:Name="cm">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Opened">
+                        <i:InvokeCommandAction Command="{Binding Path=Data.AddSelectedToCategory, Source={StaticResource menuProxy}, Mode=Default}"
+                                               CommandParameter="{Binding Path=Data, Source={StaticResource proxy}, Mode=Default}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
+                <MenuItem Header="{DynamicResource comment_btn}" ToolTip="{DynamicResource open_comment_tt}"
+                          Command="{Binding Path=Data.OpenCommentCommand, Source={StaticResource proxy}}"/>
+
+                <MenuItem Header="{DynamicResource edit_btn}" ToolTip="{DynamicResource open_edit_tt}"
+                          />
+
+                <MenuItem Header="{Binding Path=Data.SourcesText, Source={StaticResource proxy}}" ToolTip="{DynamicResource copy_url_tt}" 
+                          Command="{Binding Path=Data.CopyUrlCommand, Source={StaticResource proxy}}"/>
+
+                <MenuItem Header="{DynamicResource add_to_prior_cm}"
+                          Command="{Binding Path=Data.AddFilmToPriorityCommand, Source={StaticResource menuProxy}}"
+                          CommandParameter="{Binding Path=Data, Source={StaticResource proxy}}"/>
+
+                <Separator />
+                <MenuItem Header="{DynamicResource delete_this_cm}" 
+                          Command="{Binding Path=Data.DeleteFilmCommand, Source={StaticResource menuProxy}}"
+                          CommandParameter="{Binding Path=Data, Source={StaticResource proxy}}"/>
             </ContextMenu>
         </Grid.ContextMenu>
         <TextBox Text="{Binding Id}" ToolTip="{DynamicResource id_tt}" 
@@ -82,6 +108,6 @@
         <Button Content="⋮" Grid.Column="2" Click="OpenCM"/>
 
         <TextBox HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Text="{Binding Comment}"
-                 ToolTip="{DynamicResource comment_tt}" Width="{Binding ElementName=MidColumn, Path=ActualWidth}"/>
+                 ToolTip="{DynamicResource comment_tt}"/>
     </Grid>
 </UserControl>

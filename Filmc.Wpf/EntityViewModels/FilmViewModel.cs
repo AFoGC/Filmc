@@ -23,6 +23,7 @@ namespace Filmc.Wpf.EntityViewModels
         private bool _isSelected;
 
         private RelayCommand? copyUrlCommand;
+        private RelayCommand? openCommentCommand;
 
         public FilmViewModel(Film model)
         {
@@ -166,7 +167,19 @@ namespace Filmc.Wpf.EntityViewModels
                 return copyUrlCommand ??
                 (copyUrlCommand = new RelayCommand(obj =>
                 {
-                    Sources.Add(new Source() { Name = "AAHH", Url = "Https"});
+                    //Sources.Add(new Source() { Name = "AAHH", Url = "Https"});
+                }));
+            }
+        }
+
+        public RelayCommand OpenCommentCommand
+        {
+            get
+            {
+                return openCommentCommand ??
+                (openCommentCommand = new RelayCommand(obj =>
+                {
+                    IsCommentVisible = !IsCommentVisible;
                 }));
             }
         }
