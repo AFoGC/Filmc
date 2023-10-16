@@ -61,7 +61,7 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.IsWatched;
             set => Model.IsWatched = value;
         }
-        public DateTime EndWatchDate
+        public DateTime? EndWatchDate
         {
             get => Model.EndWatchDate;
             set => Model.EndWatchDate = value;
@@ -80,7 +80,7 @@ namespace Filmc.Wpf.EntityViewModels
         {
             get => Model.CategoryListId;
         }
-        public DateTime StartWatchDate
+        public DateTime? StartWatchDate
         {
             get => Model.StartWatchDate;
             set => Model.StartWatchDate = value;
@@ -104,7 +104,7 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Sources;
         }
         
-        public int FormatedMark
+        public int? FormatedMark
         {
             get => Model.Mark.FormatedMark;
             set => Model.Mark.FormatedMark = value;
@@ -114,7 +114,7 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Mark.MarkSystem;
             set => Model.Mark.MarkSystem = value;
         }
-        public int RawMark
+        public int? RawMark
         {
             get => Model.Mark.RawMark;
         }

@@ -53,7 +53,7 @@ namespace Filmc.Xtl.Entities
             set { _priority = value; OnPropertyChanged(); }
         }
 
-        internal int RawMark
+        internal int? RawMark
         {
             get => Mark.RawMark;
             set => Mark.RawMark = value;

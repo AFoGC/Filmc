@@ -44,11 +44,9 @@
                      Style="{DynamicResource MarkTextBox}"/>
 
             <Button Content="⋮" Click="OpenCM">
-                <!--
                 <Button.ToolTip>
-                    <local:FilmToolTip/>
+                    <local:FilmToolTipView/>
                 </Button.ToolTip>
-                -->
             </Button>
         </StackPanel>
     </Grid>

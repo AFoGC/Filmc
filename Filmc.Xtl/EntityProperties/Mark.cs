@@ -11,19 +11,19 @@ namespace Filmc.Xtl.EntityProperties
     public class Mark : INotifyPropertyChanged
     {
         private int _maxMark;
-        private int _rawMark;
+        private int? _rawMark;
 
         public const int MaxRawMark = 300;
 
         public Mark()
         {
             _maxMark = 6;
-            _rawMark = 0;
+            _rawMark = null;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public int RawMark
+        public int? RawMark
         {
             get => _rawMark;
             set { _rawMark = value; OnPropertyChanged(); }
@@ -35,22 +35,30 @@ namespace Filmc.Xtl.EntityProperties
             set { _maxMark = value; OnPropertyChanged(); OnPropertyChanged(nameof(FormatedMark)); }
         }
 
-        public int FormatedMark
+        public int? FormatedMark
         {
             get
             {
-                int modifier = MaxRawMark / MarkSystem;
-                int outMark = 0;
-                for (int i = 0; i <= MarkSystem; i++)
+                if (_rawMark != null)
                 {
-                    outMark = modifier * i;
-                    if (outMark >= RawMark)
+                    int modifier = MaxRawMark / MarkSystem;
+                    int outMark = 0;
+                    for (int i = 0; i <= MarkSystem; i++)
                     {
-                        return i;
+                        outMark = modifier * i;
+                        if (outMark >= RawMark)
+                        {
+                            return i;
+                        }
                     }
-                }
 
-                return 0;
+                    return 0;
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
             set
             {

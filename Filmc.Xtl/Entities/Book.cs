@@ -17,7 +17,7 @@ namespace Filmc.Xtl.Entities
         private int _genreId;
         private int _publicationYear;
         private bool _isReaded;
-        private DateTime _fullReadDate;
+        private DateTime? _fullReadDate;
         private int _countOfReadings;
         private string _bookmark;
         private int _categoryId;
@@ -73,7 +73,7 @@ namespace Filmc.Xtl.Entities
             get => _isReaded; 
             set { _isReaded = value; OnPropertyChanged(); }
         }
-        public DateTime FullReadDate 
+        public DateTime? FullReadDate 
         { 
             get => _fullReadDate; 
             set { _fullReadDate = value; OnPropertyChanged(); }
@@ -99,7 +99,7 @@ namespace Filmc.Xtl.Entities
             set { _categoryListId = value; OnPropertyChanged(); }
         }
 
-        internal int RawMark
+        internal int? RawMark
         {
             get => Mark.RawMark;
             set => Mark.RawMark = value;

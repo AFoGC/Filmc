@@ -39,7 +39,7 @@
                 </Setter>
 
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding RawMark}" Value="0">
+                    <DataTrigger Binding="{Binding RawMark}" Value="{x:Null}">
                         <Setter Property="Text" Value=""/>
                     </DataTrigger>
                 </Style.Triggers>

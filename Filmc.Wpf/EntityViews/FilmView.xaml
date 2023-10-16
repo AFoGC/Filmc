@@ -105,7 +105,11 @@
                      Width="{DynamicResource id_width}"/>
         </StackPanel>
 
-        <Button Content="⋮" Grid.Column="2" Click="OpenCM"/>
+        <Button Content="⋮" Grid.Column="2" Click="OpenCM">
+            <Button.ToolTip>
+                <local:FilmToolTipView/>
+            </Button.ToolTip>
+        </Button>
 
         <TextBox HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Text="{Binding Comment}"
                  ToolTip="{DynamicResource comment_tt}"/>

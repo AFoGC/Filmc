@@ -61,7 +61,7 @@ namespace Filmc.Wpf.EntityViewModels
             set => Model.HideName = value;
         }
 
-        public int FormatedMark
+        public int? FormatedMark
         {
             get => Model.Mark.FormatedMark;
             set => Model.Mark.FormatedMark = value;
@@ -71,7 +71,7 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Mark.MarkSystem;
             set => Model.Mark.MarkSystem = value;
         }
-        public int RawMark
+        public int? RawMark
         {
             get => Model.Mark.RawMark;
         }

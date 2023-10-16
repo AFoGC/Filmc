@@ -16,13 +16,13 @@ namespace Filmc.Xtl.Entities
         private int _genreId;
         private int _realiseYear;
         private bool _isWatched;
-        private DateTime _endWatchDate;
+        private DateTime? _endWatchDate;
         private string _comment;
         private int _countOfViews;
         private int _categoryId;
         private int _categoryListId;
 
-        private DateTime _startWatchDate;
+        private DateTime? _startWatchDate;
         private int _watchedSeries;
         private int _totalSeries;
 
@@ -71,7 +71,7 @@ namespace Filmc.Xtl.Entities
             get => _isWatched; 
             set { _isWatched = value; OnPropertyChanged(); }
         }
-        public DateTime EndWatchDate 
+        public DateTime? EndWatchDate 
         { 
             get => _endWatchDate; 
             set { _endWatchDate = value; OnPropertyChanged(); }
@@ -96,7 +96,7 @@ namespace Filmc.Xtl.Entities
             get => _categoryListId; 
             internal set { _categoryListId = value; OnPropertyChanged(); }
         }
-        public DateTime StartWatchDate 
+        public DateTime? StartWatchDate 
         { 
             get => _startWatchDate; 
             set { _startWatchDate = value; OnPropertyChanged(); }
@@ -112,7 +112,7 @@ namespace Filmc.Xtl.Entities
             set { _totalSeries = value; OnPropertyChanged(); }
         }
 
-        internal int RawMark
+        internal int? RawMark
         {
             get => Mark.RawMark;
             set => Mark.RawMark = value;
