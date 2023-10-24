@@ -9,9 +9,9 @@ using System.Windows.Data;
 
 namespace Filmc.Wpf.ViewCollections
 {
-    public class FilmsSimplifiedViewCollection : BaseEntityViewCollection
+    public class BooksSimplifiedViewCollection : BaseEntityViewCollection
     {
-        public FilmsSimplifiedViewCollection(ObservableCollection<FilmViewModel> source)
+        public BooksSimplifiedViewCollection(ObservableCollection<BookViewModel> source)
         {
             CollectionViewSource.Source = source;
             CollectionViewSource.Filter += OnCollectionFilter;
@@ -22,7 +22,7 @@ namespace Filmc.Wpf.ViewCollections
 
         private void OnCollectionFilter(object sender, FilterEventArgs e)
         {
-            FilmViewModel? vm = e.Item as FilmViewModel;
+            BookViewModel? vm = e.Item as BookViewModel;
 
             if (vm != null)
             {

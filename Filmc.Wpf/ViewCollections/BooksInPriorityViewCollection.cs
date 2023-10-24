@@ -9,24 +9,29 @@ using System.Windows.Data;
 
 namespace Filmc.Wpf.ViewCollections
 {
-    public class FilmsSimplifiedViewCollection : BaseEntityViewCollection
+    public class BooksInPriorityViewCollection : BaseEntityViewCollection
     {
-        public FilmsSimplifiedViewCollection(ObservableCollection<FilmViewModel> source)
+        public BooksInPriorityViewCollection(ObservableCollection<BookViewModel> source)
         {
             CollectionViewSource.Source = source;
             CollectionViewSource.Filter += OnCollectionFilter;
 
             CollectionViewSource.IsLiveFilteringRequested = true;
-            CollectionViewSource.LiveFilteringProperties.Add("CategoryId");
+            CollectionViewSource.LiveFilteringProperties.Add("HasPriority");
+
+            CollectionViewSource.IsLiveSortingRequested = true;
+            CollectionViewSource.LiveSortingProperties.Add("AddToPriorityTime");
+
+            this.ChangeSortProperty("AddToPriorityTime");
         }
 
         private void OnCollectionFilter(object sender, FilterEventArgs e)
         {
-            FilmViewModel? vm = e.Item as FilmViewModel;
+            BookViewModel? vm = e.Item as BookViewModel;
 
             if (vm != null)
             {
-                if (vm.Model.CategoryId == 0)
+                if (vm.Model.Priority != null)
                 {
                     e.Accepted = true;
                 }

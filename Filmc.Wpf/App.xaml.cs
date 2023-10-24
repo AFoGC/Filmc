@@ -19,11 +19,14 @@ namespace Filmc.Wpf
         protected override void OnStartup(StartupEventArgs e)
         {
             ProfilesModel profiles = new ProfilesModel();
-            FilmsModel filmsModel = new FilmsModel(profiles);
-            FilmsMenuViewModel filmsViewModel = new FilmsMenuViewModel(filmsModel);
+            FilmsModel model = new FilmsModel(profiles);
+            FilmsMenuViewModel viewModel = new FilmsMenuViewModel(model);
+
+            //BooksModel model = new BooksModel(profiles);
+            //BooksMenuViewModel viewModel = new BooksMenuViewModel(model);
 
             MainWindow = new MainWindow();
-            MainWindow.DataContext = filmsViewModel;
+            MainWindow.DataContext = viewModel;
             MainWindow.Show();
         }
     }

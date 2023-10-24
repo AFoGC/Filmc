@@ -1,0 +1,289 @@
+﻿<UserControl x:Class="Filmc.Wpf.Views.BooksMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Filmc.Wpf.Views"
+             mc:Ignorable="d"
+             xmlns:ev="clr-namespace:Filmc.Wpf.EntityViews"
+             xmlns:global="clr-namespace:Filmc.Wpf"
+             xmlns:cont="clr-namespace:Filmc.Wpf.Controls"
+             d:DesignHeight="705" d:DesignWidth="1265">
+    <UserControl.Resources>
+        <Style x:Key="CategoriesVisiblity" TargetType="FrameworkElement">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MenuMode}" Value="Categories">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="BooksVisiblity" TargetType="FrameworkElement">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MenuMode}" Value="Books">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="PrioritiesVisiblity" TargetType="FrameworkElement">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MenuMode}" Value="Priorities">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource MainBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="23"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Width="180" Grid.Column="1" Grid.Row="1" Height="20" HorizontalAlignment="Left">
+            <TextBox Text="{DynamicResource serch_btn}" Foreground="WhiteSmoke" IsReadOnly="True"
+                           Background="{StaticResource TextBoxColor}"/>
+
+            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SearchTextBox}"/>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="2" Height="20" 
+              Margin="0,0,0,1" DataContext="{Binding TablesViewModel}">
+
+            <Grid.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource GrayButton}">
+                    <Setter Property="Height" Value="20"/>
+                    <Setter Property="Margin" Value="1,0"/>
+                </Style>
+            </Grid.Resources>
+            <StackPanel Style="{StaticResource CategoriesVisiblity}" Orientation="Horizontal">
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
+                        ToolTip="{DynamicResource id_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Id"/>
+
+                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
+                        ToolTip="{DynamicResource name_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Name"/>
+
+                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
+                        ToolTip="{DynamicResource mark_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Mark"/>
+            </StackPanel>
+
+            <StackPanel Style="{StaticResource BooksVisiblity}" Orientation="Horizontal">
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
+                        ToolTip="{DynamicResource id_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Id"/>
+
+                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
+                        ToolTip="{DynamicResource name_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Name"/>
+
+                <Button Width="{DynamicResource genre_width}" Content="{DynamicResource genre_sort}" 
+                        ToolTip="{DynamicResource genre_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Genre.Name"/>
+
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource year_sort}" 
+                        ToolTip="{DynamicResource year_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.PublicationYear"/>
+
+                <Rectangle Width="56"/>
+                <Button Width="{DynamicResource genre_width}" Content="{DynamicResource author_sort}" 
+                        ToolTip="{DynamicResource author_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Author"/>
+
+                <Button Width="{DynamicResource bookmark_width}" Content="{DynamicResource bookmark_sort}" 
+                        ToolTip="{DynamicResource bookmark_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Bookmark"/>
+
+                <Button Width="{DynamicResource date_width}" Content="{DynamicResource date_sort}" 
+                        ToolTip="{DynamicResource end_read_date_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.FullReadDate"/>
+
+                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
+                        ToolTip="{DynamicResource mark_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Mark"/>
+
+                <Button Width="{DynamicResource id_width}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.CountOfReadings">
+                    <Button.Content>
+                        <Path Style="{StaticResource ArrowDownImage}"/>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Style="{StaticResource PrioritiesVisiblity}" Orientation="Horizontal">
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
+                        ToolTip="{DynamicResource id_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.ID"/>
+
+                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
+                        ToolTip="{DynamicResource name_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Name"/>
+
+                <Button Width="{DynamicResource genre_width}" Content="{DynamicResource genre_sort}" 
+                        ToolTip="{DynamicResource genre_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Genre.Name"/>
+
+                <Button Width="{DynamicResource id_width}" Content="{DynamicResource year_sort}" 
+                        ToolTip="{DynamicResource year_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.PublicationYear"/>
+
+                <Rectangle Width="56"/>
+                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
+                        ToolTip="{DynamicResource mark_tt}" 
+                        Command="{Binding SortTable}" CommandParameter="Model.Mark"/>
+            </StackPanel>
+        </Grid>
+
+        <ScrollViewer Grid.Column="1" Grid.Row="3">
+            <ScrollViewer.Resources>
+                <Style TargetType="ItemsControl">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate >
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ScrollViewer.Resources>
+
+            <StackPanel DataContext="{Binding TablesViewModel}">
+                <!--Categories Menu-->
+                <ItemsControl ItemsSource="{Binding CategoriesVC.View}"
+                              Style="{StaticResource CategoriesVisiblity}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ev:BookCategoryView />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding BooksSimplifiedVC.View}"
+                              Style="{StaticResource CategoriesVisiblity}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ev:BookSimplifiedView />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!--Books Menu-->
+                <ItemsControl ItemsSource="{Binding BooksVC.View}"
+                              Style="{StaticResource BooksVisiblity}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ev:BookView />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!--Priority Menu-->
+                <ItemsControl ItemsSource="{Binding PrioritiesVC.View}"
+                              Style="{StaticResource PrioritiesVisiblity}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ev:BookInPriorityView/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border BorderBrush="White" BorderThickness="1" Width="268"
+                Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
+                VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Border.Resources>
+                <Style x:Key="BB" TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                    <Setter Property="Height" Value="23"/>
+                </Style>
+                <Style x:Key="GB" TargetType="Button" BasedOn="{StaticResource GrayButton}">
+                    <Setter Property="Height" Value="23"/>
+                </Style>
+            </Border.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="28"/>
+                    </Grid.RowDefinitions>
+                    <Button Style="{StaticResource BB}" Content="{DynamicResource save_tab_btn}"
+							VerticalAlignment="Top" Command="{Binding SaveTablesCommand}"
+                            Grid.ColumnSpan="3" Margin="60,0,60,0"/>
+
+                    <Button Style="{StaticResource GB}" Content="{DynamicResource add_cat_btn}"
+                            VerticalAlignment="Top" Command="{Binding AddCategoryCommand}"
+                            Grid.Column="0" Grid.Row="1"/>
+
+                    <Button Content="{DynamicResource add_book_btn}" Style="{StaticResource GB}"
+                            VerticalAlignment="Top" Command="{Binding AddBookCommand}"
+                            Grid.Column="0" Grid.Row="2"/>
+
+                    <Button Content="{DynamicResource show_cat_btn}" Style="{StaticResource GB}"
+                            VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"
+                            Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:BooksMenuMode.Categories}"/>
+
+                    <Button Content="{DynamicResource show_book_btn}" Style="{StaticResource GB}"
+                            VerticalAlignment="Top" Grid.Column="2" Grid.Row="2"
+                            Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:BooksMenuMode.Books}"/>
+
+                    <Button Content="{DynamicResource show_bprior_btn}" Style="{StaticResource GB}" 
+                            VerticalAlignment="Top" Grid.Column="2" Grid.Row="3"
+                            Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:BooksMenuMode.Priorities}"/>
+                </Grid>
+                <StackPanel Grid.Row="1">
+                    <StackPanel.Resources>
+                        <Style TargetType="ToggleButton" BasedOn="{StaticResource RequestToggleButton}">
+                            <Setter Property="Width" Value="131"/>
+                            <Setter Property="Margin" Value="1,0"/>
+                            <Setter Property="IsChecked" Value="True"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Separator Background="White"/>
+                    <Label Foreground="White" Content="{DynamicResource filter_title}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                    <StackPanel Orientation="Horizontal" Height="20" Margin="0,0,0,5">
+                        <ToggleButton IsChecked="{Binding IsReadedChecked}" Content="{DynamicResource readed_btn}"
+                                      Command="{Binding FilterCommand}"/>
+                        <ToggleButton IsChecked="{Binding IsUnReadedChecked}" Content="{DynamicResource unreaded_btn}"
+                                      Command="{Binding FilterCommand}"/>
+                    </StackPanel>
+                    <Label Foreground="White" Content="{DynamicResource filter_by_genre}" HorizontalAlignment="Center"/>
+
+                    <ItemsControl ItemsSource="{Binding TablesViewModel.GenreVMs}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <cont:GenreButton Command="{Binding Path=DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=Grid}, Mode=Default}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Rectangle Height="23"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

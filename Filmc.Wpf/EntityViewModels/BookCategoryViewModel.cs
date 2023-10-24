@@ -2,18 +2,14 @@
 using Filmc.Wpf.ViewCollections;
 using Filmc.Xtl.Entities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Filmc.Wpf.EntityViewModels
 {
-    public class FilmCategoryViewModel : BaseEntityViewModel
+    public class BookCategoryViewModel : BaseEntityViewModel
     {
-        public FilmCategory Model { get; }
+        public BookCategory Model { get; }
 
         private bool _isCollectionVisible;
         private bool _isSelected;
@@ -25,17 +21,17 @@ namespace Filmc.Wpf.EntityViewModels
         private RelayCommand? downInCategoryCommand;
         private RelayCommand? removeFromCategoryCommand;
 
-        public FilmCategoryViewModel(FilmCategory model, ObservableCollection<FilmViewModel> filmsViewModel)
+        public BookCategoryViewModel(BookCategory model, ObservableCollection<BookViewModel> bookViewModels)
         {
             Model = model;
             Model.PropertyChanged += OnModelPropertyChanged;
             Model.Mark.PropertyChanged += OnModelPropertyChanged;
 
             _isCollectionVisible = true;
-            FilmsVC = new FilmsInCategoryViewCollection(model, filmsViewModel);
+            BooksVC = new BooksInCategoryViewCollection(model, bookViewModels);
         }
 
-        public FilmsInCategoryViewCollection FilmsVC { get; }
+        public BooksInCategoryViewCollection BooksVC { get; }
 
         public bool IsCollectionVisible
         {
@@ -127,11 +123,11 @@ namespace Filmc.Wpf.EntityViewModels
                 return upInCategoryCommand ??
                 (upInCategoryCommand = new RelayCommand(obj =>
                 {
-                    FilmViewModel? filmViewModel = obj as FilmViewModel;
+                    BookViewModel? bookViewModel = obj as BookViewModel;
 
-                    if (filmViewModel != null)
+                    if (bookViewModel != null)
                     {
-                        Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId - 1);
+                        Model.ChangeCategoryListId(bookViewModel.Model, bookViewModel.Model.CategoryListId - 1);
                     }
                 }));
             }
@@ -144,11 +140,11 @@ namespace Filmc.Wpf.EntityViewModels
                 return downInCategoryCommand ??
                 (downInCategoryCommand = new RelayCommand(obj =>
                 {
-                    FilmViewModel? filmViewModel = obj as FilmViewModel;
+                    BookViewModel? bookViewModel = obj as BookViewModel;
 
-                    if (filmViewModel != null)
+                    if (bookViewModel != null)
                     {
-                        Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId + 1);
+                        Model.ChangeCategoryListId(bookViewModel.Model, bookViewModel.Model.CategoryListId + 1);
                     }
                 }));
             }
@@ -161,11 +157,11 @@ namespace Filmc.Wpf.EntityViewModels
                 return removeFromCategoryCommand ??
                 (removeFromCategoryCommand = new RelayCommand(obj =>
                 {
-                    FilmViewModel? filmViewModel = obj as FilmViewModel;
+                    BookViewModel? bookViewModel = obj as BookViewModel;
 
-                    if (filmViewModel != null)
+                    if (bookViewModel != null)
                     {
-                        Model.RemoveFilmInOrder(filmViewModel.Model);
+                        Model.RemoveBookInOrder(bookViewModel.Model);
                     }
                 }));
             }

@@ -65,6 +65,60 @@ namespace Filmc.Xtl.Entities
 
         public RecordsCollection<Book> Books => _books;
 
+        public void AddBookInOrder(Book book)
+        {
+            if (Books.Contains(book) == false)
+            {
+                book.CategoryListId = Books.Count;
+                Books.Add(book);
+            }
+        }
+
+        public void RemoveBookInOrder(Book book)
+        {
+            if (Books.Remove(book))
+            {
+                var sortedFilms = Books.OrderBy(x => x.CategoryListId);
+
+                int i = 0;
+                foreach (Book item in sortedFilms)
+                    item.CategoryListId = i++;
+            }
+        }
+
+        public bool ChangeCategoryListId(Book book, int newListId)
+        {
+            if (Books.Contains(book))
+            {
+                var plusCollection = Books
+                    .Where(x => x.CategoryListId >= newListId && x.CategoryListId < book.CategoryListId)
+                    .OrderBy(x => x.CategoryListId);
+
+                var minusCollection = Books
+                    .Where(x => x.CategoryListId <= newListId && x.CategoryListId > book.CategoryListId)
+                    .OrderBy(x => x.CategoryListId);
+
+                foreach (Book item in plusCollection)
+                    item.CategoryListId++;
+
+                foreach (Book item in minusCollection)
+                    item.CategoryListId--;
+
+                if (newListId < 0)
+                    newListId = 0;
+
+                if (newListId >= Books.Count)
+                    newListId = Books.Count - 1;
+
+                book.CategoryListId = newListId;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public override object Clone()
         {
             BookCategory category = new BookCategory();

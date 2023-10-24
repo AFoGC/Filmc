@@ -1,98 +1,93 @@
 ﻿using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Models;
-using Filmc.Wpf.ViewCollections;
-using Filmc.Xtl;
 using Filmc.Xtl.Entities;
-using Filmc.Xtl.Tables;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace Filmc.Wpf.ViewModels
 {
-    public class FilmsMenuViewModel : BaseViewModel
+    public class BooksMenuViewModel : BaseViewModel
     {
-        private readonly FilmsModel _model;
+        private readonly BooksModel _model;
 
         private string _searchText;
-        private bool _isWatchedChecked;
-        private bool _isUnWatchedChecked;
-        private FilmViewModel? _selectedFilm;
+        private bool _isReadedChecked;
+        private bool _isUnReadedChecked;
+        private BookViewModel? _selectedBook;
 
         private RelayCommand? changeMenuModeCommand;
         private RelayCommand? addCategoryCommand;
-        private RelayCommand? addFilmCommand;
-        private RelayCommand? addFilmInCategoryCommand;
+        private RelayCommand? addBookCommand;
+        private RelayCommand? addBookInCategoryCommand;
         private RelayCommand? saveTablesCommand;
         private RelayCommand? filterCommand;
         private RelayCommand? selectCommand;
         private RelayCommand? addSelectedToCategory;
         private RelayCommand? removeSelectedFromCategory;
+        private RelayCommand? addBookToPriorityCommand;
+        private RelayCommand? deleteBookCommand;
         private RelayCommand? removeCategoryCommand;
 
-        public FilmsMenuViewModel(FilmsModel model)
+        public BooksMenuViewModel(BooksModel model)
         {
             _model = model;
-            TablesViewModel = new FilmTablesViewModel(model);
+            TablesViewModel = new BookTablesViewModel(model);
 
             _searchText = String.Empty;
-            _isWatchedChecked = true;
-            _isUnWatchedChecked = true;
+            _isReadedChecked = true;
+            _isUnReadedChecked = true;
         }
 
-        public FilmTablesViewModel TablesViewModel { get; }
+        public BookTablesViewModel TablesViewModel { get; }
 
         public string SearchText
         {
             get => _searchText;
-            set { _searchText = value;  OnPropertyChanged(); }
+            set { _searchText = value; OnPropertyChanged(); }
         }
 
-        public bool IsWatchedChecked
+        public bool IsReadedChecked
         {
-            get => _isWatchedChecked;
+            get => _isReadedChecked;
             set
             {
-                if (IsUnWatchedChecked != false || value != false)
+                if (IsUnReadedChecked != false || value != false)
                 {
-                    _isWatchedChecked = value;
+                    _isReadedChecked = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public bool IsUnWatchedChecked
+        public bool IsUnReadedChecked
         {
-            get => _isUnWatchedChecked;
+            get => _isUnReadedChecked;
             set
             {
-                if (IsWatchedChecked != false || value != false)
+                if (IsReadedChecked != false || value != false)
                 {
-                    _isUnWatchedChecked = value;
+                    _isUnReadedChecked = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public FilmViewModel? SelectedFilm
+        public BookViewModel? SelectedBook
         {
-            get => _selectedFilm;
+            get => _selectedBook;
             set
             {
-                if (_selectedFilm != null)
-                    _selectedFilm.IsSelected = false;
+                if (_selectedBook != null)
+                    _selectedBook.IsSelected = false;
 
-                _selectedFilm = value;
+                _selectedBook = value;
 
-                if (_selectedFilm != null)
-                    _selectedFilm.IsSelected = true;
+                if (_selectedBook != null)
+                    _selectedBook.IsSelected = true;
 
                 OnPropertyChanged();
             }
@@ -105,7 +100,7 @@ namespace Filmc.Wpf.ViewModels
                 return changeMenuModeCommand ??
                 (changeMenuModeCommand = new RelayCommand(obj =>
                 {
-                    TablesViewModel.MenuMode = (FilmsMenuMode)obj;
+                    TablesViewModel.MenuMode = (BooksMenuMode)obj;
                 }));
             }
         }
@@ -114,7 +109,7 @@ namespace Filmc.Wpf.ViewModels
         {
             get
             {
-                return addCategoryCommand ?? 
+                return addCategoryCommand ??
                 (addCategoryCommand = new RelayCommand(obj =>
                 {
                     _model.AddCategory();
@@ -129,7 +124,7 @@ namespace Filmc.Wpf.ViewModels
                 return removeCategoryCommand ??
                 (removeCategoryCommand = new RelayCommand(obj =>
                 {
-                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+                    BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
 
                     if (categoryVM != null)
                     {
@@ -140,29 +135,29 @@ namespace Filmc.Wpf.ViewModels
         }
 
 
-        public RelayCommand AddFilmCommand
+        public RelayCommand AddBookCommand
         {
             get
             {
-                return addFilmCommand ?? 
-                (addFilmCommand = new RelayCommand(obj =>
+                return addBookCommand ??
+                (addBookCommand = new RelayCommand(obj =>
                 {
-                    _model.AddFilm();
+                    _model.AddBook();
                 }));
             }
         }
 
-        public RelayCommand AddFilmInCategoryCommand
+        public RelayCommand AddBookInCategoryCommand
         {
             get
             {
-                return addFilmInCategoryCommand ??
-                (addFilmInCategoryCommand = new RelayCommand(obj =>
+                return addBookInCategoryCommand ??
+                (addBookInCategoryCommand = new RelayCommand(obj =>
                 {
-                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+                    BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
 
                     if (categoryVM != null)
-                        _model.AddFilm(categoryVM.Model.Id);
+                        _model.AddBook(categoryVM.Model.Id);
                 }));
             }
         }
@@ -172,14 +167,14 @@ namespace Filmc.Wpf.ViewModels
         {
             get
             {
-                return saveTablesCommand ?? 
+                return saveTablesCommand ??
                 (saveTablesCommand = new RelayCommand(obj =>
                 {
                     _model.SaveTables();
                 }));
             }
         }
-            
+
 
         public RelayCommand FilterCommand
         {
@@ -189,14 +184,14 @@ namespace Filmc.Wpf.ViewModels
                 {
                     var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
 
-                    foreach (var item in TablesViewModel.FilmVMs)
+                    foreach (var item in TablesViewModel.BooksVMs)
                     {
-                        item.IsFiltered = IsFilmPassingFilter(selectedGenres, item.Model);
+                        item.IsFiltered = IsBookPassingFilter(selectedGenres, item.Model);
                     }
 
                     foreach (var item in TablesViewModel.CategoryVMs)
                     {
-                        item.IsFiltered = TablesViewModel.FilmVMs
+                        item.IsFiltered = TablesViewModel.BooksVMs
                             .Where(x => x.Model.Category == item.Model)
                             .Any(x => x.IsFiltered);
                     }
@@ -211,8 +206,8 @@ namespace Filmc.Wpf.ViewModels
                 return selectCommand ??
                 (selectCommand = new RelayCommand(obj =>
                 {
-                    FilmViewModel? viewModel = obj as FilmViewModel;
-                    SelectedFilm = viewModel;
+                    BookViewModel? viewModel = obj as BookViewModel;
+                    SelectedBook = viewModel;
                 }));
             }
         }
@@ -222,13 +217,13 @@ namespace Filmc.Wpf.ViewModels
             get
             {
                 return addSelectedToCategory ??
-                (addSelectedToCategory = new RelayCommand(obj => 
+                (addSelectedToCategory = new RelayCommand(obj =>
                 {
-                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+                    BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
 
-                    if (categoryVM != null && SelectedFilm != null)
+                    if (categoryVM != null && SelectedBook != null)
                     {
-                        categoryVM.Model.AddFilmInOrder(SelectedFilm.Model);
+                        categoryVM.Model.AddBookInOrder(SelectedBook.Model);
                     }
                 }));
             }
@@ -241,70 +236,68 @@ namespace Filmc.Wpf.ViewModels
                 return removeSelectedFromCategory ??
                 (removeSelectedFromCategory = new RelayCommand(obj =>
                 {
-                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+                    BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
 
-                    if (categoryVM != null && SelectedFilm != null)
+                    if (categoryVM != null && SelectedBook != null)
                     {
-                        categoryVM.Model.RemoveFilmInOrder(SelectedFilm.Model);
+                        categoryVM.Model.RemoveBookInOrder(SelectedBook.Model);
                     }
                 }));
             }
         }
-
-        private RelayCommand? addFilmToPriorityCommand;
-        private RelayCommand? deleteFilmCommand;
-        public RelayCommand AddFilmToPriorityCommand
+        
+        public RelayCommand AddBookToPriorityCommand
         {
             get
             {
-                return addFilmToPriorityCommand ??
-                (addFilmToPriorityCommand = new RelayCommand(obj =>
+                return addBookToPriorityCommand ??
+                (addBookToPriorityCommand = new RelayCommand(obj =>
                 {
-                    FilmViewModel? viewModel = obj as FilmViewModel;
+                    BookViewModel? viewModel = obj as BookViewModel;
 
                     if (viewModel != null)
                     {
-                        if (_model.TablesContext.FilmInPriorities.All(x => x.Id != viewModel.Model.Id))
+                        if (_model.TablesContext.BookInPriorities.All(x => x.Id != viewModel.Model.Id))
                         {
-                            FilmInPriority priority = new FilmInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
-                            _model.TablesContext.FilmInPriorities.Add(priority);
+                            BookInPriority priority = new BookInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
+                            _model.TablesContext.BookInPriorities.Add(priority);
                         }
                     }
                 }));
             }
         }
 
-        public RelayCommand DeleteFilmCommand
+        public RelayCommand DeleteBookCommand
         {
             get
             {
-                return deleteFilmCommand ??
-                (deleteFilmCommand = new RelayCommand(obj =>
+                return deleteBookCommand ??
+                (deleteBookCommand = new RelayCommand(obj =>
                 {
-                    FilmViewModel? viewModel = obj as FilmViewModel;
+                    BookViewModel? viewModel = obj as BookViewModel;
 
                     if (viewModel != null)
                     {
-                        Film film = viewModel.Model;
+                        Book book = viewModel.Model;
 
-                        if (film.CategoryId != 0)
-                            film.CategoryId = 0;
+                        if (book.CategoryId != 0)
+                            book.CategoryId = 0;
 
-                        if (film.Priority != null)
-                            _model.TablesContext.FilmInPriorities.Remove(film.Priority);
+                        if (book.Priority != null)
+                            _model.TablesContext.BookInPriorities.Remove(book.Priority);
 
-                        _model.TablesContext.Films.Remove(film);
+                        _model.TablesContext.Books.Remove(book);
                     }
                 }));
             }
         }
 
-        private bool IsFilmPassingFilter(IEnumerable<FilmGenreViewModel> genres, Film film)
+        private bool IsBookPassingFilter(IEnumerable<BookGenreViewModel> genres, Book book)
         {
             bool exp = false;
 
-            if (genres.Any(x => x.Model == film.Genre))
-                exp = film.IsWatched == IsWatchedChecked || film.IsWatched != IsUnWatchedChecked;
+            if (genres.Any(x => x.Model == book.Genre))
+                exp = book.IsReaded == IsReadedChecked || book.IsReaded != IsUnReadedChecked;
 
             return exp;
         }

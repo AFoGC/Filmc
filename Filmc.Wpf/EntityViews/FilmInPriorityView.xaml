@@ -10,10 +10,32 @@
     <Grid Style="{DynamicResource TControl}" Height="{DynamicResource control_height}">
         <Grid.Resources>
             <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
+            <local:BindingProxy x:Key="menuProxy" Data="{Binding Path=DataContext, 
+                                RelativeSource={RelativeSource AncestorType={x:Type menus:FilmsMenuView}}, 
+                                Mode=Default}"/>
         </Grid.Resources>
         <Grid.ContextMenu>
-            <ContextMenu x:Name="cm" >
+            <ContextMenu x:Name="cm">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Opened">
+                        <i:InvokeCommandAction Command="{Binding Path=Data.SelectCommand, Source={StaticResource menuProxy}, Mode=Default}"
+                                               CommandParameter="{Binding Path=Data, Source={StaticResource proxy}, Mode=Default}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
+                <MenuItem Header="{DynamicResource edit_btn}" ToolTip="{DynamicResource open_edit_tt}"
+                          />
+
+                <MenuItem Header="{Binding Path=Data.SourcesText, Source={StaticResource proxy}}" ToolTip="{DynamicResource copy_url_tt}" 
+                          Command="{Binding Path=Data.CopyUrlCommand, Source={StaticResource proxy}}"/>
+
+                <MenuItem Header="{DynamicResource remove_from_prior_cm}"
+                          />
+
+                <Separator />
+                <MenuItem Header="{DynamicResource delete_this_cm}" 
+                          Command="{Binding Path=Data.DeleteFilmCommand, Source={StaticResource menuProxy}}"
+                          CommandParameter="{Binding Path=Data, Source={StaticResource proxy}}"/>
             </ContextMenu>
         </Grid.ContextMenu>
         <StackPanel Orientation="Horizontal">

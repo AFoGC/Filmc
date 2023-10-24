@@ -1,6 +1,5 @@
-﻿using Filmc.Xtl;
-using Filmc.Xtl.Entities;
-using Filmc.Xtl.Tables;
+﻿using Filmc.Xtl.Entities;
+using Filmc.Xtl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Filmc.Wpf.Models
 {
-    public class FilmsModel
+    public class BooksModel
     {
         private readonly ProfilesModel _profilesModel;
 
 
-        public FilmsModel(ProfilesModel profilesModel)
+        public BooksModel(ProfilesModel profilesModel)
         {
             _profilesModel = profilesModel;
             _profilesModel.SelectedProfileChanged += OnSelectedProfileChanged;
@@ -34,27 +33,27 @@ namespace Filmc.Wpf.Models
             TablesContext.FilmCategories.Add();
         }
 
-        public void RemoveCategory(FilmCategory category)
+        public void RemoveCategory(BookCategory category)
         {
-            TablesContext.FilmCategories.Remove(category);
+            TablesContext.BookCategories.Remove(category);
         }
 
-        public void AddFilm()
+        public void AddBook()
         {
             Film film = new Film();
             film.GenreId = TablesContext.FilmGenres.First().Id;
             TablesContext.Films.Add(film);
         }
 
-        public void AddFilm(int categoryId)
+        public void AddBook(int categoryId)
         {
-            Film film = new Film();
-            film.GenreId = TablesContext.FilmGenres.First().Id;
-            TablesContext.Films.Add(film);
+            Book book = new Book();
+            book.GenreId = TablesContext.BookGenres.First().Id;
+            TablesContext.Books.Add(book);
 
-            TablesContext.FilmCategories
+            TablesContext.BookCategories
                 .First(x => x.Id == categoryId)
-                .AddFilmInOrder(film);
+                .AddBookInOrder(book);
         }
 
         public void SaveTables()

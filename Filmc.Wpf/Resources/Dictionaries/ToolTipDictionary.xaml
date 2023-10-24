@@ -21,7 +21,7 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{DynamicResource genre_tt}"/>
             <TextBlock Text=": "/>
-            <TextBlock Text="{Binding BookGenreText}"/>
+            <TextBlock Text="{Binding Genre.Name}"/>
         </StackPanel>
     </ToolTip>
 </ResourceDictionary>
