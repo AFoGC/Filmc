@@ -70,11 +70,9 @@
                      Style="{DynamicResource MarkTextBox}"/>
 
             <Button Content="⋮" Click="OpenCM">
-                <!--
                 <Button.ToolTip>
-                    <local:BookToolTip />
+                    <local:BookToolTipView />
                 </Button.ToolTip>
-                -->
             </Button>
         </StackPanel>
     </Grid>

@@ -31,6 +31,7 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? addBookToPriorityCommand;
         private RelayCommand? deleteBookCommand;
         private RelayCommand? removeCategoryCommand;
+        private RelayCommand? removeBookFromPriorityCommand;
 
         public BooksMenuViewModel(BooksModel model)
         {
@@ -262,6 +263,23 @@ namespace Filmc.Wpf.ViewModels
                             BookInPriority priority = new BookInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
                             _model.TablesContext.BookInPriorities.Add(priority);
                         }
+                    }
+                }));
+            }
+        }
+
+        public RelayCommand RemoveBookFromPriorityCommand
+        {
+            get
+            {
+                return removeBookFromPriorityCommand ??
+                (removeBookFromPriorityCommand = new RelayCommand(obj =>
+                {
+                    BookViewModel? viewModel = obj as BookViewModel;
+
+                    if (viewModel != null)
+                    {
+                        _model.TablesContext.BookInPriorities.Remove(viewModel.Model.Priority);
                     }
                 }));
             }

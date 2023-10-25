@@ -36,6 +36,9 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? addSelectedToCategory;
         private RelayCommand? removeSelectedFromCategory;
         private RelayCommand? removeCategoryCommand;
+        private RelayCommand? addFilmToPriorityCommand;
+        private RelayCommand? deleteFilmCommand;
+        private RelayCommand? removeFilmFromPriorityCommand;
 
         public FilmsMenuViewModel(FilmsModel model)
         {
@@ -251,8 +254,6 @@ namespace Filmc.Wpf.ViewModels
             }
         }
 
-        private RelayCommand? addFilmToPriorityCommand;
-        private RelayCommand? deleteFilmCommand;
         public RelayCommand AddFilmToPriorityCommand
         {
             get
@@ -269,6 +270,23 @@ namespace Filmc.Wpf.ViewModels
                             FilmInPriority priority = new FilmInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
                             _model.TablesContext.FilmInPriorities.Add(priority);
                         }
+                    }
+                }));
+            }
+        }
+
+        public RelayCommand RemoveFilmFromPriorityCommand
+        {
+            get
+            {
+                return removeFilmFromPriorityCommand ??
+                (removeFilmFromPriorityCommand = new RelayCommand(obj =>
+                {
+                    FilmViewModel? viewModel = obj as FilmViewModel;
+
+                    if (viewModel != null)
+                    {
+                        _model.TablesContext.FilmInPriorities.Remove(viewModel.Model.Priority);
                     }
                 }));
             }

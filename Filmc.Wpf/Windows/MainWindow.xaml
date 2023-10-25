@@ -6,9 +6,68 @@
         xmlns:local="clr-namespace:Filmc.Wpf.Windows"
         xmlns:vm="clr-namespace:Filmc.Wpf.ViewModels"
         xmlns:views="clr-namespace:Filmc.Wpf.Views"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        mc:Ignorable="d" Height="775" Width="1265"
+        Title="MainWindow" Background="{x:Null}" >
     <Grid>
-        <views:FilmsMenuView />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <StackPanel.Resources>
+                <Style TargetType="ToggleButton" BasedOn="{StaticResource NavbarToggleButton}">
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Width" Value="250"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5,0,0,0"/>
+                </Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Orientation" Value="Horizontal"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <ToggleButton IsChecked="{Binding FilmsSelected}">
+                <ToggleButton.Content>
+                    <StackPanel>
+                        <Path Style="{StaticResource FilmImage}" Stretch="Uniform" Height="20"/>
+                        <TextBlock Text="{DynamicResource nav_film}"/>
+                    </StackPanel>
+                </ToggleButton.Content>
+            </ToggleButton>
+            <ToggleButton IsChecked="{Binding BooksSelected}">
+                <ToggleButton.Content>
+                    <StackPanel>
+                        <Path Style="{StaticResource BookImage}" Stretch="Uniform" Height="20"/>
+                        <TextBlock Text="{DynamicResource nav_book}"/>
+                    </StackPanel>
+                </ToggleButton.Content>
+            </ToggleButton>
+            <ToggleButton IsChecked="{Binding SettingsSelected}">
+                <ToggleButton.Content>
+                    <StackPanel>
+                        <Path Style="{StaticResource SettingsImage}" Stretch="Uniform" Height="20"/>
+                        <TextBlock Text="{DynamicResource nav_setting}"/>
+                    </StackPanel>
+                </ToggleButton.Content>
+            </ToggleButton>
+        </StackPanel>
+
+        <ContentControl Content="{Binding CurrentMenu}" Grid.Row="1">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type vm:FilmsMenuViewModel}">
+                    <views:FilmsMenuView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:BooksMenuViewModel}">
+                    <views:BooksMenuView />
+                </DataTemplate>
+                <!--
+                <DataTemplate DataType="{x:Type vm:SettingsMenuViewModel}">
+                    <views:SettingsMenuView />
+                </DataTemplate>
+                -->
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>

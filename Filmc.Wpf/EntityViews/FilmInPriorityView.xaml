@@ -30,7 +30,8 @@
                           Command="{Binding Path=Data.CopyUrlCommand, Source={StaticResource proxy}}"/>
 
                 <MenuItem Header="{DynamicResource remove_from_prior_cm}"
-                          />
+                          Command="{Binding Path=Data.RemoveFilmFromPriorityCommand, Source={StaticResource menuProxy}}"
+                          CommandParameter="{Binding Path=Data, Source={StaticResource proxy}}"/>
 
                 <Separator />
                 <MenuItem Header="{DynamicResource delete_this_cm}" 

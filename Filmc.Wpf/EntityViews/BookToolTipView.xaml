@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Filmc.Wpf.EntityViews.BookToolTipView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Filmc.Wpf.EntityViews"
+             mc:Ignorable="d">
+    <Grid Style="{DynamicResource TControl}" Height="{DynamicResource control_height}">
+        <StackPanel Orientation="Horizontal">
+
+            <TextBox Text="{Binding Id}" ToolTip="{DynamicResource id_tt}" 
+                     Width="{DynamicResource id_width}"/>
+
+            <TextBox Text="{Binding Name}" ToolTip="{StaticResource NameToolTip}" 
+                     Width="{DynamicResource name_width}"/>
+
+            <TextBox Text="{Binding Genre.Name}" ToolTip="{StaticResource FilmGenreToolTip}" 
+                     Width="{DynamicResource genre_width}"/>
+
+            <TextBox Text="{Binding PublicationYear, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource year_tt}" 
+                     Width="{DynamicResource id_width}"/>
+
+            <CheckBox IsChecked="{Binding IsReaded}" ToolTip="{DynamicResource readed_tt}" 
+                      Margin="20,0" IsEnabled="False" />
+
+            <TextBox Text="{Binding Author}" ToolTip="{DynamicResource author_tt}" 
+                     Width="{DynamicResource genre_width}"/>
+
+            <TextBox Text="{Binding Bookmark}" ToolTip="{DynamicResource bookmark_tt}" 
+                     Width="{DynamicResource bookmark_width}"/>
+
+            <TextBox Text="{Binding FullReadDate}" ToolTip="{DynamicResource end_read_date_tt}" 
+                     Width="{DynamicResource date_width}"/>
+
+            <TextBox ToolTip="{DynamicResource mark_tt}" Width="{DynamicResource mark_width}"
+                     Style="{DynamicResource MarkTextBox}"/>
+
+            <TextBox Text="{Binding CountOfReadings, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource cor_tt}" 
+                     Width="{DynamicResource id_width}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

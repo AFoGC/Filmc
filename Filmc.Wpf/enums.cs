@@ -20,4 +20,13 @@ namespace Filmc.Wpf
         Books,
         Priorities
     }
+
+    public enum StatusEnum
+    {
+        Normal,
+        Saved,
+        UnSaved
+    }
+
+
 }

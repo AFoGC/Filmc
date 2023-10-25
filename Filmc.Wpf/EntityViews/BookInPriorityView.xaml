@@ -30,7 +30,8 @@
                           Command="{Binding Path=Data.CopyUrlCommand, Source={StaticResource proxy}}"/>
 
                 <MenuItem Header="{DynamicResource remove_from_prior_cm}"
-                          />
+                          Command="{Binding Path=Data.RemoveBookFromPriorityCommand, Source={StaticResource menuProxy}}"
+                          CommandParameter="{Binding Path=Data, Source={StaticResource proxy}}"/>
 
                 <Separator />
                 <MenuItem Header="{DynamicResource delete_this_cm}" 
@@ -66,11 +67,9 @@
                      Style="{DynamicResource MarkTextBox}"/>
 
             <Button Content="⋮" Click="OpenCM">
-                <!--
                 <Button.ToolTip>
-                    <local:BookToolTip />
+                    <local:BookToolTipView />
                 </Button.ToolTip>
-                -->
             </Button>
         </StackPanel>
     </Grid>
