@@ -1,4 +1,5 @@
-﻿using Filmc.Xtl;
+﻿using Filmc.Wpf.Services;
+using Filmc.Xtl;
 using Filmc.Xtl.Entities;
 using Filmc.Xtl.Tables;
 using System;
@@ -11,10 +12,10 @@ namespace Filmc.Wpf.Models
 {
     public class FilmsModel
     {
-        private readonly ProfilesModel _profilesModel;
+        private readonly ProfilesService _profilesModel;
 
 
-        public FilmsModel(ProfilesModel profilesModel)
+        public FilmsModel(ProfilesService profilesModel)
         {
             _profilesModel = profilesModel;
             _profilesModel.SelectedProfileChanged += OnSelectedProfileChanged;
@@ -24,7 +25,7 @@ namespace Filmc.Wpf.Models
 
         public event Action? TablesContextChanged;
 
-        private void OnSelectedProfileChanged(ProfileModel profile)
+        private void OnSelectedProfileChanged(Profile profile)
         {
             TablesContextChanged?.Invoke();
         }

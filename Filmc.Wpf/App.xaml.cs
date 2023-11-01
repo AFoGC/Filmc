@@ -1,4 +1,6 @@
 ﻿using Filmc.Wpf.Models;
+using Filmc.Wpf.Services;
+using Filmc.Wpf.SettingsServices;
 using Filmc.Wpf.ViewModels;
 using Filmc.Wpf.Windows;
 using System;
@@ -18,14 +20,22 @@ namespace Filmc.Wpf
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            ProfilesModel profiles = new ProfilesModel();
+            ProfilesService profiles = new ProfilesService();
             FilmsModel fmodel = new FilmsModel(profiles);
             FilmsMenuViewModel fviewModel = new FilmsMenuViewModel(fmodel);
 
             BooksModel bmodel = new BooksModel(profiles);
             BooksMenuViewModel bviewModel = new BooksMenuViewModel(bmodel);
 
-            MainViewModel mainViewModel = new MainViewModel(fviewModel, bviewModel);
+            AutoSaveService autoSaveService = new AutoSaveService(profiles);
+            LanguageService languageService = new LanguageService();
+            MarkSystemService markSystemService = new MarkSystemService(profiles);
+            ScaleService scaleService = new ScaleService();
+
+            SettingsService settingsService = new SettingsService(profiles, autoSaveService, languageService, scaleService);
+            SettingsMenuViewModel settingsMenuViewModel = new SettingsMenuViewModel(settingsService, markSystemService);
+
+            MainViewModel mainViewModel = new MainViewModel(fviewModel, bviewModel, settingsMenuViewModel);
 
             MainWindow = new MainWindow();
             MainWindow.DataContext = mainViewModel;

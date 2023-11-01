@@ -1,7 +1,9 @@
-﻿using Filmc.Wpf.ViewModels;
+﻿using Filmc.Wpf.Commands;
+using Filmc.Wpf.ViewModels;
 using Filmc.Xtl.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,7 @@ namespace Filmc.Wpf.EntityViewModels
     public class FilmGenreViewModel : BaseViewModel
     {
         private bool _isChecked;
+        private bool _isChangeSerialEnable;
 
         public FilmGenre Model { get; }
 
@@ -21,6 +24,14 @@ namespace Filmc.Wpf.EntityViewModels
             Model.PropertyChanged += OnModelPropertyChanged;
 
             _isChecked = true;
+            _isChangeSerialEnable = model.Films.Count == 0;
+
+            model.Films.CollectionChanged += OnFilmsCollectionChanged;
+        }
+
+        private void OnFilmsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            IsChangeSerialEnable = Model.Films.Count == 0;
         }
 
         private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -44,6 +55,12 @@ namespace Filmc.Wpf.EntityViewModels
         {
             get => _isChecked;
             set { _isChecked = value; OnPropertyChanged(); }
+        }
+
+        public bool IsChangeSerialEnable
+        {
+            get => _isChangeSerialEnable;
+            set { _isChangeSerialEnable = value; OnPropertyChanged(); }
         }
     }
 }

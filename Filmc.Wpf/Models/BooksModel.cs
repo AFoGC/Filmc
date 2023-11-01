@@ -5,15 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Filmc.Wpf.Services;
 
 namespace Filmc.Wpf.Models
 {
     public class BooksModel
     {
-        private readonly ProfilesModel _profilesModel;
+        private readonly ProfilesService _profilesModel;
 
 
-        public BooksModel(ProfilesModel profilesModel)
+        public BooksModel(ProfilesService profilesModel)
         {
             _profilesModel = profilesModel;
             _profilesModel.SelectedProfileChanged += OnSelectedProfileChanged;
@@ -23,7 +24,7 @@ namespace Filmc.Wpf.Models
 
         public event Action? TablesContextChanged;
 
-        private void OnSelectedProfileChanged(ProfileModel profile)
+        private void OnSelectedProfileChanged(Profile profile)
         {
             TablesContextChanged?.Invoke();
         }

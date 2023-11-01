@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Models
+namespace Filmc.Wpf.Services
 {
-    public class ProfileModel
+    public class Profile
     {
         private readonly TablesContext _tablesContext;
 
@@ -32,7 +32,7 @@ namespace Filmc.Wpf.Models
             }
         }
 
-        public ProfileModel(string name)
+        public Profile(string name)
         {
             _name = name;
             _tablesContext = new TablesContext();

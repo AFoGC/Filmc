@@ -28,5 +28,9 @@ namespace Filmc.Wpf
         UnSaved
     }
 
-
+    public enum ScaleEnum
+    {
+        Small = 0,
+        Medium = 1
+    }
 }

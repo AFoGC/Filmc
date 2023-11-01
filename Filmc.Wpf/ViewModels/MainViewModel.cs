@@ -16,11 +16,13 @@ namespace Filmc.Wpf.ViewModels
 
         private readonly FilmsMenuViewModel _filmsMenuViewModel;
         private readonly BooksMenuViewModel _booksMenuViewModel;
+        private readonly SettingsMenuViewModel _settingsMenuViewModel;
 
-        public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel)
+        public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel, SettingsMenuViewModel settingsMenuViewModel)
         {
             _filmsMenuViewModel = filmsMenuViewModel;
             _booksMenuViewModel = booksMenuViewModel;
+            _settingsMenuViewModel = settingsMenuViewModel;
 
             FilmsSelected = true;
         }
@@ -67,7 +69,7 @@ namespace Filmc.Wpf.ViewModels
                 {
                     FilmsSelected = false;
                     BooksSelected = false;
-                    CurrentMenu = null;
+                    CurrentMenu = _settingsMenuViewModel;
                 }
                 OnPropertyChanged();
             }

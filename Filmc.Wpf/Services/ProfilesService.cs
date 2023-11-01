@@ -8,65 +8,70 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Models
+namespace Filmc.Wpf.Services
 {
-    public class ProfilesModel
+    public class ProfilesService
     {
-        private ProfileModel _profile;
+        private Profile _profile;
 
-        private readonly List<ProfileModel> _profiles;
+        private readonly List<Profile> _profiles;
 
-        public ProfilesModel()
+        public ProfilesService()
         {
-            _profiles = new List<ProfileModel>();
+            _profiles = new List<Profile>();
             LoadProfiles();
 
             _profile = _profiles.First();
         }
 
-        public IEnumerable<ProfileModel> Profiles => _profiles;
+        public IEnumerable<Profile> Profiles => _profiles;
 
-        public ProfileModel SelectedProfile
+        public Profile SelectedProfile
         {
             get => _profile;
             set { _profile = value; SelectedProfileChanged?.Invoke(_profile); }
         }
 
-        public event Action<ProfileModel>? SelectedProfileChanged;
-        public event Action<ProfileModel>? ProfileRemoved;
-        public event Action<ProfileModel>? ProfileAdded;
+        public event Action<Profile>? SelectedProfileChanged;
+        public event Action<Profile>? ProfileRemoved;
+        public event Action<Profile>? ProfileAdded;
 
         private void LoadProfiles()
         {
             DirectoryInfo profilesDir = Directory.CreateDirectory(PathHelper.ProfilesPath);
             DirectoryInfo[] directories = profilesDir.GetDirectories();
 
-            if(directories.Length != 0)
+            if (directories.Length != 0)
             {
                 foreach (var item in directories)
                 {
-                    _profiles.Add(new ProfileModel(item.Name));
+                    _profiles.Add(new Profile(item.Name));
                 }
             }
             else
             {
-                _profiles.Add(new ProfileModel("Main"));
+                _profiles.Add(new Profile("Main"));
             }
         }
 
-        public ProfileModel? CreateProfile(string profileName)
+        public Profile? CreateProfile(string profileName)
         {
-            ProfileModel? profile = null;
+            Profile? profile = null;
 
             if (_profiles.All(x => x.Name != profileName))
             {
-                profile = new ProfileModel(profileName);
+                profile = new Profile(profileName);
                 _profiles.Add(profile);
 
                 ProfileAdded?.Invoke(profile);
             }
 
             return profile;
+        }
+
+        public bool RemoveProfile(Profile profile)
+        {
+            return _profiles.Remove(profile);
         }
     }
 }

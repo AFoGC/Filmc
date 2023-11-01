@@ -49,6 +49,9 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <Path Style="{StaticResource BookMenuBack}" Stretch="Uniform" 
+              Grid.Column="1" Grid.Row="3" Margin="10"/>
+
         <Grid Width="180" Grid.Column="1" Grid.Row="1" Height="20" HorizontalAlignment="Left">
             <TextBox Text="{DynamicResource serch_btn}" Foreground="WhiteSmoke" IsReadOnly="True"
                            Background="{StaticResource TextBoxColor}"/>
