@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Filmc.Wpf.SettingsServices
 {
@@ -57,15 +58,7 @@ namespace Filmc.Wpf.SettingsServices
 
         public void LoadSettings()
         {
-            if (LoadDocument() == false)
-            {
-                OnProfileChanged(_profilesService.SelectedProfile);
-
-                OnScaleChanged(_scaleService.CurrentScale);
-                OnLanguageChanged(_languageService.CurrentLanguage);
-                OnAutosaveEnableChanged();
-                OnAutosaveIntervalChanged();
-            }
+            LoadDocument();
 
             LoadXmlProfile();
 
@@ -75,70 +68,85 @@ namespace Filmc.Wpf.SettingsServices
             LoadXmlAutosaveSeconds();
         }
 
-        private void OnScaleChanged(ScaleEnum scale)
-        {
-            XmlNode node = GetXmlNode(scaleNodeName);
-
-            int scaleCode = (int)scale;
-            node.InnerText = scaleCode.ToString();
-        }
-
-        private void OnLanguageChanged(CultureInfo culture)
-        {
-            XmlNode node = GetXmlNode(langNodeName);
-            node.InnerText = culture.Name;
-        }
-
-        private void OnProfileChanged(Profile profile)
-        {
-            XmlNode node = GetXmlNode(profileNodeName);
-            node.InnerText = profile.Name;
-        }
-
-        private void OnAutosaveEnableChanged()
-        {
-            XmlNode node = GetXmlNode(autosaveNodeName);
-            node.InnerText = _autoSaveService.IsAutosaveEnable.ToString();
-        }
-
-        private void OnAutosaveIntervalChanged()
-        {
-            XmlNode node = GetXmlNode(autosaveSecondsNodeName);
-            node.InnerText = _autoSaveService.SaveTimerInterval.ToString();
-        }
-
         private void LoadXmlProfile()
         {
-            XmlNode node = GetXmlNode(profileNodeName);
-            Profile? profile = _profilesService.Profiles.FirstOrDefault(x => x.Name == node.InnerText);
+            XmlNode? node = GetXmlNode(profileNodeName);
 
-            if (profile != null)
-                _profilesService.SelectedProfile = profile;
+            if (node != null)
+            {
+                Profile? profile = _profilesService.Profiles.FirstOrDefault(x => x.Name == node.InnerText);
+
+                if (profile != null)
+                    _profilesService.SelectedProfile = profile;
+            }
         }
 
         private void LoadXmlLang()
         {
-            XmlNode node = GetXmlNode(langNodeName);
-            _languageService.SetLanguage(node.InnerText);
+            XmlNode? node = GetXmlNode(langNodeName);
+
+            if (node != null)
+                _languageService.SetLanguage(node.InnerText);
         }
 
         private void LoadXmlScale()
         {
-            XmlNode node = GetXmlNode(scaleNodeName);
-            int scaleCode = Int32.Parse(node.InnerText);
-            _scaleService.SetScale(scaleCode);
+            XmlNode? node = GetXmlNode(scaleNodeName);
+
+            if (node != null)
+            {
+                if (Enum.IsDefined(typeof(ScaleEnum), node.InnerText))
+                {
+                    ScaleEnum scale = Enum.Parse<ScaleEnum>(node.InnerText);
+                    _scaleService.SetScale(scale);
+                }
+            }
         }
 
         private void LoadXmlAutosaveEnabled()
         {
-            XmlNode node = GetXmlNode(autosaveNodeName);
-            _autoSaveService.IsAutosaveEnable = Boolean.Parse(node.InnerText);
+            XmlNode? node = GetXmlNode(autosaveNodeName);
+
+            if (node != null)
+                _autoSaveService.IsAutosaveEnable = Boolean.Parse(node.InnerText);
         }
 
         private void LoadXmlAutosaveSeconds()
         {
-            XmlNode node = GetXmlNode(autosaveSecondsNodeName);
-            _autoSaveService.SaveTimerInterval = Double.Parse(node.InnerText);
+            XmlNode? node = GetXmlNode(autosaveSecondsNodeName);
+
+            if (node != null)
+                _autoSaveService.SaveTimerInterval = Double.Parse(node.InnerText);
+        }
+
+        private void OnScaleChanged(ScaleEnum scale)
+        {
+            SetXmlNodeValue(scaleNodeName, scale.ToString());
+        }
+
+        private void OnLanguageChanged(CultureInfo culture)
+        {
+            SetXmlNodeValue(langNodeName, culture.Name);
+        }
+
+        private void OnProfileChanged(Profile profile)
+        {
+            SetXmlNodeValue(profileNodeName, profile.Name);
+        }
+
+        private void OnAutosaveEnableChanged()
+        {
+            SetXmlNodeValue(autosaveNodeName, _autoSaveService.IsAutosaveEnable.ToString());
+        }
+
+        private void OnAutosaveIntervalChanged()
+        {
+            SetXmlNodeValue(autosaveSecondsNodeName, _autoSaveService.SaveTimerInterval.ToString());
+        }
+
+        public void SaveSettings()
+        {
+            _settingsXml.Save(PathHelper.SettingsPath);
         }
 
         private bool LoadDocument()
@@ -152,16 +160,25 @@ namespace Filmc.Wpf.SettingsServices
             return false;
         }
 
-        private XmlNode GetXmlNode(string name)
+        private void SetXmlNodeValue(string name, string value)
         {
-            XmlNode mainNode = GetMainNode();
-            XmlNode? node = mainNode.SelectSingleNode(name);
+            XmlNode? node = GetXmlNode(name);
 
             if (node == null)
             {
+                XmlNode mainNode = GetMainNode();
+
                 node = _settingsXml.CreateElement(name);
-                node = mainNode.AppendChild(node);
+                mainNode.AppendChild(node);
             }
+
+            node.InnerText = value;
+        }
+
+        private XmlNode? GetXmlNode(string name)
+        {
+            XmlNode mainNode = GetMainNode();
+            XmlNode? node = mainNode.SelectSingleNode(name);
 
             return node;
         }
@@ -176,7 +193,7 @@ namespace Filmc.Wpf.SettingsServices
                 node = _settingsXml.AppendChild(node);
             }
 
-            return node;
+            return node!;
         }
     }
 }

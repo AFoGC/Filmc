@@ -48,13 +48,11 @@ namespace Filmc.Wpf.ViewModels
 
             Timers = new List<double> { 10, 15, 30, 60, 360, 600 };
             MarkSystems = new List<int> { 3, 5, 6, 10, 12, 25 };
-            Scales = new List<ScaleEnum> { ScaleEnum.Small, ScaleEnum.Medium };
         }
 
         public SettingsTablesViewModel TablesViewModel { get; }
         public List<double> Timers { get; }
         public List<int> MarkSystems { get; }
-        public List<ScaleEnum> Scales { get; }
         public IEnumerable<CultureInfo> Languages => _settingsService.LanguageService.Languages;
 
         public double SelectedTimer
@@ -89,8 +87,8 @@ namespace Filmc.Wpf.ViewModels
 
         public int SelectedScaleIndex
         {
-            get => Scales.IndexOf(_settingsService.ScaleService.CurrentScale);
-            set { _settingsService.ScaleService.SetScale(Scales[value]); OnPropertyChanged(); }
+            get => (int)_settingsService.ScaleService.CurrentScale;
+            set { _settingsService.ScaleService.SetScale(value); OnPropertyChanged(); }
         }
 
         public string NewProfileName

@@ -21,16 +21,17 @@ namespace Filmc.Wpf
         Priorities
     }
 
+    //Нельзя менять имена перечисления
+    public enum ScaleEnum
+    {
+        Small = 0,
+        Medium = 1
+    }
+
     public enum StatusEnum
     {
         Normal,
         Saved,
         UnSaved
-    }
-
-    public enum ScaleEnum
-    {
-        Small = 0,
-        Medium = 1
     }
 }

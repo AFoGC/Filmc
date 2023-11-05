@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Filmc.Wpf.Commands;
+using Filmc.Wpf.SettingsServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,14 +20,24 @@ namespace Filmc.Wpf.ViewModels
         private readonly BooksMenuViewModel _booksMenuViewModel;
         private readonly SettingsMenuViewModel _settingsMenuViewModel;
 
-        public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel, SettingsMenuViewModel settingsMenuViewModel)
+        private RelayCommand saveSettingsCommand;
+
+        public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel, 
+               SettingsMenuViewModel settingsMenuViewModel, StatusBarViewModel statusBarViewModel,
+               SettingsService settingsService)
         {
             _filmsMenuViewModel = filmsMenuViewModel;
             _booksMenuViewModel = booksMenuViewModel;
             _settingsMenuViewModel = settingsMenuViewModel;
 
+            StatusBarViewModel = statusBarViewModel;
+
             FilmsSelected = true;
+
+            saveSettingsCommand = new RelayCommand(obj => settingsService.SaveSettings());
         }
+
+        public StatusBarViewModel StatusBarViewModel { get; }
 
         public bool? FilmsSelected
         {
@@ -79,6 +91,11 @@ namespace Filmc.Wpf.ViewModels
         {
             get => _currentMenu;
             set { _currentMenu = value; OnPropertyChanged(); }
+        }
+
+        public RelayCommand SaveSettingsCommand
+        {
+            get => saveSettingsCommand;
         }
     }
 }

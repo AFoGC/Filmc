@@ -3,18 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Filmc.Wpf.Windows"
         xmlns:vm="clr-namespace:Filmc.Wpf.ViewModels"
         xmlns:views="clr-namespace:Filmc.Wpf.Views"
+        xmlns:global="clr-namespace:Filmc.Wpf"
         mc:Ignorable="d" Height="775" Width="1265"
-        Title="MainWindow" Background="{x:Null}" >
+        Title="MainWindow" Background="{x:Null}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding SaveSettingsCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
+        <StackPanel Grid.Row="0" Background="{StaticResource DefaultButtonColor}">
             <StackPanel.Resources>
                 <Style TargetType="ToggleButton" BasedOn="{StaticResource NavbarToggleButton}">
                     <Setter Property="FontSize" Value="20"/>
@@ -67,5 +74,27 @@
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
+
+        <TextBlock DataContext="{Binding StatusBarViewModel}" VerticalAlignment="Stretch" 
+                   Padding="10,0" Grid.Row="2">
+            
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Background" Value="{StaticResource DefaultButtonColor}"/>
+                    <Setter Property="Foreground" Value="WhiteSmoke"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static global:StatusEnum.Saved}">
+                            <Setter Property="Background" Value="{StaticResource ButtonGreen}"/>
+                            <Setter Property="Text" Value="{DynamicResource sb_saved}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static global:StatusEnum.UnSaved}">
+                            <Setter Property="Background" Value="{StaticResource ButtonRed}"/>
+                            <Setter Property="Text" Value="{DynamicResource sb_unsaved}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </Grid>
 </Window>

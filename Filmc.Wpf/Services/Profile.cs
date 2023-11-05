@@ -3,6 +3,8 @@ using Filmc.Xtl;
 using Filmc.Xtl.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,6 +23,8 @@ namespace Filmc.Wpf.Services
         {
             get { return _name; }
         }
+
+        public event Action? InfoChanged;
 
         public TablesContext TablesContext
         {
@@ -69,7 +73,27 @@ namespace Filmc.Wpf.Services
                 }
 
                 _isLoaded = true;
+                ConfigureInfoChangedEvent();
             }
+        }
+
+        private void ConfigureInfoChangedEvent()
+        {
+            foreach (var table in _tablesContext.Tables)
+            {
+                table.CollectionChanged += OnTableCollectionChanged;
+                table.RecordsPropertyChanged += OnTableRecordsPropertyChanged;
+            }
+        }
+
+        private void OnTableRecordsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            InfoChanged?.Invoke();
+        }
+
+        private void OnTableCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            InfoChanged?.Invoke();
         }
     }
 }

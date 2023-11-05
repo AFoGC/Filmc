@@ -57,29 +57,22 @@ namespace Filmc.Wpf.SettingsServices
 
         private void OnSelectedProfileChanged(Profile profile)
         {
+            TablesContext tablesContex;
             if (_currentProfile != null)
             {
-                TablesContext tablesContex = _currentProfile.TablesContext;
+                tablesContex = _currentProfile.TablesContext;
                 tablesContex.TablesSaved -= OnTablesSaved;
-
-                foreach (var table in tablesContex.Tables)
-                {
-                    table.CollectionChanged -= OnTableCollectionChanged;
-                    table.RecordsPropertyChanged -= OnTableRecordsPropertyChanged; ;
-                }
-                    
+                _currentProfile.InfoChanged -= OnProfileInfoChanged;
             }
 
             _currentProfile = profile;
+
+            tablesContex = _currentProfile.TablesContext;
             _currentProfile.TablesContext.TablesSaved += OnTablesSaved;
+            _currentProfile.InfoChanged += OnProfileInfoChanged;
         }
 
-        private void OnTableRecordsPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            StartSaveTimer();
-        }
-
-        private void OnTableCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private void OnProfileInfoChanged()
         {
             StartSaveTimer();
         }
