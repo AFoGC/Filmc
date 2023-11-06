@@ -73,5 +73,17 @@ namespace Filmc.Wpf.Services
         {
             return _profiles.Remove(profile);
         }
+
+        public void ImportProfile(string filePath)
+        {
+            int i = 0;
+            string profName = "import";
+            while (_profiles.Any(x => x.Name == profName + i) == false)
+            {
+                i++;
+            }
+
+            File.Copy(filePath, PathHelper.GetProfileFilePath(profName), true);
+        }
     }
 }

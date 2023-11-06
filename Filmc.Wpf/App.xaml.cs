@@ -35,6 +35,8 @@ namespace Filmc.Wpf
         {
             IServiceCollection serviceCollection = new ServiceCollection();
 
+            serviceCollection.AddSingleton<ExplorerService>();
+            serviceCollection.AddSingleton<ImportFileDialogService>();
             serviceCollection.AddSingleton<ProfilesService>();
 
             serviceCollection.AddSingleton<AutoSaveService>();

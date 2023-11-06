@@ -1,5 +1,6 @@
 ﻿using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
+using Filmc.Wpf.Helper;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.SettingsServices;
 using Filmc.Xtl.Entities;
@@ -18,6 +19,8 @@ namespace Filmc.Wpf.ViewModels
     {
         private readonly SettingsService _settingsService;
         private readonly MarkSystemService _markSystemService;
+        private readonly ExplorerService _explorerService;
+        private readonly ImportFileDialogService _importFileDialogService;
 
         private string _newProfileName = String.Empty;
 
@@ -36,12 +39,15 @@ namespace Filmc.Wpf.ViewModels
         private static readonly char[] symbols = new char[]
         { '"', '\\', '/', ':', '|', '<', '>', '*', '?' };
 
-        public SettingsMenuViewModel(SettingsService settingsService, MarkSystemService markSystemService)
+        public SettingsMenuViewModel(SettingsService settingsService, MarkSystemService markSystemService,
+                                     ExplorerService explorerService, ImportFileDialogService importFileService)
         {
             TablesViewModel = new SettingsTablesViewModel(settingsService);
 
             _settingsService = settingsService;
             _markSystemService = markSystemService;
+            _explorerService = explorerService;
+            _importFileDialogService = importFileService;
 
             OnSelectedProfileChanged(_settingsService.ProfilesService.SelectedProfile);
             _settingsService.ProfilesService.SelectedProfileChanged += OnSelectedProfileChanged;
@@ -217,7 +223,7 @@ namespace Filmc.Wpf.ViewModels
                 return openExplorerCommand ??
                 (openExplorerCommand = new RelayCommand(obj =>
                 {
-                    throw new NotImplementedException();
+                    _explorerService.OpenExplorer(PathHelper.ProfilesPath);
                 }));
             }
         }
@@ -229,7 +235,11 @@ namespace Filmc.Wpf.ViewModels
                 return importProfileCommand ??
                 (importProfileCommand = new RelayCommand(obj =>
                 {
-                    throw new NotImplementedException();
+                    if (_importFileDialogService.OpenFileDialog())
+                    {
+                        string filePath = _importFileDialogService.FileName!;
+                        _settingsService.ProfilesService.ImportProfile(filePath);
+                    }
                 }));
             }
         }
