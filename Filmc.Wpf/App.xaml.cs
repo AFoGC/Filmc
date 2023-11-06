@@ -38,6 +38,8 @@ namespace Filmc.Wpf
             serviceCollection.AddSingleton<ExplorerService>();
             serviceCollection.AddSingleton<ImportFileDialogService>();
             serviceCollection.AddSingleton<ProfilesService>();
+            serviceCollection.AddSingleton<ExitWindowService>();
+            serviceCollection.AddSingleton<ChangeProfileWindowService>();
 
             serviceCollection.AddSingleton<AutoSaveService>();
             serviceCollection.AddSingleton<LanguageService>();

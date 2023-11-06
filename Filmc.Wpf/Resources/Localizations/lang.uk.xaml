@@ -162,4 +162,9 @@
     <v:String x:Key="exit_label">Ви впевнені, що хочете вийти?</v:String>
     <v:String x:Key="exit_btn">Вийти без збереження</v:String>
     <v:String x:Key="exit_and_save_btn">Зберегти та вийти</v:String>
+
+    <!--Change Profile Window-->
+    <v:String x:Key="change_profile_label">Ви впевнені, що хочете змінити профіль?</v:String>
+    <v:String x:Key="change_profile_btn">Змінити профіль без збереження</v:String>
+    <v:String x:Key="change_profile_and_save_btn">Зберегти та змінити профіль</v:String>
 </ResourceDictionary>

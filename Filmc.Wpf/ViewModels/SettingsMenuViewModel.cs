@@ -21,6 +21,7 @@ namespace Filmc.Wpf.ViewModels
         private readonly MarkSystemService _markSystemService;
         private readonly ExplorerService _explorerService;
         private readonly ImportFileDialogService _importFileDialogService;
+        private readonly ChangeProfileWindowService _changeProfileWindowService;
 
         private string _newProfileName = String.Empty;
 
@@ -40,7 +41,8 @@ namespace Filmc.Wpf.ViewModels
         { '"', '\\', '/', ':', '|', '<', '>', '*', '?' };
 
         public SettingsMenuViewModel(SettingsService settingsService, MarkSystemService markSystemService,
-                                     ExplorerService explorerService, ImportFileDialogService importFileService)
+                                     ExplorerService explorerService, ImportFileDialogService importFileService, 
+                                     ChangeProfileWindowService changeProfileWindowService)
         {
             TablesViewModel = new SettingsTablesViewModel(settingsService);
 
@@ -48,12 +50,14 @@ namespace Filmc.Wpf.ViewModels
             _markSystemService = markSystemService;
             _explorerService = explorerService;
             _importFileDialogService = importFileService;
+            _changeProfileWindowService = changeProfileWindowService;
 
             OnSelectedProfileChanged(_settingsService.ProfilesService.SelectedProfile);
             _settingsService.ProfilesService.SelectedProfileChanged += OnSelectedProfileChanged;
 
             Timers = new List<double> { 10, 15, 30, 60, 360, 600 };
             MarkSystems = new List<int> { 3, 5, 6, 10, 12, 25 };
+            _changeProfileWindowService = changeProfileWindowService;
         }
 
         public SettingsTablesViewModel TablesViewModel { get; }
@@ -181,9 +185,19 @@ namespace Filmc.Wpf.ViewModels
                 (changeProfileCommand = new RelayCommand(obj =>
                 {
                     ProfileViewModel? profileViewModel = obj as ProfileViewModel;
-
                     if (profileViewModel != null)
-                        _settingsService.ProfilesService.SelectedProfile = profileViewModel.Profile;
+                    {
+                        if (_settingsService.ProfilesService.SelectedProfile.IsChangesSaved == false)
+                        {
+                            _changeProfileWindowService.ShowDialog();
+
+                            if (_changeProfileWindowService.Save)
+                                _settingsService.ProfilesService.SelectedProfile.SaveTables();
+
+                            if (_changeProfileWindowService.ChangeProfile)
+                                _settingsService.ProfilesService.SelectedProfile = profileViewModel.Profile;
+                        }
+                    }
                 }));
             }
         }

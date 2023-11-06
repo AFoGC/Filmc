@@ -10,11 +10,11 @@
              mc:Ignorable="d" 
              
              d:DesignHeight="705" d:DesignWidth="1265">
-    <Grid>
+    <Grid Background="{StaticResource MainBackground}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="35"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="818"/>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>

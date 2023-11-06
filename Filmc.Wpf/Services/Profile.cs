@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xtl;
 
 namespace Filmc.Wpf.Services
 {
@@ -17,12 +18,17 @@ namespace Filmc.Wpf.Services
         private readonly TablesContext _tablesContext;
 
         private bool _isLoaded;
+        private bool _isChangesSaved;
+
         private string _name;
 
         public string Name
         {
             get { return _name; }
         }
+
+        public bool IsLoaded => _isLoaded;
+        public bool IsChangesSaved => _isChangesSaved;
 
         public event Action? InfoChanged;
 
@@ -40,6 +46,7 @@ namespace Filmc.Wpf.Services
         {
             _name = name;
             _tablesContext = new TablesContext();
+            _tablesContext.TablesSaved += OnTablesContextSaved;
         }
 
         public void SaveTables()
@@ -73,6 +80,7 @@ namespace Filmc.Wpf.Services
                 }
 
                 _isLoaded = true;
+                _isChangesSaved = true;
                 ConfigureInfoChangedEvent();
             }
         }
@@ -88,12 +96,23 @@ namespace Filmc.Wpf.Services
 
         private void OnTableRecordsPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            InfoChanged?.Invoke();
+            OnInfoChanged();
         }
 
         private void OnTableCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
+            OnInfoChanged();
+        }
+
+        private void OnInfoChanged()
+        {
+            _isChangesSaved = false;
             InfoChanged?.Invoke();
+        }
+
+        private void OnTablesContextSaved(TablesCollection sender)
+        {
+            _isChangesSaved = true;
         }
     }
 }

@@ -162,4 +162,9 @@
     <v:String x:Key="exit_btn">Exit without save</v:String>
     <v:String x:Key="exit_and_save_btn">Save and Exit</v:String>
 
+    <!--Change Profile Window-->
+    <v:String x:Key="change_profile_label">Are you sure want to change profile?</v:String>
+    <v:String x:Key="change_profile_btn">Change profile without save</v:String>
+    <v:String x:Key="change_profile_and_save_btn">Save and change profile</v:String>
+
 </ResourceDictionary>
