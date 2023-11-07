@@ -22,12 +22,13 @@ namespace Filmc.Wpf.ViewModels
         public StatusBarViewModel(ProfilesService profilesService)
         {
             _profilesService = profilesService;
-            OnSelectedProfileChanged(_profilesService.SelectedProfile);
-            _profilesService.SelectedProfileChanged += OnSelectedProfileChanged;
 
             _backToNormalTimer = new Timer();
             _backToNormalTimer.Interval = 2000;
             _backToNormalTimer.Elapsed += OnBackToNormalTimerTick;
+
+            _profilesService.SelectedProfileChanged += OnSelectedProfileChanged;
+            OnSelectedProfileChanged(_profilesService.SelectedProfile);
 
             _title = string.Empty;
             _status = StatusEnum.Normal;
@@ -62,6 +63,9 @@ namespace Filmc.Wpf.ViewModels
 
             _selectedProfile.InfoChanged += OnProfileInfoChanged;
             _selectedProfile.TablesContext.TablesSaved += OnTablesSaved;
+
+            _backToNormalTimer.Stop();
+            Status = StatusEnum.Normal;
         }
 
         private void OnTablesSaved(TablesCollection sender)

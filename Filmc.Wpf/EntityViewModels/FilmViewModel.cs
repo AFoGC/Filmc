@@ -184,11 +184,6 @@ namespace Filmc.Wpf.EntityViewModels
             }
         }
 
-        public override bool Search(string search)
-        {
-            throw new NotImplementedException();
-        }
-
         private void OnSourcesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(SourcesText));

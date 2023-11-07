@@ -31,7 +31,7 @@ namespace Filmc.Wpf.Models
 
         public void AddCategory()
         {
-            TablesContext.FilmCategories.Add();
+            TablesContext.BookCategories.Add();
         }
 
         public void RemoveCategory(BookCategory category)
@@ -41,9 +41,9 @@ namespace Filmc.Wpf.Models
 
         public void AddBook()
         {
-            Film film = new Film();
-            film.GenreId = TablesContext.FilmGenres.First().Id;
-            TablesContext.Films.Add(film);
+            Book book = new Book();
+            book.GenreId = TablesContext.BookGenres.First().Id;
+            TablesContext.Books.Add(book);
         }
 
         public void AddBook(int categoryId)

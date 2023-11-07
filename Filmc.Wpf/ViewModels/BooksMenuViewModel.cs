@@ -1,5 +1,6 @@
 ﻿using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
+using Filmc.Wpf.Helper;
 using Filmc.Wpf.Models;
 using Filmc.Xtl.Entities;
 using System;
@@ -48,7 +49,15 @@ namespace Filmc.Wpf.ViewModels
         public string SearchText
         {
             get => _searchText;
-            set { _searchText = value; OnPropertyChanged(); }
+            set
+            { 
+                _searchText = value;
+
+                SearchInBooks(value);
+                SearchInCategories(value);
+
+                OnPropertyChanged(); 
+            }
         }
 
         public bool IsReadedChecked
@@ -308,6 +317,30 @@ namespace Filmc.Wpf.ViewModels
                     }
                 }));
             }
+        }
+
+        private void SearchInBooks(string search)
+        {
+            foreach (var viewModel in TablesViewModel.BooksVMs)
+                viewModel.IsFinded = false;
+
+            var filtredVMs = TablesViewModel.BooksVMs
+                .Where(x => x.Name.SearchBy(search));
+
+            foreach (var viewModel in filtredVMs)
+                viewModel.IsFinded = true;
+        }
+
+        private void SearchInCategories(string search)
+        {
+            foreach (var viewModel in TablesViewModel.CategoryVMs)
+                viewModel.IsFinded = false;
+
+            var filtredVMs = TablesViewModel.CategoryVMs
+                .Where(x => x.Model.Name.SearchBy(search) || x.Model.Books.Any(y => y.Name.SearchBy(search)));
+
+            foreach (var viewModel in filtredVMs)
+                viewModel.IsFinded = true;
         }
 
         private bool IsBookPassingFilter(IEnumerable<BookGenreViewModel> genres, Book book)

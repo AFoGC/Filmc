@@ -104,7 +104,15 @@ namespace Filmc.Wpf.ViewModels
         public string NewProfileName
         {
             get => _newProfileName;
-            set { _newProfileName = value; OnPropertyChanged(); }
+            set
+            { 
+                if (symbols.All(x => value.Contains(x) == false))
+                {
+                    _newProfileName = value;
+                }
+
+                OnPropertyChanged();
+            }
         }
 
         private void OnSelectedProfileChanged(Profile profile)
@@ -197,6 +205,10 @@ namespace Filmc.Wpf.ViewModels
                             if (_changeProfileWindowService.ChangeProfile)
                                 _settingsService.ProfilesService.SelectedProfile = profileViewModel.Profile;
                         }
+                        else
+                        {
+                            _settingsService.ProfilesService.SelectedProfile = profileViewModel.Profile;
+                        }
                     }
                 }));
             }
@@ -209,8 +221,11 @@ namespace Filmc.Wpf.ViewModels
                 return addProfileCommand ??
                 (addProfileCommand = new RelayCommand(obj =>
                 {
-                    _settingsService.ProfilesService.CreateProfile(NewProfileName);
-                    NewProfileName = String.Empty;
+                    if (NewProfileName != String.Empty)
+                    {
+                        _settingsService.ProfilesService.CreateProfile(NewProfileName);
+                        NewProfileName = String.Empty;
+                    }
                 }));
             }
         }

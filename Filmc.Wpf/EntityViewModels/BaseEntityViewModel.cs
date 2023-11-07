@@ -29,8 +29,5 @@ namespace Filmc.Wpf.EntityViewModels
             get => _isFinded;
             set { _isFinded = value; OnPropertyChanged(); }
         }
-
-        public abstract bool Search(string search);
-        //public abstract bool PassFilter();
     }
 }

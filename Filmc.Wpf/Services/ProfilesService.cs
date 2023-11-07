@@ -71,7 +71,20 @@ namespace Filmc.Wpf.Services
 
         public bool RemoveProfile(Profile profile)
         {
-            return _profiles.Remove(profile);
+            bool result = _profiles.Remove(profile);
+
+            if (result)
+            {
+                string root = PathHelper.GetProfileDirectoryPath(profile.Name);
+
+                if (Directory.Exists(root))
+                    Directory.Delete(root, true);
+
+                ProfileRemoved?.Invoke(profile);
+            }
+                
+
+            return result;
         }
 
         public void ImportProfile(string filePath)

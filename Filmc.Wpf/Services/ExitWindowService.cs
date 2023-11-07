@@ -14,10 +14,12 @@ namespace Filmc.Wpf.Services
         {
             ExitWindow window = new ExitWindow();
 
+            bool? result = window.ShowDialog();
+
             Save = window.Save;
             Close = window.CloseProg;
 
-            return window.ShowDialog();
+            return result;
         }
         public bool Save { get; private set; }
         public bool Close { get; private set; }

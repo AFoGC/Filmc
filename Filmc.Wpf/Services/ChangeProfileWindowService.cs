@@ -18,10 +18,12 @@ namespace Filmc.Wpf.Services
         {
             ChangeProfleWindow window = new ChangeProfleWindow();
 
+            bool? result = window.ShowDialog();
+
             Save = window.Save;
             ChangeProfile = window.ChangeProfile;
 
-            return window.ShowDialog();
+            return result;
         }
 
         public bool Save { get; private set; }

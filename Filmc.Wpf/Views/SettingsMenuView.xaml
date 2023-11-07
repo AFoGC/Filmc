@@ -127,7 +127,7 @@
                         <Button Content="{DynamicResource st_add_prof}" Style="{StaticResource GrayButton}" 
                                 Width="200" Command="{Binding AddProfileCommand}"/>
                         <Rectangle Width="5"/>
-                        <TextBox Text="{Binding NewProfileName}" Style="{StaticResource Wtextbox}" Width="150" />
+                        <TextBox Text="{Binding NewProfileName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource Wtextbox}" Width="150" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="20">
                         <Button Content="{DynamicResource st_prof_dir}" Style="{StaticResource GrayButton}" 

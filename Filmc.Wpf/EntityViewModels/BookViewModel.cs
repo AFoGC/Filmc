@@ -188,10 +188,5 @@ namespace Filmc.Wpf.EntityViewModels
             }
 
         }
-
-        public override bool Search(string search)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

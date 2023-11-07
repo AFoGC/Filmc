@@ -1,5 +1,6 @@
 ﻿using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
+using Filmc.Wpf.Helper;
 using Filmc.Wpf.Models;
 using Filmc.Wpf.ViewCollections;
 using Filmc.Xtl;
@@ -55,7 +56,15 @@ namespace Filmc.Wpf.ViewModels
         public string SearchText
         {
             get => _searchText;
-            set { _searchText = value;  OnPropertyChanged(); }
+            set
+            { 
+                _searchText = value;
+
+                SearchInFilms(value);
+                SearchInCategories(value);
+
+                OnPropertyChanged(); 
+            }
         }
 
         public bool IsWatchedChecked
@@ -315,6 +324,30 @@ namespace Filmc.Wpf.ViewModels
                     }
                 }));
             }
+        }
+
+        private void SearchInFilms(string search)
+        {
+            foreach (var viewModel in TablesViewModel.FilmVMs)
+                viewModel.IsFinded = false;
+
+            var filtredVMs = TablesViewModel.FilmVMs
+                .Where(x => x.Name.SearchBy(search));
+
+            foreach (var viewModel in filtredVMs)
+                viewModel.IsFinded = true;
+        }
+
+        private void SearchInCategories(string search)
+        {
+            foreach (var viewModel in TablesViewModel.CategoryVMs)
+                viewModel.IsFinded = false;
+
+            var filtredVMs = TablesViewModel.CategoryVMs
+                .Where(x => x.Model.Name.SearchBy(search) || x.Model.Films.Any(y => y.Name.SearchBy(search)));
+
+            foreach (var viewModel in filtredVMs)
+                viewModel.IsFinded = true;
         }
 
         private bool IsFilmPassingFilter(IEnumerable<FilmGenreViewModel> genres, Film film)

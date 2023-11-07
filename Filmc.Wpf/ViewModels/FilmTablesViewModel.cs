@@ -69,6 +69,10 @@ namespace Filmc.Wpf.ViewModels
 
             _tablesContext = _model.TablesContext;
 
+            FilmVMs.Clear();
+            CategoryVMs.Clear();
+            GenreVMs.Clear();
+
             foreach (var item in _tablesContext.Films)
                 FilmVMs.Add(new FilmViewModel(item));
 

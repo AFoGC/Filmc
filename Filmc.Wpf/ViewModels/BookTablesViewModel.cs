@@ -67,6 +67,10 @@ namespace Filmc.Wpf.ViewModels
 
             _tablesContext = _model.TablesContext;
 
+            BooksVMs.Clear();
+            CategoryVMs.Clear();
+            GenreVMs.Clear();
+
             foreach (var item in _tablesContext.Books)
                 BooksVMs.Add(new BookViewModel(item));
 

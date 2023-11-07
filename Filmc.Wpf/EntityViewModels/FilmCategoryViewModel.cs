@@ -171,11 +171,6 @@ namespace Filmc.Wpf.EntityViewModels
             }
         }
 
-        public override bool Search(string search)
-        {
-            throw new NotImplementedException();
-        }
-
         private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
