@@ -1,4 +1,5 @@
 ﻿using Filmc.Wpf.Commands;
+using Filmc.Wpf.Helper;
 using Filmc.Xtl.Entities;
 using Filmc.Xtl.EntityProperties;
 using System;
@@ -155,7 +156,7 @@ namespace Filmc.Wpf.EntityViewModels
                 return copyUrlCommand ??
                 (copyUrlCommand = new RelayCommand(obj =>
                 {
-                    
+                    ClipboardHelper.CopySourceUrlToClipboard(Model.Sources);
                 }));
             }
         }
