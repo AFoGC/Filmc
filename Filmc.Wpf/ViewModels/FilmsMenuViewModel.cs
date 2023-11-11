@@ -2,6 +2,7 @@
 using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Helper;
 using Filmc.Wpf.Models;
+using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewCollections;
 using Filmc.Xtl;
 using Filmc.Xtl.Entities;
@@ -41,10 +42,10 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? deleteFilmCommand;
         private RelayCommand? removeFilmFromPriorityCommand;
 
-        public FilmsMenuViewModel(FilmsModel model)
+        public FilmsMenuViewModel(FilmsModel model, UpdateMenuService updateMenuService)
         {
             _model = model;
-            TablesViewModel = new FilmTablesViewModel(model);
+            TablesViewModel = new FilmTablesViewModel(model, updateMenuService);
 
             _searchText = String.Empty;
             _isWatchedChecked = true;

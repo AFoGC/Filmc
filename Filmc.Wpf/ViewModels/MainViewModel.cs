@@ -22,6 +22,7 @@ namespace Filmc.Wpf.ViewModels
         private readonly FilmsMenuViewModel _filmsMenuViewModel;
         private readonly BooksMenuViewModel _booksMenuViewModel;
         private readonly SettingsMenuViewModel _settingsMenuViewModel;
+        private readonly UpdateMenuViewModel _updateMenuViewModel;
 
         private readonly ExitWindowService _exitService;
         private readonly SettingsService _settingsService;
@@ -30,13 +31,15 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? saveAndExitCommand;
         private RelayCommand? keyDownCommand;
 
-        public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel, 
-               SettingsMenuViewModel settingsMenuViewModel, StatusBarViewModel statusBarViewModel,
-               SettingsService settingsService, ExitWindowService exitService)
+        public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel,
+               SettingsMenuViewModel settingsMenuViewModel, UpdateMenuViewModel updateMenuViewModel,
+               StatusBarViewModel statusBarViewModel, SettingsService settingsService, 
+               ExitWindowService exitService)
         {
             _filmsMenuViewModel = filmsMenuViewModel;
             _booksMenuViewModel = booksMenuViewModel;
             _settingsMenuViewModel = settingsMenuViewModel;
+            _updateMenuViewModel = updateMenuViewModel;
 
             _exitService = exitService;
             _settingsService = settingsService;
@@ -100,6 +103,11 @@ namespace Filmc.Wpf.ViewModels
         {
             get => _currentMenu;
             set { _currentMenu = value; OnPropertyChanged(); }
+        }
+
+        public UpdateMenuViewModel UpdateMenuViewModel
+        {
+            get => _updateMenuViewModel;
         }
 
         public RelayCommand SaveSettingsCommand

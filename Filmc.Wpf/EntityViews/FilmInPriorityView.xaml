@@ -24,7 +24,8 @@
                 </i:Interaction.Triggers>
 
                 <MenuItem Header="{DynamicResource edit_btn}" ToolTip="{DynamicResource open_edit_tt}"
-                          />
+                          Command="{Binding Path=Data.OpenUpdateMenuCommand, Source={StaticResource proxy}, Mode=Default}"
+                          CommandParameter="{Binding Path=Data, Source={StaticResource proxy}, Mode=Default}"/>
 
                 <MenuItem Header="{Binding Path=Data.SourcesText, Source={StaticResource proxy}}" ToolTip="{DynamicResource copy_url_tt}" 
                           Command="{Binding Path=Data.CopyUrlCommand, Source={StaticResource proxy}}"/>

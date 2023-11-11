@@ -1,4 +1,5 @@
 ﻿using Filmc.Wpf.Commands;
+using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewCollections;
 using Filmc.Xtl.Entities;
 using System;
@@ -15,6 +16,8 @@ namespace Filmc.Wpf.EntityViewModels
     {
         public FilmCategory Model { get; }
 
+        private readonly UpdateMenuService _updateMenuService;
+
         private bool _isCollectionVisible;
         private bool _isSelected;
 
@@ -24,8 +27,10 @@ namespace Filmc.Wpf.EntityViewModels
         private RelayCommand? upInCategoryCommand;
         private RelayCommand? downInCategoryCommand;
         private RelayCommand? removeFromCategoryCommand;
+        private RelayCommand? openUpdateMenuCommand;
 
-        public FilmCategoryViewModel(FilmCategory model, ObservableCollection<FilmViewModel> filmsViewModel)
+        public FilmCategoryViewModel(FilmCategory model, ObservableCollection<FilmViewModel> filmsViewModel, 
+                                     UpdateMenuService updateMenuService)
         {
             Model = model;
             Model.PropertyChanged += OnModelPropertyChanged;
@@ -33,6 +38,8 @@ namespace Filmc.Wpf.EntityViewModels
 
             _isCollectionVisible = true;
             FilmsVC = new FilmsInCategoryViewCollection(model, filmsViewModel);
+
+            _updateMenuService = updateMenuService;
         }
 
         public FilmsInCategoryViewCollection FilmsVC { get; }
@@ -167,6 +174,18 @@ namespace Filmc.Wpf.EntityViewModels
                     {
                         Model.RemoveFilmInOrder(filmViewModel.Model);
                     }
+                }));
+            }
+        }
+
+        public RelayCommand OpenUpdateMenuCommand
+        {
+            get
+            {
+                return openUpdateMenuCommand ??
+                (openUpdateMenuCommand = new RelayCommand(obj =>
+                {
+                    _updateMenuService.OpenUpdateMenu(this);
                 }));
             }
         }

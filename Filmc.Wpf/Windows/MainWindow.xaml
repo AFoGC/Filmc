@@ -82,6 +82,9 @@
             </ContentControl.Resources>
         </ContentControl>
 
+        <views:UpdateMenuView DataContext="{Binding UpdateMenuViewModel}" Visibility="{Binding MenuVisibility}" 
+                              Grid.RowSpan="2" />
+
         <TextBlock DataContext="{Binding StatusBarViewModel}" VerticalAlignment="Stretch" 
                    Padding="10,0" Grid.Row="2">
             

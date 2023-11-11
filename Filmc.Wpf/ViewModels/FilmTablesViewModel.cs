@@ -1,6 +1,7 @@
 ﻿using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Models;
+using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewCollections;
 using Filmc.Xtl;
 using Filmc.Xtl.Entities;
@@ -18,12 +19,14 @@ namespace Filmc.Wpf.ViewModels
     {
         private readonly FilmsModel _model;
 
+        private readonly UpdateMenuService _updateMenuService;
+
         private TablesContext? _tablesContext;
         private FilmsMenuMode _menuMode;
 
         private RelayCommand? sortTable;
 
-        public FilmTablesViewModel(FilmsModel model)
+        public FilmTablesViewModel(FilmsModel model, UpdateMenuService updateMenuService)
         {
             _menuMode = FilmsMenuMode.Categories;
 
@@ -32,6 +35,7 @@ namespace Filmc.Wpf.ViewModels
             GenreVMs = new ObservableCollection<FilmGenreViewModel>();
 
             _model = model;
+            _updateMenuService = updateMenuService;
             _model.TablesContextChanged += OnTablesContextChanged;
             OnTablesContextChanged();
 
@@ -74,10 +78,10 @@ namespace Filmc.Wpf.ViewModels
             GenreVMs.Clear();
 
             foreach (var item in _tablesContext.Films)
-                FilmVMs.Add(new FilmViewModel(item));
+                FilmVMs.Add(new FilmViewModel(item, _updateMenuService));
 
             foreach (var item in _tablesContext.FilmCategories)
-                CategoryVMs.Add(new FilmCategoryViewModel(item, FilmVMs));
+                CategoryVMs.Add(new FilmCategoryViewModel(item, FilmVMs, _updateMenuService));
 
             foreach (var item in _tablesContext.FilmGenres)
                 GenreVMs.Add(new FilmGenreViewModel(item));
@@ -123,7 +127,7 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 Film film = (Film)e.NewItems[0]!;
-                FilmVMs.Insert(e.NewStartingIndex, new FilmViewModel(film));
+                FilmVMs.Insert(e.NewStartingIndex, new FilmViewModel(film, _updateMenuService));
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove)
@@ -143,7 +147,7 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 FilmCategory entity = (FilmCategory)e.NewItems[0]!;
-                CategoryVMs.Insert(e.NewStartingIndex, new FilmCategoryViewModel(entity, FilmVMs));
+                CategoryVMs.Insert(e.NewStartingIndex, new FilmCategoryViewModel(entity, FilmVMs, _updateMenuService));
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove)

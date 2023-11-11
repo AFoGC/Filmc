@@ -43,7 +43,11 @@
                         <i:InvokeCommandAction Command="{Binding Path=Data.ClosedContextMenuCommand, Source={StaticResource proxy}}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                
+
+                <MenuItem Header="{DynamicResource edit_btn}" ToolTip="{DynamicResource open_edit_tt}"
+                          Command="{Binding Path=Data.OpenUpdateMenuCommand, Source={StaticResource proxy}, Mode=Default}"
+                          CommandParameter="{Binding Path=Data, Source={StaticResource proxy}, Mode=Default}"/>
+
                 <MenuItem Header="{DynamicResource add_selected_btn}"
                           Command="{Binding Path=Data.AddSelectedToCategory, Source={StaticResource menuProxy}, Mode=Default}"
                           CommandParameter="{Binding Path=Data, Source={StaticResource proxy}, Mode=Default}"/>

@@ -46,6 +46,7 @@ namespace Filmc.Wpf
             serviceCollection.AddSingleton<MarkSystemService>();
             serviceCollection.AddSingleton<ScaleService>();
             serviceCollection.AddSingleton<SettingsService>();
+            serviceCollection.AddSingleton<UpdateMenuService>();
 
             serviceCollection.AddSingleton<FilmsModel>();
             serviceCollection.AddSingleton<BooksModel>();
@@ -53,6 +54,7 @@ namespace Filmc.Wpf
             serviceCollection.AddSingleton<FilmsMenuViewModel>();
             serviceCollection.AddSingleton<BooksMenuViewModel>();
             serviceCollection.AddSingleton<SettingsMenuViewModel>();
+            serviceCollection.AddSingleton<UpdateMenuViewModel>();
 
             serviceCollection.AddSingleton<StatusBarViewModel>();
             serviceCollection.AddSingleton<MainViewModel>();

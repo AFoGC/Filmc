@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Filmc.Wpf.Services;
 
 namespace Filmc.Wpf.ViewModels
 {
@@ -18,12 +19,14 @@ namespace Filmc.Wpf.ViewModels
     {
         private readonly BooksModel _model;
 
+        private readonly UpdateMenuService _updateMenuService;
+
         private TablesContext? _tablesContext;
         private BooksMenuMode _menuMode;
 
         private RelayCommand? sortTable;
 
-        public BookTablesViewModel(BooksModel model)
+        public BookTablesViewModel(BooksModel model, UpdateMenuService updateMenuService)
         {
             _menuMode = BooksMenuMode.Categories;
 
@@ -32,6 +35,7 @@ namespace Filmc.Wpf.ViewModels
             GenreVMs = new ObservableCollection<BookGenreViewModel>();
 
             _model = model;
+            _updateMenuService = updateMenuService;
             _model.TablesContextChanged += OnTablesContextChanged;
             OnTablesContextChanged();
 
@@ -72,10 +76,10 @@ namespace Filmc.Wpf.ViewModels
             GenreVMs.Clear();
 
             foreach (var item in _tablesContext.Books)
-                BooksVMs.Add(new BookViewModel(item));
+                BooksVMs.Add(new BookViewModel(item, _updateMenuService));
 
             foreach (var item in _tablesContext.BookCategories)
-                CategoryVMs.Add(new BookCategoryViewModel(item, BooksVMs));
+                CategoryVMs.Add(new BookCategoryViewModel(item, BooksVMs, _updateMenuService));
 
             foreach (var item in _tablesContext.BookGenres)
                 GenreVMs.Add(new BookGenreViewModel(item));
@@ -117,7 +121,7 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 Book book = (Book)e.NewItems[0]!;
-                BooksVMs.Insert(e.NewStartingIndex, new BookViewModel(book));
+                BooksVMs.Insert(e.NewStartingIndex, new BookViewModel(book, _updateMenuService));
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove)
@@ -137,7 +141,7 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 BookCategory entity = (BookCategory)e.NewItems[0]!;
-                CategoryVMs.Insert(e.NewStartingIndex, new BookCategoryViewModel(entity, BooksVMs));
+                CategoryVMs.Insert(e.NewStartingIndex, new BookCategoryViewModel(entity, BooksVMs, _updateMenuService));
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove)

@@ -1,5 +1,6 @@
 ﻿using Filmc.Wpf.Commands;
 using Filmc.Wpf.Helper;
+using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewModels;
 using Filmc.Xtl.Entities;
 using Filmc.Xtl.EntityProperties;
@@ -20,18 +21,23 @@ namespace Filmc.Wpf.EntityViewModels
     {
         public Film Model { get; }
 
+        private readonly UpdateMenuService _updateMenuService;
+
         private bool _isCommentVisible;
         private bool _isSelected;
 
         private RelayCommand? copyUrlCommand;
         private RelayCommand? openCommentCommand;
+        private RelayCommand? openUpdateMenuCommand;
 
-        public FilmViewModel(Film model)
+        public FilmViewModel(Film model, UpdateMenuService updateMenuService)
         {
             Model = model;
             Model.PropertyChanged += OnModelPropertyChanged;
             Model.Mark.PropertyChanged += OnModelPropertyChanged;
             Model.Sources.CollectionChanged += OnSourcesCollectionChanged;
+
+            _updateMenuService = updateMenuService;
 
             _isCommentVisible = false;
             _isSelected = false;
@@ -185,6 +191,18 @@ namespace Filmc.Wpf.EntityViewModels
             }
         }
 
+        public RelayCommand OpenUpdateMenuCommand
+        {
+            get
+            {
+                return openUpdateMenuCommand ??
+                (openUpdateMenuCommand = new RelayCommand(obj =>
+                {
+                    _updateMenuService.OpenUpdateMenu(this);
+                }));
+            }
+        }
+
         private void OnSourcesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(SourcesText));
@@ -199,7 +217,6 @@ namespace Filmc.Wpf.EntityViewModels
                 OnPropertyChanged(nameof(HasPriority));
                 OnPropertyChanged(nameof(AddToPriorityTime));
             }
-                
         }
     }
 }

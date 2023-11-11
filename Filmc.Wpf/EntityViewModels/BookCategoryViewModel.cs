@@ -1,4 +1,5 @@
 ﻿using Filmc.Wpf.Commands;
+using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewCollections;
 using Filmc.Xtl.Entities;
 using System;
@@ -11,6 +12,8 @@ namespace Filmc.Wpf.EntityViewModels
     {
         public BookCategory Model { get; }
 
+        private readonly UpdateMenuService _updateMenuService;
+
         private bool _isCollectionVisible;
         private bool _isSelected;
 
@@ -20,12 +23,15 @@ namespace Filmc.Wpf.EntityViewModels
         private RelayCommand? upInCategoryCommand;
         private RelayCommand? downInCategoryCommand;
         private RelayCommand? removeFromCategoryCommand;
+        private RelayCommand? openUpdateMenuCommand;
 
-        public BookCategoryViewModel(BookCategory model, ObservableCollection<BookViewModel> bookViewModels)
+        public BookCategoryViewModel(BookCategory model, ObservableCollection<BookViewModel> bookViewModels, UpdateMenuService updateMenuService)
         {
             Model = model;
             Model.PropertyChanged += OnModelPropertyChanged;
             Model.Mark.PropertyChanged += OnModelPropertyChanged;
+
+            _updateMenuService = updateMenuService;
 
             _isCollectionVisible = true;
             BooksVC = new BooksInCategoryViewCollection(model, bookViewModels);
@@ -163,6 +169,18 @@ namespace Filmc.Wpf.EntityViewModels
                     {
                         Model.RemoveBookInOrder(bookViewModel.Model);
                     }
+                }));
+            }
+        }
+
+        public RelayCommand OpenUpdateMenuCommand
+        {
+            get
+            {
+                return openUpdateMenuCommand ??
+                (openUpdateMenuCommand = new RelayCommand(obj =>
+                {
+                    _updateMenuService.OpenUpdateMenu(this);
                 }));
             }
         }
