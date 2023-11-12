@@ -154,10 +154,14 @@
     <v:String x:Key="readed_utt">Прочтено (Булевое значение)</v:String>
     <v:String x:Key="cor_utt">Количество прочтений (Целое число)</v:String>
 
+    <!--Update Menu ToolTips-->
     <v:String x:Key="go_back_btn">Вернуться назад</v:String>
+    <v:String x:Key="remove_mark_btn">Убрать оценку</v:String>
+    <v:String x:Key="add_source_btn">Добавить источник</v:String>
+    <v:String x:Key="remove_source_btn">Удалить иточник</v:String>
+    <v:String x:Key="set_first_source_btn">Сделать первым источником</v:String>
 
     <!--InfoPanels-->
-    <v:String x:Key="add_source_btn">Добавить</v:String>
     <v:String x:Key="apply_update_btn">Применить</v:String>
 
     <!--Exit Window-->

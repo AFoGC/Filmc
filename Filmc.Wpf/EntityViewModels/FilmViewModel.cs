@@ -17,7 +17,7 @@ using System.Xml.Linq;
 
 namespace Filmc.Wpf.EntityViewModels
 {
-    public class FilmViewModel : BaseEntityViewModel
+    public class FilmViewModel : BaseEntityViewModel, IHasSourcesViewModel
     {
         public Film Model { get; }
 
@@ -29,6 +29,7 @@ namespace Filmc.Wpf.EntityViewModels
         private RelayCommand? copyUrlCommand;
         private RelayCommand? openCommentCommand;
         private RelayCommand? openUpdateMenuCommand;
+        private RelayCommand? removeMarkCommand;
 
         public FilmViewModel(Film model, UpdateMenuService updateMenuService)
         {
@@ -199,6 +200,18 @@ namespace Filmc.Wpf.EntityViewModels
                 (openUpdateMenuCommand = new RelayCommand(obj =>
                 {
                     _updateMenuService.OpenUpdateMenu(this);
+                }));
+            }
+        }
+
+        public RelayCommand RemoveMarkCommand
+        {
+            get
+            {
+                return removeMarkCommand ??
+                (removeMarkCommand = new RelayCommand(obj =>
+                {
+                    Model.Mark.RawMark = null;
                 }));
             }
         }

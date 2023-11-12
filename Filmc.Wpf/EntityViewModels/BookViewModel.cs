@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Filmc.Wpf.EntityViewModels
 {
-    public class BookViewModel : BaseEntityViewModel
+    public class BookViewModel : BaseEntityViewModel, IHasSourcesViewModel
     {
         public Book Model { get; }
 

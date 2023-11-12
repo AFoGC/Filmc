@@ -9,11 +9,11 @@
              d:DesignHeight="679" d:DesignWidth="1265">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition  Width="2*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         
-        <StackPanel>
+        <StackPanel Margin="20,10,20,0">
             <StackPanel.Resources>
                 <Style TargetType="TextBox" BasedOn="{StaticResource Wtextbox}">
                     <Setter Property="Margin" Value="0,0,0,10"/>
@@ -23,15 +23,128 @@
                     <Setter Property="Margin" Value="0,0,0,10"/>
                     <Setter Property="Height" Value="20"/>
                 </Style>
+                <Style TargetType="Button" BasedOn="{StaticResource GrayButton}">
+                    <Setter Property="Margin" Value="0,0,0,10"/>
+                    <Setter Property="Height" Value="20"/>
+                </Style>
+                <Style TargetType="CheckBox">
+                    <Setter Property="Margin" Value="0,0,0,10"/>
+                    <Setter Property="Height" Value="20"/>
+                </Style>
             </StackPanel.Resources>
             <TextBox Text="{Binding Id}" IsReadOnly="True" Width="50" HorizontalAlignment="Left" />
             <TextBox Text="{Binding Name}" />
 
-            <ComboBox SelectedValue="{Binding FormatedMark}" ToolTip="{DynamicResource mark_utt}" Width="145"
-                      HorizontalAlignment="Left"
-                      ItemsSource="{Binding Path=DataContext.FilmMarks, 
-                      RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}"
-                      />
+            <StackPanel Orientation="Horizontal">
+                <ComboBox SelectedItem="{Binding Genre}" ToolTip="{DynamicResource mark_utt}" Width="145" HorizontalAlignment="Left"
+                          ItemsSource="{Binding Path=DataContext.FilmGenres, 
+                          RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <TextBox Text="{Binding RealiseYear, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left" />
+            <CheckBox IsChecked="{Binding IsWatched}" Content="{DynamicResource watched_tt}" Foreground="WhiteSmoke"/>
+
+            <DatePicker SelectedDate="{Binding StartWatchDate}" Foreground="WhiteSmoke" Width="145" HorizontalAlignment="Left">
+                <DatePicker.Style>
+                    <Style TargetType="DatePicker">
+                        <Setter Property="Margin" Value="0,0,0,10"/>
+                        <Style.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="Background" Value="{StaticResource TextBoxColor}"/>
+                            </Style>
+                        </Style.Resources>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Genre.IsSerial}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DatePicker.Style>
+            </DatePicker>
+            <TextBox Text="{Binding WatchedSeries, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Genre.IsSerial}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <DatePicker SelectedDate="{Binding EndWatchDate}" Foreground="WhiteSmoke" Width="145" HorizontalAlignment="Left">
+                <DatePicker.Style>
+                    <Style TargetType="DatePicker">
+                        <Setter Property="Margin" Value="0,0,0,10"/>
+                        <Style.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="Background" Value="{StaticResource TextBoxColor}"/>
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                </DatePicker.Style>
+            </DatePicker>
+            <TextBox Text="{Binding TotalSeries, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Genre.IsSerial}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <StackPanel Orientation="Horizontal">
+                <ComboBox SelectedItem="{Binding FormatedMark, Mode=TwoWay}" ToolTip="{DynamicResource mark_utt}" Width="145"
+                          HorizontalAlignment="Left"
+                          ItemsSource="{Binding Path=DataContext.FilmMarks, 
+                          RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0}/{1}">
+                                        <Binding Path="" />
+                                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type menus:UpdateMenuView}}" Path="DataContext.FilmMarkSystem"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Rectangle Width="10"/>
+                <Button Content="{DynamicResource remove_mark_btn}" Command="{Binding RemoveMarkCommand}" Padding="10,0" VerticalAlignment="Top" />
+            </StackPanel>
+            <TextBox Text="{Binding CountOfViews, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left" />
+
+            <TextBox Text="{Binding Comment}" TextWrapping="Wrap" AcceptsReturn="True" Height="Auto"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+            <ItemsControl ItemsSource="{Binding Sources}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:SourceView />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Button Style="{StaticResource GrayButton}" Content="{StaticResource add_source_btn}" Width="200" Height="20" 
+                    
+                    Command="{Binding Path=DataContext.AddSource, 
+                              RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, 
+                              Mode=Default}"/>
         </StackPanel>
     </Grid>
 </UserControl>

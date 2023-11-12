@@ -15,6 +15,7 @@ namespace Filmc.Wpf.SettingsServices
         public MarkSystemService(ProfilesService profilesService)
         {
             _profilesService = profilesService;
+            _profilesService.SelectedProfileChanged += OnSelectedProfileChanged;
         }
 
         public Action? FilmsMarkSystemChanged;
@@ -46,6 +47,12 @@ namespace Filmc.Wpf.SettingsServices
 
                 BooksMarkSystemChanged?.Invoke();
             }
+        }
+
+        private void OnSelectedProfileChanged(Profile obj)
+        {
+            FilmsMarkSystemChanged?.Invoke();
+            BooksMarkSystemChanged?.Invoke();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Filmc.Xtl.EntityProperties
         public int? RawMark
         {
             get => _rawMark;
-            set { _rawMark = value; OnPropertyChanged(); }
+            set { _rawMark = value; OnPropertyChanged(); OnPropertyChanged(nameof(FormatedMark)); }
         }
 
         public int MarkSystem
@@ -52,7 +52,7 @@ namespace Filmc.Xtl.EntityProperties
                         }
                     }
 
-                    return 0;
+                    return null;
                 }
                 else
                 {
@@ -62,8 +62,16 @@ namespace Filmc.Xtl.EntityProperties
             }
             set
             {
-                int modifier = MaxRawMark / MarkSystem;
-                RawMark = modifier * value;
+                if (value != null)
+                {
+                    int modifier = MaxRawMark / MarkSystem;
+                    RawMark = modifier * value;
+                }
+                else
+                {
+                    RawMark = null;
+                }
+                
                 OnPropertyChanged();
             }
         }

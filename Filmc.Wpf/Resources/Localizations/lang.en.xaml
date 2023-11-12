@@ -153,10 +153,14 @@
     <v:String x:Key="readed_utt">Readed (Boolean)</v:String>
     <v:String x:Key="cor_utt">Count of readings (Integer number)</v:String>
 
+    <!--Update Menu ToolTips-->
     <v:String x:Key="go_back_btn">Go back</v:String>
+    <v:String x:Key="remove_mark_btn">Remove Mark</v:String>
+    <v:String x:Key="add_source_btn">Add source</v:String>
+    <v:String x:Key="remove_source_btn">Remove source</v:String>
+    <v:String x:Key="set_first_source_btn">Set primary source</v:String>
 
     <!--InfoPanels-->
-    <v:String x:Key="add_source_btn">Add</v:String>
     <v:String x:Key="apply_update_btn">Apply</v:String>
     
     <!--Exit Window-->
