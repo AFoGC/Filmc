@@ -91,6 +91,8 @@
     <v:String x:Key="del_category_btn">Удалить категорию</v:String>
 
     <!--Table ToolTips-->
+    <v:String x:Key="hidename_tt">Скрытое имя</v:String>
+    
     <v:String x:Key="id_tt">ID</v:String>
     <v:String x:Key="name_tt">Название</v:String>
     <v:String x:Key="genre_tt">Жанр</v:String>
@@ -160,6 +162,7 @@
     <v:String x:Key="add_source_btn">Добавить источник</v:String>
     <v:String x:Key="remove_source_btn">Удалить иточник</v:String>
     <v:String x:Key="set_first_source_btn">Сделать первым источником</v:String>
+    <v:String x:Key="sources_list_tb">Список источников</v:String>
 
     <!--InfoPanels-->
     <v:String x:Key="apply_update_btn">Применить</v:String>

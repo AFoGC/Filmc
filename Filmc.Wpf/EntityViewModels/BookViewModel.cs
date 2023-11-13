@@ -27,6 +27,7 @@ namespace Filmc.Wpf.EntityViewModels
         private RelayCommand? copyUrlCommand;
         private RelayCommand? openCommentCommand;
         private RelayCommand? openUpdateMenuCommand;
+        private RelayCommand? removeMarkCommand;
 
         public BookViewModel(Book model, UpdateMenuService updateMenuService)
         {
@@ -187,6 +188,18 @@ namespace Filmc.Wpf.EntityViewModels
                 (openUpdateMenuCommand = new RelayCommand(obj =>
                 {
                     _updateMenuService.OpenUpdateMenu(this);
+                }));
+            }
+        }
+
+        public RelayCommand RemoveMarkCommand
+        {
+            get
+            {
+                return removeMarkCommand ??
+                (removeMarkCommand = new RelayCommand(obj =>
+                {
+                    Model.Mark.RawMark = null;
                 }));
             }
         }

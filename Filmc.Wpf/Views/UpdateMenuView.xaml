@@ -38,14 +38,14 @@
                     <views:UpdateFilmView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vm:FilmCategoryViewModel}">
-                    
+                    <views:UpdateFilmCategoryView />
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type vm:BookViewModel}">
-                    
+                    <views:UpdateBookView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vm:BookCategoryViewModel}">
-                    
+                    <views:UpdateBookCategoryView />
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

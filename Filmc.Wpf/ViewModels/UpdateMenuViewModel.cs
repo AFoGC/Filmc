@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Filmc.Wpf.ViewModels
 {
@@ -17,6 +19,7 @@ namespace Filmc.Wpf.ViewModels
     {
         private readonly MarkSystemService _markSystemService;
         private readonly ProfilesService _profilesService;
+        private readonly Regex _numericRegex;
 
         private BaseEntityViewModel? _currentEntityViewModel;
         private List<int?>? _filmMarks;
@@ -26,11 +29,13 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? addSource;
         private RelayCommand? removeSource;
         private RelayCommand? setFirstSource;
+        private RelayCommand? checkIsTextCommand;
 
         public UpdateMenuViewModel(MarkSystemService markSystemService, ProfilesService profilesService)
         {
             _markSystemService = markSystemService;
             _profilesService = profilesService;
+            _numericRegex = new Regex("[^0-9.-]+");
 
             _profilesService.SelectedProfileChanged += OnSelectedProfileChanged;
 
@@ -150,6 +155,23 @@ namespace Filmc.Wpf.ViewModels
                             viewModel.Sources.Remove(source);
                             viewModel.Sources.Insert(0, source);
                         }
+                    }
+                }));
+            }
+        }
+
+        public RelayCommand CheckIsTextCommand
+        {
+            get
+            {
+                return checkIsTextCommand ??
+                (checkIsTextCommand = new RelayCommand(obj =>
+                {
+                    TextCompositionEventArgs? e = obj as TextCompositionEventArgs;
+
+                    if (e != null)
+                    {
+                        e.Handled = _numericRegex.IsMatch(e.Text);
                     }
                 }));
             }

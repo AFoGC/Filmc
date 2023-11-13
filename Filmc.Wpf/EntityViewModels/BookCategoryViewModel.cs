@@ -24,6 +24,7 @@ namespace Filmc.Wpf.EntityViewModels
         private RelayCommand? downInCategoryCommand;
         private RelayCommand? removeFromCategoryCommand;
         private RelayCommand? openUpdateMenuCommand;
+        private RelayCommand? removeMarkCommand;
 
         public BookCategoryViewModel(BookCategory model, ObservableCollection<BookViewModel> bookViewModels, UpdateMenuService updateMenuService)
         {
@@ -181,6 +182,18 @@ namespace Filmc.Wpf.EntityViewModels
                 (openUpdateMenuCommand = new RelayCommand(obj =>
                 {
                     _updateMenuService.OpenUpdateMenu(this);
+                }));
+            }
+        }
+
+        public RelayCommand RemoveMarkCommand
+        {
+            get
+            {
+                return removeMarkCommand ??
+                (removeMarkCommand = new RelayCommand(obj =>
+                {
+                    Model.Mark.RawMark = null;
                 }));
             }
         }

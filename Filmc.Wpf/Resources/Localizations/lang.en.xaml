@@ -90,6 +90,8 @@
     <v:String x:Key="del_category_btn">Delete Category</v:String>
 
     <!--Table ToolTips-->
+    <v:String x:Key="hidename_tt">Hide Name</v:String>
+    
     <v:String x:Key="id_tt">ID</v:String>
     <v:String x:Key="name_tt">Name</v:String>
     <v:String x:Key="genre_tt">Genre</v:String>
@@ -159,6 +161,8 @@
     <v:String x:Key="add_source_btn">Add source</v:String>
     <v:String x:Key="remove_source_btn">Remove source</v:String>
     <v:String x:Key="set_first_source_btn">Set primary source</v:String>
+    <v:String x:Key="sources_list_tb">Sources list</v:String>
+    
 
     <!--InfoPanels-->
     <v:String x:Key="apply_update_btn">Apply</v:String>
