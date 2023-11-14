@@ -164,7 +164,7 @@ namespace Filmc.Wpf.ViewModels
                 {
                     FilmGenreViewModel? genre = obj as FilmGenreViewModel;
 
-                    if (genre != null)
+                    if (genre != null && genre.Model.Films.Count == 0)
                         TablesViewModel.FilmGenres!.Remove(genre.Model);
                 }));
             }
@@ -179,7 +179,7 @@ namespace Filmc.Wpf.ViewModels
                 {
                     BookGenreViewModel? genre = obj as BookGenreViewModel;
 
-                    if (genre != null)
+                    if (genre != null && genre.Model.Books.Count == 0)
                         TablesViewModel.BookGenres!.Remove(genre.Model);
                 }));
             }

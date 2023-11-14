@@ -32,6 +32,8 @@
             </Button.Content>
         </Button>
 
+        <Path Style="{StaticResource EditMenuBack}" Grid.Row="1" Margin="30" Stretch="Uniform"/>
+
         <ContentControl Content="{Binding CurrentEntityViewModel}" Grid.Row="1">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type vm:FilmViewModel}">
