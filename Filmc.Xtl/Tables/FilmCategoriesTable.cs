@@ -20,7 +20,15 @@ namespace Filmc.Xtl.Tables
         public int MarkSystem
         {
             get => _markSystem;
-            set { _markSystem = value; OnPropertyChanged(); }
+            set
+            { 
+                _markSystem = value;
+
+                foreach (var item in this)
+                    item.Mark.MarkSystem = _markSystem;
+
+                OnPropertyChanged(); 
+            }
         }
     }
 }
