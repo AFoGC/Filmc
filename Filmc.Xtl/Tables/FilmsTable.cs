@@ -30,5 +30,14 @@ namespace Filmc.Xtl.Tables
                 OnPropertyChanged(); 
             }
         }
+
+        public override Film Add(Film item)
+        {
+            Film film = base.Add(item);
+
+            film.Mark.MarkSystem = MarkSystem;
+
+            return film;
+        }
     }
 }

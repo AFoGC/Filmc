@@ -30,5 +30,14 @@ namespace Filmc.Xtl.Tables
                 OnPropertyChanged(); 
             }
         }
+
+        public override Book Add(Book item)
+        {
+            Book book = base.Add(item);
+
+            book.Mark.MarkSystem = MarkSystem;
+
+            return book;
+        }
     }
 }
