@@ -8,21 +8,6 @@
              mc:Ignorable="d" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
     <Grid Style="{DynamicResource TControl}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="{DynamicResource row_height}"/>
-            <RowDefinition>
-                <RowDefinition.Style>
-                    <Style TargetType="RowDefinition">
-                        <Setter Property="Height" Value="0"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsCommentVisible}" Value="True">
-                                <Setter Property="Height" Value="Auto"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </RowDefinition.Style>
-            </RowDefinition>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition x:Name="MidColumn"/>
@@ -111,8 +96,6 @@
                 <local:FilmToolTipView/>
             </Button.ToolTip>
         </Button>
-
-        <TextBox HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Text="{Binding Comment}"
-                 ToolTip="{DynamicResource comment_tt}"/>
+        
     </Grid>
 </UserControl>
