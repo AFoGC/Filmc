@@ -23,11 +23,9 @@ namespace Filmc.Wpf.EntityViewModels
 
         private readonly UpdateMenuService _updateMenuService;
 
-        private bool _isCommentVisible;
         private bool _isSelected;
 
         private RelayCommand? copyUrlCommand;
-        private RelayCommand? openCommentCommand;
         private RelayCommand? openUpdateMenuCommand;
         private RelayCommand? removeMarkCommand;
 
@@ -40,7 +38,6 @@ namespace Filmc.Wpf.EntityViewModels
 
             _updateMenuService = updateMenuService;
 
-            _isCommentVisible = false;
             _isSelected = false;
         }
 
@@ -136,11 +133,6 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Priority?.CreationTime;
         }
 
-        public bool IsCommentVisible
-        {
-            get => _isCommentVisible;
-            set { _isCommentVisible = value; OnPropertyChanged(); }
-        }
         public bool IsSelected
         {
             get => _isSelected;
@@ -176,18 +168,6 @@ namespace Filmc.Wpf.EntityViewModels
                 (copyUrlCommand = new RelayCommand(obj =>
                 {
                     ClipboardHelper.CopySourceUrlToClipboard(Model.Sources);
-                }));
-            }
-        }
-
-        public RelayCommand OpenCommentCommand
-        {
-            get
-            {
-                return openCommentCommand ??
-                (openCommentCommand = new RelayCommand(obj =>
-                {
-                    IsCommentVisible = !IsCommentVisible;
                 }));
             }
         }
