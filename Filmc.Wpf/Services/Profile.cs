@@ -71,7 +71,7 @@ namespace Filmc.Wpf.Services
                 else
                 {
                     _tablesContext.FilmGenres.Add(new FilmGenre { Name = "Movie", IsSerial = false });
-                    _tablesContext.FilmGenres.Add(new FilmGenre { Name = "Serial", IsSerial = true });
+                    _tablesContext.FilmGenres.Add(new FilmGenre { Name = "Series", IsSerial = true });
 
                     _tablesContext.BookGenres.Add(new BookGenre { Name = "Book" });
 

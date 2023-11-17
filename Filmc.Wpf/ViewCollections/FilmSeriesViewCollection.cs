@@ -39,7 +39,13 @@ namespace Filmc.Wpf.ViewCollections
 
         protected override IEnumerable<string> GetDescendingProperties()
         {
-            return new string[0];
+            yield return "RawMark";
+            yield return "RealiseYear";
+            yield return "CountOfViews";
+            yield return "EndWatchDate";
+            yield return "StartWatchDate";
+            yield return "WatchedSeries";
+            yield return "TotalSeries";
         }
     }
 }

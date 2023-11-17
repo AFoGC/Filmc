@@ -17,7 +17,7 @@ namespace Filmc.Wpf.ViewCollections
 
         protected override IEnumerable<string> GetDescendingProperties()
         {
-            return new string[0];
+            yield return "RawMark";
         }
     }
 }

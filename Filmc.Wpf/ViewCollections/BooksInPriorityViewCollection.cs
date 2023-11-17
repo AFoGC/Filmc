@@ -44,7 +44,13 @@ namespace Filmc.Wpf.ViewCollections
 
         protected override IEnumerable<string> GetDescendingProperties()
         {
-            return new string[0];
+            yield return "RawMark";
+            yield return "PublicationYear";
+            yield return "FullReadDate";
+            yield return "Author";
+            yield return "Bookmark";
+            yield return "FullReadDate";
+            yield return "CountOfReadings";
         }
     }
 }
