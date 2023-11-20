@@ -356,6 +356,22 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+
+                    <Label Foreground="White" Content="Filter By Tag" HorizontalAlignment="Center"/>
+
+                    <ItemsControl ItemsSource="{Binding TablesViewModel.TagVMs}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <cont:GenreButton Command="{Binding Path=DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=Grid}, Mode=Default}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
                     <Rectangle Height="23"/>
                 </StackPanel>
             </Grid>

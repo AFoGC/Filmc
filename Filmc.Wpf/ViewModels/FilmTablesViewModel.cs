@@ -33,6 +33,7 @@ namespace Filmc.Wpf.ViewModels
             FilmVMs = new ObservableCollection<FilmViewModel>();
             CategoryVMs = new ObservableCollection<FilmCategoryViewModel>();
             GenreVMs = new ObservableCollection<FilmGenreViewModel>();
+            TagVMs = new ObservableCollection<FilmTagViewModel>();
 
             _model = model;
             _updateMenuService = updateMenuService;
@@ -49,6 +50,7 @@ namespace Filmc.Wpf.ViewModels
         public ObservableCollection<FilmViewModel> FilmVMs { get; }
         public ObservableCollection<FilmCategoryViewModel> CategoryVMs { get; }
         public ObservableCollection<FilmGenreViewModel> GenreVMs { get; }
+        public ObservableCollection<FilmTagViewModel> TagVMs { get; }
 
         public FilmCategoriesViewCollection CategoriesVC { get; }
         public FilmsSimplifiedViewCollection FilmsSimplifiedVC { get; }
@@ -69,6 +71,7 @@ namespace Filmc.Wpf.ViewModels
                 _tablesContext.Films.CollectionChanged -= OnFilmsChanged;
                 _tablesContext.FilmGenres.CollectionChanged -= OnGenresCollectionChanged;
                 _tablesContext.FilmCategories.CollectionChanged -= OnCategoriesCollectionChanged;
+                _tablesContext.FilmTags.CollectionChanged -= OnTagsCollectionChanged;
             }
 
             _tablesContext = _model.TablesContext;
@@ -76,6 +79,7 @@ namespace Filmc.Wpf.ViewModels
             FilmVMs.Clear();
             CategoryVMs.Clear();
             GenreVMs.Clear();
+            TagVMs.Clear();
 
             foreach (var item in _tablesContext.Films)
                 FilmVMs.Add(new FilmViewModel(item, _updateMenuService));
@@ -86,9 +90,13 @@ namespace Filmc.Wpf.ViewModels
             foreach (var item in _tablesContext.FilmGenres)
                 GenreVMs.Add(new FilmGenreViewModel(item));
 
+            foreach (var item in _tablesContext.FilmTags)
+                TagVMs.Add(new FilmTagViewModel(item));
+
             _tablesContext.Films.CollectionChanged += OnFilmsChanged;
             _tablesContext.FilmGenres.CollectionChanged += OnGenresCollectionChanged;
             _tablesContext.FilmCategories.CollectionChanged += OnCategoriesCollectionChanged;
+            _tablesContext.FilmTags.CollectionChanged += OnTagsCollectionChanged;
         }
 
         public RelayCommand SortTable
@@ -179,6 +187,26 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 GenreVMs.Clear();
+            }
+        }
+
+        private void OnTagsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                FilmTag entity = (FilmTag)e.NewItems[0]!;
+                TagVMs.Insert(e.NewStartingIndex, new FilmTagViewModel(entity));
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                int i = e.OldStartingIndex;
+                TagVMs.RemoveAt(i);
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                TagVMs.Clear();
             }
         }
     }

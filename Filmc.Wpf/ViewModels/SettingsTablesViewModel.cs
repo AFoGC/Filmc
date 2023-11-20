@@ -19,6 +19,8 @@ namespace Filmc.Wpf.ViewModels
 
         private FilmGenresTable? _filmGenres;
         private BookGenresTable? _bookGenres;
+        private FilmTagsTable? _filmTags;
+        private BookTagsTable? _bookTags;
 
         public SettingsTablesViewModel(SettingsService settingsService)
         {
@@ -27,6 +29,8 @@ namespace Filmc.Wpf.ViewModels
             ProfileVMs = new ObservableCollection<ProfileViewModel>();
             FilmGenresVMs = new ObservableCollection<FilmGenreViewModel>();
             BookGenresVMs = new ObservableCollection<BookGenreViewModel>();
+            FilmTagsVMs = new ObservableCollection<FilmTagViewModel>();
+            BookTagsVMs = new ObservableCollection<BookTagViewModel>();
 
             foreach (var profile in _profilesService.Profiles)
                 ProfileVMs.Add(new ProfileViewModel(profile));
@@ -40,6 +44,8 @@ namespace Filmc.Wpf.ViewModels
         public ObservableCollection<ProfileViewModel> ProfileVMs { get; }
         public ObservableCollection<FilmGenreViewModel> FilmGenresVMs { get; }
         public ObservableCollection<BookGenreViewModel> BookGenresVMs { get; }
+        public ObservableCollection<FilmTagViewModel> FilmTagsVMs { get; }
+        public ObservableCollection<BookTagViewModel> BookTagsVMs { get; }
 
         public FilmGenresTable? FilmGenres
         {
@@ -50,6 +56,16 @@ namespace Filmc.Wpf.ViewModels
         {
             get => _bookGenres;
             set { _bookGenres = value; OnPropertyChanged(); }
+        }
+        public FilmTagsTable? FilmTags
+        {
+            get => _filmTags;
+            set { _filmTags = value; OnPropertyChanged(); }
+        }
+        public BookTagsTable? BookTags
+        {
+            get => _bookTags;
+            set { _bookTags = value; OnPropertyChanged(); }
         }
 
         private void OnProfileAdded(Profile newProfile)
@@ -81,8 +97,16 @@ namespace Filmc.Wpf.ViewModels
             if (BookGenres != null)
                 BookGenres.CollectionChanged -= OnBookGenresCollectionChanged;
 
+            if (FilmTags != null)
+                FilmTags.CollectionChanged -= OnFilmTagsCollectionChanged;
+
+            if (BookTags != null)
+                BookTags.CollectionChanged -= OnBookTagsCollectionChanged;
+
             FilmGenres = newProfile.TablesContext.FilmGenres;
             BookGenres = newProfile.TablesContext.BookGenres;
+            FilmTags = newProfile.TablesContext.FilmTags;
+            BookTags = newProfile.TablesContext.BookTags;
 
             FilmGenresVMs.Clear();
             foreach (var item in FilmGenres)
@@ -92,8 +116,18 @@ namespace Filmc.Wpf.ViewModels
             foreach (var item in BookGenres)
                 BookGenresVMs.Add(new BookGenreViewModel(item));
 
+            FilmTagsVMs.Clear();
+            foreach (var item in FilmTags)
+                FilmTagsVMs.Add(new FilmTagViewModel(item));
+
+            BookTagsVMs.Clear();
+            foreach (var item in BookTags)
+                BookTagsVMs.Add(new BookTagViewModel(item));
+
             FilmGenres.CollectionChanged += OnFilmGenresCollectionChanged;
             BookGenres.CollectionChanged += OnBookGenresCollectionChanged;
+            FilmTags.CollectionChanged += OnFilmTagsCollectionChanged;
+            BookTags.CollectionChanged += OnBookTagsCollectionChanged;
         }
 
         private void OnFilmGenresCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -121,7 +155,7 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 BookGenre entity = (BookGenre)e.NewItems[0]!;
-                BookGenresVMs.Insert(e.NewStartingIndex, new BookGenreViewModel(entity)); ;
+                BookGenresVMs.Insert(e.NewStartingIndex, new BookGenreViewModel(entity));
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove)
@@ -133,6 +167,46 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 BookGenresVMs.Clear();
+            }
+        }
+
+        private void OnFilmTagsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                FilmTag entity = (FilmTag)e.NewItems[0]!;
+                FilmTagsVMs.Insert(e.NewStartingIndex, new FilmTagViewModel(entity));
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                int i = e.OldStartingIndex;
+                FilmTagsVMs.RemoveAt(i);
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                FilmTagsVMs.Clear();
+            }
+        }
+
+        private void OnBookTagsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                BookTag entity = (BookTag)e.NewItems[0]!;
+                BookTagsVMs.Insert(e.NewStartingIndex, new BookTagViewModel(entity));
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                int i = e.OldStartingIndex;
+                BookTagsVMs.RemoveAt(i);
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                BookTagsVMs.Clear();
             }
         }
     }

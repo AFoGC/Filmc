@@ -85,7 +85,7 @@
             <StackPanel Orientation="Horizontal">
                 <ComboBox SelectedItem="{Binding FormatedMark, Mode=TwoWay}" ToolTip="{DynamicResource mark_utt}" Width="145"
                           HorizontalAlignment="Left"
-                          ItemsSource="{Binding Path=DataContext.FilmMarks, 
+                          ItemsSource="{Binding Path=DataContext.BookMarks, 
                           RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
 
                     <ComboBox.ItemTemplate>
@@ -94,7 +94,7 @@
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0}/{1}">
                                         <Binding Path="" />
-                                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type menus:UpdateMenuView}}" Path="DataContext.FilmMarkSystem"/>
+                                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type menus:UpdateMenuView}}" Path="DataContext.BookMarkSystem"/>
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>

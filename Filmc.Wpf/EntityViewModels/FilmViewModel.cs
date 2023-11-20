@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Xtl;
 
 namespace Filmc.Wpf.EntityViewModels
 {
@@ -107,6 +108,10 @@ namespace Filmc.Wpf.EntityViewModels
         public ObservableCollection<Source> Sources
         {
             get => Model.Sources;
+        }
+        public RecordsCollection<FilmHasTag> HasTags
+        {
+            get => Model.HasTags;
         }
         
         public int? FormatedMark

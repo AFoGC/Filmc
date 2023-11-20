@@ -39,5 +39,13 @@ namespace Filmc.Xtl.Tables
 
             return film;
         }
+
+        protected override void OnLoaded()
+        {
+            foreach (var item in this)
+                item.Mark.MarkSystem = this.MarkSystem;
+
+            base.OnLoaded();
+        }
     }
 }

@@ -201,10 +201,11 @@ namespace Filmc.Wpf.ViewModels
                 return filterCommand ?? (filterCommand = new RelayCommand(obj =>
                 {
                     var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
+                    var selectedTags = TablesViewModel.TagVMs.Where(x => x.IsChecked);
 
                     foreach (var item in TablesViewModel.FilmVMs)
                     {
-                        item.IsFiltered = IsFilmPassingFilter(selectedGenres, item.Model);
+                        item.IsFiltered = IsFilmPassingFilter(selectedTags, selectedGenres, item.Model);
                     }
 
                     foreach (var item in TablesViewModel.CategoryVMs)
@@ -351,14 +352,26 @@ namespace Filmc.Wpf.ViewModels
                 viewModel.IsFinded = true;
         }
 
-        private bool IsFilmPassingFilter(IEnumerable<FilmGenreViewModel> genres, Film film)
+        private bool IsFilmPassingFilter(IEnumerable<FilmTagViewModel> tags, IEnumerable<FilmGenreViewModel> genres, Film film)
         {
-            bool exp = false;
+            bool watchedPassed = false;
+            bool genresPassed = false;
+            bool tagsPassed = false;
 
-            if (genres.Any(x => x.Model == film.Genre))
-                exp = film.IsWatched == IsWatchedChecked || film.IsWatched != IsUnWatchedChecked;
+            watchedPassed = film.IsWatched == IsWatchedChecked || film.IsWatched != IsUnWatchedChecked;
+            genresPassed = genres.Any(x => x.Model == film.Genre);
 
-            return exp;
+            if (tags.Count() != TablesViewModel.TagVMs.Count)
+            {
+                var ft = tags.Select(i => i.Model);
+                tagsPassed = film.HasTags.IntersectBy(ft, x => x.Tag).Any();
+            }
+            else
+            {
+                tagsPassed = true;
+            }
+
+            return watchedPassed && genresPassed && tagsPassed;
         }
     }
 }

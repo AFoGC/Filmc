@@ -14,9 +14,13 @@
                                 Mode=Default}"/>
     </UserControl.Resources>
     <Grid Style="{DynamicResource TControl}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{DynamicResource row_height}"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition x:Name="MidColumn" Width="*"/>
+            <ColumnDefinition Width="*" MaxWidth="{Binding ActualWidth, ElementName=MainInfo}" />
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.ContextMenu>
@@ -57,7 +61,7 @@
             </i:Interaction.Triggers>
         </TextBox>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" x:Name="MainInfo">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                     <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectCommand, 
@@ -98,5 +102,20 @@
         </StackPanel>
 
         <Button Content="⋮" Grid.Column="2" Click="OpenCM"/>
+
+        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HasTags}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="1,1,1,4" Padding="3" Background="{StaticResource ButtonDarkGray}" CornerRadius="10">
+                        <TextBlock Text="{Binding Tag.Name}" Foreground="WhiteSmoke" FontSize="11"/>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

@@ -2,6 +2,7 @@
 using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.SettingsServices;
+using Filmc.Xtl.Entities;
 using Filmc.Xtl.EntityProperties;
 using Filmc.Xtl.Tables;
 using System;
@@ -25,6 +26,7 @@ namespace Filmc.Wpf.ViewModels
         private List<int?>? _filmMarks;
         private List<int?>? _bookMarks;
 
+        private RelayCommand? removeTagCommand;
         private RelayCommand? closeMenuCommand;
         private RelayCommand? addSource;
         private RelayCommand? removeSource;
@@ -54,6 +56,8 @@ namespace Filmc.Wpf.ViewModels
 
         public FilmGenresTable FilmGenres => _profilesService.SelectedProfile.TablesContext.FilmGenres;
         public BookGenresTable BookGenres => _profilesService.SelectedProfile.TablesContext.BookGenres;
+        public FilmTagsTable FilmTags => _profilesService.SelectedProfile.TablesContext.FilmTags;
+        public BookTagsTable BookTags => _profilesService.SelectedProfile.TablesContext.BookTags;
 
         public List<int?>? FilmMarks
         {
@@ -89,6 +93,55 @@ namespace Filmc.Wpf.ViewModels
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsVisible));
                 OnPropertyChanged(nameof(MenuVisibility));
+            }
+        }
+
+        public object? SelectedTag
+        {
+            get => null;
+            set
+            {
+                FilmTag? tag = value as FilmTag;
+                FilmViewModel? filmViewModel = _currentEntityViewModel as FilmViewModel;
+
+                if (tag != null && filmViewModel != null)
+                {
+                    if (filmViewModel.Model.HasTags.Any(x => x.Tag == tag) == false)
+                    {
+                        FilmHasTag filmHasTag = new FilmHasTag
+                        { 
+                            
+                        };
+
+                        _profilesService.SelectedProfile.TablesContext.FilmHasTags.Add(filmHasTag);
+                        filmHasTag.FilmId = filmViewModel.Model.Id;
+                        filmHasTag.TagId = tag.Id;
+                        OnPropertyChanged();
+                    }
+                }
+            }
+        }
+
+        public RelayCommand RemoveTagMenuCommand
+        {
+            get
+            {
+                return removeTagCommand ??
+                (removeTagCommand = new RelayCommand(obj =>
+                {
+                    FilmHasTag? hasTag = obj as FilmHasTag;
+                    FilmViewModel? filmViewModel = _currentEntityViewModel as FilmViewModel;
+
+                    if (hasTag != null && filmViewModel != null)
+                    {
+                        if (filmViewModel.Model.HasTags.Contains(hasTag))
+                        {
+                            hasTag.TagId = 0;
+                            hasTag.FilmId = 0;
+                            _profilesService.SelectedProfile.TablesContext.FilmHasTags.Remove(hasTag);
+                        }
+                    }
+                }));
             }
         }
 
@@ -181,6 +234,8 @@ namespace Filmc.Wpf.ViewModels
         {
             OnPropertyChanged(nameof(FilmGenres));
             OnPropertyChanged(nameof(BookGenres));
+            OnPropertyChanged(nameof(FilmTags));
+            OnPropertyChanged(nameof(BookTags));
         }
 
         private void OnFilmsMarkSystemChanged()

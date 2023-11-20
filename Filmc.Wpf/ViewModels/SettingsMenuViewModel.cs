@@ -36,6 +36,10 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? deleteProfileCommand;
         private RelayCommand? importProfileCommand;
         private RelayCommand? openExplorerCommand;
+        private RelayCommand? addFilmTagCommand;
+        private RelayCommand? deleteFilmTagCommand;
+        private RelayCommand? addBookTagCommand;
+        private RelayCommand? deleteBookTagCommand;
 
         private static readonly char[] symbols = new char[]
         { '"', '\\', '/', ':', '|', '<', '>', '*', '?' };
@@ -181,6 +185,68 @@ namespace Filmc.Wpf.ViewModels
 
                     if (genre != null && genre.Model.Books.Count == 0)
                         TablesViewModel.BookGenres!.Remove(genre.Model);
+                }));
+            }
+        }
+
+        public RelayCommand AddFilmTagCommand
+        {
+            get
+            {
+                return addFilmTagCommand ??
+                (addFilmTagCommand = new RelayCommand(obj =>
+                {
+                    var filmTags = _selectedProfile!.TablesContext.FilmTags;
+
+                    int i = filmTags.Count + 1;
+                    FilmTag filmTag = new FilmTag { Name = $"Tag{i}" };
+                    _selectedProfile?.TablesContext.FilmTags.Add(filmTag);
+                }));
+            }
+        }
+
+        public RelayCommand DeleteFilmTagCommand
+        {
+            get
+            {
+                return deleteFilmTagCommand ??
+                (deleteFilmTagCommand = new RelayCommand(obj =>
+                {
+                    FilmTagViewModel? genre = obj as FilmTagViewModel;
+
+                    if (genre != null && genre.Model.HasFilms.Count == 0)
+                        TablesViewModel.FilmTags!.Remove(genre.Model);
+                }));
+            }
+        }
+
+        public RelayCommand AddBookTagCommand
+        {
+            get
+            {
+                return addBookTagCommand ??
+                (addBookTagCommand = new RelayCommand(obj =>
+                {
+                    var bookTags = _selectedProfile!.TablesContext.BookTags;
+
+                    int i = bookTags.Count + 1;
+                    BookTag bookTag = new BookTag { Name = $"Tag{i}" };
+                    _selectedProfile?.TablesContext.BookTags.Add(bookTag);
+                }));
+            }
+        }
+
+        public RelayCommand DeleteBookTagCommand
+        {
+            get
+            {
+                return deleteBookTagCommand ??
+                (deleteBookTagCommand = new RelayCommand(obj =>
+                {
+                    BookTagViewModel? genre = obj as BookTagViewModel;
+
+                    if (genre != null && genre.Model.HasBooks.Count == 0)
+                        TablesViewModel.BookTags!.Remove(genre.Model);
                 }));
             }
         }

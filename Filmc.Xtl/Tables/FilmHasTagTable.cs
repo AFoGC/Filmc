@@ -15,5 +15,13 @@ namespace Filmc.Xtl.Tables
         {
 
         }
+
+        protected override void OnLoaded()
+        {
+            foreach (var item in this)
+                item.FilmId = item.FilmId;
+
+            base.OnLoaded();
+        }
     }
 }

@@ -98,6 +98,7 @@ namespace Filmc.Xtl
                     tb.DefaultRecord = new Book();
 
                     tb.SetIdGeneration(id => ++id);
+                    tb.AddTableSaveRule(x => x.MarkSystem, 6);
 
                     tb.SetEntityId(x => x.Id);
                     tb.AddEntitySaveRule(x => x.Name);
@@ -171,13 +172,13 @@ namespace Filmc.Xtl
                 builder.AddOneToMany<FilmCategory, Film>(x => x.CategoryId, x => x.Category, x => x.Films);
                 builder.AddOneToOne<FilmInPriority, Film>(x => x.Film, y => y.Priority);
                 builder.AddOneToMany<Film, FilmHasTag>(x => x.FilmId, x => x.Film, x => x.HasTags);
-                builder.AddOneToMany<FilmTag, FilmHasTag>(x => x.FilmId, x => x.Tag, x => x.HasFilms);
+                builder.AddOneToMany<FilmTag, FilmHasTag>(x => x.TagId, x => x.Tag, x => x.HasFilms);
 
                 builder.AddOneToMany<BookGenre, Book>(x => x.GenreId, x => x.Genre, x => x.Books);
                 builder.AddOneToMany<BookCategory, Book>(x => x.CategoryId, x => x.Category, x => x.Books);
                 builder.AddOneToOne<BookInPriority, Book>(x => x.Book, y => y.Priority);
                 builder.AddOneToMany<Book, BookHasTag>(x => x.BookId, x => x.Book, x => x.HasTags);
-                builder.AddOneToMany<BookTag, BookHasTag>(x => x.BookId, x => x.Tag, x => x.HasBooks);
+                builder.AddOneToMany<BookTag, BookHasTag>(x => x.TagId, x => x.Tag, x => x.HasBooks);
             });
         }
 
