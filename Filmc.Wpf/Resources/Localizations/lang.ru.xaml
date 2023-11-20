@@ -176,4 +176,13 @@
     <v:String x:Key="change_profile_label">Вы уверенны, что хотите сменить профиль?</v:String>
     <v:String x:Key="change_profile_btn">Сменить профиль без сохранения</v:String>
     <v:String x:Key="change_profile_and_save_btn">Сохранить и сменить профиль</v:String>
+
+    <!--Tags-->
+    <v:String x:Key="tag_list_label">Список тегов</v:String>
+    <v:String x:Key="add_tag_label">Добавить тег:</v:String>
+    <v:String x:Key="film_tag_label">Теги фильмов</v:String>
+    <v:String x:Key="book_tag_label">Теги книг</v:String>
+    <v:String x:Key="add_tag_btn">Добавить тег</v:String>
+    <v:String x:Key="filter_tag_label">Фильтр по тегу</v:String>
+    
 </ResourceDictionary>

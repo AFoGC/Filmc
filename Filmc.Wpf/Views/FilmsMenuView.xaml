@@ -54,7 +54,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="35"/>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <Path Style="{StaticResource FilmsMenuBack}" Stretch="Uniform" 
@@ -269,112 +269,116 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Border BorderBrush="White" BorderThickness="1" Width="268"
-                Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
-                VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Border.Resources>
-                <Style x:Key="BB" TargetType="Button" BasedOn="{StaticResource BlueButton}">
-                    <Setter Property="Height" Value="23"/>
-                </Style>
-                <Style x:Key="GB" TargetType="Button" BasedOn="{StaticResource GrayButton}">
-                    <Setter Property="Height" Value="23"/>
-                </Style>
-            </Border.Resources>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
+                      VerticalAlignment="Top" HorizontalAlignment="Right">
+            <Border BorderBrush="White" BorderThickness="1" Width="268">
+                <Border.Resources>
+                    <Style x:Key="BB" TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                        <Setter Property="Height" Value="23"/>
+                    </Style>
+                    <Style x:Key="GB" TargetType="Button" BasedOn="{StaticResource GrayButton}">
+                        <Setter Property="Height" Value="23"/>
+                    </Style>
+                </Border.Resources>
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="5"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="28"/>
-                        <RowDefinition Height="28"/>
-                        <RowDefinition Height="28"/>
-                        <RowDefinition Height="28"/>
-                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Button Style="{StaticResource BB}" Content="{DynamicResource save_tab_btn}"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28"/>
+                            <RowDefinition Height="28"/>
+                            <RowDefinition Height="28"/>
+                            <RowDefinition Height="28"/>
+                            <RowDefinition Height="28"/>
+                        </Grid.RowDefinitions>
+                        <Button Style="{StaticResource BB}" Content="{DynamicResource save_tab_btn}"
 							VerticalAlignment="Top" Command="{Binding SaveTablesCommand}"
                             Grid.ColumnSpan="3" Margin="60,0,60,0"/>
 
-                    <Button Style="{StaticResource GB}" Content="{DynamicResource add_cat_btn}"
+                        <Button Style="{StaticResource GB}" Content="{DynamicResource add_cat_btn}"
                             VerticalAlignment="Top" Command="{Binding AddCategoryCommand}"
                             Grid.Column="0" Grid.Row="1"/>
 
-                    <Button Content="{DynamicResource add_film_btn}" Style="{StaticResource GB}"
+                        <Button Content="{DynamicResource add_film_btn}" Style="{StaticResource GB}"
                             VerticalAlignment="Top" Command="{Binding AddFilmCommand}"
                             Grid.Column="0" Grid.Row="2"/>
 
-                    <Button Content="{DynamicResource show_cat_btn}" Style="{StaticResource GB}"
+                        <Button Content="{DynamicResource show_cat_btn}" Style="{StaticResource GB}"
                             VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"
                             Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Categories}"/>
 
-                    <Button Content="{DynamicResource show_film_btn}" Style="{StaticResource GB}"
+                        <Button Content="{DynamicResource show_film_btn}" Style="{StaticResource GB}"
                             VerticalAlignment="Top" Grid.Column="2" Grid.Row="2"
                             Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Films}"/>
 
-                    <Button Content="{DynamicResource show_serie_btn}" Style="{StaticResource GB}"
+                        <Button Content="{DynamicResource show_serie_btn}" Style="{StaticResource GB}"
                             VerticalAlignment="Top" Grid.Column="2" Grid.Row="3"
                             Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Series}"/>
 
-                    <Button Content="{DynamicResource show_bprior_btn}" Style="{StaticResource GB}" 
+                        <Button Content="{DynamicResource show_bprior_btn}" Style="{StaticResource GB}" 
                             VerticalAlignment="Top" Grid.Column="2" Grid.Row="4"
                             Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Priorities}"/>
-                </Grid>
-                <StackPanel Grid.Row="1">
-                    <StackPanel.Resources>
-                        <Style TargetType="ToggleButton" BasedOn="{StaticResource RequestToggleButton}">
-                            <Setter Property="Width" Value="131"/>
-                            <Setter Property="Margin" Value="1,0"/>
-                            <Setter Property="IsChecked" Value="True"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Separator Background="White"/>
-                    <Label Foreground="White" Content="{DynamicResource filter_title}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                    <StackPanel Orientation="Horizontal" Height="20" Margin="0,0,0,5">
-                        <ToggleButton IsChecked="{Binding IsWatchedChecked}" Content="{DynamicResource watched_btn}"
+                    </Grid>
+                    <StackPanel Grid.Row="1">
+                        <StackPanel.Resources>
+                            <Style TargetType="ToggleButton" BasedOn="{StaticResource RequestToggleButton}">
+                                <Setter Property="Width" Value="131"/>
+                                <Setter Property="Margin" Value="1,0"/>
+                                <Setter Property="IsChecked" Value="True"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <Separator Background="White"/>
+                        <Label Foreground="White" Content="{DynamicResource filter_title}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                        <StackPanel Orientation="Horizontal" Height="20" Margin="0,0,0,5">
+                            <ToggleButton IsChecked="{Binding IsWatchedChecked}" Content="{DynamicResource watched_btn}"
                                       Command="{Binding FilterCommand}"/>
-                        <ToggleButton IsChecked="{Binding IsUnWatchedChecked}" Content="{DynamicResource unwatched_btn}"
+                            <ToggleButton IsChecked="{Binding IsUnWatchedChecked}" Content="{DynamicResource unwatched_btn}"
                                       Command="{Binding FilterCommand}"/>
+                        </StackPanel>
+
+                        <Separator Background="White"/>
+                        <Label Foreground="White" Content="{DynamicResource filter_by_genre}" HorizontalAlignment="Center"/>
+
+                        <ItemsControl ItemsSource="{Binding TablesViewModel.GenreVMs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <cont:GenreButton Command="{Binding Path=DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=Grid}, Mode=Default}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Separator Background="White"/>
+                        <Label Foreground="White" Content="{DynamicResource filter_tag_label}" HorizontalAlignment="Center"/>
+                        <ItemsControl ItemsSource="{Binding TablesViewModel.TagVMs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <cont:GenreButton Command="{Binding Path=DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=Grid}, Mode=Default}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Rectangle Height="23"/>
                     </StackPanel>
-                    <Label Foreground="White" Content="{DynamicResource filter_by_genre}" HorizontalAlignment="Center"/>
-
-                    <ItemsControl ItemsSource="{Binding TablesViewModel.GenreVMs}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <cont:GenreButton Command="{Binding Path=DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=Grid}, Mode=Default}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <Label Foreground="White" Content="Filter By Tag" HorizontalAlignment="Center"/>
-
-                    <ItemsControl ItemsSource="{Binding TablesViewModel.TagVMs}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <cont:GenreButton Command="{Binding Path=DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=Grid}, Mode=Default}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <Rectangle Height="23"/>
-                </StackPanel>
-            </Grid>
-        </Border>
+                </Grid>
+            </Border>
+        </ScrollViewer>
+        
     </Grid>
 </UserControl>

@@ -202,7 +202,7 @@
                 
                 <!--Films Tags-->
                 <StackPanel>
-                    <Label Content="Films Tags" Foreground="White" 
+                    <Label Content="{DynamicResource film_tag_label}" Foreground="White" 
                            BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
                     <ItemsControl ItemsSource="{Binding TablesViewModel.FilmTagsVMs}">
                         <ItemsControl.ItemsPanel>
@@ -224,7 +224,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <Button Style="{StaticResource GrayButton}" Content="Add Tag"
+                    <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_tag_btn}"
                             HorizontalAlignment="Left" Width="200" Height="20" Margin="0 5 0 0"
                             Command="{Binding AddFilmTagCommand}"/>
                 </StackPanel>
@@ -262,7 +262,7 @@
 
                 <!--Books Tags-->
                 <StackPanel>
-                    <Label Content="Books Tags" Foreground="White" 
+                    <Label Content="{DynamicResource book_tag_label}" Foreground="White" 
                            BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
                     <ItemsControl ItemsSource="{Binding TablesViewModel.BookTagsVMs}">
                         <ItemsControl.ItemsPanel>
@@ -284,7 +284,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <Button Style="{StaticResource GrayButton}" Content="Add Tag"
+                    <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_tag_btn}"
                             HorizontalAlignment="Left" Width="200" Height="20" Margin="0 5 0 0"
                             Command="{Binding AddBookTagCommand}"/>
                 </StackPanel>

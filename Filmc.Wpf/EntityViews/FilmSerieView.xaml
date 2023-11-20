@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*" MaxWidth="{Binding ActualWidth, ElementName=MainInfo}" />
+            <ColumnDefinition Width="749" />
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.ContextMenu>
@@ -101,21 +101,22 @@
                      Width="{DynamicResource id_width}"/>
         </StackPanel>
 
-        <Button Content="⋮" Grid.Column="2" Click="OpenCM"/>
-
-        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HasTags}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="1,1,1,4" Padding="3" Background="{StaticResource ButtonDarkGray}" CornerRadius="10">
-                        <TextBlock Text="{Binding Tag.Name}" Foreground="WhiteSmoke" FontSize="11"/>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <StackPanel Orientation="Horizontal" Grid.Column="2">
+            <Button Content="⋮" Click="OpenCM" />
+            <ItemsControl ItemsSource="{Binding HasTags}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="1" Padding="4,1" Background="{StaticResource ButtonDarkGray}" CornerRadius="8">
+                            <TextBlock Text="{Binding Tag.Name}" Foreground="WhiteSmoke" FontSize="11"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
 </UserControl>

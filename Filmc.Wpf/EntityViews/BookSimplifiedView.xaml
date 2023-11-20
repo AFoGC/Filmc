@@ -13,9 +13,6 @@
             <local:BindingProxy x:Key="menuProxy" Data="{Binding Path=DataContext, 
                                 RelativeSource={RelativeSource AncestorType={x:Type menus:BooksMenuView}}, 
                                 Mode=Default}"/>
-            <local:BindingProxy x:Key="categoryProxy" Data="{Binding Path=DataContext, 
-                                RelativeSource={RelativeSource AncestorType={x:Type local:BookCategoryView}}, 
-                                Mode=Default}"/>
         </Grid.Resources>
         <Grid.ContextMenu>
             <ContextMenu x:Name="cm">

@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*" MaxWidth="{Binding ActualWidth, ElementName=MainInfo}" />
+            <ColumnDefinition Width="465" />
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.ContextMenu>
@@ -95,25 +95,27 @@
                      Style="{DynamicResource MarkTextBox}"/>
         </StackPanel>
 
-        <Button Content="⋮" Click="OpenCM" Grid.Column="2">
-            <Button.ToolTip>
-                <local:FilmToolTipView/>
-            </Button.ToolTip>
-        </Button>
+        <StackPanel Orientation="Horizontal" Grid.Column="2">
+            <Button Content="⋮" Click="OpenCM">
+                <Button.ToolTip>
+                    <local:FilmToolTipView/>
+                </Button.ToolTip>
+            </Button>
+            <ItemsControl ItemsSource="{Binding HasTags}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="1" Padding="4,1" Background="{StaticResource ButtonDarkGray}" CornerRadius="8">
+                            <TextBlock Text="{Binding Tag.Name}" Foreground="WhiteSmoke" FontSize="11"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
 
-        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HasTags}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="1,1,1,4" Padding="3" Background="{StaticResource ButtonDarkGray}" CornerRadius="10">
-                        <TextBlock Text="{Binding Tag.Name}" Foreground="WhiteSmoke" FontSize="11"/>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
     </Grid>
 </UserControl>
