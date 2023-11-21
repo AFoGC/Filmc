@@ -23,5 +23,35 @@ namespace Filmc.Wpf.Windows
         {
             InitializeComponent();
         }
+
+        private void OnHeaderMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void MinimizeWindow(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeWindow(object sender, RoutedEventArgs e)
+        {
+            if (WindowState != WindowState.Maximized)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+            }
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

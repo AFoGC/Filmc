@@ -9,7 +9,8 @@
         xmlns:views="clr-namespace:Filmc.Wpf.Views"
         xmlns:global="clr-namespace:Filmc.Wpf"
         mc:Ignorable="d" Height="775" Width="1265"
-        Title="MainWindow" Background="{x:Null}">
+        Title="MainWindow" Background="{x:Null}" 
+        WindowStyle="None" ResizeMode="CanResizeWithGrip">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding SaveSettingsCommand}"/>
@@ -25,10 +26,21 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Background="{StaticResource DefaultButtonColor}">
+        <Rectangle MouseDown="OnHeaderMouseDown" Fill="{StaticResource MainBackground}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource GrayButton}" Content="_" Width="40" 
+                    Click="MinimizeWindow"/>
+            <Button Style="{StaticResource GrayButton}" Content="#" Width="40" 
+                    Click="MaximizeWindow"/>
+            <Button Style="{StaticResource CloseButton}" Content="X" Width="40" 
+                    Click="CloseWindow"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Background="{StaticResource DefaultButtonColor}">
             <StackPanel.Resources>
                 <Style TargetType="ToggleButton" BasedOn="{StaticResource NavbarToggleButton}">
                     <Setter Property="FontSize" Value="20"/>
@@ -68,7 +80,7 @@
             </ToggleButton>
         </StackPanel>
 
-        <ContentControl Content="{Binding CurrentMenu}" Grid.Row="1">
+        <ContentControl Content="{Binding CurrentMenu}" Grid.Row="2">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type vm:FilmsMenuViewModel}">
                     <views:FilmsMenuView />
@@ -83,10 +95,10 @@
         </ContentControl>
 
         <views:UpdateMenuView DataContext="{Binding UpdateMenuViewModel}" Visibility="{Binding MenuVisibility}" 
-                              Grid.RowSpan="2" />
+                              Grid.Row="1" Grid.RowSpan="2"/>
 
         <TextBlock DataContext="{Binding StatusBarViewModel}" VerticalAlignment="Stretch" 
-                   Padding="10,0" Grid.Row="2">
+                   Padding="10,0" Grid.Row="3">
             
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
