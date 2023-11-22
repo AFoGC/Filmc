@@ -25,6 +25,7 @@ namespace Filmc.Wpf.ViewCollections
             yield return "Bookmark";
             yield return "FullReadDate";
             yield return "CountOfReadings";
+            yield return "Id";
         }
     }
 }

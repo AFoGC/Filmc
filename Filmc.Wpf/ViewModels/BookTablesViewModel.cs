@@ -43,6 +43,11 @@ namespace Filmc.Wpf.ViewModels
             BooksSimplifiedVC = new BooksSimplifiedViewCollection(BooksVMs);
             BooksVC = new BooksViewCollection(BooksVMs);
             PrioritiesVC = new BooksInPriorityViewCollection(BooksVMs);
+
+            CategoriesVC.ChangeSortProperty("Id");
+            BooksSimplifiedVC.ChangeSortProperty("Id");
+            BooksVC.ChangeSortProperty("Id");
+            PrioritiesVC.ChangeSortProperty("Id");
         }
 
         public ObservableCollection<BookViewModel> BooksVMs { get; }

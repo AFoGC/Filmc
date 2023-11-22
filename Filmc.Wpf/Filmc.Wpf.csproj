@@ -5,7 +5,13 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <AssemblyName>Filmc</AssemblyName>
+    <ApplicationIcon>Resources\Images\BookIcon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Images\BookIcon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Converters\" />

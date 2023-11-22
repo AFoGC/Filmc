@@ -45,6 +45,12 @@ namespace Filmc.Wpf.ViewModels
             FilmsVC = new FilmsViewCollection(FilmVMs);
             SeriesVC = new FilmSeriesViewCollection(FilmVMs);
             PrioritiesVC = new FilmsInPriorityViewCollection(FilmVMs);
+
+            CategoriesVC.ChangeSortProperty("Id");
+            FilmsSimplifiedVC.ChangeSortProperty("Id");
+            FilmsVC.ChangeSortProperty("Id");
+            SeriesVC.ChangeSortProperty("Id");
+            PrioritiesVC.ChangeSortProperty("Id");
         }
 
         public ObservableCollection<FilmViewModel> FilmVMs { get; }

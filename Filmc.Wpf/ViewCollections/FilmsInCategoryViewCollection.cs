@@ -51,6 +51,7 @@ namespace Filmc.Wpf.ViewCollections
             yield return "StartWatchDate";
             yield return "WatchedSeries";
             yield return "TotalSeries";
+            yield return "Id";
         }
     }
 }
