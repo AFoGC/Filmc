@@ -129,10 +129,51 @@
             </ItemsControl>
 
             <Button Style="{StaticResource GrayButton}" Content="{StaticResource add_source_btn}" Width="200" Height="20" 
-                    
                     Command="{Binding Path=DataContext.AddSource, 
                               RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, 
                               Mode=Default}"/>
+
+            <TextBlock Margin="0,20,0,0" Text="{DynamicResource tag_list_label}" HorizontalAlignment="Center" Foreground="WhiteSmoke" FontSize="10"/>
+            <ItemsControl ItemsSource="{Binding HasTags}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="3" Padding="10, 5" Background="{StaticResource ButtonDarkGray}" CornerRadius="10">
+                            <TextBlock Text="{Binding Tag.Name}" Foreground="WhiteSmoke" FontSize="12">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding Path=DataContext.RemoveTagMenuCommand, 
+                                               RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}"
+                                               CommandParameter="{Binding}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <StackPanel Margin="0,5,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="{DynamicResource add_tag_label}" Foreground="WhiteSmoke" Margin="0,0,3,0"/>
+                <ComboBox Style="{StaticResource DarkComboBox}" Width="200" Height="20" 
+                      SelectedItem ="{Binding Path=DataContext.SelectedTag, 
+                                      RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, 
+                                      Mode=Default}" 
+                      ItemsSource="{Binding Path=DataContext.BookTags, 
+                                    RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, 
+                                    Mode=Default}">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

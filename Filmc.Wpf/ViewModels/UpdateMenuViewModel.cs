@@ -101,23 +101,38 @@ namespace Filmc.Wpf.ViewModels
             get => null;
             set
             {
-                FilmTag? tag = value as FilmTag;
+                FilmTag? filmTag = value as FilmTag;
                 FilmViewModel? filmViewModel = _currentEntityViewModel as FilmViewModel;
 
-                if (tag != null && filmViewModel != null)
+                if (filmTag != null && filmViewModel != null)
                 {
-                    if (filmViewModel.Model.HasTags.Any(x => x.Tag == tag) == false)
+                    if (filmViewModel.Model.HasTags.Any(x => x.Tag == filmTag) == false)
                     {
-                        FilmHasTag filmHasTag = new FilmHasTag
-                        { 
-                            
-                        };
+                        FilmHasTag filmHasTag = new FilmHasTag();
 
                         _profilesService.SelectedProfile.TablesContext.FilmHasTags.Add(filmHasTag);
                         filmHasTag.FilmId = filmViewModel.Model.Id;
-                        filmHasTag.TagId = tag.Id;
+                        filmHasTag.TagId = filmTag.Id;
                         OnPropertyChanged();
                     }
+                    return;
+                }
+
+                BookTag? bookTag = value as BookTag;
+                BookViewModel? bookViewModel = _currentEntityViewModel as BookViewModel;
+
+                if (bookTag != null && bookViewModel != null)
+                {
+                    if (bookViewModel.Model.HasTags.Any(x => x.Tag == bookTag) == false)
+                    {
+                        BookHasTag bookHasTag = new BookHasTag();
+
+                        _profilesService.SelectedProfile.TablesContext.BookHasTags.Add(bookHasTag);
+                        bookHasTag.BookId = bookViewModel.Model.Id;
+                        bookHasTag.TagId = bookTag.Id;
+                        OnPropertyChanged();
+                    }
+                    return;
                 }
             }
         }
@@ -129,17 +144,32 @@ namespace Filmc.Wpf.ViewModels
                 return removeTagCommand ??
                 (removeTagCommand = new RelayCommand(obj =>
                 {
-                    FilmHasTag? hasTag = obj as FilmHasTag;
+                    FilmHasTag? filmHasTag = obj as FilmHasTag;
                     FilmViewModel? filmViewModel = _currentEntityViewModel as FilmViewModel;
 
-                    if (hasTag != null && filmViewModel != null)
+                    if (filmHasTag != null && filmViewModel != null)
                     {
-                        if (filmViewModel.Model.HasTags.Contains(hasTag))
+                        if (filmViewModel.Model.HasTags.Contains(filmHasTag))
                         {
-                            hasTag.TagId = 0;
-                            hasTag.FilmId = 0;
-                            _profilesService.SelectedProfile.TablesContext.FilmHasTags.Remove(hasTag);
+                            filmHasTag.TagId = 0;
+                            filmHasTag.FilmId = 0;
+                            _profilesService.SelectedProfile.TablesContext.FilmHasTags.Remove(filmHasTag);
                         }
+                        return;
+                    }
+
+                    BookHasTag? bookHasTag = obj as BookHasTag;
+                    BookViewModel? bookViewModel = _currentEntityViewModel as BookViewModel;
+
+                    if (bookHasTag != null && bookViewModel != null)
+                    {
+                        if (bookViewModel.Model.HasTags.Contains(bookHasTag))
+                        {
+                            bookHasTag.TagId = 0;
+                            bookHasTag.BookId = 0;
+                            _profilesService.SelectedProfile.TablesContext.BookHasTags.Remove(bookHasTag);
+                        }
+                        return;
                     }
                 }));
             }

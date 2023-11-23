@@ -8,7 +8,7 @@
         Title="ChangeProfileWindow" Height="254" Width="452"
         WindowStyle="None" ResizeMode="NoResize" Background="{StaticResource MainBackground}" 
         BorderBrush="WhiteSmoke" BorderThickness="1" MouseDown="ExitForm_MouseDown"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Resources>
             <Style TargetType="Button" BasedOn="{StaticResource GrayButton}">

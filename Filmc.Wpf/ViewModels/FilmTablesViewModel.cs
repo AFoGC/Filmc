@@ -50,7 +50,6 @@ namespace Filmc.Wpf.ViewModels
             FilmsSimplifiedVC.ChangeSortProperty("Id");
             FilmsVC.ChangeSortProperty("Id");
             SeriesVC.ChangeSortProperty("Id");
-            PrioritiesVC.ChangeSortProperty("Id");
         }
 
         public ObservableCollection<FilmViewModel> FilmVMs { get; }

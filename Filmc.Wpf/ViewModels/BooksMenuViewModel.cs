@@ -17,8 +17,12 @@ namespace Filmc.Wpf.ViewModels
         private readonly BooksModel _model;
 
         private string _searchText;
+
         private bool _isReadedChecked;
         private bool _isUnReadedChecked;
+        private bool _isAllGenresChecked;
+        private bool _isAllTagsChecked;
+
         private BookViewModel? _selectedBook;
 
         private RelayCommand? changeMenuModeCommand;
@@ -34,6 +38,8 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? deleteBookCommand;
         private RelayCommand? removeCategoryCommand;
         private RelayCommand? removeBookFromPriorityCommand;
+        private RelayCommand? checkGenresCommand;
+        private RelayCommand? checkTagsCommand;
 
         public BooksMenuViewModel(BooksModel model, UpdateMenuService updateMenuService)
         {
@@ -43,6 +49,9 @@ namespace Filmc.Wpf.ViewModels
             _searchText = String.Empty;
             _isReadedChecked = true;
             _isUnReadedChecked = true;
+
+            RefreshGenresChecked();
+            RefreshTagsChecked();
         }
 
         public BookTablesViewModel TablesViewModel { get; }
@@ -85,6 +94,18 @@ namespace Filmc.Wpf.ViewModels
                     OnPropertyChanged();
                 }
             }
+        }
+
+        public bool IsAllGenresChecked
+        {
+            get => _isAllGenresChecked;
+            set { _isAllGenresChecked = value; OnPropertyChanged(); }
+        }
+
+        public bool IsAllTagsChecked
+        {
+            get => _isAllTagsChecked;
+            set { _isAllTagsChecked = value; OnPropertyChanged(); }
         }
 
         public BookViewModel? SelectedBook
@@ -193,11 +214,15 @@ namespace Filmc.Wpf.ViewModels
             {
                 return filterCommand ?? (filterCommand = new RelayCommand(obj =>
                 {
+                    RefreshGenresChecked();
+                    RefreshTagsChecked();
+
                     var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
+                    var selectedTags = TablesViewModel.TagVMs.Where(x => x.IsChecked);
 
                     foreach (var item in TablesViewModel.BooksVMs)
                     {
-                        item.IsFiltered = IsBookPassingFilter(selectedGenres, item.Model);
+                        item.IsFiltered = IsBookPassingFilter(selectedTags, selectedGenres, item.Model);
                     }
 
                     foreach (var item in TablesViewModel.CategoryVMs)
@@ -320,6 +345,64 @@ namespace Filmc.Wpf.ViewModels
             }
         }
 
+        public RelayCommand CheckGenresCommand
+        {
+            get
+            {
+                return checkGenresCommand ??
+                (checkGenresCommand = new RelayCommand(obj =>
+                {
+                    if (IsAllGenresChecked)
+                    {
+                        foreach (var vm in TablesViewModel.GenreVMs)
+                            vm.IsChecked = false;
+                    }
+                    else
+                    {
+                        foreach (var vm in TablesViewModel.GenreVMs)
+                            vm.IsChecked = true;
+                    }
+
+                    RefreshGenresChecked();
+                    FilterCommand.Execute(obj);
+                }));
+            }
+        }
+
+        public RelayCommand CheckTagsCommand
+        {
+            get
+            {
+                return checkTagsCommand ??
+                (checkTagsCommand = new RelayCommand(obj =>
+                {
+                    if (IsAllTagsChecked)
+                    {
+                        foreach (var vm in TablesViewModel.TagVMs)
+                            vm.IsChecked = false;
+                    }
+                    else
+                    {
+                        foreach (var vm in TablesViewModel.TagVMs)
+                            vm.IsChecked = true;
+                    }
+
+                    RefreshTagsChecked();
+                    FilterCommand.Execute(obj);
+                }));
+            }
+        }
+
+        private void RefreshGenresChecked()
+        {
+            IsAllGenresChecked = TablesViewModel.GenreVMs.All(x => x.IsChecked);
+        }
+
+        private void RefreshTagsChecked()
+        {
+            IsAllTagsChecked = TablesViewModel.TagVMs.All(x => x.IsChecked);
+        }
+
         private void SearchInBooks(string search)
         {
             foreach (var viewModel in TablesViewModel.BooksVMs)
@@ -344,14 +427,26 @@ namespace Filmc.Wpf.ViewModels
                 viewModel.IsFinded = true;
         }
 
-        private bool IsBookPassingFilter(IEnumerable<BookGenreViewModel> genres, Book book)
+        private bool IsBookPassingFilter(IEnumerable<BookTagViewModel> tags, IEnumerable<BookGenreViewModel> genres, Book book)
         {
-            bool exp = false;
+            bool readedPassed = false;
+            bool genresPassed = false;
+            bool tagsPassed = false;
 
-            if (genres.Any(x => x.Model == book.Genre))
-                exp = book.IsReaded == IsReadedChecked || book.IsReaded != IsUnReadedChecked;
+            readedPassed = book.IsReaded == IsReadedChecked || book.IsReaded != IsUnReadedChecked;
+            genresPassed = genres.Any(x => x.Model == book.Genre);
 
-            return exp;
+            if (tags.Count() != TablesViewModel.TagVMs.Count)
+            {
+                var ft = tags.Select(i => i.Model);
+                tagsPassed = book.HasTags.IntersectBy(ft, x => x.Tag).Any();
+            }
+            else
+            {
+                tagsPassed = true;
+            }
+
+            return readedPassed && genresPassed && tagsPassed;
         }
     }
 }

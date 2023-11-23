@@ -33,6 +33,7 @@ namespace Filmc.Wpf.ViewModels
             BooksVMs = new ObservableCollection<BookViewModel>();
             CategoryVMs = new ObservableCollection<BookCategoryViewModel>();
             GenreVMs = new ObservableCollection<BookGenreViewModel>();
+            TagVMs = new ObservableCollection<BookTagViewModel>();
 
             _model = model;
             _updateMenuService = updateMenuService;
@@ -47,12 +48,12 @@ namespace Filmc.Wpf.ViewModels
             CategoriesVC.ChangeSortProperty("Id");
             BooksSimplifiedVC.ChangeSortProperty("Id");
             BooksVC.ChangeSortProperty("Id");
-            PrioritiesVC.ChangeSortProperty("Id");
         }
 
         public ObservableCollection<BookViewModel> BooksVMs { get; }
         public ObservableCollection<BookCategoryViewModel> CategoryVMs { get; }
         public ObservableCollection<BookGenreViewModel> GenreVMs { get; }
+        public ObservableCollection<BookTagViewModel> TagVMs { get; }
 
         public BookCategoriesViewCollection CategoriesVC { get; }
         public BooksSimplifiedViewCollection BooksSimplifiedVC { get; }
@@ -72,6 +73,7 @@ namespace Filmc.Wpf.ViewModels
                 _tablesContext.Books.CollectionChanged -= OnBooksChanged;
                 _tablesContext.BookGenres.CollectionChanged -= OnGenresCollectionChanged;
                 _tablesContext.BookCategories.CollectionChanged -= OnCategoriesCollectionChanged;
+                _tablesContext.BookTags.CollectionChanged -= OnTagsCollectionChanged;
             }
 
             _tablesContext = _model.TablesContext;
@@ -79,6 +81,7 @@ namespace Filmc.Wpf.ViewModels
             BooksVMs.Clear();
             CategoryVMs.Clear();
             GenreVMs.Clear();
+            TagVMs.Clear();
 
             foreach (var item in _tablesContext.Books)
                 BooksVMs.Add(new BookViewModel(item, _updateMenuService));
@@ -89,9 +92,13 @@ namespace Filmc.Wpf.ViewModels
             foreach (var item in _tablesContext.BookGenres)
                 GenreVMs.Add(new BookGenreViewModel(item));
 
+            foreach (var item in _tablesContext.BookTags)
+                TagVMs.Add(new BookTagViewModel(item));
+
             _tablesContext.Books.CollectionChanged += OnBooksChanged;
             _tablesContext.BookGenres.CollectionChanged += OnGenresCollectionChanged;
             _tablesContext.BookCategories.CollectionChanged += OnCategoriesCollectionChanged;
+            _tablesContext.BookTags.CollectionChanged += OnTagsCollectionChanged;
         }
 
         public RelayCommand SortTable
@@ -178,6 +185,26 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 GenreVMs.Clear();
+            }
+        }
+
+        private void OnTagsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                BookTag entity = (BookTag)e.NewItems[0]!;
+                TagVMs.Insert(e.NewStartingIndex, new BookTagViewModel(entity));
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                int i = e.OldStartingIndex;
+                TagVMs.RemoveAt(i);
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                TagVMs.Clear();
             }
         }
     }

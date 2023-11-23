@@ -7,7 +7,15 @@
              xmlns:local="clr-namespace:Filmc.Wpf.EntityViews"
              xmlns:menus="clr-namespace:Filmc.Wpf.Views"
              mc:Ignorable="d">
-    <Grid Style="{DynamicResource TControl}" Height="{DynamicResource control_height}">
+    <Grid Style="{DynamicResource TControl}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{DynamicResource row_height}"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="{Binding ActualWidth, ElementName=MainInfo}" />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <Grid.Resources>
             <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
             <local:BindingProxy x:Key="menuProxy" Data="{Binding Path=DataContext, 
@@ -57,16 +65,16 @@
             </ContextMenu>
         </Grid.ContextMenu>
 
-        <StackPanel Orientation="Horizontal">
+        <TextBox Text="{Binding Id}" ToolTip="{DynamicResource id_tt}" 
+                 Width="{DynamicResource id_width}"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1" x:Name="MainInfo">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                     <i:InvokeCommandAction Command="{Binding Path=Data.SelectCommand, Source={StaticResource menuProxy}, Mode=Default}"
                                                CommandParameter="{Binding Path=Data, Source={StaticResource proxy}, Mode=Default}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-
-            <TextBox Text="{Binding Id}" ToolTip="{DynamicResource id_tt}" 
-                     Width="{DynamicResource id_width}"/>
 
             <TextBox Text="{Binding Name, Mode=OneWay}" ToolTip="{StaticResource NameToolTip}" 
                      Width="{DynamicResource name_width}"/>
@@ -82,12 +90,28 @@
 
             <TextBox ToolTip="{DynamicResource mark_tt}" Width="{DynamicResource mark_width}"
                      Style="{DynamicResource MarkTextBox}"/>
+        </StackPanel>
 
+        <StackPanel Orientation="Horizontal" Grid.Column="2">
             <Button Content="⋮" Click="OpenCM">
                 <Button.ToolTip>
                     <local:BookToolTipView />
                 </Button.ToolTip>
             </Button>
+            <ItemsControl ItemsSource="{Binding HasTags}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="1" Padding="4,1" Background="{StaticResource ButtonDarkGray}" CornerRadius="8">
+                            <TextBlock Text="{Binding Tag.Name}" Foreground="WhiteSmoke" FontSize="11"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </StackPanel>
     </Grid>
 </UserControl>

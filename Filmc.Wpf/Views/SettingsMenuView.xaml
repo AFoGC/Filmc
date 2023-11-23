@@ -180,7 +180,11 @@
                             <DataTemplate>
                                 <StackPanel Height="20" Orientation="Horizontal">
                                     <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
-                                    <Rectangle Width="20"/>
+                                    <Grid Width="200">
+                                        <CheckBox IsChecked="{Binding IsSerial}"
+                                                  Foreground="WhiteSmoke" HorizontalAlignment="Center" Content="{DynamicResource st_is_serial}">
+                                        </CheckBox>
+                                    </Grid>
                                     <Button Style="{StaticResource GrayButton}"
                                             Content="{DynamicResource st_del_genre}" Width="100"
                                             Command="{Binding Path=DataContext.DeleteFilmGenreCommand, 
