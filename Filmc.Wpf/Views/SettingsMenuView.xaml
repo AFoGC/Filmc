@@ -12,9 +12,9 @@
              d:DesignHeight="705" d:DesignWidth="1265">
     <Grid Background="{StaticResource MainBackground}">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="818"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -28,266 +28,276 @@
             <StackPanel Orientation="Vertical">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="*" MinWidth="380"/>
+                        <ColumnDefinition Width="*" MinWidth="250"/>
+                        <ColumnDefinition Width="*" MinWidth="250"/>
+                        <ColumnDefinition Width="*" MinWidth="250"/>
                     </Grid.ColumnDefinitions>
 
-                    <!--Scale Settings-->
-                    <StackPanel>
-                        <Label Content="{DynamicResource st_scale_title}" Foreground="White" 
-                               BorderThickness="0 0 0 1" BorderBrush="#FF7A7A7A"/>
-
-                        <ComboBox SelectedIndex="{Binding SelectedScaleIndex}" Style="{StaticResource DarkComboBox}" 
-                                  Width="200" Margin="0,5" HorizontalAlignment="Left">
-
-                            <ComboBoxItem Content="{DynamicResource st_small_item}"/>
-                            <ComboBoxItem Content="{DynamicResource st_medium_item}"/>
-                        </ComboBox>
-                    </StackPanel>
-
-                    <!--Language Settings-->
-                    <StackPanel Grid.Column="1">
-                        <Label Content="{DynamicResource st_lang_title}" Foreground="White" 
-                           BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                        <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" 
-                              Style="{StaticResource DarkComboBox}" Width="200" HorizontalAlignment="Left">
-                            <ComboBox.ItemTemplate>
+                    <!--Profiles Settings-->
+                    <StackPanel Margin="0,0,0,20">
+                        <Label Content="{DynamicResource st_prof_title}" Foreground="White" FontSize="14"
+                               BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
+                        <ItemsControl ItemsSource="{Binding TablesViewModel.ProfileVMs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding NativeName}"/>
+                                    <vm:ProfileView />
                                 </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <StackPanel Orientation="Horizontal" Height="20" Margin="0,5">
+                            <Button Content="{DynamicResource st_add_prof}" Style="{StaticResource GrayButton}" 
+                                Width="200" Command="{Binding AddProfileCommand}"/>
+                            <Rectangle Width="5"/>
+                            <TextBox Text="{Binding NewProfileName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource Wtextbox}" Width="150" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Height="20">
+                            <Button Content="{DynamicResource st_prof_dir}" Style="{StaticResource GrayButton}" 
+                                Width="220" Command="{Binding OpenExplorerCommand}"/>
+                            <Rectangle Width="5"/>
+                            <Button Content="{DynamicResource st_import_prof}" Style="{StaticResource GrayButton}"
+                                Width="130" Command="{Binding ImportProfileCommand}"/>
+                        </StackPanel>
                     </StackPanel>
 
                     <!--Autosave Settings-->
-                    <StackPanel Grid.Column="2">
-                        <Label Content="{DynamicResource st_autosave_label}" Foreground="White" 
-                           BorderThickness="0 0 0 1" BorderBrush="#FF7A7A7A"/>
-                        <ComboBox ItemsSource="{Binding Timers}" SelectedItem="{Binding SelectedTimer}" IsEnabled="{Binding TimerIsEnabled}"
-                              Style="{StaticResource DarkComboBox}" Width="200" HorizontalAlignment="Left" Margin="0,5">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding}"/>
-                                        <TextBlock Text=" "/>
-                                        <TextBlock Text="{DynamicResource st_seconds}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <CheckBox IsChecked="{Binding TimerIsEnabled}" Content="{DynamicResource st_autosave_enable}" 
-                              Foreground="WhiteSmoke" Margin="0,5,0,0" />
-                    </StackPanel>
+                    <Border Grid.Column="1"
+                            BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGradient}">
+                        <StackPanel>
+                            <Label Content="{DynamicResource st_autosave_label}" Foreground="White" HorizontalContentAlignment="Center" FontSize="14"
+                                   BorderThickness="0 0 0 1" BorderBrush="#FF7A7A7A"/>
+                            
+                            <ComboBox ItemsSource="{Binding Timers}" SelectedItem="{Binding SelectedTimer}" IsEnabled="{Binding TimerIsEnabled}"
+                              Style="{StaticResource DarkComboBox}" Width="200" HorizontalAlignment="Center" Margin="0,5" >
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding}"/>
+                                            <TextBlock Text=" "/>
+                                            <TextBlock Text="{DynamicResource st_seconds}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <CheckBox IsChecked="{Binding TimerIsEnabled}" Content="{DynamicResource st_autosave_enable}" 
+                                      Foreground="WhiteSmoke" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    
+
+                    <!--Scale Settings-->
+                    <Border Grid.Column="2"
+                            BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGradient}">
+
+                        <StackPanel>
+                            <Label Content="{DynamicResource st_scale_title}" Foreground="White" HorizontalContentAlignment="Center" FontSize="14"
+                                   BorderThickness="0 0 0 1" BorderBrush="#FF7A7A7A"/>
+
+                            <ComboBox SelectedIndex="{Binding SelectedScaleIndex}" Style="{StaticResource DarkComboBox}" 
+                                  Width="200" Margin="0,5" HorizontalAlignment="Center">
+
+                                <ComboBoxItem Content="{DynamicResource st_small_item}"/>
+                                <ComboBoxItem Content="{DynamicResource st_medium_item}"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+                    
+
+                    <!--Language Settings-->
+                    <Border Grid.Column="3"
+                            BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGradient}">
+
+                        <StackPanel>
+                            <Label Content="{DynamicResource st_lang_title}" Foreground="White" HorizontalContentAlignment="Center" FontSize="14"
+                                   BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
+                            <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" 
+                              Style="{StaticResource DarkComboBox}" Width="200" HorizontalAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding NativeName}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+                    
                 </Grid>
-
-
-                <!--Profiles Settings-->
-                <StackPanel>
-                    <Label Content="{DynamicResource st_prof_title}" Foreground="White" 
-                           BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                    <ItemsControl ItemsSource="{Binding TablesViewModel.ProfileVMs}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Height="20" Orientation="Horizontal">
-                                    <StackPanel.Resources>
-                                        <Style TargetType="TextBox" BasedOn="{StaticResource Wtextbox}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                    <Setter Property="Background" Value="#353553"/>
-                                                    <Setter Property="BorderBrush" Value="#7A7AB6"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Resources>
-                                    <TextBox Text="{Binding Name, Mode=OneWay}" 
-                                             Width="200" IsReadOnly="True"/>
-                                    <Rectangle Width="30"/>
-                                    <Button Style="{StaticResource GrayButton}"
-                                            Content="{DynamicResource st_use_prof}" Width="134" 
-                                            Command="{Binding Path=DataContext.ChangeProfileCommand, 
-                                            RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
-                                            CommandParameter="{Binding}"/>
-                                    <Rectangle Width="30"/>
-                                    <Button Style="{StaticResource GrayButton}"
-                                            Content="{DynamicResource st_del_prof}" Width="100"
-                                            Command="{Binding Path=DataContext.DeleteProfileCommand, 
-                                            RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
-                                            CommandParameter="{Binding}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <StackPanel Orientation="Horizontal" Height="20" Margin="0,5">
-                        <Button Content="{DynamicResource st_add_prof}" Style="{StaticResource GrayButton}" 
-                                Width="200" Command="{Binding AddProfileCommand}"/>
-                        <Rectangle Width="5"/>
-                        <TextBox Text="{Binding NewProfileName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource Wtextbox}" Width="150" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Height="20">
-                        <Button Content="{DynamicResource st_prof_dir}" Style="{StaticResource GrayButton}" 
-                                Width="220" Command="{Binding OpenExplorerCommand}"/>
-                        <Rectangle Width="5"/>
-                        <Button Content="{DynamicResource st_import_prof}" Style="{StaticResource GrayButton}"
-                                Width="130" Command="{Binding ImportProfileCommand}"/>
-                    </StackPanel>
-                </StackPanel>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition MinWidth="500" Width="*"/>
+                        <ColumnDefinition MinWidth="500" Width="*"/>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Column="1" Grid.RowSpan="3"
+                            BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGradient}"/>
 
                     <!--Films Mark System Settings-->
-                    <StackPanel>
-                        <Label Content="{DynamicResource st_fmark_title}" Foreground="White" 
+                    <StackPanel Grid.Column="0" Grid.Row="0" Margin="0,0,0,20">
+                        <Label Content="{DynamicResource st_fmark_title}" Foreground="White" FontSize="16"
                                BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                        
+
                         <ComboBox Style="{StaticResource DarkComboBox}" Width="200" HorizontalAlignment="Left"
                                   SelectedItem="{Binding FilmMarkSystem}" ItemsSource="{Binding MarkSystems}"
                                   ItemStringFormat="{}{0}/{0}"/>
                     </StackPanel>
 
-                    <!--Books Mark System Settings-->
-                    <StackPanel Grid.Column="1">
-                        <Label Content="{DynamicResource st_bmark_title}" Foreground="White" 
-                               BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                        
-                        <ComboBox Style="{StaticResource DarkComboBox}" Width="200" HorizontalAlignment="Left"
-                                  SelectedItem="{Binding BookMarkSystem}" ItemsSource="{Binding MarkSystems}"
-                                  ItemStringFormat="{}{0}/{0}"/>
-                    </StackPanel>
-                </Grid>
-
-
-                <!--Films Genres-->
-                <StackPanel>
-                    <Label Content="{DynamicResource st_fgenre_title}" Foreground="White" 
+                    <!--Films Genres-->
+                    <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,0,20">
+                        <Label Content="{DynamicResource st_fgenre_title}" Foreground="White" FontSize="16"
                            BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                    <ItemsControl ItemsSource="{Binding TablesViewModel.FilmGenresVMs}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Height="20" Orientation="Horizontal">
-                                    <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
-                                    <Grid Width="200">
-                                        <CheckBox IsChecked="{Binding IsSerial}"
+                        <ItemsControl ItemsSource="{Binding TablesViewModel.FilmGenresVMs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Height="20" Orientation="Horizontal">
+                                        <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
+                                        <Grid Width="200">
+                                            <CheckBox IsChecked="{Binding IsSerial}"
                                                   Foreground="WhiteSmoke" HorizontalAlignment="Center" Content="{DynamicResource st_is_serial}">
-                                        </CheckBox>
-                                    </Grid>
-                                    <Button Style="{StaticResource GrayButton}"
+                                            </CheckBox>
+                                        </Grid>
+                                        <Button Style="{StaticResource GrayButton}"
                                             Content="{DynamicResource st_del_genre}" Width="100"
                                             Command="{Binding Path=DataContext.DeleteFilmGenreCommand, 
                                             RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
                                             CommandParameter="{Binding}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Button Style="{StaticResource GrayButton}" Content="{DynamicResource st_add_genre}"
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Style="{StaticResource GrayButton}" Content="{DynamicResource st_add_genre}"
                             HorizontalAlignment="Left" Width="200" Height="20" Margin="0 5 0 0"
                             Command="{Binding AddFilmGenreCommand}"/>
-                </StackPanel>
+                    </StackPanel>
 
-                
-                <!--Films Tags-->
-                <StackPanel>
-                    <Label Content="{DynamicResource film_tag_label}" Foreground="White" 
+                    <!--Films Tags-->
+                    <StackPanel Grid.Column="0" Grid.Row="2" Margin="0,0,0,20">
+                        <Label Content="{DynamicResource film_tag_label}" Foreground="White" FontSize="16"
                            BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                    <ItemsControl ItemsSource="{Binding TablesViewModel.FilmTagsVMs}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Height="20" Orientation="Horizontal">
-                                    <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
-                                    <Rectangle Width="20"/>
-                                    <Button Style="{StaticResource GrayButton}"
+                        <ItemsControl ItemsSource="{Binding TablesViewModel.FilmTagsVMs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Height="20" Orientation="Horizontal">
+                                        <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
+                                        <Rectangle Width="20"/>
+                                        <Button Style="{StaticResource GrayButton}"
                                             Content="{DynamicResource st_del_tag}" Width="100"
                                             Command="{Binding Path=DataContext.DeleteFilmTagCommand, 
                                             RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
                                             CommandParameter="{Binding}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_tag_btn}"
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_tag_btn}"
                             HorizontalAlignment="Left" Width="200" Height="20" Margin="0 5 0 0"
                             Command="{Binding AddFilmTagCommand}"/>
-                </StackPanel>
+                    </StackPanel>
 
-                
-                <!--Books Genres-->
-                <StackPanel>
-                    <Label Content="{DynamicResource st_bgenre_title}" Foreground="White" 
-                           BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                    <ItemsControl ItemsSource="{Binding TablesViewModel.BookGenresVMs}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Height="20" Orientation="Horizontal">
-                                    <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
-                                    <Rectangle Width="20"/>
-                                    <Button Style="{StaticResource GrayButton}"
+                    <!--Books Mark System Settings-->
+                    <Border Grid.Column="1" Grid.Row="0"
+                            BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGray}">
+
+                        <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,0,0,20">
+                            <Label Content="{DynamicResource st_bmark_title}" Foreground="White" FontSize="16"
+                               BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
+
+                            <ComboBox Style="{StaticResource DarkComboBox}" Width="200" HorizontalAlignment="Left"
+                                  SelectedItem="{Binding BookMarkSystem}" ItemsSource="{Binding MarkSystems}"
+                                  ItemStringFormat="{}{0}/{0}" Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    
+
+                    <!--Books Genres-->
+                    <Border Grid.Column="1" Grid.Row="1"
+                            BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGray}">
+
+                        <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,0,0,20">
+                            <Label Content="{DynamicResource st_bgenre_title}" Foreground="White" FontSize="16"
+                                   BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
+
+                            <ItemsControl ItemsSource="{Binding TablesViewModel.BookGenresVMs}" Margin="10,0,0,0">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Height="20" Orientation="Horizontal">
+                                            <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
+                                            <Rectangle Width="20"/>
+                                            <Button Style="{StaticResource GrayButton}"
                                             Content="{DynamicResource st_del_genre}" Width="100"
                                             Command="{Binding Path=DataContext.DeleteBookGenreCommand, 
                                             RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
                                             CommandParameter="{Binding}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Button Style="{StaticResource GrayButton}" Content="{DynamicResource st_add_genre}"
-                            HorizontalAlignment="Left" Width="200" Height="20" Margin="0 5 0 0"
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Button Style="{StaticResource GrayButton}" Content="{DynamicResource st_add_genre}"
+                            HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
                             Command="{Binding AddBookGenreCommand}" />
-                </StackPanel>
+                        </StackPanel>
+                    </Border>
+                   
 
+                    <!--Books Tags-->
+                    <Border Grid.Column="1" Grid.Row="2" BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGradient}">
 
-                <!--Books Tags-->
-                <StackPanel>
-                    <Label Content="{DynamicResource book_tag_label}" Foreground="White" 
-                           BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                    <ItemsControl ItemsSource="{Binding TablesViewModel.BookTagsVMs}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Height="20" Orientation="Horizontal">
-                                    <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
-                                    <Rectangle Width="20"/>
-                                    <Button Style="{StaticResource GrayButton}"
+                        <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,0,0,20">
+                            <Label Content="{DynamicResource book_tag_label}" Foreground="White" FontSize="16"
+                                   BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
+                            
+                            <ItemsControl ItemsSource="{Binding TablesViewModel.BookTagsVMs}" Margin="10,0,0,0">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Height="20" Orientation="Horizontal">
+                                            <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
+                                            <Rectangle Width="20"/>
+                                            <Button Style="{StaticResource GrayButton}"
                                             Content="{DynamicResource st_del_tag}" Width="100"
                                             Command="{Binding Path=DataContext.DeleteBookTagCommand, 
                                             RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
                                             CommandParameter="{Binding}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_tag_btn}"
-                            HorizontalAlignment="Left" Width="200" Height="20" Margin="0 5 0 0"
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_tag_btn}"
+                            HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
                             Command="{Binding AddBookTagCommand}"/>
-                </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    
+                </Grid>
             </StackPanel>
         </ScrollViewer>
     </Grid>

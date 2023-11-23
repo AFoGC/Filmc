@@ -27,4 +27,10 @@
     <SolidColorBrush x:Key="ButtonRed" Color="#A62036"/>
     <SolidColorBrush x:Key="ButtonBlue" Color="#0074E5"/>
     <SolidColorBrush x:Key="ButtonGreen" Color="#00B048"/>
+    <SolidColorBrush x:Key="BorderGray" Color="#FF7A7A7A"/>
+
+    <LinearGradientBrush x:Key="BorderGradient" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#FF7A7A7A" Offset="0.0" />
+        <GradientStop Color="#007A7A7A" Offset="1.0" />
+    </LinearGradientBrush>
 </ResourceDictionary>
