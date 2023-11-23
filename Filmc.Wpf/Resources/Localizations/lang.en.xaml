@@ -46,6 +46,9 @@
     <v:String x:Key="st_bmark_title">Books Mark System</v:String>
     <v:String x:Key="st_mark_btn">Change Mark System</v:String>
 
+    <!--Tags Settings-->
+    <v:String x:Key="st_del_tag">Delete Tag</v:String>
+
     <!--Common Buttons-->
     <v:String x:Key="serch_btn">Search</v:String>
     <v:String x:Key="save_tab_btn">Save Table</v:String>
@@ -53,6 +56,11 @@
     <v:String x:Key="show_cat_btn">Show Categories</v:String>
     <v:String x:Key="filter_title">Filter options</v:String>
     <v:String x:Key="filter_by_genre">Filter by genre</v:String>
+
+    <v:String x:Key="filter_all_genres_checked">Uncheck all genres</v:String>
+    <v:String x:Key="filter_all_genres_not_checked">Check all genres</v:String>
+    <v:String x:Key="filter_all_tags_checked">Uncheck all tags</v:String>
+    <v:String x:Key="filter_all_tags_not_checked">Check all tags</v:String>
 
     <!--SortPanel-->
     <v:String x:Key="id_sort">ID</v:String>

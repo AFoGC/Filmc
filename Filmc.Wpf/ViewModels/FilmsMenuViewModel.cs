@@ -24,8 +24,12 @@ namespace Filmc.Wpf.ViewModels
         private readonly FilmsModel _model;
 
         private string _searchText;
+
         private bool _isWatchedChecked;
         private bool _isUnWatchedChecked;
+        private bool _isAllGenresChecked;
+        private bool _isAllTagsChecked;
+
         private FilmViewModel? _selectedFilm;
 
         private RelayCommand? changeMenuModeCommand;
@@ -41,6 +45,8 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? addFilmToPriorityCommand;
         private RelayCommand? deleteFilmCommand;
         private RelayCommand? removeFilmFromPriorityCommand;
+        private RelayCommand? checkGenresCommand;
+        private RelayCommand? checkTagsCommand;
 
         public FilmsMenuViewModel(FilmsModel model, UpdateMenuService updateMenuService)
         {
@@ -50,6 +56,9 @@ namespace Filmc.Wpf.ViewModels
             _searchText = String.Empty;
             _isWatchedChecked = true;
             _isUnWatchedChecked = true;
+
+            RefreshGenresChecked();
+            RefreshTagsChecked();
         }
 
         public FilmTablesViewModel TablesViewModel { get; }
@@ -92,6 +101,18 @@ namespace Filmc.Wpf.ViewModels
                     OnPropertyChanged();
                 }
             }
+        }
+
+        public bool IsAllGenresChecked
+        {
+            get => _isAllGenresChecked;
+            set { _isAllGenresChecked = value; OnPropertyChanged(); }
+        }
+
+        public bool IsAllTagsChecked
+        {
+            get => _isAllTagsChecked;
+            set { _isAllTagsChecked = value; OnPropertyChanged(); }
         }
 
         public FilmViewModel? SelectedFilm
@@ -200,6 +221,9 @@ namespace Filmc.Wpf.ViewModels
             {
                 return filterCommand ?? (filterCommand = new RelayCommand(obj =>
                 {
+                    RefreshGenresChecked();
+                    RefreshTagsChecked();
+
                     var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
                     var selectedTags = TablesViewModel.TagVMs.Where(x => x.IsChecked);
 
@@ -326,6 +350,64 @@ namespace Filmc.Wpf.ViewModels
                     }
                 }));
             }
+        }
+
+        public RelayCommand CheckGenresCommand
+        {
+            get
+            {
+                return checkGenresCommand ??
+                (checkGenresCommand = new RelayCommand(obj =>
+                {
+                    if (IsAllGenresChecked)
+                    {
+                        foreach (var vm in TablesViewModel.GenreVMs)
+                            vm.IsChecked = false;
+                    }
+                    else
+                    {
+                        foreach (var vm in TablesViewModel.GenreVMs)
+                            vm.IsChecked = true;
+                    }
+
+                    RefreshGenresChecked();
+                    FilterCommand.Execute(obj);
+                }));
+            }
+        }
+
+        public RelayCommand CheckTagsCommand
+        {
+            get
+            {
+                return checkTagsCommand ??
+                (checkTagsCommand = new RelayCommand(obj =>
+                {
+                    if (IsAllTagsChecked)
+                    {
+                        foreach (var vm in TablesViewModel.TagVMs)
+                            vm.IsChecked = false;
+                    }
+                    else
+                    {
+                        foreach (var vm in TablesViewModel.TagVMs)
+                            vm.IsChecked = true;
+                    }
+
+                    RefreshTagsChecked();
+                    FilterCommand.Execute(obj);
+                }));
+            }
+        }
+
+        private void RefreshGenresChecked()
+        {
+            IsAllGenresChecked = TablesViewModel.GenreVMs.All(x => x.IsChecked);
+        }
+
+        private void RefreshTagsChecked()
+        {
+            IsAllTagsChecked = TablesViewModel.TagVMs.All(x => x.IsChecked);
         }
 
         private void SearchInFilms(string search)

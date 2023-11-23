@@ -47,6 +47,9 @@
     <v:String x:Key="st_bmark_title">Система оцінок книг</v:String>
     <v:String x:Key="st_mark_btn">Змінити систему оцінок</v:String>
 
+    <!--Tags Settings-->
+    <v:String x:Key="st_del_tag">Видалити тег</v:String>
+
     <!--Common Buttons-->
     <v:String x:Key="serch_btn">Пошук</v:String>
     <v:String x:Key="save_tab_btn">Зберегти таблиці</v:String>
@@ -54,6 +57,11 @@
     <v:String x:Key="show_cat_btn">Меню категорій</v:String>
     <v:String x:Key="filter_title">Опції фільтру</v:String>
     <v:String x:Key="filter_by_genre">Фільтр за жанром</v:String>
+
+    <v:String x:Key="filter_all_genres_checked">Виключити всі жанри</v:String>
+    <v:String x:Key="filter_all_genres_not_checked">Включити всі жанри</v:String>
+    <v:String x:Key="filter_all_tags_checked">Виключити всі теги</v:String>
+    <v:String x:Key="filter_all_tags_not_checked">Включити всі теги</v:String>
 
     <!--SortPanel-->
     <v:String x:Key="id_sort">ID</v:String>

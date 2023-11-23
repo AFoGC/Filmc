@@ -333,6 +333,19 @@
                                 <Setter Property="Margin" Value="1,0"/>
                                 <Setter Property="IsChecked" Value="True"/>
                             </Style>
+                            <Style x:Key="BlueCheckButton" TargetType="Button" BasedOn="{StaticResource BlueButton}">
+                                <Setter Property="Margin" Value="3"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10, 5" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
                         </StackPanel.Resources>
                         <Separator Background="White"/>
                         <Label Foreground="White" Content="{DynamicResource filter_title}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
@@ -358,6 +371,18 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <Button Command="{Binding CheckGenresCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource BlueCheckButton}">
+                                    <Setter Property="Content" Value="{DynamicResource filter_all_genres_checked}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAllGenresChecked}" Value="False">
+                                            <Setter Property="Content" Value="{DynamicResource filter_all_genres_not_checked}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
                         <Separator Background="White"/>
                         <Label Foreground="White" Content="{DynamicResource filter_tag_label}" HorizontalAlignment="Center"/>
@@ -373,6 +398,18 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <Button Command="{Binding CheckTagsCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource BlueCheckButton}">
+                                    <Setter Property="Content" Value="{DynamicResource filter_all_tags_checked}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAllTagsChecked}" Value="False">
+                                            <Setter Property="Content" Value="{DynamicResource filter_all_tags_not_checked}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
                         <Rectangle Height="23"/>
                     </StackPanel>
