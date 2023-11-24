@@ -109,7 +109,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="1" Padding="4,1" Background="{StaticResource ButtonDarkGray}" CornerRadius="8">
+                        <Border Margin="2,1" Padding="4,1" Background="{StaticResource ButtonDarkGray}" CornerRadius="8">
                             <TextBlock Text="{Binding Tag.Name}" Foreground="WhiteSmoke" FontSize="11"/>
                         </Border>
                     </DataTemplate>
