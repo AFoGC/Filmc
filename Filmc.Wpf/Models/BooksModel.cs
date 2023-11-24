@@ -46,14 +46,24 @@ namespace Filmc.Wpf.Models
             TablesContext.Books.Add(book);
         }
 
-        public void AddBook(int categoryId)
+        public void AddBook(BookCategory category)
         {
             Book book = new Book();
             book.GenreId = TablesContext.BookGenres.First().Id;
+
+            if (category.HideName != String.Empty)
+            {
+                book.Name = category.HideName;
+            }
+            else
+            {
+                book.Name = category.Name;
+            }
+
             TablesContext.Books.Add(book);
 
             TablesContext.BookCategories
-                .First(x => x.Id == categoryId)
+                .First(x => x.Id == category.Id)
                 .AddBookInOrder(book);
         }
 

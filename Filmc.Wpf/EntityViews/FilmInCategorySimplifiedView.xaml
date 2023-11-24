@@ -79,7 +79,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
-            <TextBox Text="{Binding Name, Mode=OneWay}" ToolTip="{StaticResource NameToolTip}" 
+            <TextBox Text="{Binding ShortName, Mode=OneWay}" ToolTip="{StaticResource NameToolTip}" 
                      Width="{DynamicResource name_width}"/>
 
             <TextBox Text="{Binding Genre.Name}" ToolTip="{StaticResource FilmGenreToolTip}" 

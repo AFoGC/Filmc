@@ -36,6 +36,7 @@ namespace Filmc.Wpf.EntityViewModels
             Model.PropertyChanged += OnModelPropertyChanged;
             Model.Mark.PropertyChanged += OnModelPropertyChanged;
             Model.Sources.CollectionChanged += OnSourcesCollectionChanged;
+            AddCategoryPropertyChanged();
 
             _updateMenuService = updateMenuService;
 
@@ -114,6 +115,24 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.HasTags;
         }
         
+        public string ShortName
+        {
+            get
+            {
+                if (Model.Category != null)
+                {
+                    FilmCategory category = Model.Category;
+
+                    if (category.HideName != String.Empty)
+                        return Model.Name.Replace(category.HideName, String.Empty);
+
+                    if (category.Name != String.Empty)
+                        return Model.Name.Replace(category.Name, String.Empty);
+                }
+
+                return Model.Name;
+            }
+        }
         public int? FormatedMark
         {
             get => Model.Mark.FormatedMark;
@@ -201,6 +220,18 @@ namespace Filmc.Wpf.EntityViewModels
             }
         }
 
+        private void RemoveCategoryPropertyChanged()
+        {
+            if (Model.Category != null)
+                Model.Category.PropertyChanged -= OnCategoryPropertyChanged;
+        }
+
+        private void AddCategoryPropertyChanged()
+        {
+            if (Model.Category != null)
+                Model.Category.PropertyChanged += OnCategoryPropertyChanged;
+        }
+
         private void OnSourcesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(SourcesText));
@@ -215,6 +246,27 @@ namespace Filmc.Wpf.EntityViewModels
                 OnPropertyChanged(nameof(HasPriority));
                 OnPropertyChanged(nameof(AddToPriorityTime));
             }
+
+            if (e.PropertyName == nameof(Model.CategoryId))
+            {
+                RemoveCategoryPropertyChanged();
+            }
+
+            if (e.PropertyName == nameof(Model.Category))
+            {
+                AddCategoryPropertyChanged();
+                OnPropertyChanged(nameof(ShortName));
+            }
+
+            if (e.PropertyName == nameof(Model.Name))
+            {
+                OnPropertyChanged(nameof(ShortName));
+            }
+        }
+
+        private void OnCategoryPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(ShortName));
         }
     }
 }

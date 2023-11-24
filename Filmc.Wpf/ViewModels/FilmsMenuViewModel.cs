@@ -196,7 +196,7 @@ namespace Filmc.Wpf.ViewModels
                     FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
 
                     if (categoryVM != null)
-                        _model.AddFilm(categoryVM.Model.Id);
+                        _model.AddFilm(categoryVM.Model);
                 }));
             }
         }

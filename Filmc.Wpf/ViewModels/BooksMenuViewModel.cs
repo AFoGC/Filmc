@@ -189,7 +189,7 @@ namespace Filmc.Wpf.ViewModels
                     BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
 
                     if (categoryVM != null)
-                        _model.AddBook(categoryVM.Model.Id);
+                        _model.AddBook(categoryVM.Model);
                 }));
             }
         }

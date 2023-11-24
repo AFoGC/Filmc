@@ -47,14 +47,24 @@ namespace Filmc.Wpf.Models
             TablesContext.Films.Add(film);
         }
 
-        public void AddFilm(int categoryId)
+        public void AddFilm(FilmCategory category)
         {
             Film film = new Film();
             film.GenreId = TablesContext.FilmGenres.First().Id;
+
+            if (category.HideName != String.Empty)
+            {
+                film.Name = category.HideName;
+            }
+            else
+            {
+                film.Name = category.Name;
+            }
+
             TablesContext.Films.Add(film);
 
             TablesContext.FilmCategories
-                .First(x => x.Id == categoryId)
+                .First(x => x.Id == category.Id)
                 .AddFilmInOrder(film);
         }
 
