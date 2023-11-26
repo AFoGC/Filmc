@@ -67,6 +67,20 @@ namespace Filmc.Wpf.Models
                 .AddBookInOrder(book);
         }
 
+        public void DeleteBook(Book book)
+        {
+            if (book.CategoryId != 0)
+                book.CategoryId = 0;
+
+            if (book.GenreId != 0)
+                book.GenreId = 0;
+
+            if (book.Priority != null)
+                TablesContext.BookInPriorities.Remove(book.Priority);
+
+            TablesContext.Books.Remove(book);
+        }
+
         public void SaveTables()
         {
             _profilesModel.SelectedProfile.SaveTables();

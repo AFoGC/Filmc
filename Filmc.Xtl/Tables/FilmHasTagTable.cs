@@ -16,6 +16,17 @@ namespace Filmc.Xtl.Tables
 
         }
 
+        public override bool Remove(FilmHasTag item)
+        {
+            if (this.Contains(item))
+            {
+                item.TagId = 0;
+                item.FilmId = 0;
+            }
+
+            return base.Remove(item);
+        }
+
         protected override void OnLoaded()
         {
             foreach (var item in this)

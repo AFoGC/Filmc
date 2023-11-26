@@ -68,6 +68,20 @@ namespace Filmc.Wpf.Models
                 .AddFilmInOrder(film);
         }
 
+        public void DeleteFilm(Film film)
+        {
+            if (film.CategoryId != 0)
+                film.CategoryId = 0;
+
+            if (film.GenreId != 0)
+                film.GenreId = 0;
+
+            if (film.Priority != null)
+                TablesContext.FilmInPriorities.Remove(film.Priority);
+
+            TablesContext.Films.Remove(film);
+        }
+
         public void SaveTables()
         {
             _profilesModel.SelectedProfile.SaveTables();

@@ -151,8 +151,6 @@ namespace Filmc.Wpf.ViewModels
                     {
                         if (filmViewModel.Model.HasTags.Contains(filmHasTag))
                         {
-                            filmHasTag.TagId = 0;
-                            filmHasTag.FilmId = 0;
                             _profilesService.SelectedProfile.TablesContext.FilmHasTags.Remove(filmHasTag);
                         }
                         return;
@@ -165,8 +163,6 @@ namespace Filmc.Wpf.ViewModels
                     {
                         if (bookViewModel.Model.HasTags.Contains(bookHasTag))
                         {
-                            bookHasTag.TagId = 0;
-                            bookHasTag.BookId = 0;
                             _profilesService.SelectedProfile.TablesContext.BookHasTags.Remove(bookHasTag);
                         }
                         return;

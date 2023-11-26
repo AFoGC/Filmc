@@ -332,14 +332,7 @@ namespace Filmc.Wpf.ViewModels
                     if (viewModel != null)
                     {
                         Book book = viewModel.Model;
-
-                        if (book.CategoryId != 0)
-                            book.CategoryId = 0;
-
-                        if (book.Priority != null)
-                            _model.TablesContext.BookInPriorities.Remove(book.Priority);
-
-                        _model.TablesContext.Books.Remove(book);
+                        _model.DeleteBook(book);
                     }
                 }));
             }

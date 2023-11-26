@@ -339,14 +339,7 @@ namespace Filmc.Wpf.ViewModels
                     if (viewModel != null)
                     {
                         Film film = viewModel.Model;
-
-                        if (film.CategoryId != 0)
-                            film.CategoryId = 0;
-
-                        if (film.Priority != null)
-                            _model.TablesContext.FilmInPriorities.Remove(film.Priority);
-
-                        _model.TablesContext.Films.Remove(film);
+                        _model.DeleteFilm(film);
                     }
                 }));
             }
