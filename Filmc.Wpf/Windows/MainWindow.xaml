@@ -6,6 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Filmc.Wpf.Windows"
         xmlns:vm="clr-namespace:Filmc.Wpf.ViewModels"
+        xmlns:ev="clr-namespace:Filmc.Wpf.EntityViews"
         xmlns:views="clr-namespace:Filmc.Wpf.Views"
         xmlns:global="clr-namespace:Filmc.Wpf"
         mc:Ignorable="d" Height="775" Width="1265"
@@ -24,6 +25,9 @@
     </i:Interaction.Triggers>
 
     <Grid>
+        <Grid.Resources>
+            <ev:BindingProxy x:Key="proxy" Data="{Binding}"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
@@ -80,6 +84,7 @@
             </ToggleButton>
         </StackPanel>
 
+        <!--
         <ContentControl Content="{Binding CurrentMenu}" Grid.Row="2">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type vm:FilmsMenuViewModel}">
@@ -93,6 +98,46 @@
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
+        -->
+
+        <views:FilmsMenuView DataContext="{Binding FilmsMenuViewModel}" Grid.Row="2">
+            <views:FilmsMenuView.Style>
+                <Style TargetType="{x:Type views:FilmsMenuView}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Data.FilmsSelected, Source={StaticResource proxy}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:FilmsMenuView.Style>
+        </views:FilmsMenuView>
+
+        <views:BooksMenuView DataContext="{Binding BooksMenuViewModel}" Grid.Row="2">
+            <views:BooksMenuView.Style>
+                <Style TargetType="{x:Type views:BooksMenuView}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Data.BooksSelected, Source={StaticResource proxy}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:BooksMenuView.Style>
+        </views:BooksMenuView>
+
+        <views:SettingsMenuView DataContext="{Binding SettingsMenuViewModel}" Grid.Row="2">
+            <views:SettingsMenuView.Style>
+                <Style TargetType="{x:Type views:SettingsMenuView}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Data.SettingsSelected, Source={StaticResource proxy}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </views:SettingsMenuView.Style>
+        </views:SettingsMenuView>
 
         <views:UpdateMenuView DataContext="{Binding UpdateMenuViewModel}" Visibility="{Binding MenuVisibility}" 
                               Grid.Row="1" Grid.RowSpan="2"/>

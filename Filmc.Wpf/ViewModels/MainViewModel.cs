@@ -99,6 +99,10 @@ namespace Filmc.Wpf.ViewModels
             }
         }
 
+        public FilmsMenuViewModel FilmsMenuViewModel => _filmsMenuViewModel;
+        public BooksMenuViewModel BooksMenuViewModel => _booksMenuViewModel;
+        public SettingsMenuViewModel SettingsMenuViewModel => _settingsMenuViewModel;
+
         public BaseViewModel? CurrentMenu
         {
             get => _currentMenu;
