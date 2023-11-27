@@ -62,6 +62,25 @@
             <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SearchTextBox}"/>
         </Grid>
 
+        <TextBlock Foreground="WhiteSmoke" HorizontalAlignment="Right"
+                   Margin="0,0,20,0" Grid.Column="1" Grid.Row="1">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding TablesViewModel.MenuMode}" Value="{x:Static global:BooksMenuMode.Categories}">
+                            <Setter Property="Text" Value="{DynamicResource show_cat_btn}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding TablesViewModel.MenuMode}" Value="{x:Static global:BooksMenuMode.Books}">
+                            <Setter Property="Text" Value="{DynamicResource show_book_btn}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding TablesViewModel.MenuMode}" Value="{x:Static global:FilmsMenuMode.Priorities}">
+                            <Setter Property="Text" Value="{DynamicResource show_bprior_btn}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
         <Grid Grid.Column="1" Grid.Row="2" Height="20" 
               Margin="0,0,0,1" DataContext="{Binding TablesViewModel}">
 

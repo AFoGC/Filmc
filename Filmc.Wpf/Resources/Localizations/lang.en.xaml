@@ -54,7 +54,7 @@
     <v:String x:Key="serch_btn">Search</v:String>
     <v:String x:Key="save_tab_btn">Save Table</v:String>
     <v:String x:Key="add_cat_btn">Add Group</v:String>
-    <v:String x:Key="show_cat_btn">Show Groups</v:String>
+    <v:String x:Key="show_cat_btn">Groups Menu</v:String>
     <v:String x:Key="filter_title">Filter options</v:String>
     <v:String x:Key="filter_by_genre">Filter by group</v:String>
 
