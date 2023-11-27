@@ -63,8 +63,10 @@ namespace Filmc.Wpf.ViewModels
             { 
                 _searchText = value;
 
-                SearchInBooks(value);
-                SearchInCategories(value);
+                string search = value.ToLowerInvariant();
+
+                SearchInBooks(search);
+                SearchInCategories(search);
 
                 OnPropertyChanged(); 
             }
