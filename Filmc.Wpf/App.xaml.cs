@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Filmc.Wpf
 {
@@ -27,6 +28,8 @@ namespace Filmc.Wpf
         {
             IServiceCollection serviceCollection = CreateServiceCollection();
             _serviceProvider = serviceCollection.BuildServiceProvider();
+
+            this.DispatcherUnhandledException += OnDispatcherUnhandledException;
 
             InitializeComponent();
         }
@@ -79,8 +82,12 @@ namespace Filmc.Wpf
             scaleService.ScaleChanged += OnScaleChanged;
 
             settingsService.LoadSettings();
-
             MainWindow.Show();
+        }
+
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void OnScaleChanged(ScaleEnum scale)
