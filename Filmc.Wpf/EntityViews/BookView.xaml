@@ -81,7 +81,7 @@
             <TextBox Text="{Binding Bookmark}" ToolTip="{DynamicResource bookmark_tt}" 
                      Width="{DynamicResource bookmark_width}"/>
 
-            <TextBox Text="{Binding FullReadDate}" ToolTip="{DynamicResource end_read_date_tt}" 
+            <TextBox Text="{Binding FullReadDate, StringFormat=dd.MM.yyyy}" ToolTip="{DynamicResource end_read_date_tt}" 
                      Width="{DynamicResource date_width}"/>
 
             <TextBox ToolTip="{DynamicResource mark_tt}" Width="{DynamicResource mark_width}"
