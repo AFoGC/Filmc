@@ -46,7 +46,7 @@ namespace Filmc.Wpf.ViewModels
 
         public SettingsMenuViewModel(SettingsService settingsService, MarkSystemService markSystemService,
                                      ExplorerService explorerService, ImportFileDialogService importFileService, 
-                                     ChangeProfileWindowService changeProfileWindowService)
+                                     ChangeProfileWindowService changeProfileWindowService, BackgroundImageService backgroundImageService)
         {
             TablesViewModel = new SettingsTablesViewModel(settingsService);
 
@@ -56,15 +56,19 @@ namespace Filmc.Wpf.ViewModels
             _importFileDialogService = importFileService;
             _changeProfileWindowService = changeProfileWindowService;
 
+            BackgroundImageViewModel = new BackgroundImageViewModel(backgroundImageService);
+
             OnSelectedProfileChanged(_settingsService.ProfilesService.SelectedProfile);
             _settingsService.ProfilesService.SelectedProfileChanged += OnSelectedProfileChanged;
 
             Timers = new List<double> { 10, 15, 30, 60, 360, 600 };
             MarkSystems = new List<int> { 3, 5, 6, 10, 12, 25 };
-            _changeProfileWindowService = changeProfileWindowService;
+
+            
         }
 
         public SettingsTablesViewModel TablesViewModel { get; }
+        public BackgroundImageViewModel BackgroundImageViewModel { get; }
         public List<double> Timers { get; }
         public List<int> MarkSystems { get; }
         public IEnumerable<CultureInfo> Languages => _settingsService.LanguageService.Languages;

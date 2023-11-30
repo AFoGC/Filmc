@@ -20,6 +20,8 @@ namespace Filmc.Wpf.SettingsServices
         private const string scaleNodeName = "Scale";
         private const string autosaveNodeName = "IsSaveTimerEnabled";
         private const string autosaveSecondsNodeName = "SaveTimerSeconds";
+        private const string backgorundImageNodeName = "BackgroundImage";
+        private const string backgorundOpacityNodeName = "BackgroundOpacity";
 
         private readonly XmlDocument _settingsXml;
 
@@ -28,11 +30,13 @@ namespace Filmc.Wpf.SettingsServices
         private readonly AutoSaveService _autoSaveService;
         private readonly LanguageService _languageService;
         private readonly ScaleService _scaleService;
+        private readonly BackgroundImageService _backgroundImageService;
         
         public SettingsService(ProfilesService profilesService, 
                                AutoSaveService autoSaveService, 
                                LanguageService languageService,
-                               ScaleService scaleService)
+                               ScaleService scaleService,
+                               BackgroundImageService backgroundImageService)
         {
             _settingsXml = new XmlDocument();
 
@@ -41,6 +45,7 @@ namespace Filmc.Wpf.SettingsServices
             _autoSaveService = autoSaveService;
             _languageService = languageService;
             _scaleService = scaleService;
+            _backgroundImageService = backgroundImageService;
 
             _profilesService.SelectedProfileChanged += OnProfileChanged;
 
@@ -49,12 +54,16 @@ namespace Filmc.Wpf.SettingsServices
 
             _languageService.LanguageChanged += OnLanguageChanged;
             _scaleService.ScaleChanged += OnScaleChanged;
+
+            _backgroundImageService.ImageChanged += OnImageChanged;
+            _backgroundImageService.OpacityChanged += OnOpacityChanged;
         }
 
         public ProfilesService ProfilesService => _profilesService;
         public AutoSaveService AutoSaveService => _autoSaveService;
         public LanguageService LanguageService => _languageService;
         public ScaleService ScaleService => _scaleService;
+        public BackgroundImageService BackgroundImageService => _backgroundImageService;
 
         public void LoadSettings()
         {
@@ -66,6 +75,8 @@ namespace Filmc.Wpf.SettingsServices
             LoadXmlScale();
             LoadXmlAutosaveEnabled();
             LoadXmlAutosaveSeconds();
+            LoadXmlImageName();
+            LoadXmlImageOpacity();
         }
 
         private void LoadXmlProfile()
@@ -119,6 +130,22 @@ namespace Filmc.Wpf.SettingsServices
                 _autoSaveService.SaveTimerInterval = Double.Parse(node.InnerText);
         }
 
+        private void LoadXmlImageName()
+        {
+            XmlNode? node = GetXmlNode(backgorundImageNodeName);
+
+            if (node != null && node.InnerText != String.Empty)
+                _backgroundImageService.ImageName = node.InnerText;
+        }
+
+        private void LoadXmlImageOpacity()
+        {
+            XmlNode? node = GetXmlNode(backgorundOpacityNodeName);
+
+            if (node != null)
+                _backgroundImageService.Opacity = Double.Parse(node.InnerText);
+        }
+
         private void OnScaleChanged(ScaleEnum scale)
         {
             SetXmlNodeValue(scaleNodeName, scale.ToString());
@@ -142,6 +169,16 @@ namespace Filmc.Wpf.SettingsServices
         private void OnAutosaveIntervalChanged()
         {
             SetXmlNodeValue(autosaveSecondsNodeName, _autoSaveService.SaveTimerInterval.ToString());
+        }
+
+        private void OnOpacityChanged(double obj)
+        {
+            SetXmlNodeValue(backgorundOpacityNodeName, _backgroundImageService.Opacity.ToString());
+        }
+
+        private void OnImageChanged(System.Windows.Media.Imaging.BitmapImage? obj)
+        {
+            SetXmlNodeValue(backgorundImageNodeName, _backgroundImageService.ImageName);
         }
 
         public void SaveSettings()

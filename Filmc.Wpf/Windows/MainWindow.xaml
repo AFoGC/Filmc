@@ -43,7 +43,7 @@
             <Button Style="{StaticResource CloseButton}" Content="❌" Width="40" 
                     Click="CloseWindow"/>
         </StackPanel>
-        
+
         <StackPanel Grid.Row="1" Background="{StaticResource DefaultButtonColor}">
             <StackPanel.Resources>
                 <Style TargetType="ToggleButton" BasedOn="{StaticResource NavbarToggleButton}">
@@ -83,22 +83,6 @@
                 </ToggleButton.Content>
             </ToggleButton>
         </StackPanel>
-
-        <!--
-        <ContentControl Content="{Binding CurrentMenu}" Grid.Row="2">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type vm:FilmsMenuViewModel}">
-                    <views:FilmsMenuView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type vm:BooksMenuViewModel}">
-                    <views:BooksMenuView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type vm:SettingsMenuViewModel}">
-                    <views:SettingsMenuView />
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
-        -->
 
         <views:FilmsMenuView DataContext="{Binding FilmsMenuViewModel}" Grid.Row="2">
             <views:FilmsMenuView.Style>
@@ -144,7 +128,7 @@
 
         <TextBlock DataContext="{Binding StatusBarViewModel}" VerticalAlignment="Stretch" 
                    Padding="10,0" Grid.Row="3">
-            
+
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="Background" Value="{StaticResource DefaultButtonColor}"/>

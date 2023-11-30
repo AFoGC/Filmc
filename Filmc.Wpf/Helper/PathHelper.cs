@@ -13,12 +13,14 @@ namespace Filmc.Wpf.Helper
         public static readonly string MainDirectory;
         public static readonly string ProfilesPath;
         public static readonly string SettingsPath;
+        public static readonly string ImagesResourcePath;
 
         static PathHelper()
         {
             MainDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             SettingsPath = Path.Combine(MainDirectory, "ProgramSetting.xml");
             ProfilesPath = Path.Combine(MainDirectory, "Profiles");
+            ImagesResourcePath = Path.Combine(MainDirectory, "Resources", "Background");
         }
 
         public static string GetProfileDirectoryPath(string profileName)

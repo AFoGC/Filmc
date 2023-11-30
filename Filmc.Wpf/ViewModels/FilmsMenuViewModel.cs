@@ -3,6 +3,7 @@ using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Helper;
 using Filmc.Wpf.Models;
 using Filmc.Wpf.Services;
+using Filmc.Wpf.SettingsServices;
 using Filmc.Wpf.ViewCollections;
 using Filmc.Xtl;
 using Filmc.Xtl.Entities;
@@ -16,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 namespace Filmc.Wpf.ViewModels
 {
@@ -48,9 +50,10 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? checkGenresCommand;
         private RelayCommand? checkTagsCommand;
 
-        public FilmsMenuViewModel(FilmsModel model, UpdateMenuService updateMenuService)
+        public FilmsMenuViewModel(FilmsModel model, UpdateMenuService updateMenuService, BackgroundImageService backgroundImageService)
         {
             _model = model;
+            BackgroundImageViewModel = new BackgroundImageViewModel(backgroundImageService);
             TablesViewModel = new FilmTablesViewModel(model, updateMenuService);
 
             _searchText = String.Empty;
@@ -62,6 +65,7 @@ namespace Filmc.Wpf.ViewModels
         }
 
         public FilmTablesViewModel TablesViewModel { get; }
+        public BackgroundImageViewModel BackgroundImageViewModel { get; }
 
         public string SearchText
         {

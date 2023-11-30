@@ -45,6 +45,7 @@ namespace Filmc.Wpf
             serviceCollection.AddSingleton<ChangeProfileWindowService>();
 
             serviceCollection.AddSingleton<AutoSaveService>();
+            serviceCollection.AddSingleton<BackgroundImageService>();
             serviceCollection.AddSingleton<LanguageService>();
             serviceCollection.AddSingleton<MarkSystemService>();
             serviceCollection.AddSingleton<ScaleService>();
