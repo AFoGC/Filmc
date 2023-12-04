@@ -7,42 +7,35 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using Octokit;
-using FileMode = System.IO.FileMode;
 
 namespace Filmc.Wpf.Updater.Module
 {
     public static class Updater
     {
-        public static async void UpdateFilmc()
+        public static async Task<bool> UpdateFilmc()
         {
-            var client = new GitHubClient(new ProductHeaderValue("Filmc"));
-            var releases = client.Repository.Release.GetAll("AFoGC", "Filmc").Result;
+            bool exp = false;
 
-            Release latest = releases[0];
+            Helper.RemoveUpdateDir();
 
-            HttpClient httpClient = new HttpClient();
-            Stream fileStream = await httpClient.GetStreamAsync(latest.ZipballUrl);
+            var releases = Helper.GetReleases();
+            await Helper.DownloadLastRealise(releases);
 
-            using (FileStream outputFileStream = new FileStream("Filmc.zip", FileMode.Create))
-            {
-                fileStream.CopyTo(outputFileStream);
-            }
+            exp = Helper.ReplaceFilmcFiles();
+            Helper.RemoveUpdateDir();
 
-            ZipFile.ExtractToDirectory("Filmc.zip", "");
+            return exp;
         }
 
         public static bool IsFilmcLastVersion()
         {
-            string prog = Assembly.GetExecutingAssembly().Location;
-            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(prog);
-            string version = fileVersionInfo.ProductVersion;
+            string version = Helper.GetProductVersion();
 
-            var client = new GitHubClient(new ProductHeaderValue("Filmc"));
-            IReadOnlyList<Release> releases = client.Repository.Release.GetAll("AFoGC", "Filmc").Result;
-
+            IReadOnlyList<Release> releases = Helper.GetReleases();
             Release release = releases[0];
 
             return release.TagName == version;
@@ -50,7 +43,7 @@ namespace Filmc.Wpf.Updater.Module
 
         public static void UpdateUpdater()
         {
-
+            throw new NotImplementedException();
         }
     }
 }
