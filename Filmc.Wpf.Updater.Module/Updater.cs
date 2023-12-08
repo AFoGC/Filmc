@@ -41,6 +41,11 @@ namespace Filmc.Wpf.Updater.Module
             return release.TagName == version;
         }
 
+        public static void IsUpdaterLastVersion()
+        {
+            throw new NotImplementedException();
+        }
+
         public static void UpdateUpdater()
         {
             throw new NotImplementedException();

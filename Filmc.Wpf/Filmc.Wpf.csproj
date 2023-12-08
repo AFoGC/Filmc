@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Filmc.Wpf.Updater.Module\Filmc.Wpf.Updater.Module.csproj" />
     <ProjectReference Include="..\Filmc.Xtl\Filmc.Xtl.csproj" />
   </ItemGroup>
 
