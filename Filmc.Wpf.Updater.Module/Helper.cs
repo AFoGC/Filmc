@@ -4,70 +4,97 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using FileMode = System.IO.FileMode;
 
 namespace Filmc.Wpf.Updater.Module
 {
     internal static class Helper
     {
-        private static string MainDirectory => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
-        private static string UpdatePath => Path.Combine(MainDirectory, "update");
+        private static readonly HttpClient HttpClient;
+        private static readonly GitHubClient GitHubClient;
+
+        private static readonly string MainDirectory;
+        private static readonly string UpdaterDirectory;
+        private static readonly string UpdateTempPath;
+        private static readonly string ZipFilePath;
+        private static readonly string MainProgramPath;
+
+        static Helper()
+        {
+            HttpClient = new HttpClient();
+            HttpClient.DefaultRequestHeaders.Add("User-Agent", "C# App");
+
+            GitHubClient = new GitHubClient(new ProductHeaderValue("Filmc"));
+
+            UpdaterDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+            UpdateTempPath = Path.Combine(UpdaterDirectory, "update");
+            ZipFilePath = Path.Combine(UpdateTempPath, "Filmc.zip");
+
+            MainDirectory = Path.GetDirectoryName(UpdaterDirectory)!;
+            //MainProgramPath = Path.Combine(MainDirectory, "Filmc.exe");
+            MainProgramPath = Path.Combine(MainDirectory, "WpfApp.exe");
+        }
 
         internal static IReadOnlyList<Release> GetReleases()
         {
-            var client = new GitHubClient(new ProductHeaderValue("Filmc"));
-            var releases = client.Repository.Release.GetAll("AFoGC", "FilmsDBCWpf").Result;
+            var releases = GitHubClient.Repository.Release.GetAll("AFoGC", "FilmsDBCWpf").Result;
             return releases;
         }
 
         internal static async Task DownloadLastRealise(IReadOnlyList<Release> releases)
         {
             Release latest = releases[0];
-
-            HttpClient httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "C# App");
-
-            string zipPath = Path.Combine(MainDirectory, UpdatePath, "Filmc.zip");
-
             string downloadUrl = latest.Assets[0].BrowserDownloadUrl;
-            Stream fileStream = await httpClient.GetStreamAsync(downloadUrl);
 
-            using (FileStream outputFileStream = new FileStream(zipPath, FileMode.Create))
-            {
-                fileStream.CopyTo(outputFileStream);
-            }
+            Directory.CreateDirectory(UpdateTempPath);
+            
+            byte[] fileBytes = await HttpClient.GetByteArrayAsync(downloadUrl);
+            File.WriteAllBytes(ZipFilePath, fileBytes);
 
-            ZipFile.ExtractToDirectory(zipPath, UpdatePath);
+            ZipFile.ExtractToDirectory(ZipFilePath, UpdateTempPath);
         }
 
         internal static bool ReplaceFilmcFiles()
         {
-            if (Directory.Exists(UpdatePath))
+            if (Directory.Exists(UpdateTempPath))
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(UpdatePath);
-                FileInfo[] files = directoryInfo.GetFiles();
+                DirectoryInfo updateDirectory = new DirectoryInfo(UpdateTempPath);
+                DirectoryInfo mainProgramDirectory = updateDirectory.GetDirectories().First();
 
-                foreach (var file in files)
+                foreach (var file in mainProgramDirectory.GetFiles())
                 {
                     string filePath = Path.Combine(MainDirectory, file.Name);
                     file.MoveTo(filePath, true);
                 }
 
-                return false;
+                foreach (var directory in mainProgramDirectory.GetDirectories())
+                {
+                    string directoryPath = Path.Combine(MainDirectory, directory.Name);
+
+                    if (directoryPath != UpdaterDirectory)
+                    {
+                        if (Directory.Exists(directoryPath))
+                            Directory.Delete(directoryPath);
+
+                        directory.MoveTo(directoryPath);
+                    }
+                }
+
+                return true;
             }
 
-            return true;
+            return false;
         }
 
-        internal static void RemoveUpdateDir()
+        internal static void RemoveUpdateFiles()
         {
-            if (Directory.Exists(UpdatePath))
+            if (Directory.Exists(UpdateTempPath))
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(UpdatePath);
-                directoryInfo.Delete();
+                DirectoryInfo directoryInfo = new DirectoryInfo(UpdateTempPath);
+                directoryInfo.Delete(true);
             }
         }
 
@@ -76,6 +103,11 @@ namespace Filmc.Wpf.Updater.Module
             string prog = Assembly.GetExecutingAssembly().Location;
             FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(prog);
             return fileVersionInfo.ProductVersion!;
+        }
+
+        internal static void FilmcStartup()
+        {
+            Process.Start(MainProgramPath);
         }
     }
 }

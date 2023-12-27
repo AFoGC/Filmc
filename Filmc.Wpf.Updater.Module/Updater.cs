@@ -20,13 +20,13 @@ namespace Filmc.Wpf.Updater.Module
         {
             bool exp = false;
 
-            Helper.RemoveUpdateDir();
+            Helper.RemoveUpdateFiles();
 
             var releases = Helper.GetReleases();
             await Helper.DownloadLastRealise(releases);
 
             exp = Helper.ReplaceFilmcFiles();
-            Helper.RemoveUpdateDir();
+            Helper.RemoveUpdateFiles();
 
             return exp;
         }
@@ -49,6 +49,11 @@ namespace Filmc.Wpf.Updater.Module
         public static void UpdateUpdater()
         {
             throw new NotImplementedException();
+        }
+
+        public static void RunFilmc()
+        {
+            Helper.FilmcStartup();
         }
     }
 }

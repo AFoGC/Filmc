@@ -24,5 +24,12 @@ namespace Filmc.Wpf.Updater
         {
             InitializeComponent();
         }
+
+        protected async override void OnActivated(EventArgs e)
+        {
+            await Module.Updater.UpdateFilmc();
+            App.Current.Shutdown();
+            base.OnActivated(e);
+        }
     }
 }
