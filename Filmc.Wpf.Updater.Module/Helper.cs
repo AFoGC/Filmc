@@ -34,13 +34,12 @@ namespace Filmc.Wpf.Updater.Module
             ZipFilePath = Path.Combine(UpdateTempPath, "Filmc.zip");
 
             MainDirectory = Path.GetDirectoryName(UpdaterDirectory)!;
-            //MainProgramPath = Path.Combine(MainDirectory, "Filmc.exe");
-            MainProgramPath = Path.Combine(MainDirectory, "WpfApp.exe");
+            MainProgramPath = Path.Combine(MainDirectory, "Filmc.exe");
         }
 
         internal static IReadOnlyList<Release> GetReleases()
         {
-            var releases = GitHubClient.Repository.Release.GetAll("AFoGC", "FilmsDBCWpf").Result;
+            var releases = GitHubClient.Repository.Release.GetAll("AFoGC", "Filmc").Result;
             return releases;
         }
 
@@ -89,6 +88,23 @@ namespace Filmc.Wpf.Updater.Module
             return false;
         }
 
+        internal static bool ReplaceUpdaterFiles()
+        {
+            if (Directory.Exists(UpdateTempPath))
+            {
+                DirectoryInfo updateDirectory = new DirectoryInfo(UpdateTempPath);
+                DirectoryInfo updaterDirectory = updateDirectory
+                    .GetDirectories()
+                    .First(x => x.Name == "updater");
+
+                updateDirectory.MoveTo(UpdaterDirectory);
+
+                return true;
+            }
+
+            return false;
+        }
+
         internal static void RemoveUpdateFiles()
         {
             if (Directory.Exists(UpdateTempPath))
@@ -98,16 +114,16 @@ namespace Filmc.Wpf.Updater.Module
             }
         }
 
-        internal static string GetProductVersion()
+        internal static string GetProductVersion(Assembly assembly)
         {
-            string prog = Assembly.GetExecutingAssembly().Location;
+            string prog = assembly.Location;
             FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(prog);
             return fileVersionInfo.ProductVersion!;
         }
 
-        internal static void FilmcStartup()
+        internal static void FilmcStartup(string arguments)
         {
-            Process.Start(MainProgramPath);
+            Process.Start(MainProgramPath, arguments);
         }
     }
 }

@@ -11,7 +11,8 @@
         xmlns:global="clr-namespace:Filmc.Wpf"
         mc:Ignorable="d" Height="775" Width="1265"
         Title="MainWindow" Background="{x:Null}" 
-        WindowStyle="None" ResizeMode="CanResizeWithGrip">
+        WindowStyle="None" ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding SaveSettingsCommand}"/>
@@ -21,6 +22,9 @@
         </i:EventTrigger>
         <i:EventTrigger EventName="KeyDown">
             <i:InvokeCommandAction Command="{Binding KeyDownCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding CheckUpdateCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 

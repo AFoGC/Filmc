@@ -51,6 +51,7 @@ namespace Filmc.Wpf
             serviceCollection.AddSingleton<ScaleService>();
             serviceCollection.AddSingleton<SettingsService>();
             serviceCollection.AddSingleton<UpdateMenuService>();
+            serviceCollection.AddSingleton<UpdateProgramSerivce>();
 
             serviceCollection.AddSingleton<FilmsModel>();
             serviceCollection.AddSingleton<BooksModel>();
@@ -79,8 +80,12 @@ namespace Filmc.Wpf
             LanguageService languageService = _serviceProvider.GetRequiredService<LanguageService>();
             ScaleService scaleService = _serviceProvider.GetRequiredService<ScaleService>();
 
+            UpdateProgramSerivce updateProgramSerivce = _serviceProvider.GetRequiredService<UpdateProgramSerivce>();
+
             languageService.LanguageChanged += OnLanguageChanged;
             scaleService.ScaleChanged += OnScaleChanged;
+
+            updateProgramSerivce.UpdateUpdater(e.Args);
 
             settingsService.LoadSettings();
             MainWindow.Show();

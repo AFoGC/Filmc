@@ -26,34 +26,44 @@ namespace Filmc.Wpf.Updater.Module
             await Helper.DownloadLastRealise(releases);
 
             exp = Helper.ReplaceFilmcFiles();
+
+            return exp;
+        }
+
+        public static bool UpdateUpdater()
+        {
+            bool exp = false;
+
+            Helper.ReplaceUpdaterFiles();
             Helper.RemoveUpdateFiles();
 
             return exp;
         }
 
-        public static bool IsFilmcLastVersion()
+        public static UpdateInfo? GetLastUpdate(Assembly assembly)
         {
-            string version = Helper.GetProductVersion();
+            string version = Helper.GetProductVersion(assembly);
 
             IReadOnlyList<Release> releases = Helper.GetReleases();
             Release release = releases[0];
 
-            return release.TagName == version;
+            if (release.TagName != version)
+            {
+                return new UpdateInfo
+                {
+                    Tag = release.TagName,
+                    Description = release.Body
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public static void IsUpdaterLastVersion()
+        public static void RunFilmcAfterUpdate()
         {
-            throw new NotImplementedException();
-        }
-
-        public static void UpdateUpdater()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void RunFilmc()
-        {
-            Helper.FilmcStartup();
+            Helper.FilmcStartup("-uu");
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Filmc.Wpf.ViewModels
         private readonly BooksMenuViewModel _booksMenuViewModel;
         private readonly SettingsMenuViewModel _settingsMenuViewModel;
         private readonly UpdateMenuViewModel _updateMenuViewModel;
+        private readonly UpdateProgramSerivce _updateProgramSerivce;
 
         private readonly ExitWindowService _exitService;
         private readonly SettingsService _settingsService;
@@ -30,16 +31,18 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? saveSettingsCommand;
         private RelayCommand? saveAndExitCommand;
         private RelayCommand? keyDownCommand;
+        private RelayCommand? checkUpdateCommand;
 
         public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel,
                SettingsMenuViewModel settingsMenuViewModel, UpdateMenuViewModel updateMenuViewModel,
                StatusBarViewModel statusBarViewModel, SettingsService settingsService, 
-               ExitWindowService exitService)
+               ExitWindowService exitService, UpdateProgramSerivce updateProgramSerivce)
         {
             _filmsMenuViewModel = filmsMenuViewModel;
             _booksMenuViewModel = booksMenuViewModel;
             _settingsMenuViewModel = settingsMenuViewModel;
             _updateMenuViewModel = updateMenuViewModel;
+            _updateProgramSerivce = updateProgramSerivce;
 
             _exitService = exitService;
             _settingsService = settingsService;
@@ -161,6 +164,18 @@ namespace Filmc.Wpf.ViewModels
                     {
                         _settingsService.ProfilesService.SelectedProfile.SaveTables();
                     }
+                }));
+            }
+        }
+
+        public RelayCommand CheckUpdateCommand
+        {
+            get
+            {
+                return checkUpdateCommand ??
+                (checkUpdateCommand = new RelayCommand(obj =>
+                {
+                    _updateProgramSerivce.CheckUpdate();
                 }));
             }
         }

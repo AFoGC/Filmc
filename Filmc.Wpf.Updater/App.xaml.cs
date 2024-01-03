@@ -23,7 +23,7 @@ namespace Filmc.Wpf.Updater
 
         protected override void OnExit(ExitEventArgs e)
         {
-            Module.Updater.RunFilmc();
+            Module.Updater.RunFilmcAfterUpdate();
             base.OnExit(e);
         }
     }
