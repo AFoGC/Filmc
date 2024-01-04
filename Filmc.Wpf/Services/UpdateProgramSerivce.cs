@@ -14,15 +14,16 @@ namespace Filmc.Wpf.Services
 {
     public class UpdateProgramSerivce
     {
+        private readonly ProgramsUpdater _programsUpdater;
+
         public UpdateProgramSerivce()
         {
-
+            _programsUpdater = new ProgramsUpdater(PathHelper.MainDirectory);
         }
 
         public void CheckUpdate()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            UpdateInfo? info = Updater.Module.Updater.GetLastUpdate(assembly);
+            UpdateInfo? info = _programsUpdater.GetLastUpdate();
 
             if (info != null)
             {
@@ -47,7 +48,7 @@ namespace Filmc.Wpf.Services
 
         private void UpdateUpdater()
         {
-            bool isUpdated = Updater.Module.Updater.UpdateUpdater();
+            bool isUpdated = _programsUpdater.UpdateUpdater();
             if (isUpdated == false)
             {
                 MessageBox.Show("Is not updated updater");

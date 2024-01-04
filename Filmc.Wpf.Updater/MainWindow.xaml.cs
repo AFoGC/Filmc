@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Filmc.Wpf.Updater.Module;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,17 @@ namespace Filmc.Wpf.Updater
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly ProgramsUpdater _programsUpdater;
+
+        public MainWindow(ProgramsUpdater programsUpdater)
         {
+            _programsUpdater = programsUpdater;
             InitializeComponent();
         }
 
         protected async override void OnActivated(EventArgs e)
         {
-            await Module.Updater.UpdateFilmc();
+            await _programsUpdater.UpdateFilmc();
             App.Current.Shutdown();
             base.OnActivated(e);
         }
