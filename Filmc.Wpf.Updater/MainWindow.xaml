@@ -7,8 +7,8 @@
         WindowStyle="None"
         mc:Ignorable="d"
         Title="MainWindow" Height="150" Width="600"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Background="#121212">
     <Grid>
-        <TextBlock Text="Downloader" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36" />
+        <TextBlock Text="Filmc Downloader" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="36" Foreground="WhiteSmoke"/>
     </Grid>
 </Window>

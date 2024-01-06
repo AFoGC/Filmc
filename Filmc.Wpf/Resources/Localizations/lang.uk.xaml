@@ -47,8 +47,19 @@
     <v:String x:Key="st_bmark_title">Система оцінок книг</v:String>
     <v:String x:Key="st_mark_btn">Змінити систему оцінок</v:String>
 
+    <!--BG Image Settings-->
+    <v:String x:Key="st_bgimage_title">Налаштування фонового зображення</v:String>
+    <v:String x:Key="st_bgimage_remove">Прибрати</v:String>
+    <v:String x:Key="st_bgimage_select">Вибрати</v:String>
+    <v:String x:Key="st_bgimage_opacity">Прозорість зображення</v:String>
+
     <!--Tags Settings-->
     <v:String x:Key="st_del_tag">Видалити тег</v:String>
+
+    <!--Update Window-->
+    <v:String x:Key="update_window_title">Нова версія </v:String>
+    <v:String x:Key="update_window_update">Оновити</v:String>
+    <v:String x:Key="update_window_cancel">Пізніше</v:String>
 
     <!--Common Buttons-->
     <v:String x:Key="serch_btn">Пошук</v:String>

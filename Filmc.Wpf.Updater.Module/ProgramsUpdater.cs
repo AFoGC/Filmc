@@ -17,10 +17,13 @@ namespace Filmc.Wpf.Updater.Module
 
         private readonly string _mainDirectory;
         private readonly string _updaterDirectory;
+        private readonly string _profilesDirectory;
         private readonly string _mainProgramPath;
 
         private readonly string _updateTempPath;
         private readonly string _zipFilePath;
+
+        private readonly string[] _exclusiveDirectories;
         
         public ProgramsUpdater(string mainDirectory)
         {
@@ -31,10 +34,13 @@ namespace Filmc.Wpf.Updater.Module
 
             _mainDirectory = mainDirectory;
             _updaterDirectory = Path.Combine(_mainDirectory, "updater");
+            _profilesDirectory = Path.Combine(_mainDirectory, "Profiles");
             _mainProgramPath = Path.Combine(_mainDirectory, "Filmc.exe");
 
             _updateTempPath = Path.Combine(_updaterDirectory, "update");
             _zipFilePath = Path.Combine(_updateTempPath, "Filmc.zip");
+
+            _exclusiveDirectories = new string[] { _profilesDirectory, _updaterDirectory };
         }
 
         public async Task<bool> UpdateFilmc()
@@ -130,7 +136,7 @@ namespace Filmc.Wpf.Updater.Module
                 {
                     string directoryPath = Path.Combine(_mainDirectory, directory.Name);
 
-                    if (directoryPath != _updaterDirectory)
+                    if (_exclusiveDirectories.Contains(directoryPath) == false)
                     {
                         if (Directory.Exists(directoryPath))
                             Directory.Delete(directoryPath);

@@ -47,8 +47,19 @@
     <v:String x:Key="st_bmark_title">Books Mark System</v:String>
     <v:String x:Key="st_mark_btn">Change Mark System</v:String>
 
+    <!--BG Image Settings-->
+    <v:String x:Key="st_bgimage_title">Background Image Settings</v:String>
+    <v:String x:Key="st_bgimage_remove">Remove</v:String>
+    <v:String x:Key="st_bgimage_select">Select</v:String>
+    <v:String x:Key="st_bgimage_opacity">Image Opacity</v:String>
+
     <!--Tags Settings-->
     <v:String x:Key="st_del_tag">Delete Tag</v:String>
+
+    <!--Update Window-->
+    <v:String x:Key="update_window_title">New version </v:String>
+    <v:String x:Key="update_window_update">Update</v:String>
+    <v:String x:Key="update_window_cancel">Later</v:String>
 
     <!--Common Buttons-->
     <v:String x:Key="serch_btn">Search</v:String>

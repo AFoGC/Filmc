@@ -27,14 +27,15 @@
         </Grid.Resources>
 
         <StackPanel Margin="20,0" VerticalAlignment="Center" Orientation="Horizontal">
-            <TextBlock Foreground="WhiteSmoke" FontSize="18" Text="New version "/>
+            <TextBlock Foreground="WhiteSmoke" FontSize="18" Text="{DynamicResource update_window_title}"/>
+            <TextBlock Foreground="WhiteSmoke" FontSize="18" Text=" "/>
             <TextBlock Foreground="WhiteSmoke" FontSize="18" x:Name="VersionTextBlock"/>
         </StackPanel>
 
         <TextBlock Grid.Row="1" Grid.ColumnSpan="2" x:Name="DescriptionTextBlock"
                    TextWrapping="Wrap" Foreground="WhiteSmoke" Margin="20,0"/>
 
-        <Button Content="Update" Grid.Row="2" Grid.Column="0" Click="OnUpdateClick" />
-        <Button Content="Cancel" Grid.Row="2" Grid.Column="1" Click="OnCancelClick" />
+        <Button Content="{DynamicResource update_window_update}" Grid.Row="2" Grid.Column="0" Click="OnUpdateClick" />
+        <Button Content="{DynamicResource update_window_cancel}" Grid.Row="2" Grid.Column="1" Click="OnCancelClick" />
     </Grid>
 </Window>
