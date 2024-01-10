@@ -50,9 +50,12 @@ namespace Filmc.Wpf.Updater.Module
             RemoveUpdateFiles();
 
             var release = GetLatestRelease();
-            await DownloadLastRealise(release);
 
-            exp = ReplaceFilmcFiles();
+            if (release != null)
+            {
+                await DownloadLastRealise(release);
+                exp = ReplaceFilmcFiles();
+            }
 
             return exp;
         }
@@ -72,18 +75,19 @@ namespace Filmc.Wpf.Updater.Module
             string version = GetProductVersion();
             Release release = GetLatestRelease();
 
-            if (release.TagName != version)
+            if (release != null)
             {
-                return new UpdateInfo
+                if (release.TagName != version)
                 {
-                    Tag = release.TagName,
-                    Description = release.Body
-                };
+                    return new UpdateInfo
+                    {
+                        Tag = release.TagName,
+                        Description = release.Body
+                    };
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         public void FilmcStartup()
@@ -96,9 +100,19 @@ namespace Filmc.Wpf.Updater.Module
             Process.Start(_mainProgramPath, arguments);
         }
 
-        private Release GetLatestRelease()
+        private Release? GetLatestRelease()
         {
-            return _gitHubClient.Repository.Release.GetLatest("AFoGC", "Filmc").Result;
+            Release? release;
+            try
+            {
+                release = _gitHubClient.Repository.Release.GetLatest("AFoGC", "Filmc").Result;
+            }
+            catch (AggregateException)
+            {
+                release = null;
+            }
+
+            return release;
         }
 
         private IReadOnlyList<Release> GetReleases()
