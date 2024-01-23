@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Xml.Linq;
 using Filmc.Entities.PropertyTypes;
 
@@ -17,7 +18,7 @@ namespace Filmc.Entities.Entities
             HideName = String.Empty;
             Mark = new Mark();
 
-            Films = new HashSet<Film>();
+            Films = new ObservableCollection<Film>();
         }
 
         public int Id 
@@ -43,6 +44,6 @@ namespace Filmc.Entities.Entities
 
         public virtual Mark Mark { get; }
 
-        public virtual ICollection<Film> Films { get; set; }
+        public virtual ObservableCollection<Film> Films { get; }
     }
 }

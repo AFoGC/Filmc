@@ -8,17 +8,23 @@ namespace Filmc.Entities.Entities
         private int _id;
         private DateTime _creationDate;
 
-        public int Id 
-        { 
-            get => _id; 
+        private Book book = null!;
+
+        public int Id
+        {
+            get => _id;
             set { _id = value; OnPropertyChanged(); }
         }
-        public DateTime CreationDate 
-        { 
-            get => _creationDate; 
+        public DateTime CreationDate
+        {
+            get => _creationDate;
             set { _creationDate = value; OnPropertyChanged(); }
         }
 
-        public virtual Book Book { get; set; } = null!;
+        public virtual Book Book 
+        { 
+            get => book;
+            set { book = value; OnPropertyChanged(); } 
+        }
     }
 }

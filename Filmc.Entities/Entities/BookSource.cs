@@ -10,33 +10,39 @@ namespace Filmc.Entities.Entities
         private string _name = null!;
         private string _url = null!;
 
+        private Book book = null!;
+
         public BookSource()
         {
             Name = String.Empty;
             Url = String.Empty;
         }
 
-        public int Id 
-        { 
-            get => _id; 
+        public int Id
+        {
+            get => _id;
             set { _id = value; OnPropertyChanged(); }
         }
-        public int BookId 
-        { 
-            get => _bookId; 
+        public int BookId
+        {
+            get => _bookId;
             set { _bookId = value; OnPropertyChanged(); }
         }
-        public string Name 
-        { 
-            get => _name; 
+        public string Name
+        {
+            get => _name;
             set { _name = value; OnPropertyChanged(); }
         }
-        public string Url 
-        { 
-            get => _url; 
+        public string Url
+        {
+            get => _url;
             set { _url = value; OnPropertyChanged(); }
         }
 
-        public virtual Book Book { get; set; } = null!;
+        public virtual Book Book 
+        { 
+            get => book;
+            set { book = value; OnPropertyChanged(); }
+        }
     }
 }
