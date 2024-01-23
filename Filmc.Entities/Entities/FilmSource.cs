@@ -10,33 +10,39 @@ namespace Filmc.Entities.Entities
         private string _name = null!;
         private string _url = null!;
 
+        private Film film = null!;
+
         public FilmSource()
         {
             Name = String.Empty;
             Url = String.Empty;
         }
 
-        public int Id 
-        { 
-            get => _id; 
+        public int Id
+        {
+            get => _id;
             set { _id = value; OnPropertyChanged(); }
         }
-        public int FilmId 
-        { 
-            get => _filmId; 
+        public int FilmId
+        {
+            get => _filmId;
             set { _filmId = value; OnPropertyChanged(); }
         }
-        public string Name 
-        { 
-            get => _name; 
+        public string Name
+        {
+            get => _name;
             set { _name = value; OnPropertyChanged(); }
         }
-        public string Url 
-        { 
-            get => _url; 
+        public string Url
+        {
+            get => _url;
             set { _url = value; OnPropertyChanged(); }
         }
 
-        public virtual Film Film { get; set; } = null!;
+        public virtual Film Film 
+        { 
+            get => film;
+            set { film = value; OnPropertyChanged(); }
+        }
     }
 }

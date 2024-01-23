@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Filmc.Entities.PropertyTypes;
 
 namespace Filmc.Entities.Entities
@@ -22,6 +23,10 @@ namespace Filmc.Entities.Entities
         private bool _isOnTheBlacklist;
         private bool _isOnSecretMode;
 
+        private BookCategory? category;
+        private BookGenre genre = null!;
+        private BooksInPriority? booksInPriority;
+
         public Book()
         {
             Name = String.Empty;
@@ -30,48 +35,48 @@ namespace Filmc.Entities.Entities
             Bookmark = String.Empty;
             Mark = new Mark();
 
-            BookSources = new HashSet<BookSource>();
-            Tags = new HashSet<BookTag>();
+            BookSources = new ObservableCollection<BookSource>();
+            Tags = new ObservableCollection<BookTag>();
         }
 
         public int Id
-        { 
+        {
             get => _id;
-            set { _id = value; OnPropertyChanged(); } 
+            set { _id = value; OnPropertyChanged(); }
         }
-        public string Name 
-        { 
-            get => _name; 
+        public string Name
+        {
+            get => _name;
             set { _name = value; OnPropertyChanged(); }
         }
-        public string Author 
-        { 
-            get => _author; 
+        public string Author
+        {
+            get => _author;
             set { _author = value; OnPropertyChanged(); }
         }
-        public int GenreId 
-        { 
-            get => _genreId; 
+        public int GenreId
+        {
+            get => _genreId;
             set { _genreId = value; OnPropertyChanged(); }
         }
-        public int? PublicationYear 
-        { 
-            get => _publicationYear; 
+        public int? PublicationYear
+        {
+            get => _publicationYear;
             set { _publicationYear = value; OnPropertyChanged(); }
         }
-        public bool IsReaded 
-        { 
+        public bool IsReaded
+        {
             get => _isReaded;
             set { _isReaded = value; OnPropertyChanged(); }
         }
-        public DateTime? StartReadDate 
-        { 
-            get => _startReadDate; 
+        public DateTime? StartReadDate
+        {
+            get => _startReadDate;
             set { _startReadDate = value; OnPropertyChanged(); }
         }
-        public DateTime? EndReadDate 
-        { 
-            get => _endReadDate; 
+        public DateTime? EndReadDate
+        {
+            get => _endReadDate;
             set { _endReadDate = value; OnPropertyChanged(); }
         }
         internal int? RawMark
@@ -79,49 +84,61 @@ namespace Filmc.Entities.Entities
             get => Mark.RawMark;
             set => Mark.RawMark = value;
         }
-        public string Comment 
-        { 
-            get => _comment; 
+        public string Comment
+        {
+            get => _comment;
             set { _comment = value; OnPropertyChanged(); }
         }
-        public int? CountOfReadings 
-        { 
-            get => _countOfReadings; 
+        public int? CountOfReadings
+        {
+            get => _countOfReadings;
             set { _countOfReadings = value; OnPropertyChanged(); }
         }
-        public string Bookmark 
-        { 
-            get => _bookmark; 
+        public string Bookmark
+        {
+            get => _bookmark;
             set { _bookmark = value; OnPropertyChanged(); }
         }
-        public int? CategoryId 
-        { 
-            get => _categoryId; 
+        public int? CategoryId
+        {
+            get => _categoryId;
             set { _categoryId = value; OnPropertyChanged(); }
         }
-        public int? CategoryListId 
-        { 
-            get => _categoryListId; 
+        public int? CategoryListId
+        {
+            get => _categoryListId;
             set { _categoryListId = value; OnPropertyChanged(); }
         }
-        public bool IsOnTheBlacklist 
-        { 
-            get => _isOnTheBlacklist; 
+        public bool IsOnTheBlacklist
+        {
+            get => _isOnTheBlacklist;
             set { _isOnTheBlacklist = value; OnPropertyChanged(); }
         }
-        public bool IsOnSecretMode 
-        { 
-            get => _isOnSecretMode; 
+        public bool IsOnSecretMode
+        {
+            get => _isOnSecretMode;
             set { _isOnSecretMode = value; OnPropertyChanged(); }
         }
 
         public virtual Mark Mark { get; }
 
-        public virtual BookCategory? Category { get; set; }
-        public virtual BookGenre Genre { get; set; } = null!;
-        public virtual BooksInPriority? BooksInPriority { get; set; }
-        public virtual ICollection<BookSource> BookSources { get; set; }
+        public virtual BookCategory? Category
+        {
+            get => category;
+            set { category = value; OnPropertyChanged(); }
+        }
+        public virtual BookGenre Genre
+        { 
+            get => genre;
+            set { genre = value; OnPropertyChanged(); }
+        }
+        public virtual BooksInPriority? BooksInPriority 
+        { 
+            get => booksInPriority;
+            set { booksInPriority = value; OnPropertyChanged(); } 
+        }
 
-        public virtual ICollection<BookTag> Tags { get; set; }
+        public virtual ObservableCollection<BookSource> BookSources { get; }
+        public virtual ObservableCollection<BookTag> Tags { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Filmc.Entities.PropertyTypes;
 
 namespace Filmc.Entities.Entities
@@ -22,39 +23,43 @@ namespace Filmc.Entities.Entities
         private int? _watchedSeries;
         private int? _totalSeries;
 
+        private FilmCategory? category;
+        private FilmGenre genre = null!;
+        private FilmsInPriority? filmsInPriority;
+
         public Film()
         {
             Name = String.Empty;
             Comment = String.Empty;
             Mark = new Mark();
 
-            FilmSources = new HashSet<FilmSource>();
-            Tags = new HashSet<FilmTag>();
+            FilmSources = new ObservableCollection<FilmSource>();
+            Tags = new ObservableCollection<FilmTag>();
         }
 
-        public int Id 
-        { 
-            get => _id; 
+        public int Id
+        {
+            get => _id;
             set { _id = value; OnPropertyChanged(); }
         }
-        public string Name 
-        { 
-            get => _name; 
+        public string Name
+        {
+            get => _name;
             set { _name = value; OnPropertyChanged(); }
         }
-        public int GenreId 
-        { 
-            get => _genreId; 
+        public int GenreId
+        {
+            get => _genreId;
             set { _genreId = value; OnPropertyChanged(); }
         }
-        public int? RealiseYear 
-        { 
-            get => _realiseYear; 
+        public int? RealiseYear
+        {
+            get => _realiseYear;
             set { _realiseYear = value; OnPropertyChanged(); }
         }
-        public bool IsWatched 
-        { 
-            get => _isWatched; 
+        public bool IsWatched
+        {
+            get => _isWatched;
             set { _isWatched = value; OnPropertyChanged(); }
         }
         internal int? RawMark
@@ -62,64 +67,76 @@ namespace Filmc.Entities.Entities
             get => Mark.RawMark;
             set => Mark.RawMark = value;
         }
-        public DateTime? EndWatchDate 
-        { 
-            get => _endWatchDate; 
+        public DateTime? EndWatchDate
+        {
+            get => _endWatchDate;
             set { _endWatchDate = value; OnPropertyChanged(); }
         }
-        public string Comment 
-        { 
-            get => _comment; 
+        public string Comment
+        {
+            get => _comment;
             set { _comment = value; OnPropertyChanged(); }
         }
-        public int CountOfViews 
-        { 
-            get => _countOfViews; 
+        public int CountOfViews
+        {
+            get => _countOfViews;
             set { _countOfViews = value; OnPropertyChanged(); }
         }
-        public int? CategoryId 
-        { 
-            get => _categoryId; 
+        public int? CategoryId
+        {
+            get => _categoryId;
             set { _categoryId = value; OnPropertyChanged(); }
         }
-        public int? CategoryListId 
-        { 
-            get => _categoryListId; 
+        public int? CategoryListId
+        {
+            get => _categoryListId;
             set { _categoryListId = value; OnPropertyChanged(); }
         }
-        public bool IsOnTheBlacklist 
-        { 
-            get => _isOnTheBlacklist; 
+        public bool IsOnTheBlacklist
+        {
+            get => _isOnTheBlacklist;
             set { _isOnTheBlacklist = value; OnPropertyChanged(); }
         }
-        public bool IsOnSecretMode 
-        { 
-            get => _isOnSecretMode; 
+        public bool IsOnSecretMode
+        {
+            get => _isOnSecretMode;
             set { _isOnSecretMode = value; OnPropertyChanged(); }
         }
-        public DateTime? StartWatchDate 
-        { 
-            get => _startWatchDate; 
+        public DateTime? StartWatchDate
+        {
+            get => _startWatchDate;
             set { _startWatchDate = value; OnPropertyChanged(); }
         }
-        public int? WatchedSeries 
-        { 
-            get => _watchedSeries; 
+        public int? WatchedSeries
+        {
+            get => _watchedSeries;
             set { _watchedSeries = value; OnPropertyChanged(); }
         }
-        public int? TotalSeries 
-        { 
-            get => _totalSeries; 
+        public int? TotalSeries
+        {
+            get => _totalSeries;
             set { _totalSeries = value; OnPropertyChanged(); }
         }
 
         public virtual Mark Mark { get; }
 
-        public virtual FilmCategory? Category { get; set; }
-        public virtual FilmGenre Genre { get; set; } = null!;
-        public virtual FilmsInPriority? FilmsInPriority { get; set; }
-        public virtual ICollection<FilmSource> FilmSources { get; set; }
+        public virtual FilmCategory? Category
+        { 
+            get => category;
+            set { category = value; OnPropertyChanged(); } 
+        }
+        public virtual FilmGenre Genre 
+        { 
+            get => genre;
+            set { genre = value; OnPropertyChanged(); }
+        }
+        public virtual FilmsInPriority? FilmsInPriority 
+        { 
+            get => filmsInPriority;
+            set { filmsInPriority = value; OnPropertyChanged(); } 
+        }
 
-        public virtual ICollection<FilmTag> Tags { get; set; }
+        public virtual ObservableCollection<FilmSource> FilmSources { get; }
+        public virtual ObservableCollection<FilmTag> Tags { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Xml.Linq;
 
 namespace Filmc.Entities.Entities
@@ -13,7 +14,7 @@ namespace Filmc.Entities.Entities
         {
             Name = String.Empty;
 
-            Films = new HashSet<Film>();
+            Films = new ObservableCollection<Film>();
         }
 
         public int Id 
@@ -27,6 +28,6 @@ namespace Filmc.Entities.Entities
             set { _name = value; OnPropertyChanged(); }
         }
 
-        public virtual ICollection<Film> Films { get; set; }
+        public virtual ObservableCollection<Film> Films { get; }
     }
 }
