@@ -5,7 +5,7 @@ using Filmc.Entities.PropertyTypes;
 
 namespace Filmc.Entities.Entities
 {
-    public partial class FilmCategory
+    public partial class FilmCategory : BaseEntity
     {
         private int _id;
         private string _name = null!;
@@ -23,19 +23,19 @@ namespace Filmc.Entities.Entities
         public int Id 
         { 
             get => _id; 
-            set => _id = value; 
+            set { _id = value; OnPropertyChanged(); }
         }
         public string Name 
         { 
             get => _name; 
-            set => _name = value; 
+            set { _name = value; OnPropertyChanged(); }
         }
         public string HideName 
         { 
             get => _hideName; 
-            set => _hideName = value; 
+            set { _hideName = value; OnPropertyChanged(); }
         }
-        public int? RawMark
+        internal int? RawMark
         {
             get => Mark.RawMark;
             set => Mark.RawMark = value;
