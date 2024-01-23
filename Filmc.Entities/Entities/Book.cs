@@ -4,7 +4,7 @@ using Filmc.Entities.PropertyTypes;
 
 namespace Filmc.Entities.Entities
 {
-    public partial class Book
+    public partial class Book : BaseEntity
     {
         private int _id;
         private string _name = null!;
@@ -36,45 +36,45 @@ namespace Filmc.Entities.Entities
 
         public int Id
         { 
-            get => _id; 
-            set => _id = value; 
+            get => _id;
+            set { _id = value; OnPropertyChanged(); } 
         }
         public string Name 
         { 
             get => _name; 
-            set => _name = value; 
+            set { _name = value; OnPropertyChanged(); }
         }
         public string Author 
         { 
             get => _author; 
-            set => _author = value; 
+            set { _author = value; OnPropertyChanged(); }
         }
         public int GenreId 
         { 
             get => _genreId; 
-            set => _genreId = value; 
+            set { _genreId = value; OnPropertyChanged(); }
         }
         public int? PublicationYear 
         { 
             get => _publicationYear; 
-            set => _publicationYear = value; 
+            set { _publicationYear = value; OnPropertyChanged(); }
         }
         public bool IsReaded 
         { 
             get => _isReaded;
-            set => _isReaded = value; 
+            set { _isReaded = value; OnPropertyChanged(); }
         }
         public DateTime? StartReadDate 
         { 
             get => _startReadDate; 
-            set => _startReadDate = value; 
+            set { _startReadDate = value; OnPropertyChanged(); }
         }
         public DateTime? EndReadDate 
         { 
             get => _endReadDate; 
-            set => _endReadDate = value; 
+            set { _endReadDate = value; OnPropertyChanged(); }
         }
-        public int? RawMark
+        internal int? RawMark
         {
             get => Mark.RawMark;
             set => Mark.RawMark = value;
@@ -82,37 +82,37 @@ namespace Filmc.Entities.Entities
         public string Comment 
         { 
             get => _comment; 
-            set => _comment = value; 
+            set { _comment = value; OnPropertyChanged(); }
         }
         public int? CountOfReadings 
         { 
             get => _countOfReadings; 
-            set => _countOfReadings = value; 
+            set { _countOfReadings = value; OnPropertyChanged(); }
         }
         public string Bookmark 
         { 
             get => _bookmark; 
-            set => _bookmark = value; 
+            set { _bookmark = value; OnPropertyChanged(); }
         }
         public int? CategoryId 
         { 
             get => _categoryId; 
-            set => _categoryId = value; 
+            set { _categoryId = value; OnPropertyChanged(); }
         }
         public int? CategoryListId 
         { 
             get => _categoryListId; 
-            set => _categoryListId = value; 
+            set { _categoryListId = value; OnPropertyChanged(); }
         }
         public bool IsOnTheBlacklist 
         { 
             get => _isOnTheBlacklist; 
-            set => _isOnTheBlacklist = value; 
+            set { _isOnTheBlacklist = value; OnPropertyChanged(); }
         }
         public bool IsOnSecretMode 
         { 
             get => _isOnSecretMode; 
-            set => _isOnSecretMode = value; 
+            set { _isOnSecretMode = value; OnPropertyChanged(); }
         }
 
         public virtual Mark Mark { get; }

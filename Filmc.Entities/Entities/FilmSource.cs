@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Filmc.Entities.Entities
 {
-    public partial class FilmSource
+    public partial class FilmSource : BaseEntity
     {
         private int _id;
         private int _filmId;
@@ -19,22 +19,22 @@ namespace Filmc.Entities.Entities
         public int Id 
         { 
             get => _id; 
-            set => _id = value; 
+            set { _id = value; OnPropertyChanged(); }
         }
         public int FilmId 
         { 
             get => _filmId; 
-            set => _filmId = value; 
+            set { _filmId = value; OnPropertyChanged(); }
         }
         public string Name 
         { 
             get => _name; 
-            set => _name = value; 
+            set { _name = value; OnPropertyChanged(); }
         }
         public string Url 
         { 
             get => _url; 
-            set => _url = value; 
+            set { _url = value; OnPropertyChanged(); }
         }
 
         public virtual Film Film { get; set; } = null!;
