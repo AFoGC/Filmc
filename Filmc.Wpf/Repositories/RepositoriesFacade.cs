@@ -9,6 +9,8 @@ namespace Filmc.Wpf.Repositories
 {
     public class RepositoriesFacade
     {
+        private readonly FilmsContext _filmsContext;
+
         public BookCategoryRepository BookCategories { get; }
         public BookGenreRepository BookGenres { get; }
         public BookInPriorityRepository BooksInPriorities { get; }
@@ -25,6 +27,8 @@ namespace Filmc.Wpf.Repositories
 
         public RepositoriesFacade(FilmsContext filmsContext)
         {
+            _filmsContext = filmsContext;
+
             BookCategories = new BookCategoryRepository(filmsContext.BookCategories);
             BookGenres = new BookGenreRepository(filmsContext.BookGenres);
             BooksInPriorities = new BookInPriorityRepository(filmsContext.BooksInPriorities);
@@ -38,6 +42,11 @@ namespace Filmc.Wpf.Repositories
             Films = new FilmRepository(filmsContext.Films);
             FilmSources = new FilmSourceRepository(filmsContext.FilmSources);
             FilmTags = new FilmTagRepository(filmsContext.FilmTags);
+        }
+
+        public void SaveChanges()
+        {
+            _filmsContext.SaveChanges();
         }
     }
 }
