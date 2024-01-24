@@ -18,7 +18,7 @@ namespace Filmc.Entities.Entities
             HideName = String.Empty;
             Mark = new Mark();
 
-            Films = new ObservableCollection<Film>();
+            Films = new NotifyCollection<Film>();
         }
 
         public int Id 
@@ -44,6 +44,61 @@ namespace Filmc.Entities.Entities
 
         public virtual Mark Mark { get; }
 
-        public virtual ObservableCollection<Film> Films { get; }
+        public virtual NotifyCollection<Film> Films { get; }
+        public virtual INotifyCollection<Film> CategoryFilms => Films;
+
+        public void AddFilmInOrder(Film film)
+        {
+            if (Films.Contains(film) == false)
+            {
+                film.CategoryListId = Films.Count;
+                Films.Add(film);
+            }
+        }
+
+        public void RemoveFilmInOrder(Film film)
+        {
+            if (Films.Remove(film))
+            {
+                var sortedFilms = Films.OrderBy(x => x.CategoryListId);
+
+                int i = 0;
+                foreach (Film item in sortedFilms)
+                    item.CategoryListId = i++;
+            }
+        }
+
+        public bool ChangeCategoryListId(Film film, int newListId)
+        {
+            if (Films.Contains(film))
+            {
+                var plusCollection = Films
+                    .Where(x => x.CategoryListId >= newListId && x.CategoryListId < film.CategoryListId)
+                    .OrderBy(x => x.CategoryListId);
+
+                var minusCollection = Films
+                    .Where(x => x.CategoryListId <= newListId && x.CategoryListId > film.CategoryListId)
+                    .OrderBy(x => x.CategoryListId);
+
+                foreach (Film item in plusCollection)
+                    item.CategoryListId++;
+
+                foreach (Film item in minusCollection)
+                    item.CategoryListId--;
+
+                if (newListId < 0)
+                    newListId = 0;
+
+                if (newListId >= Films.Count)
+                    newListId = Films.Count - 1;
+
+                film.CategoryListId = newListId;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
