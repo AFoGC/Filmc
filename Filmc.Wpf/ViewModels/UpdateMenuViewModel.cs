@@ -1,10 +1,9 @@
-﻿using Filmc.Wpf.Commands;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
+using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.SettingsServices;
-using Filmc.Xtl.Entities;
-using Filmc.Xtl.EntityProperties;
-using Filmc.Xtl.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,10 +53,10 @@ namespace Filmc.Wpf.ViewModels
         public int FilmMarkSystem => _markSystemService.FilmMarkSystem;
         public int BookMarkSystem => _markSystemService.BookMarkSystem;
 
-        public FilmGenresTable FilmGenres => _profilesService.SelectedProfile.TablesContext.FilmGenres;
-        public BookGenresTable BookGenres => _profilesService.SelectedProfile.TablesContext.BookGenres;
-        public FilmTagsTable FilmTags => _profilesService.SelectedProfile.TablesContext.FilmTags;
-        public BookTagsTable BookTags => _profilesService.SelectedProfile.TablesContext.BookTags;
+        public FilmGenreRepository FilmGenres => _profilesService.SelectedProfile.TablesContext.FilmGenres;
+        public BookGenreRepository BookGenres => _profilesService.SelectedProfile.TablesContext.BookGenres;
+        public FilmTagRepository FilmTags => _profilesService.SelectedProfile.TablesContext.FilmTags;
+        public BookTagRepository BookTags => _profilesService.SelectedProfile.TablesContext.BookTags;
 
         public List<int?>? FilmMarks
         {
@@ -106,13 +105,9 @@ namespace Filmc.Wpf.ViewModels
 
                 if (filmTag != null && filmViewModel != null)
                 {
-                    if (filmViewModel.Model.HasTags.Any(x => x.Tag == filmTag) == false)
+                    if (filmViewModel.Model.Tags.Any(x => x == filmTag) == false)
                     {
-                        FilmHasTag filmHasTag = new FilmHasTag();
-
-                        _profilesService.SelectedProfile.TablesContext.FilmHasTags.Add(filmHasTag);
-                        filmHasTag.FilmId = filmViewModel.Model.Id;
-                        filmHasTag.TagId = filmTag.Id;
+                        filmViewModel.Model.Tags.Add(filmTag);
                         OnPropertyChanged();
                     }
                     return;
@@ -123,13 +118,9 @@ namespace Filmc.Wpf.ViewModels
 
                 if (bookTag != null && bookViewModel != null)
                 {
-                    if (bookViewModel.Model.HasTags.Any(x => x.Tag == bookTag) == false)
+                    if (bookViewModel.Model.Tags.Any(x => x == bookTag) == false)
                     {
-                        BookHasTag bookHasTag = new BookHasTag();
-
-                        _profilesService.SelectedProfile.TablesContext.BookHasTags.Add(bookHasTag);
-                        bookHasTag.BookId = bookViewModel.Model.Id;
-                        bookHasTag.TagId = bookTag.Id;
+                        bookViewModel.Model.Tags.Add(bookTag);
                         OnPropertyChanged();
                     }
                     return;
@@ -144,26 +135,26 @@ namespace Filmc.Wpf.ViewModels
                 return removeTagCommand ??
                 (removeTagCommand = new RelayCommand(obj =>
                 {
-                    FilmHasTag? filmHasTag = obj as FilmHasTag;
+                    FilmTag? filmHasTag = obj as FilmTag;
                     FilmViewModel? filmViewModel = _currentEntityViewModel as FilmViewModel;
 
                     if (filmHasTag != null && filmViewModel != null)
                     {
-                        if (filmViewModel.Model.HasTags.Contains(filmHasTag))
+                        if (filmViewModel.Model.Tags.Contains(filmHasTag))
                         {
-                            _profilesService.SelectedProfile.TablesContext.FilmHasTags.Remove(filmHasTag);
+                            filmViewModel.Model.Tags.Remove(filmHasTag);
                         }
                         return;
                     }
 
-                    BookHasTag? bookHasTag = obj as BookHasTag;
+                    BookTag? bookHasTag = obj as BookTag;
                     BookViewModel? bookViewModel = _currentEntityViewModel as BookViewModel;
 
                     if (bookHasTag != null && bookViewModel != null)
                     {
-                        if (bookViewModel.Model.HasTags.Contains(bookHasTag))
+                        if (bookViewModel.Model.Tags.Contains(bookHasTag))
                         {
-                            _profilesService.SelectedProfile.TablesContext.BookHasTags.Remove(bookHasTag);
+                            bookViewModel.Model.Tags.Remove(bookHasTag);
                         }
                         return;
                     }
@@ -194,7 +185,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (viewModel != null)
                     {
-                        viewModel.Sources.Add(new Source());
+                        viewModel.AddSource();
                     }
                 }));
             }
@@ -207,12 +198,12 @@ namespace Filmc.Wpf.ViewModels
                 return removeSource ??
                 (removeSource = new RelayCommand(obj =>
                 {
-                    Source? source = obj as Source;
+                    ISource? source = obj as ISource;
                     IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
 
                     if (viewModel != null)
                         if (source != null)
-                            viewModel.Sources.Remove(source);
+                            viewModel.RemoveSource(source);
                 }));
             }
         }
@@ -225,14 +216,13 @@ namespace Filmc.Wpf.ViewModels
                 (setFirstSource = new RelayCommand(obj =>
                 {
                     IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
-                    Source? source = obj as Source;
+                    ISource? source = obj as ISource;
 
                     if (viewModel != null)
                     {
                         if (source != null)
                         {
-                            viewModel.Sources.Remove(source);
-                            viewModel.Sources.Insert(0, source);
+                            viewModel.SetFirstSource(source);
                         }
                     }
                 }));

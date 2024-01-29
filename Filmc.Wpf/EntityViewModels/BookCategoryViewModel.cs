@@ -1,7 +1,7 @@
-﻿using Filmc.Wpf.Commands;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Commands;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewCollections;
-using Filmc.Xtl.Entities;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

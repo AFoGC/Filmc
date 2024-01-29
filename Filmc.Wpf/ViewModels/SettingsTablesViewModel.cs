@@ -1,8 +1,8 @@
-﻿using Filmc.Wpf.EntityViewModels;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.EntityViewModels;
+using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.SettingsServices;
-using Filmc.Xtl.Entities;
-using Filmc.Xtl.Tables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,10 +17,10 @@ namespace Filmc.Wpf.ViewModels
     {
         private readonly ProfilesService _profilesService;
 
-        private FilmGenresTable? _filmGenres;
-        private BookGenresTable? _bookGenres;
-        private FilmTagsTable? _filmTags;
-        private BookTagsTable? _bookTags;
+        private FilmGenreRepository? _filmGenres;
+        private BookGenreRepository? _bookGenres;
+        private FilmTagRepository? _filmTags;
+        private BookTagRepository? _bookTags;
 
         public SettingsTablesViewModel(SettingsService settingsService)
         {
@@ -47,22 +47,22 @@ namespace Filmc.Wpf.ViewModels
         public ObservableCollection<FilmTagViewModel> FilmTagsVMs { get; }
         public ObservableCollection<BookTagViewModel> BookTagsVMs { get; }
 
-        public FilmGenresTable? FilmGenres
+        public FilmGenreRepository? FilmGenres
         {
             get => _filmGenres;
             set { _filmGenres = value; OnPropertyChanged(); }
         }
-        public BookGenresTable? BookGenres
+        public BookGenreRepository? BookGenres
         {
             get => _bookGenres;
             set { _bookGenres = value; OnPropertyChanged(); }
         }
-        public FilmTagsTable? FilmTags
+        public FilmTagRepository? FilmTags
         {
             get => _filmTags;
             set { _filmTags = value; OnPropertyChanged(); }
         }
-        public BookTagsTable? BookTags
+        public BookTagRepository? BookTags
         {
             get => _bookTags;
             set { _bookTags = value; OnPropertyChanged(); }

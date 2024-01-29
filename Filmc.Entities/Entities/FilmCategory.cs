@@ -68,9 +68,9 @@ namespace Filmc.Entities.Entities
             }
         }
 
-        public bool ChangeCategoryListId(Film film, int newListId)
+        public bool ChangeCategoryListId(Film film, int? newListId)
         {
-            if (Films.Contains(film))
+            if (Films.Contains(film) && newListId != null)
             {
                 var plusCollection = Films
                     .Where(x => x.CategoryListId >= newListId && x.CategoryListId < film.CategoryListId)

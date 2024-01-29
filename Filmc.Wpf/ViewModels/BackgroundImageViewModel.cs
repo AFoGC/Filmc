@@ -1,6 +1,5 @@
 ﻿using Filmc.Wpf.Commands;
 using Filmc.Wpf.SettingsServices;
-using Filmc.Xtl.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,13 +1,11 @@
-﻿using Filmc.Wpf.Commands;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Helper;
 using Filmc.Wpf.Models;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.SettingsServices;
 using Filmc.Wpf.ViewCollections;
-using Filmc.Xtl;
-using Filmc.Xtl.Entities;
-using Filmc.Xtl.Tables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -308,7 +306,7 @@ namespace Filmc.Wpf.ViewModels
                     {
                         if (_model.TablesContext.FilmInPriorities.All(x => x.Id != viewModel.Model.Id))
                         {
-                            FilmInPriority priority = new FilmInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
+                            FilmsInPriority priority = new FilmsInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
                             _model.TablesContext.FilmInPriorities.Add(priority);
                         }
                     }
@@ -445,7 +443,7 @@ namespace Filmc.Wpf.ViewModels
             if (tags.Count() != TablesViewModel.TagVMs.Count)
             {
                 var ft = tags.Select(i => i.Model);
-                tagsPassed = film.HasTags.IntersectBy(ft, x => x.Tag).Any();
+                tagsPassed = film.Tags.IntersectBy(ft, x => x).Any();
             }
             else
             {

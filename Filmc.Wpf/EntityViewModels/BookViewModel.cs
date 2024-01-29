@@ -1,8 +1,7 @@
-﻿using Filmc.Wpf.Commands;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Commands;
 using Filmc.Wpf.Helper;
 using Filmc.Wpf.Services;
-using Filmc.Xtl.Entities;
-using Filmc.Xtl.EntityProperties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +11,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Xtl;
 
 namespace Filmc.Wpf.EntityViewModels
 {
@@ -64,7 +62,7 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Genre;
             set => Model.GenreId = value.Id;
         }
-        public int PublicationYear
+        public int? PublicationYear
         {
             get => Model.PublicationYear;
             set => Model.PublicationYear = value;
@@ -76,10 +74,10 @@ namespace Filmc.Wpf.EntityViewModels
         }
         public DateTime? FullReadDate
         {
-            get => Model.FullReadDate;
-            set => Model.FullReadDate = value;
+            get => Model.EndReadDate;
+            set => Model.EndReadDate = value;
         }
-        public int CountOfReadings
+        public int? CountOfReadings
         {
             get => Model.CountOfReadings;
             set => Model.CountOfReadings = value;
@@ -89,21 +87,21 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Bookmark;
             set => Model.Bookmark = value;
         }
-        public int CategoryId
+        public int? CategoryId
         {
             get => Model.CategoryId;
         }
-        public int CategoryListId
+        public int? CategoryListId
         {
             get => Model.CategoryListId;
         }
-        public ObservableCollection<Source> Sources
+        public ObservableCollection<BookSource> Sources
         {
             get => Model.Sources;
         }
-        public RecordsCollection<BookHasTag> HasTags
+        public ObservableCollection<BookTag> HasTags
         {
-            get => Model.HasTags;
+            get => Model.Tags;
         }
 
         public string ShortName
@@ -275,6 +273,31 @@ namespace Filmc.Wpf.EntityViewModels
         private void OnCategoryPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(ShortName));
+        }
+
+        public void AddSource()
+        {
+            BookSource source = new BookSource();
+            Model.Sources.Add(source);
+        }
+
+        public void RemoveSource(ISource source)
+        {
+            BookSource? filmSource = source as BookSource;
+
+            if (filmSource != null)
+                Model.Sources.Remove(filmSource);
+        }
+
+        public void SetFirstSource(ISource source)
+        {
+            BookSource? filmSource = source as BookSource;
+
+            if (filmSource != null)
+            {
+                Model.Sources.Remove(filmSource);
+                Model.Sources.Insert(0, filmSource);
+            }
         }
     }
 }

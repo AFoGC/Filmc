@@ -28,10 +28,4 @@
     <ProjectReference Include="..\Filmc.Wpf.Updater.Module\Filmc.Wpf.Updater.Module.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Xtl">
-      <HintPath>..\Xtl.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

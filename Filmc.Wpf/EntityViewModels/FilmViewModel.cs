@@ -1,9 +1,8 @@
-﻿using Filmc.Wpf.Commands;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Commands;
 using Filmc.Wpf.Helper;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewModels;
-using Filmc.Xtl.Entities;
-using Filmc.Xtl.EntityProperties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +13,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Xtl;
 
 namespace Filmc.Wpf.EntityViewModels
 {
@@ -58,7 +56,7 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Genre;
             set => Model.GenreId = value.Id;
         }
-        public int RealiseYear
+        public int? RealiseYear
         {
             get => Model.RealiseYear;
             set => Model.RealiseYear = value;
@@ -83,7 +81,7 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.CountOfViews;
             set => Model.CountOfViews = value;
         }
-        public int CategoryListId
+        public int? CategoryListId
         {
             get => Model.CategoryListId;
         }
@@ -92,27 +90,27 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.StartWatchDate;
             set => Model.StartWatchDate = value;
         }
-        public int WatchedSeries
+        public int? WatchedSeries
         {
             get => Model.WatchedSeries;
             set => Model.WatchedSeries = value;
         }
-        public int TotalSeries
+        public int? TotalSeries
         {
             get => Model.TotalSeries;
             set => Model.TotalSeries = value;
         }
-        public int CategoryId
+        public int? CategoryId
         {
             get => Model.CategoryId;
         }
-        public ObservableCollection<Source> Sources
+        public ObservableCollection<FilmSource> Sources
         {
             get => Model.Sources;
         }
-        public RecordsCollection<FilmHasTag> HasTags
+        public ObservableCollection<FilmTag> HasTags
         {
-            get => Model.HasTags;
+            get => Model.Tags;
         }
         
         public string ShortName
@@ -267,6 +265,31 @@ namespace Filmc.Wpf.EntityViewModels
         private void OnCategoryPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(ShortName));
+        }
+
+        public void AddSource()
+        {
+            FilmSource source = new FilmSource();
+            Model.Sources.Add(source);
+        }
+
+        public void RemoveSource(ISource source)
+        {
+            FilmSource? filmSource = source as FilmSource;
+
+            if (filmSource != null)
+                Model.Sources.Remove(filmSource);
+        }
+
+        public void SetFirstSource(ISource source)
+        {
+            FilmSource? filmSource = source as FilmSource;
+
+            if (filmSource != null)
+            {
+                Model.Sources.Remove(filmSource);
+                Model.Sources.Insert(0, filmSource);
+            }
         }
     }
 }

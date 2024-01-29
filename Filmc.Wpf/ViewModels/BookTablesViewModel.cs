@@ -2,8 +2,6 @@
 using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Models;
 using Filmc.Wpf.ViewCollections;
-using Filmc.Xtl.Entities;
-using Filmc.Xtl;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Filmc.Wpf.Services;
+using Filmc.Wpf.Repositories;
+using Filmc.Entities.Entities;
 
 namespace Filmc.Wpf.ViewModels
 {
@@ -21,7 +21,7 @@ namespace Filmc.Wpf.ViewModels
 
         private readonly UpdateMenuService _updateMenuService;
 
-        private TablesContext? _tablesContext;
+        private RepositoriesFacade? _tablesContext;
         private BooksMenuMode _menuMode;
 
         private RelayCommand? sortTable;

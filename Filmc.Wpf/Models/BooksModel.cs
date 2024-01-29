@@ -1,10 +1,10 @@
-﻿using Filmc.Xtl.Entities;
-using Filmc.Xtl;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Filmc.Entities.Entities;
+using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 
 namespace Filmc.Wpf.Models
@@ -20,7 +20,7 @@ namespace Filmc.Wpf.Models
             _profilesModel.SelectedProfileChanged += OnSelectedProfileChanged;
         }
 
-        public TablesContext TablesContext => _profilesModel.SelectedProfile.TablesContext;
+        public RepositoriesFacade TablesContext => _profilesModel.SelectedProfile.TablesContext;
 
         public event Action? TablesContextChanged;
 
@@ -76,7 +76,7 @@ namespace Filmc.Wpf.Models
                 book.GenreId = 0;
 
             if (book.Priority != null)
-                TablesContext.BookInPriorities.Remove(book.Priority);
+                TablesContext.BooksInPriorities.Remove(book.Priority);
 
             TablesContext.Books.Remove(book);
         }

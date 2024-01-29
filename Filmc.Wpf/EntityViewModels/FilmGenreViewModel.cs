@@ -1,6 +1,6 @@
-﻿using Filmc.Wpf.Commands;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Commands;
 using Filmc.Wpf.ViewModels;
-using Filmc.Xtl.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
