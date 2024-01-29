@@ -1,11 +1,11 @@
-﻿using Filmc.Wpf.Services;
+﻿using Filmc.Wpf.Repositories;
+using Filmc.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using Xtl;
 
 namespace Filmc.Wpf.ViewModels
 {
@@ -68,7 +68,7 @@ namespace Filmc.Wpf.ViewModels
             Status = StatusEnum.Normal;
         }
 
-        private void OnTablesSaved(TablesCollection sender)
+        private void OnTablesSaved(RepositoriesFacade sender)
         {
             Status = StatusEnum.Saved;
             _backToNormalTimer.Start();

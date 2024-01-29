@@ -68,9 +68,9 @@ namespace Filmc.Entities.Entities
             }
         }
 
-        public bool ChangeCategoryListId(Book book, int newListId)
+        public bool ChangeCategoryListId(Book book, int? newListId)
         {
-            if (Books.Contains(book))
+            if (Books.Contains(book) && newListId != null)
             {
                 var plusCollection = Books
                     .Where(x => x.CategoryListId >= newListId && x.CategoryListId < book.CategoryListId)

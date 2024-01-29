@@ -1,10 +1,10 @@
-﻿using Filmc.Wpf.Commands;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Models;
+using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewCollections;
-using Filmc.Xtl;
-using Filmc.Xtl.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +21,7 @@ namespace Filmc.Wpf.ViewModels
 
         private readonly UpdateMenuService _updateMenuService;
 
-        private TablesContext? _tablesContext;
+        private RepositoriesFacade? _tablesContext;
         private FilmsMenuMode _menuMode;
 
         private RelayCommand? sortTable;

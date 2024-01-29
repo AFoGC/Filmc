@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Filmc.Entities.Entities
 {
-    public partial class BookSource : BaseEntity
+    public partial class BookSource : BaseEntity, ISource
     {
         private int _id;
         private int _bookId;

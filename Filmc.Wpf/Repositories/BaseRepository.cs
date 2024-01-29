@@ -18,6 +18,7 @@ namespace Filmc.Wpf.Repositories
 
         public int Count => _items.Count;
         public bool IsReadOnly => false;
+        protected DbSet<T> DbSet => _dbSet;
 
         public BaseRepository(DbSet<T> dbSet)
         {

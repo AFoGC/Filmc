@@ -33,7 +33,7 @@ namespace Filmc.Entities.Entities
             Comment = String.Empty;
             Mark = new Mark();
 
-            FilmSources = new ObservableCollection<FilmSource>();
+            Sources = new ObservableCollection<FilmSource>();
             Tags = new ObservableCollection<FilmTag>();
         }
 
@@ -130,13 +130,13 @@ namespace Filmc.Entities.Entities
             get => genre;
             set { genre = value; OnPropertyChanged(); }
         }
-        public virtual FilmsInPriority? FilmsInPriority 
+        public virtual FilmsInPriority? Priority 
         { 
             get => filmsInPriority;
             set { filmsInPriority = value; OnPropertyChanged(); } 
         }
 
-        public virtual ObservableCollection<FilmSource> FilmSources { get; }
+        public virtual ObservableCollection<FilmSource> Sources { get; }
         public virtual ObservableCollection<FilmTag> Tags { get; }
     }
 }

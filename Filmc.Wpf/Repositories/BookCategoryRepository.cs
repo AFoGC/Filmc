@@ -35,5 +35,15 @@ namespace Filmc.Wpf.Repositories
             base.Add(item);
             item.Mark.MarkSystem = _markSystem;
         }
+
+        public void Add()
+        {
+            BookCategory item = new BookCategory();
+
+            int max = DbSet.Max(x => x.Id);
+            item.Id = max++;
+
+            Add(item);
+        }
     }
 }

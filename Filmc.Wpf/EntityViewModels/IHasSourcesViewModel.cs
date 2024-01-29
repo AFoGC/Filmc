@@ -1,4 +1,4 @@
-﻿using Filmc.Xtl.EntityProperties;
+﻿using Filmc.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +10,8 @@ namespace Filmc.Wpf.EntityViewModels
 {
     public interface IHasSourcesViewModel
     {
-        ObservableCollection<Source> Sources { get; }
+        public void AddSource();
+        public void RemoveSource(ISource source);
+        public void SetFirstSource(ISource source);
     }
 }

@@ -14,6 +14,11 @@ namespace Filmc.Entities.Context
 
         }
 
+        public FilmsContext(DbContextOptions options) : base(options)
+        {
+
+        }
+
         public FilmsContext(DbContextOptions<FilmsContext> options) : base(options)
         {
 
@@ -219,7 +224,7 @@ namespace Filmc.Entities.Context
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
                 entity.HasOne(d => d.Book)
-                    .WithMany(p => p.BookSources)
+                    .WithMany(p => p.Sources)
                     .HasForeignKey(d => d.BookId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
@@ -252,14 +257,14 @@ namespace Filmc.Entities.Context
                     .HasField("_id")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
-                entity.Property(e => e.CreationDate)
+                entity.Property(e => e.CreationTime)
                     .HasColumnName("CreationDate")
                     .HasField("_creationDate")
                     .UsePropertyAccessMode(PropertyAccessMode.Property)
                     .HasConversion(v => v.ToString(), v => DateTime.Parse(v));
 
                 entity.HasOne(d => d.Book)
-                    .WithOne(p => p.BooksInPriority)
+                    .WithOne(p => p.Priority)
                     .HasForeignKey<BooksInPriority>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
@@ -447,7 +452,7 @@ namespace Filmc.Entities.Context
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
                 entity.HasOne(d => d.Film)
-                    .WithMany(p => p.FilmSources)
+                    .WithMany(p => p.Sources)
                     .HasForeignKey(d => d.FilmId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
@@ -480,14 +485,14 @@ namespace Filmc.Entities.Context
                     .HasField("_id")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
-                entity.Property(e => e.CreationDate)
+                entity.Property(e => e.CreationTime)
                     .HasColumnName("CreationDate")
                     .HasField("_creationDate")
                     .UsePropertyAccessMode(PropertyAccessMode.Property)
                     .HasConversion(v => v.ToString(), v => DateTime.Parse(v));
 
                 entity.HasOne(d => d.Film)
-                    .WithOne(p => p.FilmsInPriority)
+                    .WithOne(p => p.Priority)
                     .HasForeignKey<FilmsInPriority>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });

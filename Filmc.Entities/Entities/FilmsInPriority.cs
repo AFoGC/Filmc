@@ -15,7 +15,7 @@ namespace Filmc.Entities.Entities
             get => _id;
             set { _id = value; OnPropertyChanged(); }
         }
-        public DateTime CreationDate
+        public DateTime CreationTime
         {
             get => _creationDate;
             set { _creationDate = value; OnPropertyChanged(); }

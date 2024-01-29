@@ -1,5 +1,5 @@
-﻿using Filmc.Wpf.ViewModels;
-using Filmc.Xtl.Entities;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

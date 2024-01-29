@@ -1,10 +1,10 @@
-﻿using Filmc.Wpf.Commands;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Helper;
 using Filmc.Wpf.Models;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.SettingsServices;
-using Filmc.Xtl.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -298,10 +298,10 @@ namespace Filmc.Wpf.ViewModels
 
                     if (viewModel != null)
                     {
-                        if (_model.TablesContext.BookInPriorities.All(x => x.Id != viewModel.Model.Id))
+                        if (_model.TablesContext.BooksInPriorities.All(x => x.Id != viewModel.Model.Id))
                         {
-                            BookInPriority priority = new BookInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
-                            _model.TablesContext.BookInPriorities.Add(priority);
+                            BooksInPriority priority = new BooksInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
+                            _model.TablesContext.BooksInPriorities.Add(priority);
                         }
                     }
                 }));
@@ -319,7 +319,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (viewModel != null)
                     {
-                        _model.TablesContext.BookInPriorities.Remove(viewModel.Model.Priority);
+                        _model.TablesContext.BooksInPriorities.Remove(viewModel.Model.Priority);
                     }
                 }));
             }
@@ -437,7 +437,7 @@ namespace Filmc.Wpf.ViewModels
             if (tags.Count() != TablesViewModel.TagVMs.Count)
             {
                 var ft = tags.Select(i => i.Model);
-                tagsPassed = book.HasTags.IntersectBy(ft, x => x.Tag).Any();
+                tagsPassed = book.Tags.IntersectBy(ft, x => x).Any();
             }
             else
             {

@@ -1,4 +1,4 @@
-﻿using Filmc.Xtl.EntityProperties;
+﻿using Filmc.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +15,17 @@ namespace Filmc.Wpf.Helper
             Clipboard.SetText(text);
         }
 
-        public static void CopySourceUrlToClipboard(IEnumerable<Source> sources)
+        public static void CopySourceUrlToClipboard(IEnumerable<BookSource> sources)
         {
-            Source? source = sources.FirstOrDefault();
+            BookSource? source = sources.FirstOrDefault();
+
+            if (source != null)
+                Clipboard.SetText(source.Url);
+        }
+
+        public static void CopySourceUrlToClipboard(IEnumerable<FilmSource> sources)
+        {
+            FilmSource? source = sources.FirstOrDefault();
 
             if (source != null)
                 Clipboard.SetText(source.Url);

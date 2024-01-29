@@ -1,5 +1,5 @@
-﻿using Filmc.Wpf.Services;
-using Filmc.Xtl;
+﻿using Filmc.Wpf.Repositories;
+using Filmc.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace Filmc.Wpf.SettingsServices
             get => _profilesService.SelectedProfile.TablesContext.Films.MarkSystem;
             set
             {
-                TablesContext tablesContext = _profilesService.SelectedProfile.TablesContext;
+                RepositoriesFacade tablesContext = _profilesService.SelectedProfile.TablesContext;
 
                 tablesContext.Films.MarkSystem = value;
                 tablesContext.FilmCategories.MarkSystem = value;
@@ -40,7 +40,7 @@ namespace Filmc.Wpf.SettingsServices
             get => _profilesService.SelectedProfile.TablesContext.Books.MarkSystem;
             set
             {
-                TablesContext tablesContext = _profilesService.SelectedProfile.TablesContext;
+                RepositoriesFacade tablesContext = _profilesService.SelectedProfile.TablesContext;
 
                 tablesContext.Books.MarkSystem = value;
                 tablesContext.BookCategories.MarkSystem = value;

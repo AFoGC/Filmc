@@ -35,7 +35,7 @@ namespace Filmc.Entities.Entities
             Bookmark = String.Empty;
             Mark = new Mark();
 
-            BookSources = new ObservableCollection<BookSource>();
+            Sources = new ObservableCollection<BookSource>();
             Tags = new ObservableCollection<BookTag>();
         }
 
@@ -132,13 +132,13 @@ namespace Filmc.Entities.Entities
             get => genre;
             set { genre = value; OnPropertyChanged(); }
         }
-        public virtual BooksInPriority? BooksInPriority 
+        public virtual BooksInPriority? Priority 
         { 
             get => booksInPriority;
             set { booksInPriority = value; OnPropertyChanged(); } 
         }
 
-        public virtual ObservableCollection<BookSource> BookSources { get; }
+        public virtual ObservableCollection<BookSource> Sources { get; }
         public virtual ObservableCollection<BookTag> Tags { get; }
     }
 }

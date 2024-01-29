@@ -1,4 +1,5 @@
 ﻿using Filmc.Entities.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,28 @@ namespace Filmc.Wpf.Repositories
         public FilmSourceRepository FilmSources { get; }
         public FilmTagRepository FilmTags { get; }
 
+        public RepositoriesFacade(string connection)
+        {
+            var opt = SqliteDbContextOptionsBuilderExtensions.UseSqlite(new DbContextOptionsBuilder(), connection).Options;
+            FilmsContext filmsContext = new FilmsContext(opt);
+
+            _filmsContext = filmsContext;
+
+            BookCategories = new BookCategoryRepository(filmsContext.BookCategories);
+            BookGenres = new BookGenreRepository(filmsContext.BookGenres);
+            BooksInPriorities = new BookInPriorityRepository(filmsContext.BooksInPriorities);
+            Books = new BookRepository(filmsContext.Books);
+            BookSources = new BookSourceRepository(filmsContext.BookSources);
+            BookTags = new BookTagRepository(filmsContext.BookTags);
+
+            FilmCategories = new FilmCategoryRepository(filmsContext.FilmCategories);
+            FilmGenres = new FilmGenreRepository(filmsContext.FilmGenres);
+            FilmInPriorities = new FilmInPriorityRepository(filmsContext.FilmsInPriorities);
+            Films = new FilmRepository(filmsContext.Films);
+            FilmSources = new FilmSourceRepository(filmsContext.FilmSources);
+            FilmTags = new FilmTagRepository(filmsContext.FilmTags);
+        }
+
         public RepositoriesFacade(FilmsContext filmsContext)
         {
             _filmsContext = filmsContext;
@@ -44,9 +67,18 @@ namespace Filmc.Wpf.Repositories
             FilmTags = new FilmTagRepository(filmsContext.FilmTags);
         }
 
+        public event Action<RepositoriesFacade>? TablesSaved;
+        public event Action? InfoChanged;
+
         public void SaveChanges()
         {
             _filmsContext.SaveChanges();
+            TablesSaved?.Invoke(this);
+        }
+
+        public void Migrate()
+        {
+            _filmsContext.Database.Migrate();
         }
     }
 }

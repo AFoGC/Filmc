@@ -1,6 +1,6 @@
-﻿using Filmc.Wpf.Helper;
-using Filmc.Xtl;
-using Filmc.Xtl.Entities;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Helper;
+using Filmc.Wpf.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -9,13 +9,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xtl;
 
 namespace Filmc.Wpf.Services
 {
     public class Profile
     {
-        private readonly TablesContext _tablesContext;
+        private readonly RepositoriesFacade _tablesContext;
 
         private bool _isLoaded;
         private bool _isChangesSaved;
@@ -32,7 +31,7 @@ namespace Filmc.Wpf.Services
 
         public event Action? InfoChanged;
 
-        public TablesContext TablesContext
+        public RepositoriesFacade TablesContext
         {
             get
             {
@@ -45,7 +44,10 @@ namespace Filmc.Wpf.Services
         public Profile(string name)
         {
             _name = name;
-            _tablesContext = new TablesContext();
+
+            string profileDirectory = PathHelper.GetProfileDirectoryPath(_name);
+            _tablesContext = new RepositoriesFacade(profileDirectory);
+
             _tablesContext.TablesSaved += OnTablesContextSaved;
         }
 
@@ -53,8 +55,8 @@ namespace Filmc.Wpf.Services
         {
             LoadTables();
 
-            string profileFile = PathHelper.GetProfileFilePath(_name);
-            _tablesContext.Save(profileFile);
+            //string profileFile = PathHelper.GetProfileFilePath(_name);
+            _tablesContext.SaveChanges();
         }
 
         private void LoadTables()
@@ -64,19 +66,18 @@ namespace Filmc.Wpf.Services
                 string profileDirectory = PathHelper.GetProfileDirectoryPath(_name);
                 string profileFile = PathHelper.GetProfileFilePath(_name);
 
-                if (File.Exists(profileFile))
-                {
-                    _tablesContext.Load(profileFile);
-                }
-                else
-                {
-                    _tablesContext.FilmGenres.Add(new FilmGenre { Name = "Movie", IsSerial = false });
-                    _tablesContext.FilmGenres.Add(new FilmGenre { Name = "Series", IsSerial = true });
+                Directory.CreateDirectory(profileDirectory);
+                _tablesContext.Migrate();
 
-                    _tablesContext.BookGenres.Add(new BookGenre { Name = "Book" });
+                if (File.Exists(profileFile) == false)
+                {
+                    _tablesContext.FilmGenres.Add(new FilmGenre { Id = 1, Name = "Movie", IsSerial = false });
+                    _tablesContext.FilmGenres.Add(new FilmGenre { Id = 2, Name = "Series", IsSerial = true });
+
+                    _tablesContext.BookGenres.Add(new BookGenre { Id = 1, Name = "Book" });
 
                     Directory.CreateDirectory(profileDirectory);
-                    _tablesContext.Save(profileFile);
+                    _tablesContext.SaveChanges();
                 }
 
                 _isLoaded = true;
@@ -87,11 +88,13 @@ namespace Filmc.Wpf.Services
 
         private void ConfigureInfoChangedEvent()
         {
+            /*
             foreach (var table in _tablesContext.Tables)
             {
                 table.CollectionChanged += OnTableCollectionChanged;
                 table.RecordsPropertyChanged += OnTableRecordsPropertyChanged;
             }
+            */
         }
 
         private void OnTableRecordsPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -110,7 +113,7 @@ namespace Filmc.Wpf.Services
             InfoChanged?.Invoke();
         }
 
-        private void OnTablesContextSaved(TablesCollection sender)
+        private void OnTablesContextSaved(RepositoriesFacade sender)
         {
             _isChangesSaved = true;
         }

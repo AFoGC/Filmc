@@ -1,10 +1,9 @@
-﻿using Filmc.Wpf.Commands;
+﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Helper;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.SettingsServices;
-using Filmc.Xtl.Entities;
-using Filmc.Xtl.Tables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -218,7 +217,7 @@ namespace Filmc.Wpf.ViewModels
                 {
                     FilmTagViewModel? genre = obj as FilmTagViewModel;
 
-                    if (genre != null && genre.Model.HasFilms.Count == 0)
+                    if (genre != null && genre.Model.Films.Count == 0)
                         TablesViewModel.FilmTags!.Remove(genre.Model);
                 }));
             }
@@ -249,7 +248,7 @@ namespace Filmc.Wpf.ViewModels
                 {
                     BookTagViewModel? genre = obj as BookTagViewModel;
 
-                    if (genre != null && genre.Model.HasBooks.Count == 0)
+                    if (genre != null && genre.Model.Books.Count == 0)
                         TablesViewModel.BookTags!.Remove(genre.Model);
                 }));
             }

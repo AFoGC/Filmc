@@ -1,5 +1,5 @@
-﻿using Filmc.Wpf.Services;
-using Filmc.Xtl;
+﻿using Filmc.Wpf.Repositories;
+using Filmc.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -7,7 +7,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xtl;
 
 namespace Filmc.Wpf.SettingsServices
 {
@@ -57,7 +56,7 @@ namespace Filmc.Wpf.SettingsServices
 
         private void OnSelectedProfileChanged(Profile profile)
         {
-            TablesContext tablesContex;
+            RepositoriesFacade tablesContex;
             if (_currentProfile != null)
             {
                 tablesContex = _currentProfile.TablesContext;
@@ -77,7 +76,7 @@ namespace Filmc.Wpf.SettingsServices
             StartSaveTimer();
         }
 
-        private void OnTablesSaved(TablesCollection sender)
+        private void OnTablesSaved(RepositoriesFacade sender)
         {
             StopSaveTimer();
         }
