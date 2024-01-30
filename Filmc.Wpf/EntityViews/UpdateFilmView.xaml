@@ -215,7 +215,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="3" Padding="10, 5" Background="{StaticResource ButtonDarkGray}" CornerRadius="10">
-                            <TextBlock Text="{Binding Tag.Name}" Foreground="WhiteSmoke" FontSize="12">
+                            <TextBlock Text="{Binding Name}" Foreground="WhiteSmoke" FontSize="12">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
                                         <i:InvokeCommandAction Command="{Binding Path=DataContext.RemoveTagMenuCommand, 

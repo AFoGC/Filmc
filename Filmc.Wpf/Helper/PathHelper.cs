@@ -32,7 +32,7 @@ namespace Filmc.Wpf.Helper
 
         public static string GetProfileFilePath(string profileName)
         {
-            return Path.Combine(ProfilesPath, profileName, "Info.xml");
+            return Path.Combine(ProfilesPath, profileName, "Info.db");
         }
     }
 }
