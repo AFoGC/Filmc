@@ -386,8 +386,8 @@ namespace Filmc.Entities.Context
                     .IsUnique();
 
                 entity.Property(e => e.Id)
-                    .HasColumnName("TotalSeries")
-                    .HasField("_totalSeries")
+                    .HasColumnName("Id")
+                    .HasField("_id")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
                 entity.Property(e => e.Name)

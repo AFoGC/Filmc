@@ -1,6 +1,8 @@
-﻿using Filmc.Entities.Entities;
+﻿using Filmc.Entities.Context;
+using Filmc.Entities.Entities;
 using Filmc.Wpf.Helper;
 using Filmc.Wpf.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -14,9 +16,7 @@ namespace Filmc.Wpf.Services
 {
     public class Profile
     {
-        private readonly RepositoriesFacade _tablesContext;
-
-        private bool _isLoaded;
+        private RepositoriesFacade? _tablesContext;
         private bool _isChangesSaved;
 
         private string _name;
@@ -26,7 +26,7 @@ namespace Filmc.Wpf.Services
             get { return _name; }
         }
 
-        public bool IsLoaded => _isLoaded;
+        public bool IsLoaded => _tablesContext != null;
         public bool IsChangesSaved => _isChangesSaved;
 
         public event Action? InfoChanged;
@@ -35,7 +35,8 @@ namespace Filmc.Wpf.Services
         {
             get
             {
-                LoadTables();
+                if (_tablesContext == null)
+                    _tablesContext = LoadTables();
 
                 return _tablesContext;
             }
@@ -44,46 +45,50 @@ namespace Filmc.Wpf.Services
         public Profile(string name)
         {
             _name = name;
-
-            string profileDirectory = PathHelper.GetProfileDirectoryPath(_name);
-            _tablesContext = new RepositoriesFacade(profileDirectory);
-
-            _tablesContext.TablesSaved += OnTablesContextSaved;
         }
 
         public void SaveTables()
         {
-            LoadTables();
-
+            //LoadTables();
             //string profileFile = PathHelper.GetProfileFilePath(_name);
-            _tablesContext.SaveChanges();
+            TablesContext.SaveChanges();
         }
 
-        private void LoadTables()
+        private RepositoriesFacade LoadTables()
         {
-            if (_isLoaded == false)
+            string connection = PathHelper.GetProfileDirectoryPath(_name);
+            connection = Path.Combine(connection, "Info.db");
+            connection = "Datasource=" + connection;
+
+            var opt = SqliteDbContextOptionsBuilderExtensions.UseSqlite(new DbContextOptionsBuilder(), connection).Options;
+            FilmsContext filmsContext = new FilmsContext(opt);
+
+            string profileDirectory = PathHelper.GetProfileDirectoryPath(_name);
+            string profileFile = PathHelper.GetProfileFilePath(_name);
+
+            Directory.CreateDirectory(profileDirectory);
+
+            if (File.Exists(profileFile) == false)
             {
-                string profileDirectory = PathHelper.GetProfileDirectoryPath(_name);
-                string profileFile = PathHelper.GetProfileFilePath(_name);
+                filmsContext.Database.Migrate();
+                filmsContext.FilmGenres.Add(new FilmGenre { Id = 1, Name = "Movie", IsSerial = false });
+                filmsContext.FilmGenres.Add(new FilmGenre { Id = 2, Name = "Series", IsSerial = true });
 
-                Directory.CreateDirectory(profileDirectory);
-                _tablesContext.Migrate();
-
-                if (File.Exists(profileFile) == false)
-                {
-                    _tablesContext.FilmGenres.Add(new FilmGenre { Id = 1, Name = "Movie", IsSerial = false });
-                    _tablesContext.FilmGenres.Add(new FilmGenre { Id = 2, Name = "Series", IsSerial = true });
-
-                    _tablesContext.BookGenres.Add(new BookGenre { Id = 1, Name = "Book" });
-
-                    Directory.CreateDirectory(profileDirectory);
-                    _tablesContext.SaveChanges();
-                }
-
-                _isLoaded = true;
-                _isChangesSaved = true;
-                ConfigureInfoChangedEvent();
+                filmsContext.BookGenres.Add(new BookGenre { Id = 1, Name = "Book" });
+                filmsContext.SaveChanges();
             }
+            else
+            {
+                filmsContext.Database.Migrate();
+            }
+
+            RepositoriesFacade repositories = new RepositoriesFacade(filmsContext);
+            repositories.TablesSaved += OnTablesContextSaved;
+
+            _isChangesSaved = true;
+            ConfigureInfoChangedEvent();
+
+            return repositories;
         }
 
         private void ConfigureInfoChangedEvent()
