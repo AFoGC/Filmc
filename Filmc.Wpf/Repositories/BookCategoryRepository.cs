@@ -32,6 +32,9 @@ namespace Filmc.Wpf.Repositories
 
         public override void Add(BookCategory item)
         {
+            if (item.Id == 0)
+                item.Id = GetNewId(x => x.Id);
+
             base.Add(item);
             item.Mark.MarkSystem = _markSystem;
         }
@@ -39,9 +42,7 @@ namespace Filmc.Wpf.Repositories
         public void Add()
         {
             BookCategory item = new BookCategory();
-
-            int max = DbSet.Max(x => x.Id);
-            item.Id = max++;
+            item.Id = GetNewId(x => x.Id);
 
             Add(item);
         }

@@ -31,6 +31,9 @@ namespace Filmc.Wpf.Repositories
 
         public override void Add(Book item)
         {
+            if (item.Id == 0)
+                item.Id = GetNewId(x => x.Id);
+
             base.Add(item);
             item.Mark.MarkSystem = _markSystem;
         }
