@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -80,6 +81,16 @@ namespace Filmc.Wpf.Repositories
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _items.GetEnumerator();
+        }
+
+        protected int GetNewId(Expression<Func<T, int>> selector)
+        {
+            Func<T, int> func = selector.Compile();
+
+            int max = _items.Max(x => func(x));
+            max++;
+
+            return max;
         }
     }
 }

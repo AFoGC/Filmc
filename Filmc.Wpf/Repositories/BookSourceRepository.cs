@@ -14,5 +14,13 @@ namespace Filmc.Wpf.Repositories
         {
 
         }
+
+        public override void Add(BookSource item)
+        {
+            if (item.Id == 0)
+                item.Id = GetNewId(x => x.Id);
+
+            base.Add(item);
+        }
     }
 }
