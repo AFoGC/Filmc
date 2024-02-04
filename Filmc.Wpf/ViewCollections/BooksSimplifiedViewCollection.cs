@@ -26,7 +26,7 @@ namespace Filmc.Wpf.ViewCollections
 
             if (vm != null)
             {
-                if (vm.Model.CategoryId == 0)
+                if (vm.Model.CategoryId == null)
                 {
                     e.Accepted = true;
                 }
