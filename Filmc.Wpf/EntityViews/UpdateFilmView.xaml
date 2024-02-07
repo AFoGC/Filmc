@@ -57,7 +57,7 @@
             </ComboBox>
 
             <TextBlock Text="{DynamicResource year_tt}" />
-            <TextBox Text="{Binding RealiseYear, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding RealiseYear, TargetNullValue=''}" Width="50" HorizontalAlignment="Left" />
             
             <CheckBox IsChecked="{Binding IsWatched}" Content="{DynamicResource watched_tt}" Foreground="WhiteSmoke"/>
 
@@ -101,7 +101,7 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            <TextBox Text="{Binding WatchedSeries, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left">
+            <TextBox Text="{Binding WatchedSeries, TargetNullValue=''}" Width="50" HorizontalAlignment="Left">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                         <Style.Triggers>
@@ -138,7 +138,7 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            <TextBox Text="{Binding TotalSeries, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left">
+            <TextBox Text="{Binding TotalSeries, TargetNullValue=''}" Width="50" HorizontalAlignment="Left">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                         <Style.Triggers>
@@ -175,7 +175,7 @@
             </StackPanel>
 
             <TextBlock Text="{DynamicResource cov_tt}" />
-            <TextBox Text="{Binding CountOfViews, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left">
+            <TextBox Text="{Binding CountOfViews, TargetNullValue=''}" Width="50" HorizontalAlignment="Left">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewTextInput">
                         <i:InvokeCommandAction Command="{Binding Path=DataContext.CheckIsTextCommand, 

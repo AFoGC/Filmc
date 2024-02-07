@@ -76,7 +76,7 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Comment;
             set => Model.Comment = value;
         }
-        public int CountOfViews
+        public int? CountOfViews
         {
             get => Model.CountOfViews;
             set => Model.CountOfViews = value;
