@@ -14,7 +14,7 @@ namespace Filmc.Entities.Entities
         private bool _isWatched;
         private DateTime? _endWatchDate;
         private string _comment = null!;
-        private int _countOfViews;
+        private int? _countOfViews;
         private int? _categoryId;
         private int? _categoryListId;
         private bool _isOnTheBlacklist;
@@ -77,7 +77,7 @@ namespace Filmc.Entities.Entities
             get => _comment;
             set { _comment = value; OnPropertyChanged(); }
         }
-        public int CountOfViews
+        public int? CountOfViews
         {
             get => _countOfViews;
             set { _countOfViews = value; OnPropertyChanged(); }

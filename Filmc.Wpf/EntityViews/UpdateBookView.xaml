@@ -57,7 +57,7 @@
             </ComboBox>
 
             <TextBlock Text="{DynamicResource year_tt}" />
-            <TextBox Text="{Binding PublicationYear, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding PublicationYear, TargetNullValue=''}" Width="50" HorizontalAlignment="Left" />
 
             <CheckBox IsChecked="{Binding IsReaded}" Content="{DynamicResource readed_tt}" Foreground="WhiteSmoke"/>
 
@@ -106,7 +106,7 @@
             </StackPanel>
 
             <TextBlock Text="{DynamicResource cor_tt}" />
-            <TextBox Text="{Binding CountOfReadings, StringFormat='{}{0:#}'}" Width="50" HorizontalAlignment="Left">
+            <TextBox Text="{Binding CountOfReadings, TargetNullValue=''}" Width="50" HorizontalAlignment="Left">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewTextInput">
                         <i:InvokeCommandAction Command="{Binding Path=DataContext.CheckIsTextCommand, 
