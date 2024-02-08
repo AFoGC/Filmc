@@ -11,11 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Resources\Images\BookIcon.ico" />
+    <Compile Remove="Converters\**" />
+    <EmbeddedResource Remove="Converters\**" />
+    <None Remove="Converters\**" />
+    <Page Remove="Converters\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Converters\" />
+    <Content Include="Resources\Images\BookIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +29,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Filmc.Entities\Filmc.Entities.csproj" />
     <ProjectReference Include="..\Filmc.Wpf.Updater.Module\Filmc.Wpf.Updater.Module.csproj" />
+    <ProjectReference Include="..\Filmc.Xtl\Filmc.Xtl.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Xtl">
+      <HintPath>..\Xtl.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

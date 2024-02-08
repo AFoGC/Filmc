@@ -15,6 +15,7 @@ namespace Filmc.Wpf.Repositories
         public BookRepository(DbSet<Book> dbSet) : base(dbSet)
         {
             _markSystem = 6;
+            dbSet.Include(x => x.Tags).ToList();
         }
 
         public int MarkSystem
