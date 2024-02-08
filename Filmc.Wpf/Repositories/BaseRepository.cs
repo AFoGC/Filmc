@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Filmc.Wpf.Repositories
 {
-    public class BaseRepository<T> : IEnumerable<T>, ICollection<T>, INotifyCollectionChanged, INotifyPropertyChanged where T : class
+    public class BaseRepository<T> : IEnumerable<T>, ICollection<T>, INotifyCollectionChanged, INotifyPropertyChanged, IBaseRepository where T : class
     {
         private readonly DbSet<T> _dbSet;
         private readonly ObservableCollection<T> _items;
@@ -28,15 +28,49 @@ namespace Filmc.Wpf.Repositories
             _dbSet.Load();
             _items = _dbSet.Local.ToObservableCollection();
 
+            foreach (INotifyPropertyChanged item in _items)
+                item.PropertyChanged += OnItemPropertyChanged;
+
             _items.CollectionChanged += OnCollectionChanged;
         }
 
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event Action? ItemInCollectionChanged;
 
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             CollectionChanged?.Invoke(this, e);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (INotifyPropertyChanged item in e.NewItems)
+                {
+                    item.PropertyChanged += OnItemPropertyChanged;
+                }
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (INotifyPropertyChanged item in e.OldItems)
+                {
+                    item.PropertyChanged += OnItemPropertyChanged;
+                }
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                foreach (INotifyPropertyChanged item in _items)
+                {
+                    item.PropertyChanged += OnItemPropertyChanged;
+                }
+            }
+        }
+
+        private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            ItemInCollectionChanged?.Invoke();
         }
 
         public virtual void Add(T item)
