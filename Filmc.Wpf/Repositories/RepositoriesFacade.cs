@@ -26,6 +26,8 @@ namespace Filmc.Wpf.Repositories
         public FilmSourceRepository FilmSources { get; }
         public FilmTagRepository FilmTags { get; }
 
+        public IEnumerable<IBaseRepository> Repositories { get; }
+
         public RepositoriesFacade(string connection)
         {
             var opt = SqliteDbContextOptionsBuilderExtensions.UseSqlite(new DbContextOptionsBuilder(), connection).Options;
@@ -46,6 +48,21 @@ namespace Filmc.Wpf.Repositories
             Films = new FilmRepository(filmsContext.Films);
             FilmSources = new FilmSourceRepository(filmsContext.FilmSources);
             FilmTags = new FilmTagRepository(filmsContext.FilmTags);
+
+            Repositories = new IBaseRepository[] 
+            { 
+                BookCategories, 
+                BookGenres, 
+                BooksInPriorities, 
+                BookSources, 
+                BookTags, 
+                FilmCategories, 
+                FilmGenres, 
+                FilmInPriorities, 
+                Films, 
+                FilmSources, 
+                FilmTags 
+            };
         }
 
         public RepositoriesFacade(FilmsContext filmsContext)
@@ -65,10 +82,24 @@ namespace Filmc.Wpf.Repositories
             Films = new FilmRepository(filmsContext.Films);
             FilmSources = new FilmSourceRepository(filmsContext.FilmSources);
             FilmTags = new FilmTagRepository(filmsContext.FilmTags);
+
+            Repositories = new IBaseRepository[]
+            {
+                BookCategories,
+                BookGenres,
+                BooksInPriorities,
+                BookSources,
+                BookTags,
+                FilmCategories,
+                FilmGenres,
+                FilmInPriorities,
+                Films,
+                FilmSources,
+                FilmTags
+            };
         }
 
         public event Action<RepositoriesFacade>? TablesSaved;
-        public event Action? InfoChanged;
 
         public void SaveChanges()
         {

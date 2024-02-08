@@ -86,23 +86,21 @@ namespace Filmc.Wpf.Services
             repositories.TablesSaved += OnTablesContextSaved;
 
             _isChangesSaved = true;
-            ConfigureInfoChangedEvent();
+            ConfigureInfoChangedEvent(repositories);
 
             return repositories;
         }
 
-        private void ConfigureInfoChangedEvent()
+        private void ConfigureInfoChangedEvent(RepositoriesFacade repositories)
         {
-            /*
-            foreach (var table in _tablesContext.Tables)
+            foreach (var repository in repositories.Repositories)
             {
-                table.CollectionChanged += OnTableCollectionChanged;
-                table.RecordsPropertyChanged += OnTableRecordsPropertyChanged;
+                repository.ItemInCollectionChanged += OnTableRecordsPropertyChanged;
+                repository.CollectionChanged += OnTableCollectionChanged;
             }
-            */
         }
 
-        private void OnTableRecordsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        private void OnTableRecordsPropertyChanged()
         {
             OnInfoChanged();
         }
