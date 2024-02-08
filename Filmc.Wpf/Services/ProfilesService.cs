@@ -1,4 +1,5 @@
 ﻿using Filmc.Wpf.Helper;
+using Filmc.Wpf.SaveConverters;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,6 +47,7 @@ namespace Filmc.Wpf.Services
                 foreach (var item in directories)
                 {
                     _profiles.Add(new Profile(item.Name));
+                    Converter.Convert(item.Name);
                 }
             }
             else
