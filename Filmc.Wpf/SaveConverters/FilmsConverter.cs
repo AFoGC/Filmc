@@ -64,9 +64,6 @@ namespace Filmc.Wpf.SaveConverters
                 if (item.CountOfViews != 0)
                     entity.CountOfViews = item.CountOfViews;
 
-                if (item.CategoryId != 0)
-                    entity.CategoryId = item.CategoryId;
-
                 entity.StartWatchDate = item.StartWatchDate;
 
                 if (item.WatchedSeries != 0)
@@ -78,6 +75,11 @@ namespace Filmc.Wpf.SaveConverters
                 entity.Mark.RawMark = item.Mark.RawMark;
 
                 filmsContext.Films.Local.Add(entity);
+
+                if (item.CategoryId != 0)
+                    filmsContext.FilmCategories.Local
+                        .First(x => x.Id == item.CategoryId)
+                        .AddFilmInOrder(entity);
 
                 foreach (var source in item.Sources)
                 {
@@ -127,6 +129,17 @@ namespace Filmc.Wpf.SaveConverters
             {
                 Entities.Entities.FilmTag filmTag = filmsContext.FilmTags.Local.First(x => x.Id == item.TagId);
                 filmsContext.Films.Local.First(x => x.Id == item.FilmId).Tags.Add(filmTag);
+            }
+        }
+
+        public static void SetListId(FilmCategory category)
+        {
+            IEnumerable<Film> films = category.Films.OrderBy(x => x.Id);
+
+            int i = 0;
+            foreach(var film in films)
+            {
+                //film.CategoryListId = i++;
             }
         }
     }

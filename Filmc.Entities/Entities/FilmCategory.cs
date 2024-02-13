@@ -72,27 +72,38 @@ namespace Filmc.Entities.Entities
         {
             if (Films.Contains(film) && newListId != null)
             {
-                var plusCollection = Films
-                    .Where(x => x.CategoryListId >= newListId && x.CategoryListId < film.CategoryListId)
-                    .OrderBy(x => x.CategoryListId);
-
-                var minusCollection = Films
-                    .Where(x => x.CategoryListId <= newListId && x.CategoryListId > film.CategoryListId)
-                    .OrderBy(x => x.CategoryListId);
-
-                foreach (Film item in plusCollection)
-                    item.CategoryListId++;
-
-                foreach (Film item in minusCollection)
-                    item.CategoryListId--;
-
                 if (newListId < 0)
                     newListId = 0;
 
                 if (newListId >= Films.Count)
                     newListId = Films.Count - 1;
 
+                int oldListId = (int)film.CategoryListId!;
+
+                var plusCollection = Films
+                    .Where(x => x.CategoryListId >= newListId && x.Id != film.Id)
+                    .OrderBy(x => x.CategoryListId);
+
+                var minusCollection = Films
+                    .Where(x => x.CategoryListId < newListId && x.Id != film.Id)
+                    .OrderByDescending(x => x.CategoryListId);
+
                 film.CategoryListId = newListId;
+
+                int i = (int)newListId;
+                foreach (Film item in plusCollection)
+                {
+                    i++;
+                    item.CategoryListId = i;
+                }
+
+                i = (int)newListId;
+                foreach (Film item in minusCollection)
+                {
+                    i--;
+                    item.CategoryListId = i;
+                }
+
                 return true;
             }
             else

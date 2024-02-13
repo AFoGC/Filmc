@@ -62,12 +62,14 @@ namespace Filmc.Wpf.SaveConverters
                 entity.CountOfReadings = item.CountOfReadings;
                 entity.Bookmark = item.Bookmark;
 
-                if (item.CategoryId != 0)
-                    entity.CategoryId = item.CategoryId;
-
                 entity.Mark.RawMark = item.Mark.RawMark;
 
                 filmsContext.Books.Local.Add(entity);
+
+                if (item.CategoryId != 0)
+                    filmsContext.BookCategories.Local
+                        .First(x => x.Id == item.CategoryId)
+                        .AddBookInOrder(entity);
 
                 foreach (var source in item.Sources)
                 {
