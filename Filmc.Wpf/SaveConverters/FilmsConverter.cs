@@ -131,16 +131,5 @@ namespace Filmc.Wpf.SaveConverters
                 filmsContext.Films.Local.First(x => x.Id == item.FilmId).Tags.Add(filmTag);
             }
         }
-
-        public static void SetListId(FilmCategory category)
-        {
-            IEnumerable<Film> films = category.Films.OrderBy(x => x.Id);
-
-            int i = 0;
-            foreach(var film in films)
-            {
-                //film.CategoryListId = i++;
-            }
-        }
     }
 }
