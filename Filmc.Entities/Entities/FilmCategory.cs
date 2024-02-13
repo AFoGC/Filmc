@@ -78,30 +78,23 @@ namespace Filmc.Entities.Entities
                 if (newListId >= Films.Count)
                     newListId = Films.Count - 1;
 
-                int oldListId = (int)film.CategoryListId!;
+                int? currentListId = film.CategoryListId;
 
-                var plusCollection = Films
-                    .Where(x => x.CategoryListId >= newListId && x.Id != film.Id)
-                    .OrderBy(x => x.CategoryListId);
-
-                var minusCollection = Films
-                    .Where(x => x.CategoryListId < newListId && x.Id != film.Id)
-                    .OrderByDescending(x => x.CategoryListId);
-
-                film.CategoryListId = newListId;
-
-                int i = (int)newListId;
-                foreach (Film item in plusCollection)
+                while(film.CategoryListId != newListId)
                 {
-                    i++;
-                    item.CategoryListId = i;
-                }
+                    if (film.CategoryListId > newListId)
+                    {
+                        currentListId = film.CategoryListId - 1;
+                        Films.First(x => x.CategoryListId == currentListId).CategoryListId++;
+                        film.CategoryListId--;
+                    }
 
-                i = (int)newListId;
-                foreach (Film item in minusCollection)
-                {
-                    i--;
-                    item.CategoryListId = i;
+                    if (film.CategoryListId < newListId)
+                    {
+                        currentListId = film.CategoryListId + 1;
+                        Films.First(x => x.CategoryListId == currentListId).CategoryListId--;
+                        film.CategoryListId++;
+                    }
                 }
 
                 return true;
