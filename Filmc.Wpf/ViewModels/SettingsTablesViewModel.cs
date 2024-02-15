@@ -22,7 +22,7 @@ namespace Filmc.Wpf.ViewModels
         private FilmTagRepository? _filmTags;
         private BookTagRepository? _bookTags;
 
-        public SettingsTablesViewModel(SettingsService settingsService)
+        public SettingsTablesViewModel(GlobalSettingsService settingsService)
         {
             _profilesService = settingsService.ProfilesService;
 

@@ -26,7 +26,7 @@ namespace Filmc.Wpf.ViewModels
         private readonly UpdateProgramSerivce _updateProgramSerivce;
 
         private readonly ExitWindowService _exitService;
-        private readonly SettingsService _settingsService;
+        private readonly GlobalSettingsService _settingsService;
 
         private RelayCommand? saveSettingsCommand;
         private RelayCommand? saveAndExitCommand;
@@ -35,7 +35,7 @@ namespace Filmc.Wpf.ViewModels
 
         public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel,
                SettingsMenuViewModel settingsMenuViewModel, UpdateMenuViewModel updateMenuViewModel,
-               StatusBarViewModel statusBarViewModel, SettingsService settingsService, 
+               StatusBarViewModel statusBarViewModel, GlobalSettingsService settingsService, 
                ExitWindowService exitService, UpdateProgramSerivce updateProgramSerivce)
         {
             _filmsMenuViewModel = filmsMenuViewModel;

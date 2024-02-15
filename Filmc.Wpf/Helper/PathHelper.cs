@@ -34,5 +34,10 @@ namespace Filmc.Wpf.Helper
         {
             return Path.Combine(ProfilesPath, profileName, "Info.db");
         }
+
+        public static string GetProfileSettingsPath(string profileName)
+        {
+            return Path.Combine(ProfilesPath, profileName, "Settings.xml");
+        }
     }
 }

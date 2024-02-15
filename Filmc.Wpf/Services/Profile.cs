@@ -3,6 +3,7 @@ using Filmc.Entities.Entities;
 using Filmc.Wpf.Helper;
 using Filmc.Wpf.Repositories;
 using Filmc.Wpf.SaveConverters;
+using Filmc.Wpf.SettingsServices;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Filmc.Wpf.Services
 {
     public class Profile
     {
+        private ProfileSettingsService? _profileSettings;
         private RepositoriesFacade? _tablesContext;
         private bool _isChangesSaved;
 
@@ -43,6 +45,17 @@ namespace Filmc.Wpf.Services
             }
         }
 
+        public ProfileSettingsService Settings
+        {
+            get
+            {
+                if (_profileSettings == null)
+                    _profileSettings = LoadSettings();
+
+                return _profileSettings;
+            }
+        }
+
         public Profile(string name)
         {
             _name = name;
@@ -50,9 +63,8 @@ namespace Filmc.Wpf.Services
 
         public void SaveTables()
         {
-            //LoadTables();
-            //string profileFile = PathHelper.GetProfileFilePath(_name);
             TablesContext.SaveChanges();
+            Settings.SaveSettings();
         }
 
         private RepositoriesFacade LoadTables()
@@ -90,6 +102,15 @@ namespace Filmc.Wpf.Services
             ConfigureInfoChangedEvent(repositories);
 
             return repositories;
+        }
+
+        private ProfileSettingsService LoadSettings()
+        {
+            RepositoriesFacade repositories = TablesContext;
+            var settings = new ProfileSettingsService(repositories, _name);
+            settings.LoadSettings();
+
+            return settings;
         }
 
         private void ConfigureInfoChangedEvent(RepositoriesFacade repositories)

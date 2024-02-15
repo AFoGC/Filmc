@@ -49,7 +49,7 @@ namespace Filmc.Wpf
             serviceCollection.AddSingleton<LanguageService>();
             serviceCollection.AddSingleton<MarkSystemService>();
             serviceCollection.AddSingleton<ScaleService>();
-            serviceCollection.AddSingleton<SettingsService>();
+            serviceCollection.AddSingleton<GlobalSettingsService>();
             serviceCollection.AddSingleton<UpdateMenuService>();
             serviceCollection.AddSingleton<UpdateProgramSerivce>();
 
@@ -76,7 +76,7 @@ namespace Filmc.Wpf
         {
             MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
 
-            SettingsService settingsService = _serviceProvider.GetRequiredService<SettingsService>();
+            GlobalSettingsService settingsService = _serviceProvider.GetRequiredService<GlobalSettingsService>();
             LanguageService languageService = _serviceProvider.GetRequiredService<LanguageService>();
             ScaleService scaleService = _serviceProvider.GetRequiredService<ScaleService>();
 

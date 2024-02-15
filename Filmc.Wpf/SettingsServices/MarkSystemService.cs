@@ -18,33 +18,25 @@ namespace Filmc.Wpf.SettingsServices
             _profilesService.SelectedProfileChanged += OnSelectedProfileChanged;
         }
 
-        public Action? FilmsMarkSystemChanged;
-        public Action? BooksMarkSystemChanged;
+        public event Action? FilmsMarkSystemChanged;
+        public event Action? BooksMarkSystemChanged;
 
         public int FilmMarkSystem
         {
-            get => _profilesService.SelectedProfile.TablesContext.Films.MarkSystem;
+            get => _profilesService.SelectedProfile.Settings.FilmsMarkSystem;
             set
             {
-                RepositoriesFacade tablesContext = _profilesService.SelectedProfile.TablesContext;
-
-                tablesContext.Films.MarkSystem = value;
-                tablesContext.FilmCategories.MarkSystem = value;
-
+                _profilesService.SelectedProfile.Settings.FilmsMarkSystem = value;
                 FilmsMarkSystemChanged?.Invoke();
             }
         }
 
         public int BookMarkSystem
         {
-            get => _profilesService.SelectedProfile.TablesContext.Books.MarkSystem;
+            get => _profilesService.SelectedProfile.Settings.BooksMarkSystem;
             set
             {
-                RepositoriesFacade tablesContext = _profilesService.SelectedProfile.TablesContext;
-
-                tablesContext.Books.MarkSystem = value;
-                tablesContext.BookCategories.MarkSystem = value;
-
+                _profilesService.SelectedProfile.Settings.BooksMarkSystem = value;
                 BooksMarkSystemChanged?.Invoke();
             }
         }
