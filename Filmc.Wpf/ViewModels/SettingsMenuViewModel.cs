@@ -16,7 +16,7 @@ namespace Filmc.Wpf.ViewModels
 {
     public class SettingsMenuViewModel : BaseViewModel
     {
-        private readonly SettingsService _settingsService;
+        private readonly GlobalSettingsService _settingsService;
         private readonly MarkSystemService _markSystemService;
         private readonly ExplorerService _explorerService;
         private readonly ImportFileDialogService _importFileDialogService;
@@ -43,7 +43,7 @@ namespace Filmc.Wpf.ViewModels
         private static readonly char[] symbols = new char[]
         { '"', '\\', '/', ':', '|', '<', '>', '*', '?' };
 
-        public SettingsMenuViewModel(SettingsService settingsService, MarkSystemService markSystemService,
+        public SettingsMenuViewModel(GlobalSettingsService settingsService, MarkSystemService markSystemService,
                                      ExplorerService explorerService, ImportFileDialogService importFileService, 
                                      ChangeProfileWindowService changeProfileWindowService, BackgroundImageService backgroundImageService)
         {

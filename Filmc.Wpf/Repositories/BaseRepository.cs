@@ -121,10 +121,16 @@ namespace Filmc.Wpf.Repositories
         {
             Func<T, int> func = selector.Compile();
 
-            int max = _items.Max(x => func(x));
-            max++;
-
-            return max;
+            if (_items.Count != 0)
+            {
+                int max = _items.Max(x => func(x));
+                max++;
+                return max;
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 }
