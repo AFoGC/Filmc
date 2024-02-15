@@ -28,7 +28,6 @@ namespace Filmc.Wpf.SettingsServices
             _saveTimer = new System.Timers.Timer();
             _saveTimer.Elapsed += Autosave;
 
-            OnSelectedProfileChanged(_profilesService.SelectedProfile);
             _profilesService.SelectedProfileChanged += OnSelectedProfileChanged;
         }
 
