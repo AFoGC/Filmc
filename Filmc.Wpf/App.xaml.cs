@@ -74,8 +74,6 @@ namespace Filmc.Wpf
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
-
             GlobalSettingsService settingsService = _serviceProvider.GetRequiredService<GlobalSettingsService>();
             LanguageService languageService = _serviceProvider.GetRequiredService<LanguageService>();
             ScaleService scaleService = _serviceProvider.GetRequiredService<ScaleService>();
@@ -88,6 +86,8 @@ namespace Filmc.Wpf
             updateProgramSerivce.UpdateUpdater(e.Args);
 
             settingsService.LoadSettings();
+
+            MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             MainWindow.Show();
         }
 

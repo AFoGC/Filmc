@@ -76,6 +76,7 @@ namespace Filmc.Wpf.SettingsServices
 
         private void LoadXmlProfile()
         {
+            bool isProfileSelected = false;
             XmlNode? node = GetXmlNode(profileNodeName);
 
             if (node != null)
@@ -83,7 +84,15 @@ namespace Filmc.Wpf.SettingsServices
                 Profile? profile = _profilesService.Profiles.FirstOrDefault(x => x.Name == node.InnerText);
 
                 if (profile != null)
+                {
                     _profilesService.SelectedProfile = profile;
+                    isProfileSelected = true;
+                }
+            }
+
+            if (isProfileSelected == false)
+            {
+                _profilesService.SelectedProfile = _profilesService.Profiles.First();
             }
         }
 
