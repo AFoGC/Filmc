@@ -125,6 +125,7 @@ namespace Filmc.Wpf.ViewModels
                 (saveSettingsCommand = new RelayCommand(obj =>
                 {
                     _settingsService.SaveSettings();
+                    _settingsService.ProfilesService.SelectedProfile.DeleteTempFile(true);
                 }));
             }
         }

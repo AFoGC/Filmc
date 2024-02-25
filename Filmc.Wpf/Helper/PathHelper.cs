@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,6 +39,19 @@ namespace Filmc.Wpf.Helper
         public static string GetProfileSettingsPath(string profileName)
         {
             return Path.Combine(ProfilesPath, profileName, "Settings.xml");
+        }
+
+        public static SqliteConnection GetSqliteConnection(string filePath)
+        {
+            string connectionString = "Datasource=" + filePath;
+            SqliteConnection connection = new SqliteConnection(connectionString);
+            return connection;
+        }
+
+        public static void ClearSqlitePool(string filePath)
+        {
+            SqliteConnection connection = GetSqliteConnection(filePath);
+            SqliteConnection.ClearPool(connection);
         }
     }
 }

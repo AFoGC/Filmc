@@ -4,6 +4,7 @@ using Filmc.Wpf.Helper;
 using Filmc.Wpf.Repositories;
 using Filmc.Wpf.SaveConverters;
 using Filmc.Wpf.SettingsServices;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Filmc.Wpf.Services
 {
@@ -24,6 +24,11 @@ namespace Filmc.Wpf.Services
 
         private string _name;
 
+        public Profile(string name)
+        {
+            _name = name;
+        }
+
         public string Name
         {
             get { return _name; }
@@ -33,6 +38,7 @@ namespace Filmc.Wpf.Services
         public bool IsChangesSaved => _isChangesSaved;
 
         public event Action? InfoChanged;
+        public event Action? ProfileSaved;
 
         public RepositoriesFacade TablesContext
         {
@@ -56,52 +62,77 @@ namespace Filmc.Wpf.Services
             }
         }
 
-        public Profile(string name)
+        public void DeleteTempFile(bool saveChanges)
         {
-            _name = name;
+            string profileDirectoryPath = PathHelper.GetProfileDirectoryPath(_name);
+            string tempFilePath = Path.Combine(profileDirectoryPath, "Temp.db");
+
+            PathHelper.ClearSqlitePool(tempFilePath);
+            TablesContext.DeleteDbFile();
         }
 
         public void SaveTables()
         {
+            string profileDirectoryPath = PathHelper.GetProfileDirectoryPath(_name);
+            string mainFilePath = Path.Combine(profileDirectoryPath, "Info.db");
+            string tempFilePath = Path.Combine(profileDirectoryPath, "Temp.db");
+
             TablesContext.SaveChanges();
+            PathHelper.ClearSqlitePool(tempFilePath);
+            File.Copy(tempFilePath, mainFilePath, true);
+
+            OnProfileSaved();
+
             Settings.SaveSettings();
         }
 
         private RepositoriesFacade LoadTables()
         {
-            string connection = PathHelper.GetProfileDirectoryPath(_name);
-            connection = Path.Combine(connection, "Info.db");
-            connection = "Datasource=" + connection;
+            string profileDirectoryPath = PathHelper.GetProfileDirectoryPath(_name);
+            string mainFilePath = Path.Combine(profileDirectoryPath, "Info.db");
+            string tempFilePath = Path.Combine(profileDirectoryPath, "Temp.db");
 
-            var opt = SqliteDbContextOptionsBuilderExtensions.UseSqlite(new DbContextOptionsBuilder(), connection).Options;
+            string connectionString = "Datasource=" + tempFilePath;
+            SqliteConnection connection = new SqliteConnection(connectionString);
+
+            DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder();
+            var opt = optionsBuilder.UseSqlite(connection).Options;
             FilmsContext filmsContext = new FilmsContext(opt);
 
-            string profileDirectory = PathHelper.GetProfileDirectoryPath(_name);
-            string profileFile = PathHelper.GetProfileFilePath(_name);
+            Directory.CreateDirectory(profileDirectoryPath);
 
-            Directory.CreateDirectory(profileDirectory);
-
-            if (File.Exists(profileFile) == false)
+            if (File.Exists(mainFilePath) == false)
             {
-                filmsContext.Database.Migrate();
-                filmsContext.FilmGenres.Add(new FilmGenre { Id = 1, Name = "Movie", IsSerial = false });
-                filmsContext.FilmGenres.Add(new FilmGenre { Id = 2, Name = "Series", IsSerial = true });
-
-                filmsContext.BookGenres.Add(new BookGenre { Id = 1, Name = "Book" });
-                filmsContext.SaveChanges();
+                CreateDbFile(mainFilePath);
             }
-            else
+
+            if (File.Exists(tempFilePath) == false)
             {
+                File.Copy(mainFilePath, tempFilePath);
                 filmsContext.Database.Migrate();
             }
 
             RepositoriesFacade repositories = new RepositoriesFacade(filmsContext);
-            repositories.TablesSaved += OnTablesContextSaved;
 
             _isChangesSaved = true;
             ConfigureInfoChangedEvent(repositories);
 
             return repositories;
+        }
+
+        private void CreateDbFile(string path)
+        {
+            var opt = SqliteDbContextOptionsBuilderExtensions.UseSqlite(new DbContextOptionsBuilder(), path).Options;
+            FilmsContext filmsContext = new FilmsContext(opt);
+
+            filmsContext.Database.Migrate();
+            filmsContext.FilmGenres.Add(new FilmGenre { Id = 1, Name = "Movie", IsSerial = false });
+            filmsContext.FilmGenres.Add(new FilmGenre { Id = 2, Name = "Series", IsSerial = true });
+
+            filmsContext.BookGenres.Add(new BookGenre { Id = 1, Name = "Book" });
+            filmsContext.SaveChanges();
+
+            filmsContext.Dispose();
         }
 
         private ProfileSettingsService LoadSettings()
@@ -138,9 +169,10 @@ namespace Filmc.Wpf.Services
             InfoChanged?.Invoke();
         }
 
-        private void OnTablesContextSaved(RepositoriesFacade sender)
+        private void OnProfileSaved()
         {
             _isChangesSaved = true;
+            ProfileSaved?.Invoke();
         }
     }
 }

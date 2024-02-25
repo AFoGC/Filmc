@@ -49,10 +49,10 @@ namespace Filmc.Entities.Entities
 
         public void AddFilmInOrder(Film film)
         {
-            if (Films.Contains(film) == false)
+            if (film.CategoryId == null)
             {
                 film.CategoryListId = Films.Count;
-                Films.Add(film);
+                film.CategoryId = this.Id;
             }
         }
 

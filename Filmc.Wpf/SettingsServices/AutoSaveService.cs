@@ -55,18 +55,15 @@ namespace Filmc.Wpf.SettingsServices
 
         private void OnSelectedProfileChanged(Profile profile)
         {
-            RepositoriesFacade tablesContex;
             if (_currentProfile != null)
             {
-                tablesContex = _currentProfile.TablesContext;
-                tablesContex.TablesSaved -= OnTablesSaved;
+                _currentProfile.ProfileSaved -= OnTablesSaved;
                 _currentProfile.InfoChanged -= OnProfileInfoChanged;
             }
 
             _currentProfile = profile;
 
-            tablesContex = _currentProfile.TablesContext;
-            _currentProfile.TablesContext.TablesSaved += OnTablesSaved;
+            _currentProfile.ProfileSaved += OnTablesSaved;
             _currentProfile.InfoChanged += OnProfileInfoChanged;
         }
 
@@ -75,7 +72,7 @@ namespace Filmc.Wpf.SettingsServices
             StartSaveTimer();
         }
 
-        private void OnTablesSaved(RepositoriesFacade sender)
+        private void OnTablesSaved()
         {
             StopSaveTimer();
         }

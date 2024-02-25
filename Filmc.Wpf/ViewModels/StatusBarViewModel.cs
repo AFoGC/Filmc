@@ -56,19 +56,19 @@ namespace Filmc.Wpf.ViewModels
             if (_selectedProfile != null)
             {
                 _selectedProfile.InfoChanged -= OnProfileInfoChanged;
-                _selectedProfile.TablesContext.TablesSaved -= OnTablesSaved;
+                _selectedProfile.ProfileSaved -= OnTablesSaved;
             }
 
             _selectedProfile = profile;
 
             _selectedProfile.InfoChanged += OnProfileInfoChanged;
-            _selectedProfile.TablesContext.TablesSaved += OnTablesSaved;
+            _selectedProfile.ProfileSaved += OnTablesSaved;
 
             _backToNormalTimer.Stop();
             Status = StatusEnum.Normal;
         }
 
-        private void OnTablesSaved(RepositoriesFacade sender)
+        private void OnTablesSaved()
         {
             Status = StatusEnum.Saved;
             _backToNormalTimer.Start();

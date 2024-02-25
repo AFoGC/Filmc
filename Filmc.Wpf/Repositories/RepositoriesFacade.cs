@@ -99,17 +99,14 @@ namespace Filmc.Wpf.Repositories
             };
         }
 
-        public event Action<RepositoriesFacade>? TablesSaved;
-
         public void SaveChanges()
         {
             _filmsContext.SaveChanges();
-            TablesSaved?.Invoke(this);
         }
 
-        public void Migrate()
+        public void DeleteDbFile()
         {
-            _filmsContext.Database.Migrate();
+            _filmsContext.Database.EnsureDeleted();
         }
     }
 }
