@@ -1,5 +1,6 @@
 ﻿using Filmc.Entities.Entities;
 using Filmc.Wpf.Commands;
+using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewCollections;
 using System;
@@ -17,6 +18,7 @@ namespace Filmc.Wpf.EntityViewModels
         public FilmCategory Model { get; }
 
         private readonly UpdateMenuService _updateMenuService;
+        private readonly IRepositoriesSaved _repositories;
 
         private bool _isCollectionVisible;
         private bool _isSelected;
@@ -31,7 +33,7 @@ namespace Filmc.Wpf.EntityViewModels
         private RelayCommand? removeMarkCommand;
 
         public FilmCategoryViewModel(FilmCategory model, ObservableCollection<FilmViewModel> filmsViewModel, 
-                                     UpdateMenuService updateMenuService)
+                                     UpdateMenuService updateMenuService, IRepositoriesSaved repositories)
         {
             Model = model;
             Model.PropertyChanged += OnModelPropertyChanged;
@@ -41,6 +43,7 @@ namespace Filmc.Wpf.EntityViewModels
             FilmsVC = new FilmsInCategoryViewCollection(model, filmsViewModel);
 
             _updateMenuService = updateMenuService;
+            _repositories = repositories;
         }
 
         public FilmsInCategoryViewCollection FilmsVC { get; }
@@ -140,6 +143,7 @@ namespace Filmc.Wpf.EntityViewModels
                     if (filmViewModel != null)
                     {
                         Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId - 1);
+                        _repositories.SaveChanges();
                     }
                 }));
             }
@@ -157,6 +161,7 @@ namespace Filmc.Wpf.EntityViewModels
                     if (filmViewModel != null)
                     {
                         Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId + 1);
+                        _repositories.SaveChanges();
                     }
                 }));
             }
@@ -174,6 +179,7 @@ namespace Filmc.Wpf.EntityViewModels
                     if (filmViewModel != null)
                     {
                         Model.RemoveFilmInOrder(filmViewModel.Model);
+                        _repositories.SaveChanges();
                     }
                 }));
             }

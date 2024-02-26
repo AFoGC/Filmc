@@ -264,7 +264,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (categoryVM != null && SelectedBook != null)
                     {
-                        categoryVM.Model.AddBookInOrder(SelectedBook.Model);
+                        _model.AddBookToCategory(categoryVM.Model, SelectedBook.Model);
                     }
                 }));
             }
@@ -281,7 +281,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (categoryVM != null && SelectedBook != null)
                     {
-                        categoryVM.Model.RemoveBookInOrder(SelectedBook.Model);
+                        _model.RemoveBookFromCategory(categoryVM.Model, SelectedBook.Model);
                     }
                 }));
             }
@@ -298,11 +298,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (viewModel != null)
                     {
-                        if (_model.TablesContext.BooksInPriorities.All(x => x.Id != viewModel.Model.Id))
-                        {
-                            BooksInPriority priority = new BooksInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
-                            _model.TablesContext.BooksInPriorities.Add(priority);
-                        }
+                        _model.AddBookToPriority(viewModel.Model);
                     }
                 }));
             }
@@ -319,7 +315,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (viewModel != null)
                     {
-                        _model.TablesContext.BooksInPriorities.Remove(viewModel.Model.Priority);
+                        _model.RemoveBookFromPriority(viewModel.Model);
                     }
                 }));
             }

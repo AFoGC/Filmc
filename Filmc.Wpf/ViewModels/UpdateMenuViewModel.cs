@@ -143,6 +143,7 @@ namespace Filmc.Wpf.ViewModels
                         if (filmViewModel.Model.Tags.Contains(filmHasTag))
                         {
                             filmViewModel.Model.Tags.Remove(filmHasTag);
+                            _profilesService.SelectedProfile.TablesContext.SaveChanges();
                         }
                         return;
                     }
@@ -155,6 +156,7 @@ namespace Filmc.Wpf.ViewModels
                         if (bookViewModel.Model.Tags.Contains(bookHasTag))
                         {
                             bookViewModel.Model.Tags.Remove(bookHasTag);
+                            _profilesService.SelectedProfile.TablesContext.SaveChanges();
                         }
                         return;
                     }
@@ -186,6 +188,7 @@ namespace Filmc.Wpf.ViewModels
                     if (viewModel != null)
                     {
                         viewModel.AddSource();
+                        _profilesService.SelectedProfile.TablesContext.SaveChanges();
                     }
                 }));
             }
@@ -203,7 +206,10 @@ namespace Filmc.Wpf.ViewModels
 
                     if (viewModel != null)
                         if (source != null)
+                        {
                             viewModel.RemoveSource(source);
+                            _profilesService.SelectedProfile.TablesContext.SaveChanges();
+                        }
                 }));
             }
         }
@@ -223,6 +229,7 @@ namespace Filmc.Wpf.ViewModels
                         if (source != null)
                         {
                             viewModel.SetFirstSource(source);
+                            _profilesService.SelectedProfile.TablesContext.SaveChanges();
                         }
                     }
                 }));
@@ -291,6 +298,7 @@ namespace Filmc.Wpf.ViewModels
         public void CloseMenu()
         {
             CurrentEntityViewModel = null;
+            _profilesService.SelectedProfile.TablesContext.SaveChanges();
         }
     }
 }

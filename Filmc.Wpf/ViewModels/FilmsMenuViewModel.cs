@@ -270,7 +270,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (categoryVM != null && SelectedFilm != null)
                     {
-                        categoryVM.Model.AddFilmInOrder(SelectedFilm.Model);
+                        _model.AddFilmToCategory(categoryVM.Model, SelectedFilm.Model);
                     }
                 }));
             }
@@ -287,7 +287,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (categoryVM != null && SelectedFilm != null)
                     {
-                        categoryVM.Model.RemoveFilmInOrder(SelectedFilm.Model);
+                        _model.RemoveFilmFromCategory(categoryVM.Model, SelectedFilm.Model);
                     }
                 }));
             }
@@ -304,11 +304,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (viewModel != null)
                     {
-                        if (_model.TablesContext.FilmInPriorities.All(x => x.Id != viewModel.Model.Id))
-                        {
-                            FilmsInPriority priority = new FilmsInPriority() { Id = viewModel.Model.Id, CreationTime = DateTime.Now };
-                            _model.TablesContext.FilmInPriorities.Add(priority);
-                        }
+                        _model.AddFilmToPriority(viewModel.Model);
                     }
                 }));
             }
@@ -325,7 +321,7 @@ namespace Filmc.Wpf.ViewModels
 
                     if (viewModel != null)
                     {
-                        _model.TablesContext.FilmInPriorities.Remove(viewModel.Model.Priority);
+                        _model.RemoveFilmFromPriority(viewModel.Model);
                     }
                 }));
             }

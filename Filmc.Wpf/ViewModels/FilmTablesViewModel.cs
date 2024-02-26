@@ -90,7 +90,7 @@ namespace Filmc.Wpf.ViewModels
                 FilmVMs.Add(new FilmViewModel(item, _updateMenuService));
 
             foreach (var item in _tablesContext.FilmCategories)
-                CategoryVMs.Add(new FilmCategoryViewModel(item, FilmVMs, _updateMenuService));
+                CategoryVMs.Add(new FilmCategoryViewModel(item, FilmVMs, _updateMenuService, _tablesContext));
 
             foreach (var item in _tablesContext.FilmGenres)
                 GenreVMs.Add(new FilmGenreViewModel(item));
@@ -160,7 +160,7 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 FilmCategory entity = (FilmCategory)e.NewItems[0]!;
-                CategoryVMs.Insert(e.NewStartingIndex, new FilmCategoryViewModel(entity, FilmVMs, _updateMenuService));
+                CategoryVMs.Insert(e.NewStartingIndex, new FilmCategoryViewModel(entity, FilmVMs, _updateMenuService, _tablesContext));
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove)

@@ -1,5 +1,6 @@
 ﻿using Filmc.Entities.Entities;
 using Filmc.Wpf.Commands;
+using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewCollections;
 using System;
@@ -13,6 +14,7 @@ namespace Filmc.Wpf.EntityViewModels
         public BookCategory Model { get; }
 
         private readonly UpdateMenuService _updateMenuService;
+        private readonly IRepositoriesSaved _repositories;
 
         private bool _isCollectionVisible;
         private bool _isSelected;
@@ -26,13 +28,15 @@ namespace Filmc.Wpf.EntityViewModels
         private RelayCommand? openUpdateMenuCommand;
         private RelayCommand? removeMarkCommand;
 
-        public BookCategoryViewModel(BookCategory model, ObservableCollection<BookViewModel> bookViewModels, UpdateMenuService updateMenuService)
+        public BookCategoryViewModel(BookCategory model, ObservableCollection<BookViewModel> bookViewModels, 
+                                     UpdateMenuService updateMenuService, IRepositoriesSaved repositories)
         {
             Model = model;
             Model.PropertyChanged += OnModelPropertyChanged;
             Model.Mark.PropertyChanged += OnModelPropertyChanged;
 
             _updateMenuService = updateMenuService;
+            _repositories = repositories;
 
             _isCollectionVisible = true;
             BooksVC = new BooksInCategoryViewCollection(model, bookViewModels);
@@ -135,6 +139,7 @@ namespace Filmc.Wpf.EntityViewModels
                     if (bookViewModel != null)
                     {
                         Model.ChangeCategoryListId(bookViewModel.Model, bookViewModel.Model.CategoryListId - 1);
+                        _repositories.SaveChanges();
                     }
                 }));
             }
@@ -152,6 +157,7 @@ namespace Filmc.Wpf.EntityViewModels
                     if (bookViewModel != null)
                     {
                         Model.ChangeCategoryListId(bookViewModel.Model, bookViewModel.Model.CategoryListId + 1);
+                        _repositories.SaveChanges();
                     }
                 }));
             }
@@ -169,6 +175,7 @@ namespace Filmc.Wpf.EntityViewModels
                     if (bookViewModel != null)
                     {
                         Model.RemoveBookInOrder(bookViewModel.Model);
+                        _repositories.SaveChanges();
                     }
                 }));
             }

@@ -1,5 +1,6 @@
 ﻿using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
+using Filmc.Xtl.EntityProperties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Filmc.Wpf.SettingsServices
             set
             {
                 _profilesService.SelectedProfile.Settings.FilmsMarkSystem = value;
+                _profilesService.SelectedProfile.TablesContext.SaveChanges();
                 FilmsMarkSystemChanged?.Invoke();
             }
         }
@@ -37,6 +39,7 @@ namespace Filmc.Wpf.SettingsServices
             set
             {
                 _profilesService.SelectedProfile.Settings.BooksMarkSystem = value;
+                _profilesService.SelectedProfile.TablesContext.SaveChanges();
                 BooksMarkSystemChanged?.Invoke();
             }
         }

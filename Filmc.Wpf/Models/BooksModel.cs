@@ -32,11 +32,13 @@ namespace Filmc.Wpf.Models
         public void AddCategory()
         {
             TablesContext.BookCategories.Add();
+            TablesContext.SaveChanges();
         }
 
         public void RemoveCategory(BookCategory category)
         {
             TablesContext.BookCategories.Remove(category);
+            TablesContext.SaveChanges();
         }
 
         public void AddBook()
@@ -44,6 +46,7 @@ namespace Filmc.Wpf.Models
             Book book = new Book();
             book.GenreId = TablesContext.BookGenres.First().Id;
             TablesContext.Books.Add(book);
+            TablesContext.SaveChanges();
         }
 
         public void AddBook(BookCategory category)
@@ -65,6 +68,8 @@ namespace Filmc.Wpf.Models
             TablesContext.BookCategories
                 .First(x => x.Id == category.Id)
                 .AddBookInOrder(book);
+
+            TablesContext.SaveChanges();
         }
 
         public void DeleteBook(Book book)
@@ -79,6 +84,41 @@ namespace Filmc.Wpf.Models
                 TablesContext.BooksInPriorities.Remove(book.Priority);
 
             TablesContext.Books.Remove(book);
+            TablesContext.SaveChanges();
+        }
+
+        public void AddBookToCategory(BookCategory category, Book book)
+        {
+            category.AddBookInOrder(book);
+            TablesContext.SaveChanges();
+        }
+
+        public void RemoveBookFromCategory(BookCategory category, Book book)
+        {
+            category.RemoveBookInOrder(book);
+            TablesContext.SaveChanges();
+        }
+
+        public void AddBookToPriority(Book book)
+        {
+            if (TablesContext.FilmInPriorities.All(x => x.Id != book.Id))
+            {
+                BooksInPriority priority = new BooksInPriority
+                {
+                    Id = book.Id,
+                    CreationTime = DateTime.Now
+                };
+
+                TablesContext.BooksInPriorities.Add(priority);
+            }
+
+            TablesContext.SaveChanges();
+        }
+
+        public void RemoveBookFromPriority(Book book)
+        {
+            if (book.Priority != null)
+                TablesContext.BooksInPriorities.Remove(book.Priority);
         }
 
         public void SaveTables()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Filmc.Wpf.Repositories
 {
-    public class RepositoriesFacade
+    public class RepositoriesFacade : IRepositoriesSaved
     {
         private readonly FilmsContext _filmsContext;
 

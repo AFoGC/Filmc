@@ -32,11 +32,13 @@ namespace Filmc.Wpf.Models
         public void AddCategory()
         {
             TablesContext.FilmCategories.Add();
+            TablesContext.SaveChanges();
         }
 
         public void RemoveCategory(FilmCategory category)
         {
             TablesContext.FilmCategories.Remove(category);
+            TablesContext.SaveChanges();
         }
 
         public void AddFilm()
@@ -44,6 +46,7 @@ namespace Filmc.Wpf.Models
             Film film = new Film();
             film.GenreId = TablesContext.FilmGenres.First().Id;
             TablesContext.Films.Add(film);
+            TablesContext.SaveChanges();
         }
 
         public void AddFilm(FilmCategory category)
@@ -65,6 +68,8 @@ namespace Filmc.Wpf.Models
             TablesContext.FilmCategories
                 .First(x => x.Id == category.Id)
                 .AddFilmInOrder(film);
+
+            TablesContext.SaveChanges();
         }
 
         public void DeleteFilm(Film film)
@@ -79,6 +84,41 @@ namespace Filmc.Wpf.Models
                 TablesContext.FilmInPriorities.Remove(film.Priority);
 
             TablesContext.Films.Remove(film);
+            TablesContext.SaveChanges();
+        }
+
+        public void AddFilmToCategory(FilmCategory category, Film film)
+        {
+            category.AddFilmInOrder(film);
+            TablesContext.SaveChanges();
+        }
+
+        public void RemoveFilmFromCategory(FilmCategory category, Film film)
+        {
+            category.RemoveFilmInOrder(film);
+            TablesContext.SaveChanges();
+        }
+
+        public void AddFilmToPriority(Film film)
+        {
+            if (TablesContext.FilmInPriorities.All(x => x.Id != film.Id))
+            {
+                FilmsInPriority priority = new FilmsInPriority
+                { 
+                    Id = film.Id, 
+                    CreationTime = DateTime.Now 
+                };
+
+                TablesContext.FilmInPriorities.Add(priority);
+            }
+
+            TablesContext.SaveChanges();
+        }
+
+        public void RemoveFilmFromPriority(Film film)
+        {
+            if (film.Priority != null)
+                TablesContext.FilmInPriorities.Remove(film.Priority);
         }
 
         public void SaveTables()

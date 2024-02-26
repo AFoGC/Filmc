@@ -87,7 +87,7 @@ namespace Filmc.Wpf.ViewModels
                 BooksVMs.Add(new BookViewModel(item, _updateMenuService));
 
             foreach (var item in _tablesContext.BookCategories)
-                CategoryVMs.Add(new BookCategoryViewModel(item, BooksVMs, _updateMenuService));
+                CategoryVMs.Add(new BookCategoryViewModel(item, BooksVMs, _updateMenuService, _tablesContext));
 
             foreach (var item in _tablesContext.BookGenres)
                 GenreVMs.Add(new BookGenreViewModel(item));
@@ -153,7 +153,7 @@ namespace Filmc.Wpf.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 BookCategory entity = (BookCategory)e.NewItems[0]!;
-                CategoryVMs.Insert(e.NewStartingIndex, new BookCategoryViewModel(entity, BooksVMs, _updateMenuService));
+                CategoryVMs.Insert(e.NewStartingIndex, new BookCategoryViewModel(entity, BooksVMs, _updateMenuService, _tablesContext));
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove)
