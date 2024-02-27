@@ -44,6 +44,7 @@ namespace Filmc.Wpf.ViewCollections
 
         protected override IEnumerable<string> GetDescendingProperties()
         {
+            yield return "AddToPriorityTime";
             yield return "RawMark";
             yield return "PublicationYear";
             yield return "FullReadDate";

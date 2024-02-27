@@ -26,6 +26,10 @@ namespace Filmc.Wpf
 
         public App()
         {
+            if (CheckExeIfExist())
+                return;
+                
+
             IServiceCollection serviceCollection = CreateServiceCollection();
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
@@ -128,6 +132,13 @@ namespace Filmc.Wpf
             {
                 Resources.MergedDictionaries.Add(dict);
             }
+        }
+
+        private bool CheckExeIfExist()
+        {
+            string assemblyName = System.Reflection.Assembly.GetEntryAssembly().Location;
+            string processName = System.IO.Path.GetFileNameWithoutExtension(assemblyName);
+            return System.Diagnostics.Process.GetProcessesByName(processName).Count() > 1;
         }
     }
 }

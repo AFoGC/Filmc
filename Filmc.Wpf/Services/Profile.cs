@@ -6,6 +6,7 @@ using Filmc.Wpf.SaveConverters;
 using Filmc.Wpf.SettingsServices;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -122,7 +123,10 @@ namespace Filmc.Wpf.Services
 
         private void CreateDbFile(string path)
         {
-            var opt = SqliteDbContextOptionsBuilderExtensions.UseSqlite(new DbContextOptionsBuilder(), path).Options;
+            SqliteConnection connection = PathHelper.GetSqliteConnection(path);
+
+            DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder();
+            var opt = optionsBuilder.UseSqlite(connection).Options;
             FilmsContext filmsContext = new FilmsContext(opt);
 
             filmsContext.Database.Migrate();
@@ -131,6 +135,8 @@ namespace Filmc.Wpf.Services
 
             filmsContext.BookGenres.Add(new BookGenre { Id = 1, Name = "Book" });
             filmsContext.SaveChanges();
+
+            SqliteConnection.ClearPool(connection);
 
             filmsContext.Dispose();
         }

@@ -53,6 +53,7 @@ namespace Filmc.Wpf.SaveConverters
             FilmsConverter.ConvertFilmsHaveTags(filmsContext, tablesContext.FilmHasTags);
 
             filmsContext.SaveChanges();
+            PathHelper.ClearSqlitePool(sqlPath);
 
             string newXmlPath = Path.Combine(dirPath, "Old.xml");
             File.Move(xmlPath, newXmlPath);
