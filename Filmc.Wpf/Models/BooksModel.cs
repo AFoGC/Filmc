@@ -119,6 +119,8 @@ namespace Filmc.Wpf.Models
         {
             if (book.Priority != null)
                 TablesContext.BooksInPriorities.Remove(book.Priority);
+
+            TablesContext.SaveChanges();
         }
 
         public void SaveTables()

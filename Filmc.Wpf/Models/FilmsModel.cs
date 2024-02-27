@@ -119,6 +119,8 @@ namespace Filmc.Wpf.Models
         {
             if (film.Priority != null)
                 TablesContext.FilmInPriorities.Remove(film.Priority);
+
+            TablesContext.SaveChanges();
         }
 
         public void SaveTables()
