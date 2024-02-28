@@ -75,7 +75,19 @@ namespace Filmc.Wpf.EntityViewModels
         public DateTime? FullReadDate
         {
             get => Model.EndReadDate;
-            set => Model.EndReadDate = value;
+            set
+            {
+                if (value != null)
+                {
+                    DateTime now = DateTime.Now;
+                    DateTime val = (DateTime)value;
+                    Model.EndReadDate = new DateTime(val.Year, val.Month, val.Day, now.Hour, now.Minute, now.Second);
+                }
+                else
+                {
+                    Model.EndReadDate = null;
+                }
+            }
         }
         public int? CountOfReadings
         {

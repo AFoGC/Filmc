@@ -69,7 +69,19 @@ namespace Filmc.Wpf.EntityViewModels
         public DateTime? EndWatchDate
         {
             get => Model.EndWatchDate;
-            set => Model.EndWatchDate = value;
+            set
+            {
+                if (value != null)
+                {
+                    DateTime now = DateTime.Now;
+                    DateTime val = (DateTime)value;
+                    Model.EndWatchDate = new DateTime(val.Year, val.Month, val.Day, now.Hour, now.Minute, now.Second);
+                }
+                else
+                {
+                    Model.EndWatchDate = null;
+                }
+            }
         }
         public string Comment
         {
@@ -88,7 +100,19 @@ namespace Filmc.Wpf.EntityViewModels
         public DateTime? StartWatchDate
         {
             get => Model.StartWatchDate;
-            set => Model.StartWatchDate = value;
+            set
+            {
+                if (value != null)
+                {
+                    DateTime now = DateTime.Now;
+                    DateTime val = (DateTime)value;
+                    Model.StartWatchDate = new DateTime(val.Year, val.Month, val.Day, now.Hour, now.Minute, now.Second);
+                }
+                else
+                {
+                    Model.StartWatchDate = null;
+                }
+            }
         }
         public int? WatchedSeries
         {
