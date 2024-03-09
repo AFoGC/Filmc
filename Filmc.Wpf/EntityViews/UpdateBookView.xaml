@@ -61,12 +61,23 @@
 
             <CheckBox IsChecked="{Binding IsReaded}" Content="{DynamicResource readed_tt}" Foreground="WhiteSmoke"/>
 
-            <TextBlock Text="{DynamicResource author_tt}" />
-            <TextBox Text="{Binding Author}" />
-
             <TextBlock Text="{DynamicResource bookmark_tt}" />
             <TextBox Text="{Binding Bookmark}" />
 
+            <TextBlock Text="{DynamicResource start_read_date_tt}" />
+            <DatePicker SelectedDate="{Binding StartReadDate}" Foreground="WhiteSmoke" Width="145" HorizontalAlignment="Left">
+                <DatePicker.Style>
+                    <Style TargetType="DatePicker">
+                        <Setter Property="Margin" Value="0,0,0,10"/>
+                        <Style.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="Background" Value="{StaticResource TextBoxColor}"/>
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                </DatePicker.Style>
+            </DatePicker>
+            
             <TextBlock Text="{DynamicResource end_read_date_tt}" />
             <DatePicker SelectedDate="{Binding FullReadDate}" Foreground="WhiteSmoke" Width="145" HorizontalAlignment="Left">
                 <DatePicker.Style>

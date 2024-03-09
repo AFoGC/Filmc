@@ -75,12 +75,12 @@
             <CheckBox IsChecked="{Binding IsReaded}" ToolTip="{DynamicResource readed_tt}" 
                       Margin="20,0" IsEnabled="False" />
 
-            <TextBox Text="{Binding Author}" ToolTip="{DynamicResource author_tt}" 
-                     Width="{DynamicResource genre_width}"/>
-
             <TextBox Text="{Binding Bookmark}" ToolTip="{DynamicResource bookmark_tt}" 
                      Width="{DynamicResource bookmark_width}"/>
 
+            <TextBox Text="{Binding StartReadDate, StringFormat=dd.MM.yyyy}" ToolTip="{DynamicResource end_read_date_tt}" 
+                     Width="{DynamicResource date_width}"/>
+            
             <TextBox Text="{Binding FullReadDate, StringFormat=dd.MM.yyyy}" ToolTip="{DynamicResource end_read_date_tt}" 
                      Width="{DynamicResource date_width}"/>
 

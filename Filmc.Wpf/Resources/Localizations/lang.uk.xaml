@@ -129,6 +129,7 @@
     <v:String x:Key="author_tt">Автор</v:String>
     <v:String x:Key="bookmark_tt">Закладка</v:String>
     <v:String x:Key="end_read_date_tt">Дата закінчення читання</v:String>
+    <v:String x:Key="start_read_date_tt">Дата початку читання</v:String>
     <v:String x:Key="readed_tt">Прочитано</v:String>
     <v:String x:Key="cor_tt">Кількість читань</v:String>
 

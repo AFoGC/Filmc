@@ -129,6 +129,7 @@
     <v:String x:Key="author_tt">Author</v:String>
     <v:String x:Key="bookmark_tt">Bookmark</v:String>
     <v:String x:Key="end_read_date_tt">End Read Date</v:String>
+    <v:String x:Key="start_read_date_tt">Start Read Date</v:String>
     <v:String x:Key="readed_tt">Readed</v:String>
     <v:String x:Key="cor_tt">Count of readings</v:String>
 

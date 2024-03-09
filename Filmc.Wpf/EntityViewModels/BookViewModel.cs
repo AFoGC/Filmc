@@ -72,6 +72,23 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.IsReaded;
             set => Model.IsReaded = value;
         }
+        public DateTime? StartReadDate
+        {
+            get => Model.StartReadDate;
+            set
+            {
+                if (value != null)
+                {
+                    DateTime now = DateTime.Now;
+                    DateTime val = (DateTime)value;
+                    Model.StartReadDate = new DateTime(val.Year, val.Month, val.Day, now.Hour, now.Minute, now.Second);
+                }
+                else
+                {
+                    Model.StartReadDate = null;
+                }
+            }
+        }
         public DateTime? FullReadDate
         {
             get => Model.EndReadDate;
