@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Wpf.Updater.Module", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Wpf.Updater", "Filmc.Wpf.Updater\Filmc.Wpf.Updater.csproj", "{E634C370-2B24-4FD4-A68C-2BA65B23C95B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Xtl.Tests", "Filmc.Xtl.Tests\Filmc.Xtl.Tests.csproj", "{C6073E7E-70CE-4B63-A1D7-C66CCB650AF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Entities", "Filmc.Entities\Filmc.Entities.csproj", "{9879C3A4-BC87-4486-809B-DF4C6B4D5AA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filmc.Entities", "Filmc.Entities\Filmc.Entities.csproj", "{9879C3A4-BC87-4486-809B-DF4C6B4D5AA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filmc.SitesIntegration", "Filmc.SitesIntegration\Filmc.SitesIntegration.csproj", "{8C11364A-5EFF-4777-857F-A089C61D1585}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +37,14 @@ Global
 		{E634C370-2B24-4FD4-A68C-2BA65B23C95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E634C370-2B24-4FD4-A68C-2BA65B23C95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E634C370-2B24-4FD4-A68C-2BA65B23C95B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6073E7E-70CE-4B63-A1D7-C66CCB650AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6073E7E-70CE-4B63-A1D7-C66CCB650AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6073E7E-70CE-4B63-A1D7-C66CCB650AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6073E7E-70CE-4B63-A1D7-C66CCB650AF5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9879C3A4-BC87-4486-809B-DF4C6B4D5AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9879C3A4-BC87-4486-809B-DF4C6B4D5AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9879C3A4-BC87-4486-809B-DF4C6B4D5AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9879C3A4-BC87-4486-809B-DF4C6B4D5AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C11364A-5EFF-4777-857F-A089C61D1585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C11364A-5EFF-4777-857F-A089C61D1585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C11364A-5EFF-4777-857F-A089C61D1585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C11364A-5EFF-4777-857F-A089C61D1585}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
