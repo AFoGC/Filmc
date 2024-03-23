@@ -16,6 +16,7 @@ namespace Filmc.Wpf.ViewModels
     public class BooksMenuViewModel : BaseViewModel
     {
         private readonly BooksModel _model;
+        private readonly AddEntityByUrlService _addEntityByUrlService;
 
         private string _searchText;
 
@@ -29,6 +30,7 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? changeMenuModeCommand;
         private RelayCommand? addCategoryCommand;
         private RelayCommand? addBookCommand;
+        private RelayCommand? addBookByUrlCommand;
         private RelayCommand? addBookInCategoryCommand;
         private RelayCommand? saveTablesCommand;
         private RelayCommand? filterCommand;
@@ -42,9 +44,12 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? checkGenresCommand;
         private RelayCommand? checkTagsCommand;
 
-        public BooksMenuViewModel(BooksModel model, UpdateMenuService updateMenuService, BackgroundImageService backgroundImageService)
+        public BooksMenuViewModel(BooksModel model, UpdateMenuService updateMenuService, 
+                                  BackgroundImageService backgroundImageService, AddEntityByUrlService addEntityByUrlService)
         {
             _model = model;
+            _addEntityByUrlService = addEntityByUrlService;
+
             BackgroundImageViewModel = new BackgroundImageViewModel(backgroundImageService);
             TablesViewModel = new BookTablesViewModel(model, updateMenuService);
 
@@ -180,6 +185,18 @@ namespace Filmc.Wpf.ViewModels
                 (addBookCommand = new RelayCommand(obj =>
                 {
                     _model.AddBook();
+                }));
+            }
+        }
+
+        public RelayCommand AddBookByUrlCommand
+        {
+            get
+            {
+                return addBookByUrlCommand ??
+                (addBookByUrlCommand = new RelayCommand(obj =>
+                {
+                    _addEntityByUrlService.CreateBookByUrl();
                 }));
             }
         }

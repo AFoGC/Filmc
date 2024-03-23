@@ -6,6 +6,7 @@
              xmlns:ev="clr-namespace:Filmc.Wpf.EntityViews"
              xmlns:global="clr-namespace:Filmc.Wpf"
              xmlns:cont="clr-namespace:Filmc.Wpf.Controls"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:Filmc.Wpf.Views"
              mc:Ignorable="d" 
              d:DesignHeight="705" d:DesignWidth="1265">
@@ -355,7 +356,13 @@
 
                         <Button Content="{DynamicResource add_film_btn}" Style="{StaticResource GB}"
                             VerticalAlignment="Top" Command="{Binding AddFilmCommand}"
-                            Grid.Column="0" Grid.Row="2"/>
+                            Grid.Column="0" Grid.Row="2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding AddFilmByUrlCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
 
                         <Button Content="{DynamicResource show_cat_btn}" Style="{StaticResource GB}"
                             VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"

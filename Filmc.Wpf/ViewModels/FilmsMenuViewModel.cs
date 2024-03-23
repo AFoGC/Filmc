@@ -22,6 +22,7 @@ namespace Filmc.Wpf.ViewModels
     public class FilmsMenuViewModel : BaseViewModel
     {
         private readonly FilmsModel _model;
+        private readonly AddEntityByUrlService _addEntityByUrlService;
 
         private string _searchText;
 
@@ -35,6 +36,7 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? changeMenuModeCommand;
         private RelayCommand? addCategoryCommand;
         private RelayCommand? addFilmCommand;
+        private RelayCommand? addFilmByUrlCommand;
         private RelayCommand? addFilmInCategoryCommand;
         private RelayCommand? saveTablesCommand;
         private RelayCommand? filterCommand;
@@ -48,9 +50,12 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? checkGenresCommand;
         private RelayCommand? checkTagsCommand;
 
-        public FilmsMenuViewModel(FilmsModel model, UpdateMenuService updateMenuService, BackgroundImageService backgroundImageService)
+        public FilmsMenuViewModel(FilmsModel model, UpdateMenuService updateMenuService, 
+                                  BackgroundImageService backgroundImageService, AddEntityByUrlService addEntityByUrlService)
         {
             _model = model;
+            _addEntityByUrlService = addEntityByUrlService;
+
             BackgroundImageViewModel = new BackgroundImageViewModel(backgroundImageService);
             TablesViewModel = new FilmTablesViewModel(model, updateMenuService);
 
@@ -186,6 +191,18 @@ namespace Filmc.Wpf.ViewModels
                 (addFilmCommand = new RelayCommand(obj =>
                 {
                     _model.AddFilm();
+                }));
+            }
+        }
+
+        public RelayCommand AddFilmByUrlCommand
+        {
+            get
+            {
+                return addFilmByUrlCommand ??
+                (addFilmByUrlCommand = new RelayCommand(obj =>
+                {
+                    _addEntityByUrlService.CreateFilmByUrl();
                 }));
             }
         }

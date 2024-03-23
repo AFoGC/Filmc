@@ -13,60 +13,118 @@ namespace Filmc.SitesIntegration
             _client = new HttpClient();
         }
 
-        public EntityResponse GetMovieInfo(string url, CultureInfo lang)
+        public EntityResponse? GetMovieInfo(string url, CultureInfo lang)
         {
-            string langCode = GetLanguageValue(lang);
-            _client.DefaultRequestHeaders.Add("Accept-Language", langCode);
-            string page = _client.GetStringAsync(url).Result;
+            if (url.Contains("www.imdb.com"))
+                return GetImdbInfo(url, lang);
 
-            HtmlDocument htmlSnippet = new HtmlDocument();
-            htmlSnippet.LoadHtml(page);
+            if (url.Contains("shikimori.one"))
+                return GetShikimoriInfo(url);
 
-            string name = htmlSnippet.DocumentNode
-                .SelectNodes("//*[@id=\"__next\"]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/h1/span")
-                .First()
-                .InnerText;
-
-            string year = htmlSnippet.DocumentNode
-                .SelectNodes("//*[@id=\"__next\"]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/ul/li[2]/a")
-                .First()
-                .InnerText;
-
-            _client.DefaultRequestHeaders.Remove("Accept-Language");
-            EntityResponse response = new EntityResponse
-            {
-                Name = name,
-                Year = Convert.ToInt32(year)
-            };
-
-            return response;
+            return null;
         }
 
-        public EntityResponse GetMangaInfo(string url)
+        public EntityResponse? GetBookInfo(string url)
         {
-            Classifiation cl = GetUrlClassification(url);
+            if (url.Contains("shikimori.one"))
+                return GetShikimoriInfo(url);
 
-            string resp = _client.GetAsync($"https://shikimori.one/api/{cl.Category}{cl.Id}")
-                .Result
-                .Content
-                .ReadAsStringAsync()
-                .Result;
+            return null;
+        }
 
-            MangaResponse response = JsonConvert.DeserializeObject<MangaResponse>(resp);
-            EntityResponse entityResponse = new EntityResponse();
-            entityResponse.Year = Convert.ToInt32(response.Year);
+        public EntityResponse GetInfoByUrl(string url, CultureInfo lang)
+        {
+            if (url.Contains("www.imdb.com"))
+                return GetImdbInfo(url, lang);
 
-            if (response.Russian == String.Empty)
-                entityResponse.Name = response.Name;
-            else
-                entityResponse.Name = response.Russian;
+            if (url.Contains("shikimori.one"))
+                return GetShikimoriInfo(url);
 
-            return entityResponse;
+            return new EntityResponse
+            {
+                Status = DetailedStatus.UrlNotFounded
+            };
+        }
+
+        private EntityResponse GetImdbInfo(string url, CultureInfo lang)
+        {
+            try
+            {
+                string langCode = GetLanguageValue(lang);
+                _client.DefaultRequestHeaders.Add("Accept-Language", langCode);
+                string page = _client.GetStringAsync(url).Result;
+
+                HtmlDocument htmlSnippet = new HtmlDocument();
+                htmlSnippet.LoadHtml(page);
+
+                string name = htmlSnippet.DocumentNode
+                    .SelectNodes("//*[@id=\"__next\"]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/h1/span")
+                    .First()
+                    .InnerText;
+
+                string year = htmlSnippet.DocumentNode
+                    .SelectNodes("//*[@id=\"__next\"]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/ul/li[2]/a")
+                    .First()
+                    .InnerText;
+
+                _client.DefaultRequestHeaders.Remove("Accept-Language");
+
+                return new EntityResponse
+                {
+                    Name = name,
+                    Year = Convert.ToInt32(year),
+                    Status = DetailedStatus.IsFilm
+                };
+            }
+            catch
+            {
+                return new EntityResponse
+                {
+                    Status = DetailedStatus.IsEmpty
+                };
+            }
+        }
+
+        private EntityResponse GetShikimoriInfo(string url)
+        {
+            try
+            {
+                Classifiation cl = GetUrlClassification(url);
+
+                string resp = _client.GetAsync($"https://shikimori.one/api/{cl.Category}{cl.Id}")
+                    .Result
+                    .Content
+                    .ReadAsStringAsync()
+                    .Result;
+
+                MangaResponse response = JsonConvert.DeserializeObject<MangaResponse>(resp);
+                EntityResponse entityResponse = new EntityResponse();
+                entityResponse.Year = Convert.ToInt32(response.Year);
+
+                if (response.Russian == String.Empty)
+                    entityResponse.Name = response.Name;
+                else
+                    entityResponse.Name = response.Russian;
+
+                if (cl.Category == "animes/")
+                    entityResponse.Status = DetailedStatus.IsFilm;
+                else
+                    entityResponse.Status = DetailedStatus.IsBook;
+
+                return entityResponse;
+            }
+            catch
+            {
+                return new EntityResponse
+                {
+                    Status = DetailedStatus.IsEmpty
+                };
+            }
         }
 
         private string GetLanguageValue(CultureInfo lang)
         {
-            return "";
+            return lang.Name;
         }
 
         private Classifiation GetUrlClassification(string url)
@@ -90,10 +148,12 @@ namespace Filmc.SitesIntegration
     {
         public string Name { get; set; }
         public int Year { get; set; }
+        public DetailedStatus Status { get; set; }
 
         public EntityResponse()
         {
             Name = String.Empty;
+            Status = DetailedStatus.IsEmpty;
         }
     }
 
@@ -121,5 +181,13 @@ namespace Filmc.SitesIntegration
                 return null;
             }
         }
+    }
+
+    public enum DetailedStatus
+    {
+        IsFilm,
+        IsBook,
+        IsEmpty,
+        UrlNotFounded
     }
 }

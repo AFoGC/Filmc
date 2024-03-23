@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace Filmc.Wpf
 {
+    public enum CreatedEntityByUrlStatus
+    {
+        Created,
+        BookUrlToFilm,
+        FilmUrlToBook,
+        LinkNotSupported,
+        ErrorReadingLink
+    }
+
     public enum FilmsMenuMode
     {
         Categories,
