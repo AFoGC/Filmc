@@ -5,13 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Filmc.Wpf.Windows"
         mc:Ignorable="d"
-        Title="AddEntityByUrlWindow" Height="450" Width="800">
+        Background="{StaticResource MainBackground}"
+        Title="AddEntityByUrlWindow" WindowStyle="None"
+        Height="250" Width="600" MinHeight="150" MinWidth="420"
+        MouseDown="OnWindowMouseDown" WindowStartupLocation="CenterScreen">
     <Grid>
-        <StackPanel Width="400">
-            <TextBox Height="20" Name="UrlText" Text=""/>
-            <Button Content="Add" Click="AddEntity"/>
+        <Grid.Resources>
+            <Style TargetType="Button" BasedOn="{StaticResource GrayButton}">
+                <Setter Property="Margin" Value="20,0"/>
+                <Setter Property="Height" Value="23"/>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="WhiteSmoke"/>
+            </Style>
+        </Grid.Resources>
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="{x:Null}" Margin="5">
+            <StackPanel.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="Background" Value="{x:Null}" />
+                    <Setter Property="BorderBrush" Value="{x:Null}" />
+                    <Setter Property="Foreground" Value="WhiteSmoke" />
+                    <Setter Property="BorderThickness" Value="0" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBox Text="shikimori.one"/>
+            <TextBox Text="www.imdb.com"/>
+        </StackPanel>
+        <StackPanel Width="400" VerticalAlignment="Center">
+            <TextBlock Text="{StaticResource page_url_label}" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
+            <TextBox Height="20" Style="{StaticResource Wtextbox}" Name="UrlText" Text="" Margin="5"/>
+            <Button Content="{StaticResource add_by_url}" Click="AddEntity" Height="20" Margin="80,0"/>
         </StackPanel>
         <Button HorizontalAlignment="Right" VerticalAlignment="Top"
-                Width="30" Height="30" Click="CloseWindow"/>
+                Width="30" Height="30" Margin="0" Content="❌" Click="CloseWindow"/>
     </Grid>
 </Window>

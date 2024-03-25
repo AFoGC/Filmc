@@ -13,25 +13,6 @@ namespace Filmc.SitesIntegration
             _client = new HttpClient();
         }
 
-        public EntityResponse? GetMovieInfo(string url, CultureInfo lang)
-        {
-            if (url.Contains("www.imdb.com"))
-                return GetImdbInfo(url, lang);
-
-            if (url.Contains("shikimori.one"))
-                return GetShikimoriInfo(url);
-
-            return null;
-        }
-
-        public EntityResponse? GetBookInfo(string url)
-        {
-            if (url.Contains("shikimori.one"))
-                return GetShikimoriInfo(url);
-
-            return null;
-        }
-
         public EntityResponse GetInfoByUrl(string url, CultureInfo lang)
         {
             if (url.Contains("www.imdb.com"))
@@ -124,6 +105,12 @@ namespace Filmc.SitesIntegration
 
         private string GetLanguageValue(CultureInfo lang)
         {
+            if (lang.Name == "ru")
+                return "ru-RU";
+
+            if (lang.Name == "uk")
+                return "uk-UA";
+
             return lang.Name;
         }
 
@@ -182,6 +169,34 @@ namespace Filmc.SitesIntegration
             }
         }
     }
+
+    /*
+    public class IntegrationCollection
+    {
+        private readonly List<IntegrationUrl> _urls;
+
+        public IntegrationCollection()
+        {
+            _urls = new List<IntegrationUrl>();
+
+
+        }
+    }
+
+    public class IntegrationUrl
+    {
+        public string Name { get; init; }
+        public string ExampleUrl { get; init; }
+        public Func<string, CultureInfo, EntityResponse> GetInfo { get; init; }
+
+        public IntegrationUrl()
+        {
+            Name = String.Empty;
+            ExampleUrl = String.Empty;
+            GetInfo = null;
+        }
+    }
+    */
 
     public enum DetailedStatus
     {

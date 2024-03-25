@@ -38,5 +38,13 @@ namespace Filmc.Wpf.Windows
             IsUrlWrited = false;
             this.Close();
         }
+
+        private void OnWindowMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
     }
 }

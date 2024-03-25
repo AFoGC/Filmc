@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:v="clr-namespace:System;assembly=mscorlib">
 
+    <!--AddEntityByUrlWindow-->
+    <v:String x:Key="page_url_label">Url страницы</v:String>
+    <v:String x:Key="add_by_url">Добавить</v:String>
+    
     <!--Navbar-->
     <v:String x:Key="nav_film">Фильмы</v:String>
     <v:String x:Key="nav_book">Книги</v:String>
