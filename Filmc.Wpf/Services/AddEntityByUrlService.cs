@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Filmc.Wpf.Services
 {
@@ -54,21 +55,21 @@ namespace Filmc.Wpf.Services
 
         private bool CheckResponseIsValid(EntityResponse response, DetailedStatus expectedCategory)
         {
-            if (response.Status == DetailedStatus.IsEmpty)
+            if (response.Status == DetailedStatus.HasError)
             {
-                //
+                MessageBox.Show("An error occurred while reading this site");
                 return false;
             }
 
-            if (response.Status == DetailedStatus.UrlNotFounded)
+            if (response.Status == DetailedStatus.UrlNotSupported)
             {
-                //
+                MessageBox.Show("This url is not supported");
                 return false;
             }
 
             if (response.Status != expectedCategory)
             {
-                //
+                MessageBox.Show("Wrong menu (book/films)");
                 return false;
             }
 
@@ -84,13 +85,13 @@ namespace Filmc.Wpf.Services
             {
                 EntityResponse response = _client.GetInfoByUrl(window.Url, _languageService.CurrentLanguage);
 
-                if (response.Status == DetailedStatus.IsEmpty)
+                if (response.Status == DetailedStatus.HasError)
                 {
                     //
                     return;
                 }
 
-                if (response.Status == DetailedStatus.UrlNotFounded)
+                if (response.Status == DetailedStatus.UrlNotSupported)
                 {
                     //
                     return;

@@ -11,6 +11,7 @@ namespace Filmc.SitesIntegration
         public SitesIntegrationClient()
         {
             _client = new HttpClient();
+            _client.Timeout = TimeSpan.FromSeconds(15);
         }
 
         public EntityResponse GetInfoByUrl(string url, CultureInfo lang)
@@ -23,7 +24,7 @@ namespace Filmc.SitesIntegration
 
             return new EntityResponse
             {
-                Status = DetailedStatus.UrlNotFounded
+                Status = DetailedStatus.UrlNotSupported
             };
         }
 
@@ -61,7 +62,7 @@ namespace Filmc.SitesIntegration
             {
                 return new EntityResponse
                 {
-                    Status = DetailedStatus.IsEmpty
+                    Status = DetailedStatus.HasError
                 };
             }
         }
@@ -98,7 +99,7 @@ namespace Filmc.SitesIntegration
             {
                 return new EntityResponse
                 {
-                    Status = DetailedStatus.IsEmpty
+                    Status = DetailedStatus.HasError
                 };
             }
         }
@@ -140,7 +141,7 @@ namespace Filmc.SitesIntegration
         public EntityResponse()
         {
             Name = String.Empty;
-            Status = DetailedStatus.IsEmpty;
+            Status = DetailedStatus.HasError;
         }
     }
 
@@ -197,12 +198,4 @@ namespace Filmc.SitesIntegration
         }
     }
     */
-
-    public enum DetailedStatus
-    {
-        IsFilm,
-        IsBook,
-        IsEmpty,
-        UrlNotFounded
-    }
 }

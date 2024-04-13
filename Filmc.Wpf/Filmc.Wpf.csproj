@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Filmc</AssemblyName>
     <ApplicationIcon>Resources\Images\BookIcon.ico</ApplicationIcon>
-    <Version>1.2.1</Version>
+    <Version>1.2.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

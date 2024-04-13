@@ -54,7 +54,7 @@ namespace Filmc.Wpf.EntityViewModels
         public FilmGenre Genre
         {
             get => Model.Genre;
-            set => Model.GenreId = value.Id;
+            set => Model.Genre = value;
         }
         public int? RealiseYear
         {
