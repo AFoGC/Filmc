@@ -25,32 +25,20 @@ namespace Filmc.Wpf.Services
             _languageService = languageService;
         }
 
-        public void CreateFilmByUrl()
+        public void CreateFilmByUrl(string url)
         {
-            AddEntityByUrlWindow window = new AddEntityByUrlWindow();
-            window.ShowDialog();
+            EntityResponse response = _client.GetInfoByUrl(url, _languageService.CurrentLanguage);
 
-            if (window.IsUrlWrited)
-            {
-                EntityResponse response = _client.GetInfoByUrl(window.Url, _languageService.CurrentLanguage);
-
-                if (CheckResponseIsValid(response, DetailedStatus.IsFilm))
-                    CreateFilm(response);
-            }
+            if (CheckResponseIsValid(response, DetailedStatus.IsFilm))
+                CreateFilm(response);
         }
 
-        public void CreateBookByUrl()
+        public void CreateBookByUrl(string url)
         {
-            AddEntityByUrlWindow window = new AddEntityByUrlWindow();
-            window.ShowDialog();
+            EntityResponse response = _client.GetInfoByUrl(url, _languageService.CurrentLanguage);
 
-            if (window.IsUrlWrited)
-            {
-                EntityResponse response = _client.GetInfoByUrl(window.Url, _languageService.CurrentLanguage);
-
-                if (CheckResponseIsValid(response, DetailedStatus.IsBook))
-                    CreateBook(response);
-            }
+            if (CheckResponseIsValid(response, DetailedStatus.IsBook))
+                CreateBook(response);
         }
 
         private bool CheckResponseIsValid(EntityResponse response, DetailedStatus expectedCategory)
@@ -74,57 +62,6 @@ namespace Filmc.Wpf.Services
             }
 
             return true;
-        }
-
-        public void OpenAddEntityWindow(bool isFilmMenu)
-        {
-            AddEntityByUrlWindow window = new AddEntityByUrlWindow();
-            window.ShowDialog();
-
-            if (window.IsUrlWrited)
-            {
-                EntityResponse response = _client.GetInfoByUrl(window.Url, _languageService.CurrentLanguage);
-
-                if (response.Status == DetailedStatus.HasError)
-                {
-                    //
-                    return;
-                }
-
-                if (response.Status == DetailedStatus.UrlNotSupported)
-                {
-                    //
-                    return;
-                }
-
-                if (response.Status == DetailedStatus.IsFilm)
-                {
-                    if (isFilmMenu)
-                    {
-                        CreateFilm(response);
-                    }
-                    else
-                    {
-                        //
-                    }
-
-                    return;
-                }
-
-                if (response.Status == DetailedStatus.IsBook)
-                {
-                    if (isFilmMenu)
-                    {
-                        //
-                    }
-                    else
-                    {
-                        CreateBook(response);
-                    }
-
-                    return;
-                }
-            }
         }
 
         public void CreateBook(EntityResponse response)

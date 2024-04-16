@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Filmc.SitesIntegration;
+using Filmc.Wpf.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,24 @@ namespace Filmc.Wpf.Windows
     /// </summary>
     public partial class AddEntityByUrlWindow : Window
     {
-        public AddEntityByUrlWindow()
+        private readonly AddEntityByUrlService _addEntityByUrlService;
+        private DetailedStatus _status;
+
+        public AddEntityByUrlWindow(AddEntityByUrlService addEntityByUrlService)
         {
             InitializeComponent();
+
+            _addEntityByUrlService = addEntityByUrlService;
+        }
+
+        public void SetAddFilm()
+        {
+            _status = DetailedStatus.IsFilm;
+        }
+
+        public void SetAddBook()
+        {
+            _status = DetailedStatus.IsBook;
         }
 
         public bool IsUrlWrited { get; private set; }
@@ -29,13 +46,18 @@ namespace Filmc.Wpf.Windows
 
         private void AddEntity(object sender, RoutedEventArgs e)
         {
-            IsUrlWrited = true;
+            if (_status == DetailedStatus.IsFilm)
+                _addEntityByUrlService.CreateFilmByUrl(Url);
+
+            if (_status == DetailedStatus.IsBook)
+                _addEntityByUrlService.CreateBookByUrl(Url);
+
             this.Close();
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
-            IsUrlWrited = false;
+            
             this.Close();
         }
 

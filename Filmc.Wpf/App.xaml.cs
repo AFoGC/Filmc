@@ -48,6 +48,7 @@ namespace Filmc.Wpf
             serviceCollection.AddSingleton<ExitWindowService>();
             serviceCollection.AddSingleton<ChangeProfileWindowService>();
             serviceCollection.AddSingleton<AddEntityByUrlService>();
+            serviceCollection.AddSingleton<AddEntityWindowService>();
 
             serviceCollection.AddSingleton<AutoSaveService>();
             serviceCollection.AddSingleton<BackgroundImageService>();

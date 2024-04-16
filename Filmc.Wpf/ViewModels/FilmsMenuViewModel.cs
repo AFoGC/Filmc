@@ -22,7 +22,7 @@ namespace Filmc.Wpf.ViewModels
     public class FilmsMenuViewModel : BaseViewModel
     {
         private readonly FilmsModel _model;
-        private readonly AddEntityByUrlService _addEntityByUrlService;
+        private readonly AddEntityWindowService _addEntityWindowService;
 
         private string _searchText;
 
@@ -51,10 +51,10 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? checkTagsCommand;
 
         public FilmsMenuViewModel(FilmsModel model, UpdateMenuService updateMenuService, 
-                                  BackgroundImageService backgroundImageService, AddEntityByUrlService addEntityByUrlService)
+                                  BackgroundImageService backgroundImageService, AddEntityWindowService addEntityWindowService)
         {
             _model = model;
-            _addEntityByUrlService = addEntityByUrlService;
+            _addEntityWindowService = addEntityWindowService;
 
             BackgroundImageViewModel = new BackgroundImageViewModel(backgroundImageService);
             TablesViewModel = new FilmTablesViewModel(model, updateMenuService);
@@ -202,7 +202,7 @@ namespace Filmc.Wpf.ViewModels
                 return addFilmByUrlCommand ??
                 (addFilmByUrlCommand = new RelayCommand(obj =>
                 {
-                    _addEntityByUrlService.CreateFilmByUrl();
+                    _addEntityWindowService.OpenAddFilmWindow();
                 }));
             }
         }
