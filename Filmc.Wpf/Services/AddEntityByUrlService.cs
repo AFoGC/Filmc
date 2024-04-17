@@ -25,17 +25,17 @@ namespace Filmc.Wpf.Services
             _languageService = languageService;
         }
 
-        public void CreateFilmByUrl(string url)
+        public async Task CreateFilmByUrl(string url)
         {
-            EntityResponse response = _client.GetInfoByUrl(url, _languageService.CurrentLanguage);
+            EntityResponse response = await _client.GetInfoByUrl(url, _languageService.CurrentLanguage);
 
             if (CheckResponseIsValid(response, DetailedStatus.IsFilm))
                 CreateFilm(response);
         }
 
-        public void CreateBookByUrl(string url)
+        public async Task CreateBookByUrl(string url)
         {
-            EntityResponse response = _client.GetInfoByUrl(url, _languageService.CurrentLanguage);
+            EntityResponse response = await _client.GetInfoByUrl(url, _languageService.CurrentLanguage);
 
             if (CheckResponseIsValid(response, DetailedStatus.IsBook))
                 CreateBook(response);

@@ -14,13 +14,13 @@ namespace Filmc.SitesIntegration
             _client.Timeout = TimeSpan.FromSeconds(15);
         }
 
-        public EntityResponse GetInfoByUrl(string url, CultureInfo lang)
+        public async Task<EntityResponse> GetInfoByUrl(string url, CultureInfo lang)
         {
             if (url.Contains("www.imdb.com"))
-                return GetImdbInfo(url, lang);
+                return await GetImdbInfo(url, lang);
 
             if (url.Contains("shikimori.one"))
-                return GetShikimoriInfo(url);
+                return await GetShikimoriInfo(url);
 
             return new EntityResponse
             {
@@ -28,13 +28,13 @@ namespace Filmc.SitesIntegration
             };
         }
 
-        private EntityResponse GetImdbInfo(string url, CultureInfo lang)
+        private async Task<EntityResponse> GetImdbInfo(string url, CultureInfo lang)
         {
             try
             {
                 string langCode = GetLanguageValue(lang);
                 _client.DefaultRequestHeaders.Add("Accept-Language", langCode);
-                string page = _client.GetStringAsync(url).Result;
+                string page = await _client.GetStringAsync(url);
 
                 HtmlDocument htmlSnippet = new HtmlDocument();
                 htmlSnippet.LoadHtml(page);
@@ -67,17 +67,14 @@ namespace Filmc.SitesIntegration
             }
         }
 
-        private EntityResponse GetShikimoriInfo(string url)
+        private async Task<EntityResponse> GetShikimoriInfo(string url)
         {
             try
             {
                 Classifiation cl = GetUrlClassification(url);
 
-                string resp = _client.GetAsync($"https://shikimori.one/api/{cl.Category}{cl.Id}")
-                    .Result
-                    .Content
-                    .ReadAsStringAsync()
-                    .Result;
+                HttpResponseMessage httpResponse = await _client.GetAsync($"https://shikimori.one/api/{cl.Category}{cl.Id}");
+                string resp = await httpResponse.Content.ReadAsStringAsync();
 
                 MangaResponse response = JsonConvert.DeserializeObject<MangaResponse>(resp);
                 EntityResponse entityResponse = new EntityResponse();
@@ -170,32 +167,4 @@ namespace Filmc.SitesIntegration
             }
         }
     }
-
-    /*
-    public class IntegrationCollection
-    {
-        private readonly List<IntegrationUrl> _urls;
-
-        public IntegrationCollection()
-        {
-            _urls = new List<IntegrationUrl>();
-
-
-        }
-    }
-
-    public class IntegrationUrl
-    {
-        public string Name { get; init; }
-        public string ExampleUrl { get; init; }
-        public Func<string, CultureInfo, EntityResponse> GetInfo { get; init; }
-
-        public IntegrationUrl()
-        {
-            Name = String.Empty;
-            ExampleUrl = String.Empty;
-            GetInfo = null;
-        }
-    }
-    */
 }

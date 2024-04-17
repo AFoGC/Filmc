@@ -44,13 +44,13 @@ namespace Filmc.Wpf.Windows
         public bool IsUrlWrited { get; private set; }
         public string Url => UrlText.Text;
 
-        private void AddEntity(object sender, RoutedEventArgs e)
+        private async void AddEntity(object sender, RoutedEventArgs e)
         {
             if (_status == DetailedStatus.IsFilm)
-                _addEntityByUrlService.CreateFilmByUrl(Url);
+                await _addEntityByUrlService.CreateFilmByUrl(Url);
 
             if (_status == DetailedStatus.IsBook)
-                _addEntityByUrlService.CreateBookByUrl(Url);
+                await _addEntityByUrlService.CreateBookByUrl(Url);
 
             this.Close();
         }
