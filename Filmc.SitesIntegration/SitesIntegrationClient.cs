@@ -7,11 +7,18 @@ namespace Filmc.SitesIntegration
     public class SitesIntegrationClient
     {
         private readonly HttpClient _client;
+        private readonly CancellationTokenSource _tokenSource;
 
         public SitesIntegrationClient()
         {
             _client = new HttpClient();
-            _client.Timeout = TimeSpan.FromSeconds(15);
+            _tokenSource = new CancellationTokenSource();
+            _client.Timeout = TimeSpan.FromSeconds(60);
+        }
+
+        public void CancelRequest()
+        {
+            _tokenSource.Cancel();
         }
 
         public async Task<EntityResponse> GetInfoByUrl(string url, CultureInfo lang)
@@ -34,7 +41,7 @@ namespace Filmc.SitesIntegration
             {
                 string langCode = GetLanguageValue(lang);
                 _client.DefaultRequestHeaders.Add("Accept-Language", langCode);
-                string page = await _client.GetStringAsync(url);
+                string page = await _client.GetStringAsync(url, _tokenSource.Token);
 
                 HtmlDocument htmlSnippet = new HtmlDocument();
                 htmlSnippet.LoadHtml(page);
@@ -73,7 +80,8 @@ namespace Filmc.SitesIntegration
             {
                 Classifiation cl = GetUrlClassification(url);
 
-                HttpResponseMessage httpResponse = await _client.GetAsync($"https://shikimori.one/api/{cl.Category}{cl.Id}");
+                string path = $"https://shikimori.one/api/{cl.Category}{cl.Id}";
+                HttpResponseMessage httpResponse = await _client.GetAsync(path, _tokenSource.Token);
                 string resp = await httpResponse.Content.ReadAsStringAsync();
 
                 MangaResponse response = JsonConvert.DeserializeObject<MangaResponse>(resp);

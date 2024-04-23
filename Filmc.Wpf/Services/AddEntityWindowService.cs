@@ -1,4 +1,5 @@
-﻿using Filmc.Wpf.Windows;
+﻿using Filmc.Wpf.ViewModels;
+using Filmc.Wpf.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +20,15 @@ namespace Filmc.Wpf.Services
 
         public void OpenAddFilmWindow()
         {
-            AddEntityByUrlWindow window = new AddEntityByUrlWindow(_addEntityByUrlService);
-            window.SetAddFilm();
+            AddEntityByUrlWindow window = new AddEntityByUrlWindow();
+            window.DataContext = new AddFilmByUrlViewModel(_addEntityByUrlService);
             window.ShowDialog();
         }
 
         public void OpenAddBookWindow()
         {
-            AddEntityByUrlWindow window = new AddEntityByUrlWindow(_addEntityByUrlService);
-            window.SetAddBook();
+            AddEntityByUrlWindow window = new AddEntityByUrlWindow();
+            window.DataContext = new AddBookByUrlViewModel(_addEntityByUrlService);
             window.ShowDialog();
         }
     }

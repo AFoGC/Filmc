@@ -21,43 +21,13 @@ namespace Filmc.Wpf.Windows
     /// </summary>
     public partial class AddEntityByUrlWindow : Window
     {
-        private readonly AddEntityByUrlService _addEntityByUrlService;
-        private DetailedStatus _status;
-
-        public AddEntityByUrlWindow(AddEntityByUrlService addEntityByUrlService)
+        public AddEntityByUrlWindow()
         {
             InitializeComponent();
-
-            _addEntityByUrlService = addEntityByUrlService;
-        }
-
-        public void SetAddFilm()
-        {
-            _status = DetailedStatus.IsFilm;
-        }
-
-        public void SetAddBook()
-        {
-            _status = DetailedStatus.IsBook;
-        }
-
-        public bool IsUrlWrited { get; private set; }
-        public string Url => UrlText.Text;
-
-        private async void AddEntity(object sender, RoutedEventArgs e)
-        {
-            if (_status == DetailedStatus.IsFilm)
-                await _addEntityByUrlService.CreateFilmByUrl(Url);
-
-            if (_status == DetailedStatus.IsBook)
-                await _addEntityByUrlService.CreateBookByUrl(Url);
-
-            this.Close();
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
-            
             this.Close();
         }
 

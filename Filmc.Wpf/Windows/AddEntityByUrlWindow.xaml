@@ -34,10 +34,10 @@
         </StackPanel>
         <StackPanel Width="400" VerticalAlignment="Center">
             <TextBlock Text="{StaticResource page_url_label}" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
-            <TextBox Height="20" Style="{StaticResource Wtextbox}" Name="UrlText" Text="" Margin="5"/>
-            <Button Content="{StaticResource add_by_url}" Click="AddEntity" Height="20" Margin="80,0"/>
+            <TextBox Height="20" Style="{StaticResource Wtextbox}" Text="{Binding Url}" Margin="5"/>
+            <Button Content="{StaticResource add_by_url}" Command="{Binding AddByUrlCommand}" Height="20" Margin="80,0"/>
         </StackPanel>
-        <Button HorizontalAlignment="Right" VerticalAlignment="Top"
+        <Button HorizontalAlignment="Right" VerticalAlignment="Top" IsEnabled="{Binding IsCloseButtonEnabled}"
                 Width="30" Height="30" Margin="0" Content="❌" Click="CloseWindow"/>
     </Grid>
 </Window>
