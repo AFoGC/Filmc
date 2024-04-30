@@ -16,11 +16,10 @@ namespace Filmc.Wpf.ViewModels
 
         protected async override Task AddByUrl()
         {
-            IsCloseButtonEnabled = false;
-
+            SetProcessStart();
             await AddEntityByUrlService.CreateBookByUrl(Url);
 
-            IsCloseButtonEnabled = true;
+            SetProcessEnd();
         }
     }
 }

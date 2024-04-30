@@ -14,19 +14,23 @@ namespace Filmc.Wpf.ViewModels
         protected readonly AddEntityByUrlService AddEntityByUrlService;
 
         private bool _isCloseButtonEnabled;
+        private bool _isCancelButtonEnabled;
         private string _url;
 
         public AddEntityByUrlViewModel(AddEntityByUrlService addEntityByUrlService)
         {
             _isCloseButtonEnabled = true;
+            _isCancelButtonEnabled = false;
             _url = String.Empty;
 
             AddEntityByUrlService = addEntityByUrlService;
 
             AddByUrlCommand = new AsyncRelayCommand(AddByUrl, ExeptionHandler);
+            CancelRequestCommand = new RelayCommand(CancelRequest);
         }
 
         public ICommand AddByUrlCommand { get; }
+        public ICommand CancelRequestCommand { get; }
 
         public string Url
         { 
@@ -46,8 +50,34 @@ namespace Filmc.Wpf.ViewModels
                 OnPropertyChanged();
             }
         }
+        public bool IsCancelButtonEnabled
+        {
+            get => _isCancelButtonEnabled;
+            set
+            {
+                _isCancelButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        protected void SetProcessStart()
+        {
+            IsCloseButtonEnabled = false;
+            IsCancelButtonEnabled = true;
+        }
+
+        protected void SetProcessEnd()
+        {
+            IsCloseButtonEnabled = true;
+            IsCancelButtonEnabled = false;
+        }
 
         protected abstract Task AddByUrl();
+
+        private void CancelRequest(object? obj)
+        {
+            AddEntityByUrlService.CancelRequest();
+        }
 
         private void ExeptionHandler(Exception e)
         {

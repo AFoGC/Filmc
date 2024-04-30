@@ -11,6 +11,7 @@ namespace Filmc.SitesIntegration
         IsFilm,
         IsBook,
         HasError,
-        UrlNotSupported
+        UrlNotSupported,
+        TaskCanceled
     }
 }

@@ -41,6 +41,11 @@ namespace Filmc.Wpf.Services
                 CreateBook(response);
         }
 
+        public void CancelRequest()
+        {
+            _client.CancelRequest();
+        }
+
         private bool CheckResponseIsValid(EntityResponse response, DetailedStatus expectedCategory)
         {
             if (response.Status == DetailedStatus.HasError)
@@ -55,6 +60,11 @@ namespace Filmc.Wpf.Services
                 return false;
             }
 
+            if (response.Status == DetailedStatus.TaskCanceled)
+            {
+                return false;
+            }
+
             if (response.Status != expectedCategory)
             {
                 MessageBox.Show("Wrong menu (book/films)");
@@ -64,7 +74,7 @@ namespace Filmc.Wpf.Services
             return true;
         }
 
-        public void CreateBook(EntityResponse response)
+        private void CreateBook(EntityResponse response)
         {
             Book book = new Book
             {
@@ -77,7 +87,7 @@ namespace Filmc.Wpf.Services
             repositories.Books.Add(book);
         }
 
-        public void CreateFilm(EntityResponse response)
+        private void CreateFilm(EntityResponse response)
         {
             Film film = new Film
             {

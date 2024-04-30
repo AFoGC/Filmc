@@ -14,6 +14,12 @@
             <Style TargetType="Button" BasedOn="{StaticResource GrayButton}">
                 <Setter Property="Margin" Value="20,0"/>
                 <Setter Property="Height" Value="23"/>
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" Value="{StaticResource MainBackground}"/>
+                        <Setter Property="Foreground" Value="{StaticResource DefaultButtonColor}"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
             <Style TargetType="TextBlock">
                 <Setter Property="Foreground" Value="WhiteSmoke"/>
@@ -35,9 +41,25 @@
         <StackPanel Width="400" VerticalAlignment="Center">
             <TextBlock Text="{StaticResource page_url_label}" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
             <TextBox Height="20" Style="{StaticResource Wtextbox}" Text="{Binding Url}" Margin="5"/>
-            <Button Content="{StaticResource add_by_url}" Command="{Binding AddByUrlCommand}" Height="20" Margin="80,0"/>
+            <Button Content="{StaticResource add_by_url}" Command="{Binding AddByUrlCommand}" 
+                    Height="20" Margin="80,0">
+            </Button>
         </StackPanel>
+
         <Button HorizontalAlignment="Right" VerticalAlignment="Top" IsEnabled="{Binding IsCloseButtonEnabled}"
-                Width="30" Height="30" Margin="0" Content="❌" Click="CloseWindow"/>
+                Width="30" Height="30" Margin="5" Content="❌" Click="CloseWindow"/>
+
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" Height="25" Padding="40,0" 
+                Content="{DynamicResource cancel_add_operation}" IsEnabled="{Binding IsCancelButtonEnabled}" Command="{Binding CancelRequestCommand}">
+            <Button.Style>
+                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </Window>

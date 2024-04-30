@@ -5,6 +5,7 @@
     <!--AddEntityByUrlWindow-->
     <v:String x:Key="page_url_label">Page url</v:String>
     <v:String x:Key="add_by_url">Add</v:String>
+    <v:String x:Key="cancel_add_operation">Cancel operation</v:String>
 
     <!--Navbar-->
     <v:String x:Key="nav_film">Films</v:String>
