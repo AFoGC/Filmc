@@ -21,6 +21,11 @@ namespace Filmc.Wpf.ViewModels
 
         private readonly UpdateMenuService _updateMenuService;
 
+        private readonly EntityObserver<Film, FilmViewModel> _filmEntityObserver;
+        private readonly EntityObserver<FilmCategory, FilmCategoryViewModel> _categoryEntityObserver;
+        private readonly EntityObserver<FilmGenre, FilmGenreViewModel> _genreEntityObserver;
+        private readonly EntityObserver<FilmTag, FilmTagViewModel> _tagEntityObserver;
+
         private RepositoriesFacade? _tablesContext;
         private FilmsMenuMode _menuMode;
 
@@ -34,6 +39,11 @@ namespace Filmc.Wpf.ViewModels
             CategoryVMs = new ObservableCollection<FilmCategoryViewModel>();
             GenreVMs = new ObservableCollection<FilmGenreViewModel>();
             TagVMs = new ObservableCollection<FilmTagViewModel>();
+
+            _filmEntityObserver = new EntityObserver<Film, FilmViewModel>(FilmVMs, CreateFilmViewModel);
+            _categoryEntityObserver = new EntityObserver<FilmCategory, FilmCategoryViewModel>(CategoryVMs, CreateCategoryViewModel);
+            _genreEntityObserver = new EntityObserver<FilmGenre, FilmGenreViewModel>(GenreVMs, CreateGenreViewModel);
+            _tagEntityObserver = new EntityObserver<FilmTag, FilmTagViewModel>(TagVMs, CreateTagViewModel);
 
             _model = model;
             _updateMenuService = updateMenuService;
@@ -71,37 +81,12 @@ namespace Filmc.Wpf.ViewModels
 
         private void OnTablesContextChanged()
         {
-            if (_tablesContext != null)
-            {
-                _tablesContext.Films.CollectionChanged -= OnFilmsChanged;
-                _tablesContext.FilmGenres.CollectionChanged -= OnGenresCollectionChanged;
-                _tablesContext.FilmCategories.CollectionChanged -= OnCategoriesCollectionChanged;
-                _tablesContext.FilmTags.CollectionChanged -= OnTagsCollectionChanged;
-            }
-
             _tablesContext = _model.TablesContext;
 
-            FilmVMs.Clear();
-            CategoryVMs.Clear();
-            GenreVMs.Clear();
-            TagVMs.Clear();
-
-            foreach (var item in _tablesContext.Films)
-                FilmVMs.Add(new FilmViewModel(item, _updateMenuService));
-
-            foreach (var item in _tablesContext.FilmCategories)
-                CategoryVMs.Add(new FilmCategoryViewModel(item, FilmVMs, _updateMenuService, _tablesContext));
-
-            foreach (var item in _tablesContext.FilmGenres)
-                GenreVMs.Add(new FilmGenreViewModel(item));
-
-            foreach (var item in _tablesContext.FilmTags)
-                TagVMs.Add(new FilmTagViewModel(item));
-
-            _tablesContext.Films.CollectionChanged += OnFilmsChanged;
-            _tablesContext.FilmGenres.CollectionChanged += OnGenresCollectionChanged;
-            _tablesContext.FilmCategories.CollectionChanged += OnCategoriesCollectionChanged;
-            _tablesContext.FilmTags.CollectionChanged += OnTagsCollectionChanged;
+            _filmEntityObserver.SetSource(_tablesContext.Films);
+            _categoryEntityObserver.SetSource(_tablesContext.FilmCategories);
+            _genreEntityObserver.SetSource(_tablesContext.FilmGenres);
+            _tagEntityObserver.SetSource(_tablesContext.FilmTags);
         }
 
         public RelayCommand SortTable
@@ -135,84 +120,24 @@ namespace Filmc.Wpf.ViewModels
             }
         }
 
-        private void OnFilmsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private FilmViewModel CreateFilmViewModel(Film film)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                Film film = (Film)e.NewItems[0]!;
-                FilmVMs.Insert(e.NewStartingIndex, new FilmViewModel(film, _updateMenuService));
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                int i = e.OldStartingIndex;
-                FilmVMs.RemoveAt(i);
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                FilmVMs.Clear();
-            }
+            return new FilmViewModel(film, _updateMenuService);
         }
 
-        private void OnCategoriesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private FilmCategoryViewModel CreateCategoryViewModel(FilmCategory filmCategory)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                FilmCategory entity = (FilmCategory)e.NewItems[0]!;
-                CategoryVMs.Insert(e.NewStartingIndex, new FilmCategoryViewModel(entity, FilmVMs, _updateMenuService, _tablesContext));
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                int i = e.OldStartingIndex;
-                CategoryVMs.RemoveAt(i);
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                CategoryVMs.Clear();
-            }
+            return new FilmCategoryViewModel(filmCategory, FilmVMs, _updateMenuService, _tablesContext);
         }
 
-        private void OnGenresCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private FilmGenreViewModel CreateGenreViewModel(FilmGenre filmGenre)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                FilmGenre entity = (FilmGenre)e.NewItems[0]!;
-                GenreVMs.Insert(e.NewStartingIndex, new FilmGenreViewModel(entity)); ;
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                int i = e.OldStartingIndex;
-                GenreVMs.RemoveAt(i);
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                GenreVMs.Clear();
-            }
+            return new FilmGenreViewModel(filmGenre);
         }
 
-        private void OnTagsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private FilmTagViewModel CreateTagViewModel(FilmTag filmTag)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                FilmTag entity = (FilmTag)e.NewItems[0]!;
-                TagVMs.Insert(e.NewStartingIndex, new FilmTagViewModel(entity));
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                int i = e.OldStartingIndex;
-                TagVMs.RemoveAt(i);
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                TagVMs.Clear();
-            }
+            return new FilmTagViewModel(filmTag);
         }
     }
 }

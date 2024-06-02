@@ -21,6 +21,11 @@ namespace Filmc.Wpf.ViewModels
 
         private readonly UpdateMenuService _updateMenuService;
 
+        private readonly EntityObserver<Book, BookViewModel> _bookEntityObserver;
+        private readonly EntityObserver<BookCategory, BookCategoryViewModel> _categoryEntityObserver;
+        private readonly EntityObserver<BookGenre, BookGenreViewModel> _genreEntityObserver;
+        private readonly EntityObserver<BookTag, BookTagViewModel> _tagEntityObserver;
+
         private RepositoriesFacade? _tablesContext;
         private BooksMenuMode _menuMode;
 
@@ -34,6 +39,11 @@ namespace Filmc.Wpf.ViewModels
             CategoryVMs = new ObservableCollection<BookCategoryViewModel>();
             GenreVMs = new ObservableCollection<BookGenreViewModel>();
             TagVMs = new ObservableCollection<BookTagViewModel>();
+
+            _bookEntityObserver = new EntityObserver<Book, BookViewModel>(BooksVMs, CreateFilmViewModel);
+            _categoryEntityObserver = new EntityObserver<BookCategory, BookCategoryViewModel>(CategoryVMs, CreateCategoryViewModel);
+            _genreEntityObserver = new EntityObserver<BookGenre, BookGenreViewModel>(GenreVMs, CreateGenreViewModel);
+            _tagEntityObserver = new EntityObserver<BookTag, BookTagViewModel>(TagVMs, CreateTagViewModel);
 
             _model = model;
             _updateMenuService = updateMenuService;
@@ -68,37 +78,12 @@ namespace Filmc.Wpf.ViewModels
 
         private void OnTablesContextChanged()
         {
-            if (_tablesContext != null)
-            {
-                _tablesContext.Books.CollectionChanged -= OnBooksChanged;
-                _tablesContext.BookGenres.CollectionChanged -= OnGenresCollectionChanged;
-                _tablesContext.BookCategories.CollectionChanged -= OnCategoriesCollectionChanged;
-                _tablesContext.BookTags.CollectionChanged -= OnTagsCollectionChanged;
-            }
-
             _tablesContext = _model.TablesContext;
 
-            BooksVMs.Clear();
-            CategoryVMs.Clear();
-            GenreVMs.Clear();
-            TagVMs.Clear();
-
-            foreach (var item in _tablesContext.Books)
-                BooksVMs.Add(new BookViewModel(item, _updateMenuService));
-
-            foreach (var item in _tablesContext.BookCategories)
-                CategoryVMs.Add(new BookCategoryViewModel(item, BooksVMs, _updateMenuService, _tablesContext));
-
-            foreach (var item in _tablesContext.BookGenres)
-                GenreVMs.Add(new BookGenreViewModel(item));
-
-            foreach (var item in _tablesContext.BookTags)
-                TagVMs.Add(new BookTagViewModel(item));
-
-            _tablesContext.Books.CollectionChanged += OnBooksChanged;
-            _tablesContext.BookGenres.CollectionChanged += OnGenresCollectionChanged;
-            _tablesContext.BookCategories.CollectionChanged += OnCategoriesCollectionChanged;
-            _tablesContext.BookTags.CollectionChanged += OnTagsCollectionChanged;
+            _bookEntityObserver.SetSource(_tablesContext.Books);
+            _categoryEntityObserver.SetSource(_tablesContext.BookCategories);
+            _genreEntityObserver.SetSource(_tablesContext.BookGenres);
+            _tagEntityObserver.SetSource(_tablesContext.BookTags);
         }
 
         public RelayCommand SortTable
@@ -128,84 +113,24 @@ namespace Filmc.Wpf.ViewModels
             }
         }
 
-        private void OnBooksChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private BookViewModel CreateFilmViewModel(Book book)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                Book book = (Book)e.NewItems[0]!;
-                BooksVMs.Insert(e.NewStartingIndex, new BookViewModel(book, _updateMenuService));
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                int i = e.OldStartingIndex;
-                BooksVMs.RemoveAt(i);
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                BooksVMs.Clear();
-            }
+            return new BookViewModel(book, _updateMenuService);
         }
 
-        private void OnCategoriesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private BookCategoryViewModel CreateCategoryViewModel(BookCategory bookCategory)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                BookCategory entity = (BookCategory)e.NewItems[0]!;
-                CategoryVMs.Insert(e.NewStartingIndex, new BookCategoryViewModel(entity, BooksVMs, _updateMenuService, _tablesContext));
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                int i = e.OldStartingIndex;
-                CategoryVMs.RemoveAt(i);
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                CategoryVMs.Clear();
-            }
+            return new BookCategoryViewModel(bookCategory, BooksVMs, _updateMenuService, _tablesContext);
         }
 
-        private void OnGenresCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private BookGenreViewModel CreateGenreViewModel(BookGenre bookGenre)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                BookGenre entity = (BookGenre)e.NewItems[0]!;
-                GenreVMs.Insert(e.NewStartingIndex, new BookGenreViewModel(entity)); ;
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                int i = e.OldStartingIndex;
-                GenreVMs.RemoveAt(i);
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                GenreVMs.Clear();
-            }
+            return new BookGenreViewModel(bookGenre);
         }
 
-        private void OnTagsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private BookTagViewModel CreateTagViewModel(BookTag bookTag)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                BookTag entity = (BookTag)e.NewItems[0]!;
-                TagVMs.Insert(e.NewStartingIndex, new BookTagViewModel(entity));
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                int i = e.OldStartingIndex;
-                TagVMs.RemoveAt(i);
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                TagVMs.Clear();
-            }
+            return new BookTagViewModel(bookTag);
         }
     }
 }
