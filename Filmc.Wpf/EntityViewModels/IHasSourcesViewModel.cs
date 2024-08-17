@@ -1,4 +1,5 @@
 ﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,8 +11,8 @@ namespace Filmc.Wpf.EntityViewModels
 {
     public interface IHasSourcesViewModel
     {
-        public void AddSource();
-        public void RemoveSource(ISource source);
-        public void SetFirstSource(ISource source);
+        public void AddSource(Profile profile);
+        public void RemoveSource(ISource source, Profile profile);
+        public void SetFirstSource(ISource source, Profile profile);
     }
 }

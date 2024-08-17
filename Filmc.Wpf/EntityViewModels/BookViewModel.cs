@@ -304,21 +304,27 @@ namespace Filmc.Wpf.EntityViewModels
             OnPropertyChanged(nameof(ShortName));
         }
 
-        public void AddSource()
+        public void AddSource(Profile profile)
         {
             BookSource source = new BookSource();
             Model.Sources.Add(source);
+
+            profile.TablesContext.SaveChanges();
         }
 
-        public void RemoveSource(ISource source)
+        public void RemoveSource(ISource source, Profile profile)
         {
-            BookSource? filmSource = source as BookSource;
+            BookSource? bookSource = source as BookSource;
 
-            if (filmSource != null)
-                Model.Sources.Remove(filmSource);
+            if (bookSource != null)
+            {
+                Model.Sources.Remove(bookSource);
+                profile.TablesContext.BookSources.Remove(bookSource);
+                profile.TablesContext.SaveChanges();
+            }
         }
 
-        public void SetFirstSource(ISource source)
+        public void SetFirstSource(ISource source, Profile profile)
         {
             BookSource? filmSource = source as BookSource;
 
@@ -326,6 +332,7 @@ namespace Filmc.Wpf.EntityViewModels
             {
                 Model.Sources.Remove(filmSource);
                 Model.Sources.Insert(0, filmSource);
+                profile.TablesContext.SaveChanges();
             }
         }
     }

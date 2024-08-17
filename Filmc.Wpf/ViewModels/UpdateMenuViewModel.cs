@@ -4,6 +4,7 @@ using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.SettingsServices;
+using Filmc.Xtl.EntityProperties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -183,13 +184,11 @@ namespace Filmc.Wpf.ViewModels
                 return addSource ??
                 (addSource = new RelayCommand(obj =>
                 {
+                    Profile profile = _profilesService.SelectedProfile;
                     IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
 
                     if (viewModel != null)
-                    {
-                        viewModel.AddSource();
-                        _profilesService.SelectedProfile.TablesContext.SaveChanges();
-                    }
+                        viewModel.AddSource(profile);
                 }));
             }
         }
@@ -201,15 +200,14 @@ namespace Filmc.Wpf.ViewModels
                 return removeSource ??
                 (removeSource = new RelayCommand(obj =>
                 {
-                    ISource? source = obj as ISource;
+                    Profile profile = _profilesService.SelectedProfile;
+
                     IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
+                    ISource? source = obj as ISource;
 
                     if (viewModel != null)
                         if (source != null)
-                        {
-                            viewModel.RemoveSource(source);
-                            _profilesService.SelectedProfile.TablesContext.SaveChanges();
-                        }
+                            viewModel.RemoveSource(source, profile);
                 }));
             }
         }
@@ -221,17 +219,14 @@ namespace Filmc.Wpf.ViewModels
                 return setFirstSource ??
                 (setFirstSource = new RelayCommand(obj =>
                 {
+                    Profile profile = _profilesService.SelectedProfile;
+
                     IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
                     ISource? source = obj as ISource;
 
                     if (viewModel != null)
-                    {
                         if (source != null)
-                        {
-                            viewModel.SetFirstSource(source);
-                            _profilesService.SelectedProfile.TablesContext.SaveChanges();
-                        }
-                    }
+                            viewModel.RemoveSource(source, profile);
                 }));
             }
         }
