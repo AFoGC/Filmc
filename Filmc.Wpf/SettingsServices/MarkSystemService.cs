@@ -1,6 +1,5 @@
 ﻿using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
-using Filmc.Xtl.EntityProperties;
 using System;
 using System.Collections.Generic;
 using System.Linq;

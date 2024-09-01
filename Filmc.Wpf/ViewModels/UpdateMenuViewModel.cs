@@ -4,7 +4,6 @@ using Filmc.Wpf.EntityViewModels;
 using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.SettingsServices;
-using Filmc.Xtl.EntityProperties;
 using System;
 using System.Collections.Generic;
 using System.Linq;

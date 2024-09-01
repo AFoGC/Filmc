@@ -34,7 +34,6 @@
     <ProjectReference Include="..\Filmc.Entities\Filmc.Entities.csproj" />
     <ProjectReference Include="..\Filmc.SitesIntegration\Filmc.SitesIntegration.csproj" />
     <ProjectReference Include="..\Filmc.Wpf.Updater.Module\Filmc.Wpf.Updater.Module.csproj" />
-    <ProjectReference Include="..\Filmc.Xtl\Filmc.Xtl.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,15 +5,13 @@ VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Wpf", "Filmc.Wpf\Filmc.Wpf.csproj", "{A18996C6-3FEC-48BB-80F1-BD89EBFA49AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Xtl", "Filmc.Xtl\Filmc.Xtl.csproj", "{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Wpf.Updater.Module", "Filmc.Wpf.Updater.Module\Filmc.Wpf.Updater.Module.csproj", "{FD3B5E7D-D109-4A38-BE7A-305E1CE36783}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Wpf.Updater", "Filmc.Wpf.Updater\Filmc.Wpf.Updater.csproj", "{E634C370-2B24-4FD4-A68C-2BA65B23C95B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Entities", "Filmc.Entities\Filmc.Entities.csproj", "{9879C3A4-BC87-4486-809B-DF4C6B4D5AA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filmc.SitesIntegration", "Filmc.SitesIntegration\Filmc.SitesIntegration.csproj", "{8C11364A-5EFF-4777-857F-A089C61D1585}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.SitesIntegration", "Filmc.SitesIntegration\Filmc.SitesIntegration.csproj", "{8C11364A-5EFF-4777-857F-A089C61D1585}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{A18996C6-3FEC-48BB-80F1-BD89EBFA49AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A18996C6-3FEC-48BB-80F1-BD89EBFA49AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A18996C6-3FEC-48BB-80F1-BD89EBFA49AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9F96309-EE9B-46F3-AD7D-BFF2235CC4C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD3B5E7D-D109-4A38-BE7A-305E1CE36783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD3B5E7D-D109-4A38-BE7A-305E1CE36783}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD3B5E7D-D109-4A38-BE7A-305E1CE36783}.Release|Any CPU.ActiveCfg = Release|Any CPU
