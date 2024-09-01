@@ -30,12 +30,14 @@ namespace Filmc.Entities.Context
         public virtual DbSet<BookSource> BookSources { get; set; } = null!;
         public virtual DbSet<BookTag> BookTags { get; set; } = null!;
         public virtual DbSet<BooksInPriority> BooksInPriorities { get; set; } = null!;
+        public virtual DbSet<BookReadProgress> BookReadProgresses { get; set; } = null!;
         public virtual DbSet<Film> Films { get; set; } = null!;
         public virtual DbSet<FilmCategory> FilmCategories { get; set; } = null!;
         public virtual DbSet<FilmGenre> FilmGenres { get; set; } = null!;
         public virtual DbSet<FilmSource> FilmSources { get; set; } = null!;
         public virtual DbSet<FilmTag> FilmTags { get; set; } = null!;
         public virtual DbSet<FilmsInPriority> FilmsInPriorities { get; set; } = null!;
+        public virtual DbSet<FilmWatchProgress> FilmWatchProgresses { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -77,11 +79,10 @@ namespace Filmc.Entities.Context
                     .HasField("_publicationYear")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
-                entity.Property(e => e.IsReaded)
-                    .HasColumnName("IsReaded")
-                    .HasField("_isReaded")
-                    .UsePropertyAccessMode(PropertyAccessMode.Property)
-                    .HasConversion(v => v ? 1 : 0, v => v == 1);
+                entity.Property(e => e.ReadProgressId)
+                    .HasColumnName("ReadProgressId")
+                    .HasField("_readProgressId")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
 
                 entity.Property(e => e.StartReadDate)
                     .HasColumnName("StartReadDate")
@@ -143,6 +144,10 @@ namespace Filmc.Entities.Context
                     .WithMany(p => p.Books)
                     .HasForeignKey(d => d.GenreId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.ReadProgress)
+                    .WithMany(p => p.Books)
+                    .HasForeignKey(d => d.ReadProgressId);
 
                 entity.HasMany(d => d.Tags)
                     .WithMany(p => p.Books)
@@ -269,6 +274,22 @@ namespace Filmc.Entities.Context
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
+            modelBuilder.Entity<BookReadProgress>(entity =>
+            {
+                entity.HasIndex(e => e.Id, "IX_BookReadProgresses_Id")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("Id")
+                    .HasField("_id")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("Name")
+                    .HasField("_name")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+            });
+
             modelBuilder.Entity<Film>(entity =>
             {
                 entity.HasIndex(e => e.Id, "IX_Films_Id")
@@ -294,11 +315,10 @@ namespace Filmc.Entities.Context
                     .HasField("_realiseYear")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
-                entity.Property(e => e.IsWatched)
-                    .HasColumnName("IsWatched")
-                    .HasField("_isWatched")
-                    .UsePropertyAccessMode(PropertyAccessMode.Property)
-                    .HasConversion(v => v ? 1 : 0, v => v == 1);
+                entity.Property(e => e.WatchProgressId)
+                    .HasColumnName("WatchProgressId")
+                    .HasField("_watchProgressId")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
 
                 entity.Property(e => e.RawMark)
                     .HasColumnName("Mark");
@@ -365,6 +385,10 @@ namespace Filmc.Entities.Context
                     .WithMany(p => p.Films)
                     .HasForeignKey(d => d.GenreId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.WatchProgress)
+                    .WithMany(p => p.Films)
+                    .HasForeignKey(d => d.WatchProgressId);
 
                 entity.HasMany(d => d.Tags)
                     .WithMany(p => p.Films)
@@ -495,6 +519,22 @@ namespace Filmc.Entities.Context
                     .WithOne(p => p.Priority)
                     .HasForeignKey<FilmsInPriority>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<FilmWatchProgress>(entity =>
+            {
+                entity.HasIndex(e => e.Id, "IX_FilmWatchProgresses_Id")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("Id")
+                    .HasField("_id")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("Name")
+                    .HasField("_name")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
             });
 
             OnModelCreatingPartial(modelBuilder);

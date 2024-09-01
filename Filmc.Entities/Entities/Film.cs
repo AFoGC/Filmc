@@ -11,7 +11,7 @@ namespace Filmc.Entities.Entities
         private string _name = null!;
         private int _genreId;
         private int? _realiseYear;
-        private bool _isWatched;
+        private int _watchProgressId;
         private DateTime? _endWatchDate;
         private string _comment = null!;
         private int? _countOfViews;
@@ -26,6 +26,7 @@ namespace Filmc.Entities.Entities
         private FilmCategory? category;
         private FilmGenre genre = null!;
         private FilmsInPriority? filmsInPriority;
+        private FilmWatchProgress watchProgress = null!;
 
         public Film()
         {
@@ -57,10 +58,10 @@ namespace Filmc.Entities.Entities
             get => _realiseYear;
             set { _realiseYear = value; OnPropertyChanged(); }
         }
-        public bool IsWatched
+        public int WatchProgressId
         {
-            get => _isWatched;
-            set { _isWatched = value; OnPropertyChanged(); }
+            get => _watchProgressId;
+            set { _watchProgressId = value; OnPropertyChanged(); }
         }
         internal int? RawMark
         {
@@ -134,6 +135,11 @@ namespace Filmc.Entities.Entities
         { 
             get => filmsInPriority;
             set { filmsInPriority = value; OnPropertyChanged(); } 
+        }
+        public virtual FilmWatchProgress WatchProgress
+        {
+            get => watchProgress;
+            set { watchProgress = value; OnPropertyChanged(); }
         }
 
         public virtual ObservableCollection<FilmSource> Sources { get; }

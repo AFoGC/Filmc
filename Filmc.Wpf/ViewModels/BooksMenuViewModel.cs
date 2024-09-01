@@ -241,10 +241,11 @@ namespace Filmc.Wpf.ViewModels
 
                     var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
                     var selectedTags = TablesViewModel.TagVMs.Where(x => x.IsChecked);
+                    var selectedProgress = TablesViewModel.ProgressVMs.Where(x => x.IsChecked);
 
                     foreach (var item in TablesViewModel.BooksVMs)
                     {
-                        item.IsFiltered = IsBookPassingFilter(selectedTags, selectedGenres, item.Model);
+                        item.IsFiltered = IsBookPassingFilter(selectedTags, selectedGenres, selectedProgress, item.Model);
                     }
 
                     foreach (var item in TablesViewModel.CategoryVMs)
@@ -438,13 +439,13 @@ namespace Filmc.Wpf.ViewModels
                 viewModel.IsFinded = true;
         }
 
-        private bool IsBookPassingFilter(IEnumerable<BookTagViewModel> tags, IEnumerable<BookGenreViewModel> genres, Book book)
+        private bool IsBookPassingFilter(IEnumerable<BookTagViewModel> tags, IEnumerable<BookGenreViewModel> genres, IEnumerable<BookReadProgressViewModel> progressCollection, Book book)
         {
             bool readedPassed = false;
             bool genresPassed = false;
             bool tagsPassed = false;
 
-            readedPassed = book.IsReaded == IsReadedChecked || book.IsReaded != IsUnReadedChecked;
+            readedPassed = progressCollection.Any(x => x.Model == book.ReadProgress);
             genresPassed = genres.Any(x => x.Model == book.Genre);
 
             if (tags.Count() != TablesViewModel.TagVMs.Count)

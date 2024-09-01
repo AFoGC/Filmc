@@ -25,6 +25,7 @@ namespace Filmc.Wpf.ViewModels
         private readonly EntityObserver<BookCategory, BookCategoryViewModel> _categoryEntityObserver;
         private readonly EntityObserver<BookGenre, BookGenreViewModel> _genreEntityObserver;
         private readonly EntityObserver<BookTag, BookTagViewModel> _tagEntityObserver;
+        private readonly EntityObserver<BookReadProgress, BookReadProgressViewModel> _progressEntityObserver;
 
         private RepositoriesFacade? _tablesContext;
         private BooksMenuMode _menuMode;
@@ -39,11 +40,13 @@ namespace Filmc.Wpf.ViewModels
             CategoryVMs = new ObservableCollection<BookCategoryViewModel>();
             GenreVMs = new ObservableCollection<BookGenreViewModel>();
             TagVMs = new ObservableCollection<BookTagViewModel>();
+            ProgressVMs = new ObservableCollection<BookReadProgressViewModel>();
 
             _bookEntityObserver = new EntityObserver<Book, BookViewModel>(BooksVMs, CreateFilmViewModel);
             _categoryEntityObserver = new EntityObserver<BookCategory, BookCategoryViewModel>(CategoryVMs, CreateCategoryViewModel);
             _genreEntityObserver = new EntityObserver<BookGenre, BookGenreViewModel>(GenreVMs, CreateGenreViewModel);
             _tagEntityObserver = new EntityObserver<BookTag, BookTagViewModel>(TagVMs, CreateTagViewModel);
+            _progressEntityObserver = new EntityObserver<BookReadProgress, BookReadProgressViewModel>(ProgressVMs, CreateProgressViewModel);
 
             _model = model;
             _updateMenuService = updateMenuService;
@@ -64,6 +67,7 @@ namespace Filmc.Wpf.ViewModels
         public ObservableCollection<BookCategoryViewModel> CategoryVMs { get; }
         public ObservableCollection<BookGenreViewModel> GenreVMs { get; }
         public ObservableCollection<BookTagViewModel> TagVMs { get; }
+        public ObservableCollection<BookReadProgressViewModel> ProgressVMs { get; }
 
         public BookCategoriesViewCollection CategoriesVC { get; }
         public BooksSimplifiedViewCollection BooksSimplifiedVC { get; }
@@ -84,6 +88,7 @@ namespace Filmc.Wpf.ViewModels
             _categoryEntityObserver.SetSource(_tablesContext.BookCategories);
             _genreEntityObserver.SetSource(_tablesContext.BookGenres);
             _tagEntityObserver.SetSource(_tablesContext.BookTags);
+            _progressEntityObserver.SetSource(_tablesContext.BookProgresses);
         }
 
         public RelayCommand SortTable
@@ -131,6 +136,11 @@ namespace Filmc.Wpf.ViewModels
         private BookTagViewModel CreateTagViewModel(BookTag bookTag)
         {
             return new BookTagViewModel(bookTag);
+        }
+
+        private BookReadProgressViewModel CreateProgressViewModel(BookReadProgress readProgress)
+        {
+            return new BookReadProgressViewModel(readProgress);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Filmc.Entities.Entities
         private string _author = null!;
         private int _genreId;
         private int? _publicationYear;
-        private bool _isReaded;
+        private int _readProgressId;
         private DateTime? _startReadDate;
         private DateTime? _endReadDate;
         private string _comment = null!;
@@ -26,6 +26,7 @@ namespace Filmc.Entities.Entities
         private BookCategory? category;
         private BookGenre genre = null!;
         private BooksInPriority? booksInPriority;
+        private BookReadProgress readProgress = null!;
 
         public Book()
         {
@@ -64,10 +65,10 @@ namespace Filmc.Entities.Entities
             get => _publicationYear;
             set { _publicationYear = value; OnPropertyChanged(); }
         }
-        public bool IsReaded
+        public int ReadProgressId
         {
-            get => _isReaded;
-            set { _isReaded = value; OnPropertyChanged(); }
+            get => _readProgressId;
+            set { _readProgressId = value; OnPropertyChanged(); }
         }
         public DateTime? StartReadDate
         {
@@ -136,6 +137,11 @@ namespace Filmc.Entities.Entities
         { 
             get => booksInPriority;
             set { booksInPriority = value; OnPropertyChanged(); } 
+        }
+        public virtual BookReadProgress ReadProgress
+        {
+            get => readProgress;
+            set { readProgress = value; OnPropertyChanged(); }
         }
 
         public virtual ObservableCollection<BookSource> Sources { get; }

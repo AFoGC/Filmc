@@ -61,10 +61,10 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.RealiseYear;
             set => Model.RealiseYear = value;
         }
-        public bool IsWatched
+        public FilmWatchProgress WatchProgress
         {
-            get => Model.IsWatched;
-            set => Model.IsWatched = value;
+            get => Model.WatchProgress;
+            set => Model.WatchProgress = value;
         }
         public DateTime? EndWatchDate
         {

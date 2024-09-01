@@ -25,6 +25,7 @@ namespace Filmc.Wpf.ViewModels
         private readonly EntityObserver<FilmCategory, FilmCategoryViewModel> _categoryEntityObserver;
         private readonly EntityObserver<FilmGenre, FilmGenreViewModel> _genreEntityObserver;
         private readonly EntityObserver<FilmTag, FilmTagViewModel> _tagEntityObserver;
+        private readonly EntityObserver<FilmWatchProgress, FilmWatchProgressViewModel> _progressEntityObserver;
 
         private RepositoriesFacade? _tablesContext;
         private FilmsMenuMode _menuMode;
@@ -39,11 +40,13 @@ namespace Filmc.Wpf.ViewModels
             CategoryVMs = new ObservableCollection<FilmCategoryViewModel>();
             GenreVMs = new ObservableCollection<FilmGenreViewModel>();
             TagVMs = new ObservableCollection<FilmTagViewModel>();
+            ProgressVMs = new ObservableCollection<FilmWatchProgressViewModel>();
 
             _filmEntityObserver = new EntityObserver<Film, FilmViewModel>(FilmVMs, CreateFilmViewModel);
             _categoryEntityObserver = new EntityObserver<FilmCategory, FilmCategoryViewModel>(CategoryVMs, CreateCategoryViewModel);
             _genreEntityObserver = new EntityObserver<FilmGenre, FilmGenreViewModel>(GenreVMs, CreateGenreViewModel);
             _tagEntityObserver = new EntityObserver<FilmTag, FilmTagViewModel>(TagVMs, CreateTagViewModel);
+            _progressEntityObserver = new EntityObserver<FilmWatchProgress, FilmWatchProgressViewModel>(ProgressVMs, CreateProgressViewModel);
 
             _model = model;
             _updateMenuService = updateMenuService;
@@ -66,6 +69,7 @@ namespace Filmc.Wpf.ViewModels
         public ObservableCollection<FilmCategoryViewModel> CategoryVMs { get; }
         public ObservableCollection<FilmGenreViewModel> GenreVMs { get; }
         public ObservableCollection<FilmTagViewModel> TagVMs { get; }
+        public ObservableCollection<FilmWatchProgressViewModel> ProgressVMs { get; }
 
         public FilmCategoriesViewCollection CategoriesVC { get; }
         public FilmsSimplifiedViewCollection FilmsSimplifiedVC { get; }
@@ -87,6 +91,7 @@ namespace Filmc.Wpf.ViewModels
             _categoryEntityObserver.SetSource(_tablesContext.FilmCategories);
             _genreEntityObserver.SetSource(_tablesContext.FilmGenres);
             _tagEntityObserver.SetSource(_tablesContext.FilmTags);
+            _progressEntityObserver.SetSource(_tablesContext.FilmProgresses);
         }
 
         public RelayCommand SortTable
@@ -138,6 +143,11 @@ namespace Filmc.Wpf.ViewModels
         private FilmTagViewModel CreateTagViewModel(FilmTag filmTag)
         {
             return new FilmTagViewModel(filmTag);
+        }
+
+        private FilmWatchProgressViewModel CreateProgressViewModel(FilmWatchProgress watchProgress)
+        {
+            return new FilmWatchProgressViewModel(watchProgress);
         }
     }
 }

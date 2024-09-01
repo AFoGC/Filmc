@@ -1,4 +1,5 @@
 ﻿using Filmc.Entities.Context;
+using Filmc.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Filmc.Wpf.Repositories
         public BookRepository Books { get; }
         public BookSourceRepository BookSources { get; }
         public BookTagRepository BookTags { get; }
+        public BookReadProgressRepository BookProgresses { get; }
 
         public FilmCategoryRepository FilmCategories { get; }
         public FilmGenreRepository FilmGenres { get; }
@@ -25,6 +27,7 @@ namespace Filmc.Wpf.Repositories
         public FilmRepository Films { get; }
         public FilmSourceRepository FilmSources { get; }
         public FilmTagRepository FilmTags { get; }
+        public FilmWatchProgressRepository FilmProgresses { get; }
 
         public IEnumerable<IBaseRepository> Repositories { get; }
 
@@ -41,6 +44,7 @@ namespace Filmc.Wpf.Repositories
             Books = new BookRepository(filmsContext.Books);
             BookSources = new BookSourceRepository(filmsContext.BookSources);
             BookTags = new BookTagRepository(filmsContext.BookTags);
+            BookProgresses = new BookReadProgressRepository(filmsContext.BookReadProgresses);
 
             FilmCategories = new FilmCategoryRepository(filmsContext.FilmCategories);
             FilmGenres = new FilmGenreRepository(filmsContext.FilmGenres);
@@ -48,6 +52,7 @@ namespace Filmc.Wpf.Repositories
             Films = new FilmRepository(filmsContext.Films);
             FilmSources = new FilmSourceRepository(filmsContext.FilmSources);
             FilmTags = new FilmTagRepository(filmsContext.FilmTags);
+            FilmProgresses = new FilmWatchProgressRepository(filmsContext.FilmWatchProgresses);
 
             Repositories = new IBaseRepository[] 
             { 
@@ -75,6 +80,7 @@ namespace Filmc.Wpf.Repositories
             Books = new BookRepository(filmsContext.Books);
             BookSources = new BookSourceRepository(filmsContext.BookSources);
             BookTags = new BookTagRepository(filmsContext.BookTags);
+            
 
             FilmCategories = new FilmCategoryRepository(filmsContext.FilmCategories);
             FilmGenres = new FilmGenreRepository(filmsContext.FilmGenres);

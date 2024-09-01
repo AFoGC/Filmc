@@ -67,10 +67,10 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.PublicationYear;
             set => Model.PublicationYear = value;
         }
-        public bool IsReaded
+        public BookReadProgress ReadProgress
         {
-            get => Model.IsReaded;
-            set => Model.IsReaded = value;
+            get => Model.ReadProgress;
+            set => Model.ReadProgress = value;
         }
         public DateTime? StartReadDate
         {
