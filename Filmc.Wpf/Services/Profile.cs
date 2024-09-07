@@ -109,9 +109,9 @@ namespace Filmc.Wpf.Services
             if (File.Exists(tempFilePath) == false)
             {
                 File.Copy(mainFilePath, tempFilePath);
-                filmsContext.Database.Migrate();
             }
 
+            filmsContext.Database.Migrate();
             RepositoriesFacade repositories = new RepositoriesFacade(filmsContext);
 
             _isChangesSaved = true;

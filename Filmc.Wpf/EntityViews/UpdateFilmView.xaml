@@ -59,7 +59,17 @@
             <TextBlock Text="{DynamicResource year_tt}" />
             <TextBox Text="{Binding RealiseYear, TargetNullValue=''}" Width="50" HorizontalAlignment="Left" />
             
-            <CheckBox IsChecked="{Binding IsWatched}" Content="{DynamicResource watched_tt}" Foreground="WhiteSmoke"/>
+            <TextBlock Text="{DynamicResource watched_tt}" />
+            <ComboBox SelectedItem="{Binding WatchProgress}" ToolTip="{DynamicResource watched_tt}" Width="145" HorizontalAlignment="Left"
+                      ItemsSource="{Binding Path=DataContext.FilmProgresses, 
+                      RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
             <TextBlock Text="{DynamicResource start_watch_date_tt}">
                 <TextBlock.Style>

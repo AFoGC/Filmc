@@ -88,8 +88,8 @@
             <TextBox Text="{Binding RealiseYear, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource year_tt}" 
                      Width="{DynamicResource id_width}"/>
 
-            <CheckBox IsChecked="{Binding IsWatched}" ToolTip="{DynamicResource watched_tt}" 
-                      Margin="20,0" IsEnabled="False"/>
+            <TextBox Text="{Binding WatchProgress.Name, Mode=OneWay}" ToolTip="{DynamicResource watched_tt}"
+                     Width="{DynamicResource rw_progress_width}"/>
 
             <TextBox ToolTip="{DynamicResource mark_tt}" Width="{DynamicResource mark_width}"
                      Style="{DynamicResource MarkTextBox}"/>

@@ -31,11 +31,8 @@ namespace Filmc.Wpf.Repositories
 
         public IEnumerable<IBaseRepository> Repositories { get; }
 
-        public RepositoriesFacade(string connection)
+        public RepositoriesFacade(FilmsContext filmsContext)
         {
-            var opt = SqliteDbContextOptionsBuilderExtensions.UseSqlite(new DbContextOptionsBuilder(), connection).Options;
-            FilmsContext filmsContext = new FilmsContext(opt);
-
             _filmsContext = filmsContext;
 
             BookCategories = new BookCategoryRepository(filmsContext.BookCategories);
@@ -54,54 +51,22 @@ namespace Filmc.Wpf.Repositories
             FilmTags = new FilmTagRepository(filmsContext.FilmTags);
             FilmProgresses = new FilmWatchProgressRepository(filmsContext.FilmWatchProgresses);
 
-            Repositories = new IBaseRepository[] 
-            { 
-                BookCategories, 
-                BookGenres, 
-                BooksInPriorities, 
-                BookSources, 
-                BookTags, 
-                FilmCategories, 
-                FilmGenres, 
-                FilmInPriorities, 
-                Films, 
-                FilmSources, 
-                FilmTags 
-            };
-        }
-
-        public RepositoriesFacade(FilmsContext filmsContext)
-        {
-            _filmsContext = filmsContext;
-
-            BookCategories = new BookCategoryRepository(filmsContext.BookCategories);
-            BookGenres = new BookGenreRepository(filmsContext.BookGenres);
-            BooksInPriorities = new BookInPriorityRepository(filmsContext.BooksInPriorities);
-            Books = new BookRepository(filmsContext.Books);
-            BookSources = new BookSourceRepository(filmsContext.BookSources);
-            BookTags = new BookTagRepository(filmsContext.BookTags);
-            
-
-            FilmCategories = new FilmCategoryRepository(filmsContext.FilmCategories);
-            FilmGenres = new FilmGenreRepository(filmsContext.FilmGenres);
-            FilmInPriorities = new FilmInPriorityRepository(filmsContext.FilmsInPriorities);
-            Films = new FilmRepository(filmsContext.Films);
-            FilmSources = new FilmSourceRepository(filmsContext.FilmSources);
-            FilmTags = new FilmTagRepository(filmsContext.FilmTags);
-
             Repositories = new IBaseRepository[]
             {
                 BookCategories,
                 BookGenres,
                 BooksInPriorities,
+                Books,
                 BookSources,
                 BookTags,
+                BookProgresses,
                 FilmCategories,
                 FilmGenres,
                 FilmInPriorities,
                 Films,
                 FilmSources,
-                FilmTags
+                FilmTags,
+                FilmProgresses
             };
         }
 

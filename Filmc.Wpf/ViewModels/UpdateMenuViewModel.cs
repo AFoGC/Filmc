@@ -57,6 +57,8 @@ namespace Filmc.Wpf.ViewModels
         public BookGenreRepository BookGenres => _profilesService.SelectedProfile.TablesContext.BookGenres;
         public FilmTagRepository FilmTags => _profilesService.SelectedProfile.TablesContext.FilmTags;
         public BookTagRepository BookTags => _profilesService.SelectedProfile.TablesContext.BookTags;
+        public FilmWatchProgressRepository FilmProgresses => _profilesService.SelectedProfile.TablesContext.FilmProgresses;
+        public BookReadProgressRepository BookProgresses => _profilesService.SelectedProfile.TablesContext.BookProgresses;
 
         public List<int?>? FilmMarks
         {
@@ -253,6 +255,8 @@ namespace Filmc.Wpf.ViewModels
             OnPropertyChanged(nameof(BookGenres));
             OnPropertyChanged(nameof(FilmTags));
             OnPropertyChanged(nameof(BookTags));
+            OnPropertyChanged(nameof(FilmProgresses));
+            OnPropertyChanged(nameof(BookProgresses));
         }
 
         private void OnFilmsMarkSystemChanged()

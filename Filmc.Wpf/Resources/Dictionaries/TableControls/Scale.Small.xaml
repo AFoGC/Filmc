@@ -12,6 +12,7 @@
     <v:Double x:Key="bookmark_width">84</v:Double>
     <v:Double x:Key="date_width">58</v:Double>
     <v:Double x:Key="mark_width">43</v:Double>
+    <v:Double x:Key="rw_progress_width">52</v:Double>
 
     <v:Double x:Key="control_height">15</v:Double>
     <GridLength x:Key="row_height">15</GridLength>

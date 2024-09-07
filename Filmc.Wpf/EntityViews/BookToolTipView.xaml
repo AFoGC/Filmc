@@ -20,8 +20,8 @@
             <TextBox Text="{Binding PublicationYear, StringFormat='{}{0:#}'}" ToolTip="{DynamicResource year_tt}" 
                      Width="{DynamicResource id_width}"/>
 
-            <CheckBox IsChecked="{Binding IsReaded}" ToolTip="{DynamicResource readed_tt}" 
-                      Margin="20,0" IsEnabled="False" />
+            <TextBox Text="{Binding ReadProgress.Name, Mode=OneWay}" ToolTip="{DynamicResource readed_tt}"
+                     Width="{DynamicResource rw_progress_width}"/>
 
             <TextBox Text="{Binding Author}" ToolTip="{DynamicResource author_tt}" 
                      Width="{DynamicResource genre_width}"/>
