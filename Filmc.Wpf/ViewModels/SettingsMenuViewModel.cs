@@ -39,6 +39,10 @@ namespace Filmc.Wpf.ViewModels
         private RelayCommand? deleteFilmTagCommand;
         private RelayCommand? addBookTagCommand;
         private RelayCommand? deleteBookTagCommand;
+        private RelayCommand? addFilmProgressCommand;
+        private RelayCommand? deleteFilmProgressCommand;
+        private RelayCommand? addBookProgressCommand;
+        private RelayCommand? deleteBookProgressCommand;
 
         private static readonly char[] symbols = new char[]
         { '"', '\\', '/', ':', '|', '<', '>', '*', '?' };
@@ -250,6 +254,68 @@ namespace Filmc.Wpf.ViewModels
 
                     if (genre != null && genre.Model.Books.Count == 0)
                         TablesViewModel.BookTags!.Remove(genre.Model);
+                }));
+            }
+        }
+
+        public RelayCommand AddFilmProgressCommand
+        {
+            get
+            {
+                return addFilmProgressCommand ??
+                (addFilmProgressCommand = new RelayCommand(obj =>
+                {
+                    var progresses = _selectedProfile!.TablesContext.FilmProgresses;
+
+                    int i = progresses.Count + 1;
+                    FilmWatchProgress progress = new FilmWatchProgress { Name = $"Name{i}" };
+                    _selectedProfile?.TablesContext.FilmProgresses.Add(progress);
+                }));
+            }
+        }
+
+        public RelayCommand DeleteFilmProgressCommand
+        {
+            get
+            {
+                return deleteFilmProgressCommand ??
+                (deleteFilmProgressCommand = new RelayCommand(obj =>
+                {
+                    FilmWatchProgressViewModel? vm = obj as FilmWatchProgressViewModel;
+
+                    if (vm != null && vm.Model.Films.Count == 0)
+                        TablesViewModel.FilmProgresses!.Remove(vm.Model);
+                }));
+            }
+        }
+
+        public RelayCommand AddBookProgressCommand
+        {
+            get
+            {
+                return addBookProgressCommand ??
+                (addBookProgressCommand = new RelayCommand(obj =>
+                {
+                    var progresses = _selectedProfile!.TablesContext.BookProgresses;
+
+                    int i = progresses.Count + 1;
+                    BookReadProgress progress = new BookReadProgress { Name = $"Name{i}" };
+                    _selectedProfile?.TablesContext.BookProgresses.Add(progress);
+                }));
+            }
+        }
+
+        public RelayCommand DeleteBookProgressCommand
+        {
+            get
+            {
+                return deleteBookProgressCommand ??
+                (deleteBookProgressCommand = new RelayCommand(obj =>
+                {
+                    BookReadProgressViewModel? vm = obj as BookReadProgressViewModel;
+
+                    if (vm != null && vm.Model.Books.Count == 0)
+                        TablesViewModel.BookProgresses!.Remove(vm.Model);
                 }));
             }
         }

@@ -22,11 +22,15 @@ namespace Filmc.Wpf.ViewModels
         private BookGenreRepository? _bookGenres;
         private FilmTagRepository? _filmTags;
         private BookTagRepository? _bookTags;
+        private FilmWatchProgressRepository? _filmProgresses;
+        private BookReadProgressRepository? _bookProgresses;
 
         private readonly EntityObserver<FilmGenre, FilmGenreViewModel> _filmGenreEntityObserver;
         private readonly EntityObserver<BookGenre, BookGenreViewModel> _bookGenreEntityObserver;
         private readonly EntityObserver<FilmTag, FilmTagViewModel> _filmTagEntityObserver;
         private readonly EntityObserver<BookTag, BookTagViewModel> _bookTagEntityObserver;
+        private readonly EntityObserver<FilmWatchProgress, FilmWatchProgressViewModel> _filmProgressEntityObserver;
+        private readonly EntityObserver<BookReadProgress, BookReadProgressViewModel> _bookProgressEntityObserver;
 
         public SettingsTablesViewModel(GlobalSettingsService settingsService)
         {
@@ -37,11 +41,15 @@ namespace Filmc.Wpf.ViewModels
             BookGenresVMs = new ObservableCollection<BookGenreViewModel>();
             FilmTagsVMs = new ObservableCollection<FilmTagViewModel>();
             BookTagsVMs = new ObservableCollection<BookTagViewModel>();
+            FilmProgressVMs = new ObservableCollection<FilmWatchProgressViewModel>();
+            BookProgressVMs = new ObservableCollection<BookReadProgressViewModel>();
 
             _filmGenreEntityObserver = new EntityObserver<FilmGenre, FilmGenreViewModel>(FilmGenresVMs, CreateFilmGenre);
             _bookGenreEntityObserver = new EntityObserver<BookGenre, BookGenreViewModel>(BookGenresVMs, CreateBookGenre);
             _filmTagEntityObserver = new EntityObserver<FilmTag, FilmTagViewModel>(FilmTagsVMs, CreateFilmTag);
             _bookTagEntityObserver = new EntityObserver<BookTag, BookTagViewModel>(BookTagsVMs, CreateBookTag);
+            _filmProgressEntityObserver = new EntityObserver<FilmWatchProgress, FilmWatchProgressViewModel>(FilmProgressVMs, CreateFilmWatchProgress);
+            _bookProgressEntityObserver = new EntityObserver<BookReadProgress, BookReadProgressViewModel>(BookProgressVMs, CreateBookReadProgress);
 
             ProfilesInit();
             OnProfileChanged(_profilesService.SelectedProfile);
@@ -55,6 +63,8 @@ namespace Filmc.Wpf.ViewModels
         public ObservableCollection<BookGenreViewModel> BookGenresVMs { get; }
         public ObservableCollection<FilmTagViewModel> FilmTagsVMs { get; }
         public ObservableCollection<BookTagViewModel> BookTagsVMs { get; }
+        public ObservableCollection<FilmWatchProgressViewModel> FilmProgressVMs { get; }
+        public ObservableCollection<BookReadProgressViewModel> BookProgressVMs { get; }
 
         public FilmGenreRepository? FilmGenres
         {
@@ -75,6 +85,16 @@ namespace Filmc.Wpf.ViewModels
         {
             get => _bookTags;
             set { _bookTags = value; OnPropertyChanged(); }
+        }
+        public FilmWatchProgressRepository? FilmProgresses
+        {
+            get => _filmProgresses;
+            set { _filmProgresses = value; OnPropertyChanged(); }
+        }
+        public BookReadProgressRepository? BookProgresses
+        {
+            get => _bookProgresses;
+            set { _bookProgresses = value; OnPropertyChanged(); }
         }
 
         private void ProfilesInit()
@@ -110,11 +130,15 @@ namespace Filmc.Wpf.ViewModels
             BookGenres = newProfile.TablesContext.BookGenres;
             FilmTags = newProfile.TablesContext.FilmTags;
             BookTags = newProfile.TablesContext.BookTags;
+            FilmProgresses = newProfile.TablesContext.FilmProgresses;
+            BookProgresses = newProfile.TablesContext.BookProgresses;
 
             _filmGenreEntityObserver.SetSource(FilmGenres);
             _bookGenreEntityObserver.SetSource(BookGenres);
             _filmTagEntityObserver.SetSource(FilmTags);
             _bookTagEntityObserver.SetSource(BookTags);
+            _filmProgressEntityObserver.SetSource(FilmProgresses);
+            _bookProgressEntityObserver.SetSource(BookProgresses);
         }
 
         private FilmGenreViewModel CreateFilmGenre(FilmGenre entity)
@@ -135,6 +159,16 @@ namespace Filmc.Wpf.ViewModels
         private BookTagViewModel CreateBookTag(BookTag entity)
         {
             return new BookTagViewModel(entity);
+        }
+
+        private FilmWatchProgressViewModel CreateFilmWatchProgress(FilmWatchProgress entity)
+        {
+            return new FilmWatchProgressViewModel(entity);
+        }
+
+        private BookReadProgressViewModel CreateBookReadProgress(BookReadProgress entity)
+        {
+            return new BookReadProgressViewModel(entity);
         }
     }
 }

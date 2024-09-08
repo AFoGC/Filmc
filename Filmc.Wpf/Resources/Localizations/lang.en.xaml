@@ -127,7 +127,7 @@
     <v:String x:Key="end_watch_date_tt">End Watch Date</v:String>
     <v:String x:Key="watched_series_tt">Count Of Watched Series</v:String>
     <v:String x:Key="total_series_tt">Total Series</v:String>
-    <v:String x:Key="watched_tt">Watched</v:String>
+    <v:String x:Key="watched_tt">View status</v:String>
     <v:String x:Key="cov_tt">Count of views</v:String>
     <v:String x:Key="comment_tt">Comment</v:String>
 
@@ -135,7 +135,7 @@
     <v:String x:Key="bookmark_tt">Bookmark</v:String>
     <v:String x:Key="end_read_date_tt">End Read Date</v:String>
     <v:String x:Key="start_read_date_tt">Start Read Date</v:String>
-    <v:String x:Key="readed_tt">Readed</v:String>
+    <v:String x:Key="readed_tt">Read status</v:String>
     <v:String x:Key="cor_tt">Count of readings</v:String>
 
     <v:String x:Key="add_in_category_tt">Create new element in group</v:String>
@@ -171,14 +171,14 @@
     <v:String x:Key="end_watch_date_utt">End Watch Date (Date(dd.mm.yyyy))</v:String>
     <v:String x:Key="watched_series_utt">Count Of Watched Series (Integer number)</v:String>
     <v:String x:Key="total_series_utt">Total Series (Integer number)</v:String>
-    <v:String x:Key="watched_utt">Watched (Boolean)</v:String>
+    <v:String x:Key="watched_utt">View status</v:String>
     <v:String x:Key="cov_utt">Count of views (Integer number)</v:String>
     <v:String x:Key="comment_utt">Comment (Text)</v:String>
 
     <v:String x:Key="author_utt">Author (Text)</v:String>
     <v:String x:Key="bookmark_utt">Bookmark (Text)</v:String>
     <v:String x:Key="end_read_date_utt">End Read Date (Date(dd.mm.yyyy))</v:String>
-    <v:String x:Key="readed_utt">Readed (Boolean)</v:String>
+    <v:String x:Key="readed_utt">Read status</v:String>
     <v:String x:Key="cor_utt">Count of readings (Integer number)</v:String>
 
     <!--Update Menu ToolTips-->
@@ -210,5 +210,11 @@
     <v:String x:Key="book_tag_label">Books Tags</v:String>
     <v:String x:Key="add_tag_btn">Add Tag</v:String>
     <v:String x:Key="filter_tag_label">Filter by tag</v:String>
+
+    <!--Read/Watch Progress-->
+    <v:String x:Key="film_progress_label">View statuses</v:String>
+    <v:String x:Key="book_progress_label">Read statuses</v:String>
+    <v:String x:Key="add_status_btn">Add status</v:String>
+    <v:String x:Key="st_del_status">Delete status</v:String>
 
 </ResourceDictionary>

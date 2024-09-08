@@ -137,6 +137,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Border Grid.Column="1" Grid.RowSpan="3"
@@ -145,18 +146,19 @@
                     <!--Films Mark System Settings-->
                     <StackPanel Grid.Column="0" Grid.Row="0" Margin="0,0,0,20">
                         <Label Content="{DynamicResource st_fmark_title}" Foreground="White" FontSize="16"
-                               BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
+                               BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
 
                         <ComboBox Style="{StaticResource DarkComboBox}" Width="200" HorizontalAlignment="Left"
                                   SelectedItem="{Binding FilmMarkSystem}" ItemsSource="{Binding MarkSystems}"
-                                  ItemStringFormat="{}{0}/{0}"/>
+                                  ItemStringFormat="{}{0}/{0}" Margin="10,0,0,0"/>
                     </StackPanel>
 
                     <!--Films Genres-->
                     <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,0,20">
                         <Label Content="{DynamicResource st_fgenre_title}" Foreground="White" FontSize="16"
-                           BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                        <ItemsControl ItemsSource="{Binding TablesViewModel.FilmGenresVMs}">
+                               BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
+
+                        <ItemsControl ItemsSource="{Binding TablesViewModel.FilmGenresVMs}" Margin="10,0,0,0">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel />
@@ -180,16 +182,18 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        
                         <Button Style="{StaticResource GrayButton}" Content="{DynamicResource st_add_genre}"
-                            HorizontalAlignment="Left" Width="200" Height="20" Margin="0 5 0 0"
-                            Command="{Binding AddFilmGenreCommand}"/>
+                                HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
+                                Command="{Binding AddFilmGenreCommand}"/>
                     </StackPanel>
 
                     <!--Films Tags-->
                     <StackPanel Grid.Column="0" Grid.Row="2" Margin="0,0,0,20">
                         <Label Content="{DynamicResource film_tag_label}" Foreground="White" FontSize="16"
-                               BorderThickness="0 0 0 1" Margin="0,0,0,5" BorderBrush="#FF7A7A7A"/>
-                        <ItemsControl ItemsSource="{Binding TablesViewModel.FilmTagsVMs}">
+                               BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
+
+                        <ItemsControl ItemsSource="{Binding TablesViewModel.FilmTagsVMs}" Margin="10,0,0,0">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel />
@@ -209,9 +213,45 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        
                         <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_tag_btn}"
-                            HorizontalAlignment="Left" Width="200" Height="20" Margin="0 5 0 0"
+                            HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
                             Command="{Binding AddFilmTagCommand}"/>
+                        
+                    </StackPanel>
+
+                    <!--Films Progresses-->
+                    <StackPanel Grid.Column="0" Grid.Row="3" Margin="0,0,0,20">
+
+                        <Label Content="{DynamicResource film_progress_label}" Foreground="White" FontSize="16"
+                               BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
+
+                        <ItemsControl ItemsSource="{Binding TablesViewModel.FilmProgressVMs}" Margin="10,0,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Height="20" Orientation="Horizontal">
+                                        <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
+                                        <Rectangle Width="20"/>
+                                        <Button Style="{StaticResource GrayButton}"
+                                                Content="{DynamicResource st_del_status}" Width="100"
+                                                Command="{Binding Path=DataContext.DeleteFilmProgressCommand, 
+                                                RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
+                                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_status_btn}"
+                                HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
+                                Command="{Binding AddFilmProgressCommand}"/>
+                        
                     </StackPanel>
 
                     <!--Books Mark System Settings-->
@@ -223,8 +263,8 @@
                                BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
 
                             <ComboBox Style="{StaticResource DarkComboBox}" Width="200" HorizontalAlignment="Left"
-                                  SelectedItem="{Binding BookMarkSystem}" ItemsSource="{Binding MarkSystems}"
-                                  ItemStringFormat="{}{0}/{0}" Margin="10,0,0,0"/>
+                                      SelectedItem="{Binding BookMarkSystem}" ItemsSource="{Binding MarkSystems}"
+                                      ItemStringFormat="{}{0}/{0}" Margin="10,0,0,0"/>
                         </StackPanel>
                     </Border>
                     
@@ -234,6 +274,7 @@
                             BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGray}">
 
                         <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,0,0,20">
+                            
                             <Label Content="{DynamicResource st_bgenre_title}" Foreground="White" FontSize="16"
                                    BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
 
@@ -243,6 +284,7 @@
                                         <StackPanel />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
+                                
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Height="20" Orientation="Horizontal">
@@ -257,15 +299,16 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+                            
                             <Button Style="{StaticResource GrayButton}" Content="{DynamicResource st_add_genre}"
-                            HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
-                            Command="{Binding AddBookGenreCommand}" />
+                                    HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
+                                    Command="{Binding AddBookGenreCommand}" />
                         </StackPanel>
                     </Border>
                    
 
                     <!--Books Tags-->
-                    <Border Grid.Column="1" Grid.Row="2" BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGradient}">
+                    <Border Grid.Column="1" Grid.Row="2" BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGray}">
 
                         <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,0,0,20">
                             <Label Content="{DynamicResource book_tag_label}" Foreground="White" FontSize="16"
@@ -277,23 +320,59 @@
                                         <StackPanel />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
+                                
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Height="20" Orientation="Horizontal">
                                             <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
                                             <Rectangle Width="20"/>
                                             <Button Style="{StaticResource GrayButton}"
-                                            Content="{DynamicResource st_del_tag}" Width="100"
-                                            Command="{Binding Path=DataContext.DeleteBookTagCommand, 
-                                            RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
-                                            CommandParameter="{Binding}"/>
+                                                    Content="{DynamicResource st_del_tag}" Width="100"
+                                                    Command="{Binding Path=DataContext.DeleteBookTagCommand, 
+                                                    RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
+                                                    CommandParameter="{Binding}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+                            
                             <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_tag_btn}"
-                            HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
-                            Command="{Binding AddBookTagCommand}"/>
+                                    HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
+                                    Command="{Binding AddBookTagCommand}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!--Books Progresses-->
+                    <Border Grid.Column="1" Grid.Row="3" BorderThickness="1,0,0,0" BorderBrush="{StaticResource BorderGradient}">
+                        
+                        <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,0,0,20">
+                            <Label Content="{DynamicResource book_progress_label}" Foreground="White" FontSize="16"
+                                   BorderThickness="0 0 0 1" Margin="0,0,0,5" Padding="10,5,5,5" BorderBrush="#FF7A7A7A"/>
+
+                            <ItemsControl ItemsSource="{Binding TablesViewModel.BookProgressVMs}" Margin="10,0,0,0">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Height="20" Orientation="Horizontal">
+                                            <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
+                                            <Rectangle Width="20"/>
+                                            <Button Style="{StaticResource GrayButton}"
+                                                    Content="{DynamicResource st_del_status}" Width="100"
+                                                    Command="{Binding Path=DataContext.DeleteBookProgressCommand, 
+                                                    RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
+                                                    CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Button Style="{StaticResource GrayButton}" Content="{DynamicResource add_status_btn}"
+                                    HorizontalAlignment="Left" Width="200" Height="20" Margin="10 5 0 0"
+                                    Command="{Binding AddBookProgressCommand}"/>
                         </StackPanel>
                     </Border>
                 </Grid>

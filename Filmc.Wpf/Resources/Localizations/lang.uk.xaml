@@ -127,7 +127,7 @@
     <v:String x:Key="end_watch_date_tt">Дата закінчення перегляду</v:String>
     <v:String x:Key="watched_series_tt">Кількість переглянутих серій</v:String>
     <v:String x:Key="total_series_tt">Всього серій</v:String>
-    <v:String x:Key="watched_tt">Переглянуто</v:String>
+    <v:String x:Key="watched_tt">Статус перегляду</v:String>
     <v:String x:Key="cov_tt">Кількість переглядів</v:String>
     <v:String x:Key="comment_tt">Коментар</v:String>
 
@@ -135,7 +135,7 @@
     <v:String x:Key="bookmark_tt">Закладка</v:String>
     <v:String x:Key="end_read_date_tt">Дата закінчення читання</v:String>
     <v:String x:Key="start_read_date_tt">Дата початку читання</v:String>
-    <v:String x:Key="readed_tt">Прочитано</v:String>
+    <v:String x:Key="readed_tt">Статус читання</v:String>
     <v:String x:Key="cor_tt">Кількість читань</v:String>
 
     <v:String x:Key="add_in_category_tt">Створити новий елемент в групі</v:String>
@@ -171,14 +171,14 @@
     <v:String x:Key="end_watch_date_utt">Дата закінчення перегляду (Дата(дд.мм.рррр))</v:String>
     <v:String x:Key="watched_series_utt">Кількість переглянутих серій (Ціле число)</v:String>
     <v:String x:Key="total_series_utt">Всього серій (Ціле число)</v:String>
-    <v:String x:Key="watched_utt">Переглянуто (Бульове значення)</v:String>
+    <v:String x:Key="watched_utt">Статус перегляду</v:String>
     <v:String x:Key="cov_utt">Кількісить переглядів (Ціле число)</v:String>
     <v:String x:Key="comment_utt">Коментар (Текст)</v:String>
 
     <v:String x:Key="author_utt">Автор (Текст)</v:String>
     <v:String x:Key="bookmark_utt">Закладка (Текст)</v:String>
     <v:String x:Key="end_read_date_utt">Дата закінчення читання (Дата(дд.мм.рррр))</v:String>
-    <v:String x:Key="readed_utt">Прочитано (Бульове значення)</v:String>
+    <v:String x:Key="readed_utt">Статус читання</v:String>
     <v:String x:Key="cor_utt">Кількість читань (Ціле число)</v:String>
 
     <!--Update Menu ToolTips-->
@@ -209,5 +209,11 @@
     <v:String x:Key="book_tag_label">Теги книжок</v:String>
     <v:String x:Key="add_tag_btn">Додати тег</v:String>
     <v:String x:Key="filter_tag_label">Фільтр за тегом</v:String>
-    
+
+    <!--Read/Watch Progress-->
+    <v:String x:Key="film_progress_label">Статуси перегляду</v:String>
+    <v:String x:Key="book_progress_label">Статуси читання</v:String>
+    <v:String x:Key="add_status_btn">Додати статус</v:String>
+    <v:String x:Key="st_del_status">Видалити статус</v:String>
+
 </ResourceDictionary>
