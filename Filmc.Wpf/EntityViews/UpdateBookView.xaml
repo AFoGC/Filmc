@@ -45,7 +45,7 @@
             <TextBox Text="{Binding Name}" />
 
             <TextBlock Text="{DynamicResource genre_tt}" />
-            <ComboBox SelectedItem="{Binding Genre}" ToolTip="{DynamicResource mark_utt}" Width="145" HorizontalAlignment="Left"
+            <ComboBox SelectedItem="{Binding Genre}" ToolTip="{DynamicResource genre_utt}" Width="145" HorizontalAlignment="Left"
                       ItemsSource="{Binding Path=DataContext.BookGenres, 
                       RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
 
