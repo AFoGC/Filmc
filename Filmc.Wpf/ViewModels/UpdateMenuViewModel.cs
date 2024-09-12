@@ -25,13 +25,6 @@ namespace Filmc.Wpf.ViewModels
         private List<int?>? _filmMarks;
         private List<int?>? _bookMarks;
 
-        private RelayCommand? removeTagCommand;
-        private RelayCommand? closeMenuCommand;
-        private RelayCommand? addSource;
-        private RelayCommand? removeSource;
-        private RelayCommand? setFirstSource;
-        private RelayCommand? checkIsTextCommand;
-
         public UpdateMenuViewModel(MarkSystemService markSystemService, ProfilesService profilesService)
         {
             _markSystemService = markSystemService;
@@ -45,6 +38,13 @@ namespace Filmc.Wpf.ViewModels
 
             OnFilmsMarkSystemChanged();
             OnBooksMarkSystemChanged();
+
+            RemoveTagMenuCommand = new RelayCommand(RemoveTagMenu);
+            CloseMenuCommand = new RelayCommand(CloseMenu);
+            AddSource = new RelayCommand(AddSourceAction);
+            RemoveSource = new RelayCommand(RemoveSourceAction);
+            SetFirstSource = new RelayCommand(SetFirstSourceAction);
+            CheckIsTextCommand = new RelayCommand(CheckIsText);
         }
 
         public bool IsVisible => _currentEntityViewModel != null;
@@ -130,122 +130,87 @@ namespace Filmc.Wpf.ViewModels
             }
         }
 
-        public RelayCommand RemoveTagMenuCommand
+        public RelayCommand RemoveTagMenuCommand { get; }
+        public RelayCommand CloseMenuCommand { get; }
+        public RelayCommand AddSource { get; }
+        public RelayCommand RemoveSource { get; }
+        public RelayCommand SetFirstSource { get; }
+        public RelayCommand CheckIsTextCommand { get; }
+
+        public void RemoveTagMenu(object? obj)
         {
-            get
+            FilmTag? filmHasTag = obj as FilmTag;
+            FilmViewModel? filmViewModel = _currentEntityViewModel as FilmViewModel;
+
+            if (filmHasTag != null && filmViewModel != null)
             {
-                return removeTagCommand ??
-                (removeTagCommand = new RelayCommand(obj =>
+                if (filmViewModel.Model.Tags.Contains(filmHasTag))
                 {
-                    FilmTag? filmHasTag = obj as FilmTag;
-                    FilmViewModel? filmViewModel = _currentEntityViewModel as FilmViewModel;
+                    filmViewModel.Model.Tags.Remove(filmHasTag);
+                    _profilesService.SelectedProfile.TablesContext.SaveChanges();
+                }
+                return;
+            }
 
-                    if (filmHasTag != null && filmViewModel != null)
-                    {
-                        if (filmViewModel.Model.Tags.Contains(filmHasTag))
-                        {
-                            filmViewModel.Model.Tags.Remove(filmHasTag);
-                            _profilesService.SelectedProfile.TablesContext.SaveChanges();
-                        }
-                        return;
-                    }
+            BookTag? bookHasTag = obj as BookTag;
+            BookViewModel? bookViewModel = _currentEntityViewModel as BookViewModel;
 
-                    BookTag? bookHasTag = obj as BookTag;
-                    BookViewModel? bookViewModel = _currentEntityViewModel as BookViewModel;
-
-                    if (bookHasTag != null && bookViewModel != null)
-                    {
-                        if (bookViewModel.Model.Tags.Contains(bookHasTag))
-                        {
-                            bookViewModel.Model.Tags.Remove(bookHasTag);
-                            _profilesService.SelectedProfile.TablesContext.SaveChanges();
-                        }
-                        return;
-                    }
-                }));
+            if (bookHasTag != null && bookViewModel != null)
+            {
+                if (bookViewModel.Model.Tags.Contains(bookHasTag))
+                {
+                    bookViewModel.Model.Tags.Remove(bookHasTag);
+                    _profilesService.SelectedProfile.TablesContext.SaveChanges();
+                }
+                return;
             }
         }
 
-        public RelayCommand CloseMenuCommand
+        public void CloseMenu(object? obj)
         {
-            get
-            {
-                return closeMenuCommand ??
-                (closeMenuCommand = new RelayCommand(obj =>
-                {
-                    CloseMenu();
-                }));
-            }
+            CloseMenu();
         }
 
-        public RelayCommand AddSource
+        public void AddSourceAction(object? obj)
         {
-            get
-            {
-                return addSource ??
-                (addSource = new RelayCommand(obj =>
-                {
-                    Profile profile = _profilesService.SelectedProfile;
-                    IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
+            Profile profile = _profilesService.SelectedProfile;
+            IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
 
-                    if (viewModel != null)
-                        viewModel.AddSource(profile);
-                }));
-            }
+            if (viewModel != null)
+                viewModel.AddSource(profile);
         }
 
-        public RelayCommand RemoveSource
+        public void RemoveSourceAction(object? obj)
         {
-            get
-            {
-                return removeSource ??
-                (removeSource = new RelayCommand(obj =>
-                {
-                    Profile profile = _profilesService.SelectedProfile;
+            Profile profile = _profilesService.SelectedProfile;
 
-                    IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
-                    ISource? source = obj as ISource;
+            IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
+            ISource? source = obj as ISource;
 
-                    if (viewModel != null)
-                        if (source != null)
-                            viewModel.RemoveSource(source, profile);
-                }));
-            }
+            if (viewModel != null)
+                if (source != null)
+                    viewModel.RemoveSource(source, profile);
         }
 
-        public RelayCommand SetFirstSource
+        public void SetFirstSourceAction(object? obj)
         {
-            get
-            {
-                return setFirstSource ??
-                (setFirstSource = new RelayCommand(obj =>
-                {
-                    Profile profile = _profilesService.SelectedProfile;
+            Profile profile = _profilesService.SelectedProfile;
 
-                    IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
-                    ISource? source = obj as ISource;
+            IHasSourcesViewModel? viewModel = CurrentEntityViewModel as IHasSourcesViewModel;
+            ISource? source = obj as ISource;
 
-                    if (viewModel != null)
-                        if (source != null)
-                            viewModel.RemoveSource(source, profile);
-                }));
-            }
+            if (viewModel != null)
+                if (source != null)
+                    viewModel.RemoveSource(source, profile);
         }
 
-        public RelayCommand CheckIsTextCommand
+        public void CheckIsText(object? obj)
         {
-            get
-            {
-                return checkIsTextCommand ??
-                (checkIsTextCommand = new RelayCommand(obj =>
-                {
-                    TextCompositionEventArgs? e = obj as TextCompositionEventArgs;
+            TextCompositionEventArgs? e = obj as TextCompositionEventArgs;
 
-                    if (e != null)
-                    {
-                        e.Handled = _numericRegex.IsMatch(e.Text);
-                    }
-                }));
+            if (e != null)
+            {
+                e.Handled = _numericRegex.IsMatch(e.Text);
             }
         }
 

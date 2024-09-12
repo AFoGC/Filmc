@@ -28,11 +28,6 @@ namespace Filmc.Wpf.ViewModels
         private readonly ExitWindowService _exitService;
         private readonly GlobalSettingsService _settingsService;
 
-        private RelayCommand? saveSettingsCommand;
-        private RelayCommand? saveAndExitCommand;
-        private RelayCommand? keyDownCommand;
-        private RelayCommand? checkUpdateCommand;
-
         public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel,
                SettingsMenuViewModel settingsMenuViewModel, UpdateMenuViewModel updateMenuViewModel,
                StatusBarViewModel statusBarViewModel, GlobalSettingsService settingsService, 
@@ -50,7 +45,17 @@ namespace Filmc.Wpf.ViewModels
             StatusBarViewModel = statusBarViewModel;
 
             FilmsSelected = true;
+
+            SaveSettingsCommand = new RelayCommand(SaveSettings);
+            SaveAndExitCommand = new RelayCommand(SaveAndExit);
+            KeyDownCommand = new RelayCommand(KeyDown);
+            CheckUpdateCommand = new RelayCommand(CheckUpdate);
         }
+
+        public RelayCommand SaveSettingsCommand { get; }
+        public RelayCommand SaveAndExitCommand { get; }
+        public RelayCommand KeyDownCommand { get; }
+        public RelayCommand CheckUpdateCommand { get; }
 
         public StatusBarViewModel StatusBarViewModel { get; }
 
@@ -117,68 +122,40 @@ namespace Filmc.Wpf.ViewModels
             get => _updateMenuViewModel;
         }
 
-        public RelayCommand SaveSettingsCommand
+        public void SaveSettings(object? obj)
         {
-            get
+            _settingsService.SaveSettings();
+            _settingsService.ProfilesService.SelectedProfile.DeleteTempFile(true);
+        }
+
+        public void SaveAndExit(object? obj)
+        {
+            Profile selectedProfile = _settingsService.ProfilesService.SelectedProfile;
+
+            if (selectedProfile.IsChangesSaved == false)
             {
-                return saveSettingsCommand ??
-                (saveSettingsCommand = new RelayCommand(obj =>
-                {
-                    _settingsService.SaveSettings();
-                    _settingsService.ProfilesService.SelectedProfile.DeleteTempFile(true);
-                }));
+                CancelEventArgs? e = obj as CancelEventArgs;
+                _exitService.ShowDialog();
+
+                if (_exitService.Save)
+                    selectedProfile.SaveTables();
+
+                e.Cancel = !_exitService.Close;
             }
         }
 
-        public RelayCommand SaveAndExitCommand
+        public void KeyDown(object? obj)
         {
-            get
+            KeyEventArgs? e = obj as KeyEventArgs;
+            if (e.Key == Key.S && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
             {
-                return saveAndExitCommand ??
-                (saveAndExitCommand = new RelayCommand(obj =>
-                {
-                    Profile selectedProfile = _settingsService.ProfilesService.SelectedProfile;
-
-                    if (selectedProfile.IsChangesSaved == false)
-                    {
-                        CancelEventArgs? e = obj as CancelEventArgs;
-                        _exitService.ShowDialog();
-
-                        if (_exitService.Save)
-                            selectedProfile.SaveTables();
-
-                        e.Cancel = !_exitService.Close;
-                    }
-                }));
+                _settingsService.ProfilesService.SelectedProfile.SaveTables();
             }
         }
 
-        public RelayCommand KeyDownCommand
+        public void CheckUpdate(object? obj)
         {
-            get
-            {
-                return keyDownCommand ??
-                (keyDownCommand = new RelayCommand(obj =>
-                {
-                    KeyEventArgs e = obj as KeyEventArgs;
-                    if (e.Key == Key.S && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
-                    {
-                        _settingsService.ProfilesService.SelectedProfile.SaveTables();
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand CheckUpdateCommand
-        {
-            get
-            {
-                return checkUpdateCommand ??
-                (checkUpdateCommand = new RelayCommand(obj =>
-                {
-                    _updateProgramSerivce.CheckUpdate();
-                }));
-            }
+            _updateProgramSerivce.CheckUpdate();
         }
     }
 }

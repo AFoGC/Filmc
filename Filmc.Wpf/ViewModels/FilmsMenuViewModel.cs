@@ -33,23 +33,6 @@ namespace Filmc.Wpf.ViewModels
 
         private FilmViewModel? _selectedFilm;
 
-        private RelayCommand? changeMenuModeCommand;
-        private RelayCommand? addCategoryCommand;
-        private RelayCommand? addFilmCommand;
-        private RelayCommand? addFilmByUrlCommand;
-        private RelayCommand? addFilmInCategoryCommand;
-        private RelayCommand? saveTablesCommand;
-        private RelayCommand? filterCommand;
-        private RelayCommand? selectCommand;
-        private RelayCommand? addSelectedToCategory;
-        private RelayCommand? removeSelectedFromCategory;
-        private RelayCommand? removeCategoryCommand;
-        private RelayCommand? addFilmToPriorityCommand;
-        private RelayCommand? deleteFilmCommand;
-        private RelayCommand? removeFilmFromPriorityCommand;
-        private RelayCommand? checkGenresCommand;
-        private RelayCommand? checkTagsCommand;
-
         public FilmsMenuViewModel(FilmsModel model, UpdateMenuService updateMenuService, 
                                   BackgroundImageService backgroundImageService, AddEntityWindowService addEntityWindowService)
         {
@@ -65,7 +48,41 @@ namespace Filmc.Wpf.ViewModels
 
             RefreshGenresChecked();
             RefreshTagsChecked();
+
+            ChangeMenuModeCommand = new RelayCommand(ChangeMenuMode);
+            AddCategoryCommand = new RelayCommand(AddCategory);
+            RemoveCategoryCommand = new RelayCommand(RemoveCategory);
+            AddFilmCommand = new RelayCommand(AddFilm);
+            AddFilmByUrlCommand = new RelayCommand(AddFilmByUrl);
+            AddFilmInCategoryCommand = new RelayCommand(AddFilmInCategory);
+            SaveTablesCommand = new RelayCommand(SaveTables);
+            FilterCommand = new RelayCommand(Filter);
+            SelectCommand = new RelayCommand(Select);
+            AddSelectedToCategory = new RelayCommand(AddSelected);
+            RemoveSelectedFromCategory = new RelayCommand(RemoveSelected);
+            AddFilmToPriorityCommand = new RelayCommand(AddFilmToPriority);
+            RemoveFilmFromPriorityCommand = new RelayCommand(RemoveFilmFromPriority);
+            DeleteFilmCommand = new RelayCommand(DeleteFilm);
+            CheckGenresCommand = new RelayCommand(CheckGenres);
+            CheckTagsCommand = new RelayCommand(CheckTags);
         }
+
+        public RelayCommand ChangeMenuModeCommand { get; }
+        public RelayCommand AddCategoryCommand { get; }
+        public RelayCommand RemoveCategoryCommand { get; }
+        public RelayCommand AddFilmCommand { get; }
+        public RelayCommand AddFilmByUrlCommand { get; }
+        public RelayCommand AddFilmInCategoryCommand { get; }
+        public RelayCommand SaveTablesCommand { get; }
+        public RelayCommand FilterCommand { get; }
+        public RelayCommand SelectCommand { get; }
+        public RelayCommand AddSelectedToCategory { get; }
+        public RelayCommand RemoveSelectedFromCategory { get; }
+        public RelayCommand AddFilmToPriorityCommand { get; }
+        public RelayCommand RemoveFilmFromPriorityCommand { get; }
+        public RelayCommand DeleteFilmCommand { get; }
+        public RelayCommand CheckGenresCommand { get; }
+        public RelayCommand CheckTagsCommand { get; }
 
         public FilmTablesViewModel TablesViewModel { get; }
         public BackgroundImageViewModel BackgroundImageViewModel { get; }
@@ -141,274 +158,160 @@ namespace Filmc.Wpf.ViewModels
             }
         }
 
-        public RelayCommand ChangeMenuModeCommand
+        public void ChangeMenuMode(object? obj)
         {
-            get
+            TablesViewModel.MenuMode = (FilmsMenuMode)obj;
+        }
+
+        public void AddCategory(object? obj)
+        {
+            _model.AddCategory();
+        }
+
+        public void RemoveCategory(object? obj)
+        {
+            FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+
+            if (categoryVM != null)
             {
-                return changeMenuModeCommand ??
-                (changeMenuModeCommand = new RelayCommand(obj =>
-                {
-                    TablesViewModel.MenuMode = (FilmsMenuMode)obj;
-                }));
+                _model.RemoveCategory(categoryVM.Model);
             }
         }
 
-        public RelayCommand AddCategoryCommand
+        public void AddFilm(object? obj)
         {
-            get
+            _model.AddFilm();
+        }
+
+        public void AddFilmByUrl(object? obj)
+        {
+            _addEntityWindowService.OpenAddFilmWindow();
+        }
+
+        public void AddFilmInCategory(object? obj)
+        {
+            FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+
+            if (categoryVM != null)
+                _model.AddFilm(categoryVM.Model);
+        }
+
+        public void SaveTables(object? obj)
+        {
+            _model.SaveTables();
+        }
+
+        public void Filter(object? obj)
+        {
+            RefreshGenresChecked();
+            RefreshTagsChecked();
+
+            var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
+            var selectedTags = TablesViewModel.TagVMs.Where(x => x.IsChecked);
+            var selectedProgress = TablesViewModel.ProgressVMs.Where(x => x.IsChecked);
+
+            foreach (var item in TablesViewModel.FilmVMs)
             {
-                return addCategoryCommand ?? 
-                (addCategoryCommand = new RelayCommand(obj =>
-                {
-                    _model.AddCategory();
-                }));
+                item.IsFiltered = IsFilmPassingFilter(selectedTags, selectedGenres, selectedProgress, item.Model);
+            }
+
+            foreach (var item in TablesViewModel.CategoryVMs)
+            {
+                item.IsFiltered = TablesViewModel.FilmVMs
+                    .Where(x => x.Model.Category == item.Model)
+                    .Any(x => x.IsFiltered);
             }
         }
 
-        public RelayCommand RemoveCategoryCommand
+        public void Select(object? obj)
         {
-            get
-            {
-                return removeCategoryCommand ??
-                (removeCategoryCommand = new RelayCommand(obj =>
-                {
-                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+            FilmViewModel? viewModel = obj as FilmViewModel;
+            SelectedFilm = viewModel;
+        }
 
-                    if (categoryVM != null)
-                    {
-                        _model.RemoveCategory(categoryVM.Model);
-                    }
-                }));
+        public void AddSelected(object? obj)
+        {
+            FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+
+            if (categoryVM != null && SelectedFilm != null)
+            {
+                _model.AddFilmToCategory(categoryVM.Model, SelectedFilm.Model);
             }
         }
 
-
-        public RelayCommand AddFilmCommand
+        public void RemoveSelected(object? obj)
         {
-            get
+            FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+
+            if (categoryVM != null && SelectedFilm != null)
             {
-                return addFilmCommand ?? 
-                (addFilmCommand = new RelayCommand(obj =>
-                {
-                    _model.AddFilm();
-                }));
+                _model.RemoveFilmFromCategory(categoryVM.Model, SelectedFilm.Model);
             }
         }
 
-        public RelayCommand AddFilmByUrlCommand
+        public void AddFilmToPriority(object? obj)
         {
-            get
+            FilmViewModel? viewModel = obj as FilmViewModel;
+
+            if (viewModel != null)
             {
-                return addFilmByUrlCommand ??
-                (addFilmByUrlCommand = new RelayCommand(obj =>
-                {
-                    _addEntityWindowService.OpenAddFilmWindow();
-                }));
+                _model.AddFilmToPriority(viewModel.Model);
             }
         }
 
-        public RelayCommand AddFilmInCategoryCommand
+        public void RemoveFilmFromPriority(object? obj)
         {
-            get
-            {
-                return addFilmInCategoryCommand ??
-                (addFilmInCategoryCommand = new RelayCommand(obj =>
-                {
-                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
+            FilmViewModel? viewModel = obj as FilmViewModel;
 
-                    if (categoryVM != null)
-                        _model.AddFilm(categoryVM.Model);
-                }));
+            if (viewModel != null)
+            {
+                _model.RemoveFilmFromPriority(viewModel.Model);
             }
         }
 
-
-        public RelayCommand SaveTablesCommand
+        public void DeleteFilm(object? obj)
         {
-            get
+            FilmViewModel? viewModel = obj as FilmViewModel;
+
+            if (viewModel != null)
             {
-                return saveTablesCommand ?? 
-                (saveTablesCommand = new RelayCommand(obj =>
-                {
-                    _model.SaveTables();
-                }));
-            }
-        }
-            
-
-        public RelayCommand FilterCommand
-        {
-            get
-            {
-                return filterCommand ?? (filterCommand = new RelayCommand(obj =>
-                {
-                    RefreshGenresChecked();
-                    RefreshTagsChecked();
-
-                    var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
-                    var selectedTags = TablesViewModel.TagVMs.Where(x => x.IsChecked);
-                    var selectedProgress = TablesViewModel.ProgressVMs.Where(x => x.IsChecked);
-
-                    foreach (var item in TablesViewModel.FilmVMs)
-                    {
-                        item.IsFiltered = IsFilmPassingFilter(selectedTags, selectedGenres, selectedProgress, item.Model);
-                    }
-
-                    foreach (var item in TablesViewModel.CategoryVMs)
-                    {
-                        item.IsFiltered = TablesViewModel.FilmVMs
-                            .Where(x => x.Model.Category == item.Model)
-                            .Any(x => x.IsFiltered);
-                    }
-                }));
+                Film film = viewModel.Model;
+                _model.DeleteFilm(film);
             }
         }
 
-        public RelayCommand SelectCommand
+        public void CheckGenres(object? obj)
         {
-            get
+            if (IsAllGenresChecked)
             {
-                return selectCommand ??
-                (selectCommand = new RelayCommand(obj =>
-                {
-                    FilmViewModel? viewModel = obj as FilmViewModel;
-                    SelectedFilm = viewModel;
-                }));
+                foreach (var vm in TablesViewModel.GenreVMs)
+                    vm.IsChecked = false;
             }
+            else
+            {
+                foreach (var vm in TablesViewModel.GenreVMs)
+                    vm.IsChecked = true;
+            }
+
+            RefreshGenresChecked();
+            FilterCommand.Execute(obj);
         }
 
-        public RelayCommand AddSelectedToCategory
+        public void CheckTags(object? obj)
         {
-            get
+            if (IsAllTagsChecked)
             {
-                return addSelectedToCategory ??
-                (addSelectedToCategory = new RelayCommand(obj => 
-                {
-                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
-
-                    if (categoryVM != null && SelectedFilm != null)
-                    {
-                        _model.AddFilmToCategory(categoryVM.Model, SelectedFilm.Model);
-                    }
-                }));
+                foreach (var vm in TablesViewModel.TagVMs)
+                    vm.IsChecked = false;
             }
-        }
-
-        public RelayCommand RemoveSelectedFromCategory
-        {
-            get
+            else
             {
-                return removeSelectedFromCategory ??
-                (removeSelectedFromCategory = new RelayCommand(obj =>
-                {
-                    FilmCategoryViewModel? categoryVM = obj as FilmCategoryViewModel;
-
-                    if (categoryVM != null && SelectedFilm != null)
-                    {
-                        _model.RemoveFilmFromCategory(categoryVM.Model, SelectedFilm.Model);
-                    }
-                }));
+                foreach (var vm in TablesViewModel.TagVMs)
+                    vm.IsChecked = true;
             }
-        }
 
-        public RelayCommand AddFilmToPriorityCommand
-        {
-            get
-            {
-                return addFilmToPriorityCommand ??
-                (addFilmToPriorityCommand = new RelayCommand(obj =>
-                {
-                    FilmViewModel? viewModel = obj as FilmViewModel;
-
-                    if (viewModel != null)
-                    {
-                        _model.AddFilmToPriority(viewModel.Model);
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand RemoveFilmFromPriorityCommand
-        {
-            get
-            {
-                return removeFilmFromPriorityCommand ??
-                (removeFilmFromPriorityCommand = new RelayCommand(obj =>
-                {
-                    FilmViewModel? viewModel = obj as FilmViewModel;
-
-                    if (viewModel != null)
-                    {
-                        _model.RemoveFilmFromPriority(viewModel.Model);
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand DeleteFilmCommand
-        {
-            get
-            {
-                return deleteFilmCommand ??
-                (deleteFilmCommand = new RelayCommand(obj =>
-                {
-                    FilmViewModel? viewModel = obj as FilmViewModel;
-
-                    if (viewModel != null)
-                    {
-                        Film film = viewModel.Model;
-                        _model.DeleteFilm(film);
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand CheckGenresCommand
-        {
-            get
-            {
-                return checkGenresCommand ??
-                (checkGenresCommand = new RelayCommand(obj =>
-                {
-                    if (IsAllGenresChecked)
-                    {
-                        foreach (var vm in TablesViewModel.GenreVMs)
-                            vm.IsChecked = false;
-                    }
-                    else
-                    {
-                        foreach (var vm in TablesViewModel.GenreVMs)
-                            vm.IsChecked = true;
-                    }
-
-                    RefreshGenresChecked();
-                    FilterCommand.Execute(obj);
-                }));
-            }
-        }
-
-        public RelayCommand CheckTagsCommand
-        {
-            get
-            {
-                return checkTagsCommand ??
-                (checkTagsCommand = new RelayCommand(obj =>
-                {
-                    if (IsAllTagsChecked)
-                    {
-                        foreach (var vm in TablesViewModel.TagVMs)
-                            vm.IsChecked = false;
-                    }
-                    else
-                    {
-                        foreach (var vm in TablesViewModel.TagVMs)
-                            vm.IsChecked = true;
-                    }
-
-                    RefreshTagsChecked();
-                    FilterCommand.Execute(obj);
-                }));
-            }
+            RefreshTagsChecked();
+            FilterCommand.Execute(obj);
         }
 
         private void RefreshGenresChecked()

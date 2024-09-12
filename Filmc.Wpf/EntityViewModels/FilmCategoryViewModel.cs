@@ -23,15 +23,6 @@ namespace Filmc.Wpf.EntityViewModels
         private bool _isCollectionVisible;
         private bool _isSelected;
 
-        private RelayCommand? collapseCommand;
-        private RelayCommand? openedContextMenuCommand;
-        private RelayCommand? closedContextMenuCommand;
-        private RelayCommand? upInCategoryCommand;
-        private RelayCommand? downInCategoryCommand;
-        private RelayCommand? removeFromCategoryCommand;
-        private RelayCommand? openUpdateMenuCommand;
-        private RelayCommand? removeMarkCommand;
-
         public FilmCategoryViewModel(FilmCategory model, ObservableCollection<FilmViewModel> filmsViewModel, 
                                      UpdateMenuService updateMenuService, IRepositoriesSaved repositories)
         {
@@ -44,7 +35,25 @@ namespace Filmc.Wpf.EntityViewModels
 
             _updateMenuService = updateMenuService;
             _repositories = repositories;
+
+            CollapseCommand = new RelayCommand(Collapse);
+            OpenedContextMenuCommand = new RelayCommand(OpenedContextMenu);
+            ClosedContextMenuCommand = new RelayCommand(ClosedContextMenu);
+            UpInCategoryCommand = new RelayCommand(UpInCategory);
+            DownInCategoryCommand = new RelayCommand(DownInCategory);
+            RemoveFromCategoryCommand = new RelayCommand(RemoveFromCategory);
+            OpenUpdateMenuCommand = new RelayCommand(OpenUpdateMenu);
+            RemoveMarkCommand = new RelayCommand(RemoveMark);
         }
+
+        public RelayCommand CollapseCommand { get; }
+        public RelayCommand OpenedContextMenuCommand { get; }
+        public RelayCommand ClosedContextMenuCommand { get; }
+        public RelayCommand UpInCategoryCommand { get; }
+        public RelayCommand DownInCategoryCommand { get; }
+        public RelayCommand RemoveFromCategoryCommand { get; }
+        public RelayCommand OpenUpdateMenuCommand { get; }
+        public RelayCommand RemoveMarkCommand { get; }
 
         public FilmsInCategoryViewCollection FilmsVC { get; }
 
@@ -95,118 +104,62 @@ namespace Filmc.Wpf.EntityViewModels
             set { _isSelected = value; OnPropertyChanged(); }
         }
 
-        public RelayCommand CollapseCommand
+        public void Collapse(object? obj)
         {
-            get
+            IsCollectionVisible = !IsCollectionVisible;
+        }
+
+        public void OpenedContextMenu(object? obj)
+        {
+            IsSelected = true;
+        }
+
+        public void ClosedContextMenu(object? obj)
+        {
+            IsSelected = false;
+        }
+
+        public void UpInCategory(object? obj)
+        {
+            FilmViewModel? filmViewModel = obj as FilmViewModel;
+
+            if (filmViewModel != null)
             {
-                return collapseCommand ??
-                (collapseCommand = new RelayCommand(obj =>
-                {
-                    IsCollectionVisible = !IsCollectionVisible;
-                }));
+                Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId - 1);
+                _repositories.SaveChanges();
             }
         }
 
-        public RelayCommand OpenedContextMenuCommand
+        public void DownInCategory(object? obj)
         {
-            get
+            FilmViewModel? filmViewModel = obj as FilmViewModel;
+
+            if (filmViewModel != null)
             {
-                return openedContextMenuCommand ??
-                (openedContextMenuCommand = new RelayCommand(obj =>
-                {
-                    IsSelected = true;
-                }));
+                Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId + 1);
+                _repositories.SaveChanges();
             }
         }
 
-        public RelayCommand ClosedContextMenuCommand
+        public void RemoveFromCategory(object? obj)
         {
-            get
+            FilmViewModel? filmViewModel = obj as FilmViewModel;
+
+            if (filmViewModel != null)
             {
-                return closedContextMenuCommand ??
-                (closedContextMenuCommand = new RelayCommand(obj =>
-                {
-                    IsSelected = false;
-                }));
+                Model.RemoveFilmInOrder(filmViewModel.Model);
+                _repositories.SaveChanges();
             }
         }
 
-        public RelayCommand UpInCategoryCommand
+        public void OpenUpdateMenu(object? obj)
         {
-            get
-            {
-                return upInCategoryCommand ??
-                (upInCategoryCommand = new RelayCommand(obj =>
-                {
-                    FilmViewModel? filmViewModel = obj as FilmViewModel;
-
-                    if (filmViewModel != null)
-                    {
-                        Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId - 1);
-                        _repositories.SaveChanges();
-                    }
-                }));
-            }
+            _updateMenuService.OpenUpdateMenu(this);
         }
 
-        public RelayCommand DownInCategoryCommand
+        public void RemoveMark(object? obj)
         {
-            get
-            {
-                return downInCategoryCommand ??
-                (downInCategoryCommand = new RelayCommand(obj =>
-                {
-                    FilmViewModel? filmViewModel = obj as FilmViewModel;
-
-                    if (filmViewModel != null)
-                    {
-                        Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId + 1);
-                        _repositories.SaveChanges();
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand RemoveFromCategoryCommand
-        {
-            get
-            {
-                return removeFromCategoryCommand ??
-                (removeFromCategoryCommand = new RelayCommand(obj =>
-                {
-                    FilmViewModel? filmViewModel = obj as FilmViewModel;
-
-                    if (filmViewModel != null)
-                    {
-                        Model.RemoveFilmInOrder(filmViewModel.Model);
-                        _repositories.SaveChanges();
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand OpenUpdateMenuCommand
-        {
-            get
-            {
-                return openUpdateMenuCommand ??
-                (openUpdateMenuCommand = new RelayCommand(obj =>
-                {
-                    _updateMenuService.OpenUpdateMenu(this);
-                }));
-            }
-        }
-
-        public RelayCommand RemoveMarkCommand
-        {
-            get
-            {
-                return removeMarkCommand ??
-                (removeMarkCommand = new RelayCommand(obj =>
-                {
-                    Model.Mark.RawMark = null;
-                }));
-            }
+            Model.Mark.RawMark = null;
         }
 
         private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)

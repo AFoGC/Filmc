@@ -23,11 +23,6 @@ namespace Filmc.Wpf.EntityViewModels
         private bool _isCommentVisible;
         private bool _isSelected;
 
-        private RelayCommand? copyUrlCommand;
-        private RelayCommand? openCommentCommand;
-        private RelayCommand? openUpdateMenuCommand;
-        private RelayCommand? removeMarkCommand;
-
         public BookViewModel(Book model, UpdateMenuService updateMenuService)
         {
             Model = model;
@@ -40,7 +35,17 @@ namespace Filmc.Wpf.EntityViewModels
 
             _isCommentVisible = false;
             _isSelected = false;
+
+            CopyUrlCommand = new RelayCommand(CopyUrl);
+            OpenCommentCommand = new RelayCommand(OpenComment);
+            OpenUpdateMenuCommand = new RelayCommand(OpenUpdateMenu);
+            RemoveMarkCommand = new RelayCommand(RemoveMark);
         }
+
+        public RelayCommand CopyUrlCommand { get; }
+        public RelayCommand OpenCommentCommand { get; }
+        public RelayCommand OpenUpdateMenuCommand { get; }
+        public RelayCommand RemoveMarkCommand { get; }
 
         public int Id
         {
@@ -207,52 +212,24 @@ namespace Filmc.Wpf.EntityViewModels
             }
         }
 
-        public RelayCommand CopyUrlCommand
+        public void CopyUrl(object? obj)
         {
-            get
-            {
-                return copyUrlCommand ??
-                (copyUrlCommand = new RelayCommand(obj =>
-                {
-                    ClipboardHelper.CopySourceUrlToClipboard(Model.Sources);
-                }));
-            }
+            ClipboardHelper.CopySourceUrlToClipboard(Model.Sources);
         }
 
-        public RelayCommand OpenCommentCommand
+        public void OpenComment(object? obj)
         {
-            get
-            {
-                return openCommentCommand ??
-                (openCommentCommand = new RelayCommand(obj =>
-                {
-                    IsCommentVisible = !IsCommentVisible;
-                }));
-            }
+            IsCommentVisible = !IsCommentVisible;
         }
 
-        public RelayCommand OpenUpdateMenuCommand
+        public void OpenUpdateMenu(object? obj)
         {
-            get
-            {
-                return openUpdateMenuCommand ??
-                (openUpdateMenuCommand = new RelayCommand(obj =>
-                {
-                    _updateMenuService.OpenUpdateMenu(this);
-                }));
-            }
+            _updateMenuService.OpenUpdateMenu(this);
         }
 
-        public RelayCommand RemoveMarkCommand
+        public void RemoveMark(object? obj)
         {
-            get
-            {
-                return removeMarkCommand ??
-                (removeMarkCommand = new RelayCommand(obj =>
-                {
-                    Model.Mark.RawMark = null;
-                }));
-            }
+            Model.Mark.RawMark = null;
         }
 
         private void RemoveCategoryPropertyChanged()

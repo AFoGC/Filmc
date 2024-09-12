@@ -13,15 +13,18 @@ namespace Filmc.Wpf.ViewModels
     {
         private readonly BackgroundImageService _backgroundImageService;
 
-        private RelayCommand? changeBackgroundImageCommand;
-        private RelayCommand? removeBackgroundImageCommand;
-
         public BackgroundImageViewModel(BackgroundImageService backgroundImageService)
         {
             _backgroundImageService = backgroundImageService;
             _backgroundImageService.ImageChanged += OnImageChanged;
             _backgroundImageService.OpacityChanged += OnOpacityChanged;
+
+            ChangeBackgroundImageCommand = new RelayCommand(ChangeBackgroundImage);
+            RemoveBackgroundImageCommand = new RelayCommand(RemoveBackgroundImage);
         }
+
+        public RelayCommand ChangeBackgroundImageCommand { get; }
+        public RelayCommand RemoveBackgroundImageCommand { get; }
 
         public BitmapImage? Image => _backgroundImageService.Image;
         public string? ImageName => _backgroundImageService.ImageName;
@@ -43,38 +46,24 @@ namespace Filmc.Wpf.ViewModels
             OnPropertyChanged(nameof(Opacity));
         }
 
-        public RelayCommand ChangeBackgroundImageCommand
+        public void ChangeBackgroundImage(object? obj)
         {
-            get
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+
+            //dialog.FileName = "Image";
+            //dialog.DefaultExt = ".png";
+            //dialog.Filter = "Images (.png)|*.png";
+
+            bool? result = dialog.ShowDialog();
+            if (result == true)
             {
-                return changeBackgroundImageCommand ??
-                (changeBackgroundImageCommand = new RelayCommand(obj =>
-                {
-                    var dialog = new Microsoft.Win32.OpenFileDialog();
-
-                    //dialog.FileName = "Image";
-                    //dialog.DefaultExt = ".png";
-                    //dialog.Filter = "Images (.png)|*.png";
-
-                    bool? result = dialog.ShowDialog();
-                    if (result == true)
-                    {
-                        _backgroundImageService.SetNewImage(dialog.FileName);
-                    }
-                }));
+                _backgroundImageService.SetNewImage(dialog.FileName);
             }
         }
 
-        public RelayCommand RemoveBackgroundImageCommand
+        public void RemoveBackgroundImage(object? obj)
         {
-            get
-            {
-                return removeBackgroundImageCommand ??
-                (removeBackgroundImageCommand = new RelayCommand(obj =>
-                {
-                    _backgroundImageService.SetNewImage(null);
-                }));
-            }
+            _backgroundImageService.SetNewImage(null);
         }
     }
 }

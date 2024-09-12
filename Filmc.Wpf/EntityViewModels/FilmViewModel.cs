@@ -24,10 +24,6 @@ namespace Filmc.Wpf.EntityViewModels
 
         private bool _isSelected;
 
-        private RelayCommand? copyUrlCommand;
-        private RelayCommand? openUpdateMenuCommand;
-        private RelayCommand? removeMarkCommand;
-
         public FilmViewModel(Film model, UpdateMenuService updateMenuService)
         {
             Model = model;
@@ -39,7 +35,15 @@ namespace Filmc.Wpf.EntityViewModels
             _updateMenuService = updateMenuService;
 
             _isSelected = false;
+
+            CopyUrlCommand = new RelayCommand(CopyUrl);
+            OpenUpdateMenuCommand = new RelayCommand(OpenUpdateMenu);
+            RemoveMarkCommand = new RelayCommand(RemoveMark);
         }
+
+        public RelayCommand CopyUrlCommand { get; }
+        public RelayCommand OpenUpdateMenuCommand { get; }
+        public RelayCommand RemoveMarkCommand { get; }
 
         public int Id
         {
@@ -206,40 +210,19 @@ namespace Filmc.Wpf.EntityViewModels
             }
         }
 
-        public RelayCommand CopyUrlCommand
+        public void CopyUrl(object? obj)
         {
-            get
-            {
-                return copyUrlCommand ??
-                (copyUrlCommand = new RelayCommand(obj =>
-                {
-                    ClipboardHelper.CopySourceUrlToClipboard(Model.Sources);
-                }));
-            }
+            ClipboardHelper.CopySourceUrlToClipboard(Model.Sources);
+        }
+        
+        public void OpenUpdateMenu(object? obj)
+        {
+            _updateMenuService.OpenUpdateMenu(this);
         }
 
-        public RelayCommand OpenUpdateMenuCommand
+        public void RemoveMark(object? obj)
         {
-            get
-            {
-                return openUpdateMenuCommand ??
-                (openUpdateMenuCommand = new RelayCommand(obj =>
-                {
-                    _updateMenuService.OpenUpdateMenu(this);
-                }));
-            }
-        }
-
-        public RelayCommand RemoveMarkCommand
-        {
-            get
-            {
-                return removeMarkCommand ??
-                (removeMarkCommand = new RelayCommand(obj =>
-                {
-                    Model.Mark.RawMark = null;
-                }));
-            }
+            Model.Mark.RawMark = null;
         }
 
         private void RemoveCategoryPropertyChanged()

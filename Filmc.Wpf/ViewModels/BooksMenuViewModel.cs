@@ -27,23 +27,6 @@ namespace Filmc.Wpf.ViewModels
 
         private BookViewModel? _selectedBook;
 
-        private RelayCommand? changeMenuModeCommand;
-        private RelayCommand? addCategoryCommand;
-        private RelayCommand? addBookCommand;
-        private RelayCommand? addBookByUrlCommand;
-        private RelayCommand? addBookInCategoryCommand;
-        private RelayCommand? saveTablesCommand;
-        private RelayCommand? filterCommand;
-        private RelayCommand? selectCommand;
-        private RelayCommand? addSelectedToCategory;
-        private RelayCommand? removeSelectedFromCategory;
-        private RelayCommand? addBookToPriorityCommand;
-        private RelayCommand? deleteBookCommand;
-        private RelayCommand? removeCategoryCommand;
-        private RelayCommand? removeBookFromPriorityCommand;
-        private RelayCommand? checkGenresCommand;
-        private RelayCommand? checkTagsCommand;
-
         public BooksMenuViewModel(BooksModel model, UpdateMenuService updateMenuService, 
                                   BackgroundImageService backgroundImageService, AddEntityWindowService addEntityWindowService)
         {
@@ -59,7 +42,41 @@ namespace Filmc.Wpf.ViewModels
 
             RefreshGenresChecked();
             RefreshTagsChecked();
+
+            ChangeMenuModeCommand = new RelayCommand(ChangeMenuMode);
+            AddCategoryCommand = new RelayCommand(AddCategory);
+            RemoveCategoryCommand = new RelayCommand(RemoveCategory);
+            AddBookCommand = new RelayCommand(AddBook);
+            AddBookByUrlCommand = new RelayCommand(AddBookByUrl);
+            AddBookInCategoryCommand = new RelayCommand(AddBookInCategory);
+            SaveTablesCommand = new RelayCommand(SaveTables);
+            FilterCommand = new RelayCommand(Filter);
+            SelectCommand = new RelayCommand(Select);
+            AddSelectedToCategory = new RelayCommand(AddSelected);
+            RemoveSelectedFromCategory = new RelayCommand(RemoveSelected);
+            AddBookToPriorityCommand = new RelayCommand(AddBookToPriority);
+            RemoveBookFromPriorityCommand = new RelayCommand(RemoveBookFromPriority);
+            DeleteBookCommand = new RelayCommand(DeleteBook);
+            CheckGenresCommand = new RelayCommand(CheckGenres);
+            CheckTagsCommand = new RelayCommand(CheckTags);
         }
+
+        public RelayCommand ChangeMenuModeCommand { get; }
+        public RelayCommand AddCategoryCommand { get; }
+        public RelayCommand RemoveCategoryCommand { get; }
+        public RelayCommand AddBookCommand { get; }
+        public RelayCommand AddBookByUrlCommand { get; }
+        public RelayCommand AddBookInCategoryCommand { get; }
+        public RelayCommand SaveTablesCommand { get; }
+        public RelayCommand FilterCommand { get; }
+        public RelayCommand SelectCommand { get; }
+        public RelayCommand AddSelectedToCategory { get; }
+        public RelayCommand RemoveSelectedFromCategory { get; }
+        public RelayCommand AddBookToPriorityCommand { get; }
+        public RelayCommand RemoveBookFromPriorityCommand { get; }
+        public RelayCommand DeleteBookCommand { get; }
+        public RelayCommand CheckGenresCommand { get; }
+        public RelayCommand CheckTagsCommand { get; }
 
         public BookTablesViewModel TablesViewModel { get; }
         public BackgroundImageViewModel BackgroundImageViewModel { get; }
@@ -135,274 +152,160 @@ namespace Filmc.Wpf.ViewModels
             }
         }
 
-        public RelayCommand ChangeMenuModeCommand
+        public void ChangeMenuMode(object? obj)
         {
-            get
+            TablesViewModel.MenuMode = (BooksMenuMode)obj;
+        }
+
+        public void AddCategory(object? obj)
+        {
+            _model.AddCategory();
+        }
+
+        public void RemoveCategory(object? obj)
+        {
+            BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
+
+            if (categoryVM != null)
             {
-                return changeMenuModeCommand ??
-                (changeMenuModeCommand = new RelayCommand(obj =>
-                {
-                    TablesViewModel.MenuMode = (BooksMenuMode)obj;
-                }));
+                _model.RemoveCategory(categoryVM.Model);
             }
         }
 
-        public RelayCommand AddCategoryCommand
+        public void AddBook(object? obj)
         {
-            get
+            _model.AddBook();
+        }
+
+        public void AddBookByUrl(object? obj)
+        {
+            _addEntityWindowService.OpenAddBookWindow();
+        }
+
+        public void AddBookInCategory(object? obj)
+        {
+            BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
+
+            if (categoryVM != null)
+                _model.AddBook(categoryVM.Model);
+        }
+
+        public void SaveTables(object? obj)
+        {
+            _model.SaveTables();
+        }
+
+        public void Filter(object? obj)
+        {
+            RefreshGenresChecked();
+            RefreshTagsChecked();
+
+            var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
+            var selectedTags = TablesViewModel.TagVMs.Where(x => x.IsChecked);
+            var selectedProgress = TablesViewModel.ProgressVMs.Where(x => x.IsChecked);
+
+            foreach (var item in TablesViewModel.BooksVMs)
             {
-                return addCategoryCommand ??
-                (addCategoryCommand = new RelayCommand(obj =>
-                {
-                    _model.AddCategory();
-                }));
+                item.IsFiltered = IsBookPassingFilter(selectedTags, selectedGenres, selectedProgress, item.Model);
+            }
+
+            foreach (var item in TablesViewModel.CategoryVMs)
+            {
+                item.IsFiltered = TablesViewModel.BooksVMs
+                    .Where(x => x.Model.Category == item.Model)
+                    .Any(x => x.IsFiltered);
             }
         }
 
-        public RelayCommand RemoveCategoryCommand
+        public void Select(object? obj)
         {
-            get
-            {
-                return removeCategoryCommand ??
-                (removeCategoryCommand = new RelayCommand(obj =>
-                {
-                    BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
+            BookViewModel? viewModel = obj as BookViewModel;
+            SelectedBook = viewModel;
+        }
 
-                    if (categoryVM != null)
-                    {
-                        _model.RemoveCategory(categoryVM.Model);
-                    }
-                }));
+        public void AddSelected(object? obj)
+        {
+            BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
+
+            if (categoryVM != null && SelectedBook != null)
+            {
+                _model.AddBookToCategory(categoryVM.Model, SelectedBook.Model);
             }
         }
 
-
-        public RelayCommand AddBookCommand
+        public void RemoveSelected(object? obj)
         {
-            get
+            BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
+
+            if (categoryVM != null && SelectedBook != null)
             {
-                return addBookCommand ??
-                (addBookCommand = new RelayCommand(obj =>
-                {
-                    _model.AddBook();
-                }));
+                _model.RemoveBookFromCategory(categoryVM.Model, SelectedBook.Model);
             }
         }
 
-        public RelayCommand AddBookByUrlCommand
+        public void AddBookToPriority(object? obj)
         {
-            get
+            BookViewModel? viewModel = obj as BookViewModel;
+
+            if (viewModel != null)
             {
-                return addBookByUrlCommand ??
-                (addBookByUrlCommand = new RelayCommand(obj =>
-                {
-                    _addEntityWindowService.OpenAddBookWindow();
-                }));
+                _model.AddBookToPriority(viewModel.Model);
             }
         }
 
-        public RelayCommand AddBookInCategoryCommand
+        public void RemoveBookFromPriority(object? obj)
         {
-            get
-            {
-                return addBookInCategoryCommand ??
-                (addBookInCategoryCommand = new RelayCommand(obj =>
-                {
-                    BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
+            BookViewModel? viewModel = obj as BookViewModel;
 
-                    if (categoryVM != null)
-                        _model.AddBook(categoryVM.Model);
-                }));
+            if (viewModel != null)
+            {
+                _model.RemoveBookFromPriority(viewModel.Model);
             }
         }
 
-
-        public RelayCommand SaveTablesCommand
+        public void DeleteBook(object? obj)
         {
-            get
+            BookViewModel? viewModel = obj as BookViewModel;
+
+            if (viewModel != null)
             {
-                return saveTablesCommand ??
-                (saveTablesCommand = new RelayCommand(obj =>
-                {
-                    _model.SaveTables();
-                }));
+                Book book = viewModel.Model;
+                _model.DeleteBook(book);
             }
         }
 
-
-        public RelayCommand FilterCommand
+        public void CheckGenres(object? obj)
         {
-            get
+            if (IsAllGenresChecked)
             {
-                return filterCommand ?? (filterCommand = new RelayCommand(obj =>
-                {
-                    RefreshGenresChecked();
-                    RefreshTagsChecked();
-
-                    var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
-                    var selectedTags = TablesViewModel.TagVMs.Where(x => x.IsChecked);
-                    var selectedProgress = TablesViewModel.ProgressVMs.Where(x => x.IsChecked);
-
-                    foreach (var item in TablesViewModel.BooksVMs)
-                    {
-                        item.IsFiltered = IsBookPassingFilter(selectedTags, selectedGenres, selectedProgress, item.Model);
-                    }
-
-                    foreach (var item in TablesViewModel.CategoryVMs)
-                    {
-                        item.IsFiltered = TablesViewModel.BooksVMs
-                            .Where(x => x.Model.Category == item.Model)
-                            .Any(x => x.IsFiltered);
-                    }
-                }));
+                foreach (var vm in TablesViewModel.GenreVMs)
+                    vm.IsChecked = false;
             }
+            else
+            {
+                foreach (var vm in TablesViewModel.GenreVMs)
+                    vm.IsChecked = true;
+            }
+
+            RefreshGenresChecked();
+            FilterCommand.Execute(obj);
         }
 
-        public RelayCommand SelectCommand
+        public void CheckTags(object? obj)
         {
-            get
+            if (IsAllTagsChecked)
             {
-                return selectCommand ??
-                (selectCommand = new RelayCommand(obj =>
-                {
-                    BookViewModel? viewModel = obj as BookViewModel;
-                    SelectedBook = viewModel;
-                }));
+                foreach (var vm in TablesViewModel.TagVMs)
+                    vm.IsChecked = false;
             }
-        }
-
-        public RelayCommand AddSelectedToCategory
-        {
-            get
+            else
             {
-                return addSelectedToCategory ??
-                (addSelectedToCategory = new RelayCommand(obj =>
-                {
-                    BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
-
-                    if (categoryVM != null && SelectedBook != null)
-                    {
-                        _model.AddBookToCategory(categoryVM.Model, SelectedBook.Model);
-                    }
-                }));
+                foreach (var vm in TablesViewModel.TagVMs)
+                    vm.IsChecked = true;
             }
-        }
 
-        public RelayCommand RemoveSelectedFromCategory
-        {
-            get
-            {
-                return removeSelectedFromCategory ??
-                (removeSelectedFromCategory = new RelayCommand(obj =>
-                {
-                    BookCategoryViewModel? categoryVM = obj as BookCategoryViewModel;
-
-                    if (categoryVM != null && SelectedBook != null)
-                    {
-                        _model.RemoveBookFromCategory(categoryVM.Model, SelectedBook.Model);
-                    }
-                }));
-            }
-        }
-        
-        public RelayCommand AddBookToPriorityCommand
-        {
-            get
-            {
-                return addBookToPriorityCommand ??
-                (addBookToPriorityCommand = new RelayCommand(obj =>
-                {
-                    BookViewModel? viewModel = obj as BookViewModel;
-
-                    if (viewModel != null)
-                    {
-                        _model.AddBookToPriority(viewModel.Model);
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand RemoveBookFromPriorityCommand
-        {
-            get
-            {
-                return removeBookFromPriorityCommand ??
-                (removeBookFromPriorityCommand = new RelayCommand(obj =>
-                {
-                    BookViewModel? viewModel = obj as BookViewModel;
-
-                    if (viewModel != null)
-                    {
-                        _model.RemoveBookFromPriority(viewModel.Model);
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand DeleteBookCommand
-        {
-            get
-            {
-                return deleteBookCommand ??
-                (deleteBookCommand = new RelayCommand(obj =>
-                {
-                    BookViewModel? viewModel = obj as BookViewModel;
-
-                    if (viewModel != null)
-                    {
-                        Book book = viewModel.Model;
-                        _model.DeleteBook(book);
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand CheckGenresCommand
-        {
-            get
-            {
-                return checkGenresCommand ??
-                (checkGenresCommand = new RelayCommand(obj =>
-                {
-                    if (IsAllGenresChecked)
-                    {
-                        foreach (var vm in TablesViewModel.GenreVMs)
-                            vm.IsChecked = false;
-                    }
-                    else
-                    {
-                        foreach (var vm in TablesViewModel.GenreVMs)
-                            vm.IsChecked = true;
-                    }
-
-                    RefreshGenresChecked();
-                    FilterCommand.Execute(obj);
-                }));
-            }
-        }
-
-        public RelayCommand CheckTagsCommand
-        {
-            get
-            {
-                return checkTagsCommand ??
-                (checkTagsCommand = new RelayCommand(obj =>
-                {
-                    if (IsAllTagsChecked)
-                    {
-                        foreach (var vm in TablesViewModel.TagVMs)
-                            vm.IsChecked = false;
-                    }
-                    else
-                    {
-                        foreach (var vm in TablesViewModel.TagVMs)
-                            vm.IsChecked = true;
-                    }
-
-                    RefreshTagsChecked();
-                    FilterCommand.Execute(obj);
-                }));
-            }
+            RefreshTagsChecked();
+            FilterCommand.Execute(obj);
         }
 
         private void RefreshGenresChecked()

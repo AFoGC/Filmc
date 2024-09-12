@@ -30,8 +30,6 @@ namespace Filmc.Wpf.ViewModels
         private RepositoriesFacade? _tablesContext;
         private BooksMenuMode _menuMode;
 
-        private RelayCommand? sortTable;
-
         public BookTablesViewModel(BooksModel model, UpdateMenuService updateMenuService)
         {
             _menuMode = BooksMenuMode.Categories;
@@ -61,7 +59,11 @@ namespace Filmc.Wpf.ViewModels
             CategoriesVC.ChangeSortProperty("Id");
             BooksSimplifiedVC.ChangeSortProperty("Id");
             BooksVC.ChangeSortProperty("Id");
+
+            SortTable = new RelayCommand(Sort);
         }
+
+        public RelayCommand SortTable { get; }
 
         public ObservableCollection<BookViewModel> BooksVMs { get; }
         public ObservableCollection<BookCategoryViewModel> CategoryVMs { get; }
@@ -91,30 +93,24 @@ namespace Filmc.Wpf.ViewModels
             _progressEntityObserver.SetSource(_tablesContext.BookProgresses);
         }
 
-        public RelayCommand SortTable
+        public void Sort(object? obj)
         {
-            get
+            string? str = obj as string;
+
+            switch (MenuMode)
             {
-                return sortTable ?? (sortTable = new RelayCommand(obj =>
-                {
-                    string str = obj as string;
+                case BooksMenuMode.Categories:
+                    CategoriesVC.ChangeSortProperty(str);
+                    BooksSimplifiedVC.ChangeSortProperty(str);
+                    break;
 
-                    switch (MenuMode)
-                    {
-                        case BooksMenuMode.Categories:
-                            CategoriesVC.ChangeSortProperty(str);
-                            BooksSimplifiedVC.ChangeSortProperty(str);
-                            break;
+                case BooksMenuMode.Books:
+                    BooksVC.ChangeSortProperty(str);
+                    break;
 
-                        case BooksMenuMode.Books:
-                            BooksVC.ChangeSortProperty(str);
-                            break;
-
-                        case BooksMenuMode.Priorities:
-                            PrioritiesVC.ChangeSortProperty(str);
-                            break;
-                    }
-                }));
+                case BooksMenuMode.Priorities:
+                    PrioritiesVC.ChangeSortProperty(str);
+                    break;
             }
         }
 

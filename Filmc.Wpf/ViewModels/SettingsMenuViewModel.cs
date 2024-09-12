@@ -26,24 +26,6 @@ namespace Filmc.Wpf.ViewModels
 
         private Profile? _selectedProfile;
 
-        private RelayCommand? addFilmGenreCommand;
-        private RelayCommand? addBookGenreCommand;
-        private RelayCommand? deleteFilmGenreCommand;
-        private RelayCommand? deleteBookGenreCommand;
-        private RelayCommand? changeProfileCommand;
-        private RelayCommand? addProfileCommand;
-        private RelayCommand? deleteProfileCommand;
-        private RelayCommand? importProfileCommand;
-        private RelayCommand? openExplorerCommand;
-        private RelayCommand? addFilmTagCommand;
-        private RelayCommand? deleteFilmTagCommand;
-        private RelayCommand? addBookTagCommand;
-        private RelayCommand? deleteBookTagCommand;
-        private RelayCommand? addFilmProgressCommand;
-        private RelayCommand? deleteFilmProgressCommand;
-        private RelayCommand? addBookProgressCommand;
-        private RelayCommand? deleteBookProgressCommand;
-
         private static readonly char[] symbols = new char[]
         { '"', '\\', '/', ':', '|', '<', '>', '*', '?' };
 
@@ -67,8 +49,42 @@ namespace Filmc.Wpf.ViewModels
             Timers = new List<double> { 10, 15, 30, 60, 360, 600 };
             MarkSystems = new List<int> { 3, 5, 6, 10, 12, 25 };
 
-            
+            AddFilmGenreCommand = new RelayCommand(AddFilmGenre);
+            AddBookGenreCommand = new RelayCommand(AddBookGenre);
+            DeleteFilmGenreCommand = new RelayCommand(DeleteFilmGenre);
+            DeleteBookGenreCommand = new RelayCommand(DeleteBookGenre);
+            AddFilmTagCommand = new RelayCommand(AddFilmTag);
+            DeleteFilmTagCommand = new RelayCommand(DeleteFilmTag);
+            AddBookTagCommand = new RelayCommand(AddBookTag);
+            DeleteBookTagCommand = new RelayCommand(DeleteBookTag);
+            AddFilmProgressCommand = new RelayCommand(AddFilmProgress);
+            DeleteFilmProgressCommand = new RelayCommand(DeleteFilmProgress);
+            AddBookProgressCommand = new RelayCommand(AddBookProgress);
+            DeleteBookProgressCommand = new RelayCommand(DeleteBookProgress);
+            ChangeProfileCommand = new RelayCommand(ChangeProfile);
+            AddProfileCommand = new RelayCommand(AddProfile);
+            DeleteProfileCommand = new RelayCommand(DeleteProfile);
+            OpenExplorerCommand = new RelayCommand(OpenExplorer);
+            ImportProfileCommand = new RelayCommand(ImportProfile);
         }
+
+        public RelayCommand AddFilmGenreCommand { get; }
+        public RelayCommand AddBookGenreCommand { get; }
+        public RelayCommand DeleteFilmGenreCommand { get; }
+        public RelayCommand DeleteBookGenreCommand { get; }
+        public RelayCommand AddFilmTagCommand { get; }
+        public RelayCommand DeleteFilmTagCommand { get; }
+        public RelayCommand AddBookTagCommand { get; }
+        public RelayCommand DeleteBookTagCommand { get; }
+        public RelayCommand AddFilmProgressCommand { get; }
+        public RelayCommand DeleteFilmProgressCommand { get; }
+        public RelayCommand AddBookProgressCommand { get; }
+        public RelayCommand DeleteBookProgressCommand { get; }
+        public RelayCommand ChangeProfileCommand { get; }
+        public RelayCommand AddProfileCommand { get; }
+        public RelayCommand DeleteProfileCommand { get; }
+        public RelayCommand OpenExplorerCommand { get; }
+        public RelayCommand ImportProfileCommand { get; }
 
         public SettingsTablesViewModel TablesViewModel { get; }
         public BackgroundImageViewModel BackgroundImageViewModel { get; }
@@ -134,277 +150,158 @@ namespace Filmc.Wpf.ViewModels
             OnPropertyChanged(nameof(BookMarkSystem));
         }
 
-        public RelayCommand AddFilmGenreCommand
+        public void AddFilmGenre(object? obj)
         {
-            get
-            {
-                return addFilmGenreCommand ??
-                (addFilmGenreCommand = new RelayCommand(obj =>
-                {
-                    var filmGenres = _selectedProfile!.TablesContext.FilmGenres;
+            var filmGenres = _selectedProfile!.TablesContext.FilmGenres;
 
-                    int i = filmGenres.Count + 1;
-                    FilmGenre filmGenre = new FilmGenre { Name = $"Genre{i}" };
-                    _selectedProfile?.TablesContext.FilmGenres.Add(filmGenre);
-                }));
+            int i = filmGenres.Count + 1;
+            FilmGenre filmGenre = new FilmGenre { Name = $"Genre{i}" };
+            _selectedProfile?.TablesContext.FilmGenres.Add(filmGenre);
+        }
+
+        public void AddBookGenre(object? obj)
+        {
+            var bookGenres = _selectedProfile!.TablesContext.BookGenres;
+
+            int i = bookGenres.Count + 1;
+            BookGenre bookGenre = new BookGenre { Name = $"Genre{i}" };
+            _selectedProfile?.TablesContext.BookGenres.Add(bookGenre);
+        }
+
+        public void DeleteFilmGenre(object? obj)
+        {
+            FilmGenreViewModel? genre = obj as FilmGenreViewModel;
+
+            if (genre != null && genre.Model.Films.Count == 0)
+                TablesViewModel.FilmGenres!.Remove(genre.Model);
+        }
+
+        public void DeleteBookGenre(object? obj)
+        {
+            BookGenreViewModel? genre = obj as BookGenreViewModel;
+
+            if (genre != null && genre.Model.Books.Count == 0)
+                TablesViewModel.BookGenres!.Remove(genre.Model);
+        }
+
+        public void AddFilmTag(object? obj)
+        {
+            var filmTags = _selectedProfile!.TablesContext.FilmTags;
+
+            int i = filmTags.Count + 1;
+            FilmTag filmTag = new FilmTag { Name = $"Tag{i}" };
+            _selectedProfile?.TablesContext.FilmTags.Add(filmTag);
+        }
+
+        public void DeleteFilmTag(object? obj)
+        {
+            FilmTagViewModel? genre = obj as FilmTagViewModel;
+
+            if (genre != null && genre.Model.Films.Count == 0)
+                TablesViewModel.FilmTags!.Remove(genre.Model);
+        }
+
+        public void AddBookTag(object? obj)
+        {
+            var bookTags = _selectedProfile!.TablesContext.BookTags;
+
+            int i = bookTags.Count + 1;
+            BookTag bookTag = new BookTag { Name = $"Tag{i}" };
+            _selectedProfile?.TablesContext.BookTags.Add(bookTag);
+        }
+
+        public void DeleteBookTag(object? obj)
+        {
+            BookTagViewModel? genre = obj as BookTagViewModel;
+
+            if (genre != null && genre.Model.Books.Count == 0)
+                TablesViewModel.BookTags!.Remove(genre.Model);
+        }
+
+        public void AddFilmProgress(object? obj)
+        {
+            var progresses = _selectedProfile!.TablesContext.FilmProgresses;
+
+            int i = progresses.Count + 1;
+            FilmWatchProgress progress = new FilmWatchProgress { Name = $"Name{i}" };
+            _selectedProfile?.TablesContext.FilmProgresses.Add(progress);
+        }
+
+        public void DeleteFilmProgress(object? obj)
+        {
+            FilmWatchProgressViewModel? vm = obj as FilmWatchProgressViewModel;
+
+            if (vm != null && vm.Model.Films.Count == 0)
+                TablesViewModel.FilmProgresses!.Remove(vm.Model);
+        }
+
+        public void AddBookProgress(object? obj)
+        {
+            var progresses = _selectedProfile!.TablesContext.BookProgresses;
+
+            int i = progresses.Count + 1;
+            BookReadProgress progress = new BookReadProgress { Name = $"Name{i}" };
+            _selectedProfile?.TablesContext.BookProgresses.Add(progress);
+        }
+
+        public void DeleteBookProgress(object? obj)
+        {
+            BookReadProgressViewModel? vm = obj as BookReadProgressViewModel;
+
+            if (vm != null && vm.Model.Books.Count == 0)
+                TablesViewModel.BookProgresses!.Remove(vm.Model);
+        }
+
+        public void ChangeProfile(object? obj)
+        {
+            ProfileViewModel? profileViewModel = obj as ProfileViewModel;
+            if (profileViewModel != null)
+            {
+                if (_settingsService.ProfilesService.SelectedProfile.IsChangesSaved == false)
+                {
+                    _changeProfileWindowService.ShowDialog();
+
+                    if (_changeProfileWindowService.Save)
+                        _settingsService.ProfilesService.SelectedProfile.SaveTables();
+
+                    if (_changeProfileWindowService.ChangeProfile)
+                        _settingsService.ProfilesService.SelectedProfile = profileViewModel.Profile;
+                }
+                else
+                {
+                    _settingsService.ProfilesService.SelectedProfile = profileViewModel.Profile;
+                }
             }
         }
 
-        public RelayCommand AddBookGenreCommand
+        public void AddProfile(object? obj)
         {
-            get
+            if (NewProfileName != String.Empty)
             {
-                return addBookGenreCommand ??
-                (addBookGenreCommand = new RelayCommand(obj =>
-                {
-                    var bookGenres = _selectedProfile!.TablesContext.BookGenres;
-
-                    int i = bookGenres.Count + 1;
-                    BookGenre bookGenre = new BookGenre { Name = $"Genre{i}" };
-                    _selectedProfile?.TablesContext.BookGenres.Add(bookGenre);
-                }));
+                _settingsService.ProfilesService.CreateProfile(NewProfileName);
+                NewProfileName = String.Empty;
             }
         }
 
-        public RelayCommand DeleteFilmGenreCommand
+        public void DeleteProfile(object? obj)
         {
-            get
-            {
-                return deleteFilmGenreCommand ??
-                (deleteFilmGenreCommand = new RelayCommand(obj =>
-                {
-                    FilmGenreViewModel? genre = obj as FilmGenreViewModel;
+            ProfileViewModel? profileViewModel = obj as ProfileViewModel;
 
-                    if (genre != null && genre.Model.Films.Count == 0)
-                        TablesViewModel.FilmGenres!.Remove(genre.Model);
-                }));
-            }
+            if (profileViewModel != null)
+                _settingsService.ProfilesService.RemoveProfile(profileViewModel.Profile);
         }
 
-        public RelayCommand DeleteBookGenreCommand
+        public void OpenExplorer(object? obj)
         {
-            get
-            {
-                return deleteBookGenreCommand ??
-                (deleteBookGenreCommand = new RelayCommand(obj =>
-                {
-                    BookGenreViewModel? genre = obj as BookGenreViewModel;
-
-                    if (genre != null && genre.Model.Books.Count == 0)
-                        TablesViewModel.BookGenres!.Remove(genre.Model);
-                }));
-            }
+            _explorerService.OpenExplorer(PathHelper.ProfilesPath);
         }
 
-        public RelayCommand AddFilmTagCommand
+        public void ImportProfile(object? obj)
         {
-            get
+            if (_importFileDialogService.OpenFileDialog())
             {
-                return addFilmTagCommand ??
-                (addFilmTagCommand = new RelayCommand(obj =>
-                {
-                    var filmTags = _selectedProfile!.TablesContext.FilmTags;
-
-                    int i = filmTags.Count + 1;
-                    FilmTag filmTag = new FilmTag { Name = $"Tag{i}" };
-                    _selectedProfile?.TablesContext.FilmTags.Add(filmTag);
-                }));
-            }
-        }
-
-        public RelayCommand DeleteFilmTagCommand
-        {
-            get
-            {
-                return deleteFilmTagCommand ??
-                (deleteFilmTagCommand = new RelayCommand(obj =>
-                {
-                    FilmTagViewModel? genre = obj as FilmTagViewModel;
-
-                    if (genre != null && genre.Model.Films.Count == 0)
-                        TablesViewModel.FilmTags!.Remove(genre.Model);
-                }));
-            }
-        }
-
-        public RelayCommand AddBookTagCommand
-        {
-            get
-            {
-                return addBookTagCommand ??
-                (addBookTagCommand = new RelayCommand(obj =>
-                {
-                    var bookTags = _selectedProfile!.TablesContext.BookTags;
-
-                    int i = bookTags.Count + 1;
-                    BookTag bookTag = new BookTag { Name = $"Tag{i}" };
-                    _selectedProfile?.TablesContext.BookTags.Add(bookTag);
-                }));
-            }
-        }
-
-        public RelayCommand DeleteBookTagCommand
-        {
-            get
-            {
-                return deleteBookTagCommand ??
-                (deleteBookTagCommand = new RelayCommand(obj =>
-                {
-                    BookTagViewModel? genre = obj as BookTagViewModel;
-
-                    if (genre != null && genre.Model.Books.Count == 0)
-                        TablesViewModel.BookTags!.Remove(genre.Model);
-                }));
-            }
-        }
-
-        public RelayCommand AddFilmProgressCommand
-        {
-            get
-            {
-                return addFilmProgressCommand ??
-                (addFilmProgressCommand = new RelayCommand(obj =>
-                {
-                    var progresses = _selectedProfile!.TablesContext.FilmProgresses;
-
-                    int i = progresses.Count + 1;
-                    FilmWatchProgress progress = new FilmWatchProgress { Name = $"Name{i}" };
-                    _selectedProfile?.TablesContext.FilmProgresses.Add(progress);
-                }));
-            }
-        }
-
-        public RelayCommand DeleteFilmProgressCommand
-        {
-            get
-            {
-                return deleteFilmProgressCommand ??
-                (deleteFilmProgressCommand = new RelayCommand(obj =>
-                {
-                    FilmWatchProgressViewModel? vm = obj as FilmWatchProgressViewModel;
-
-                    if (vm != null && vm.Model.Films.Count == 0)
-                        TablesViewModel.FilmProgresses!.Remove(vm.Model);
-                }));
-            }
-        }
-
-        public RelayCommand AddBookProgressCommand
-        {
-            get
-            {
-                return addBookProgressCommand ??
-                (addBookProgressCommand = new RelayCommand(obj =>
-                {
-                    var progresses = _selectedProfile!.TablesContext.BookProgresses;
-
-                    int i = progresses.Count + 1;
-                    BookReadProgress progress = new BookReadProgress { Name = $"Name{i}" };
-                    _selectedProfile?.TablesContext.BookProgresses.Add(progress);
-                }));
-            }
-        }
-
-        public RelayCommand DeleteBookProgressCommand
-        {
-            get
-            {
-                return deleteBookProgressCommand ??
-                (deleteBookProgressCommand = new RelayCommand(obj =>
-                {
-                    BookReadProgressViewModel? vm = obj as BookReadProgressViewModel;
-
-                    if (vm != null && vm.Model.Books.Count == 0)
-                        TablesViewModel.BookProgresses!.Remove(vm.Model);
-                }));
-            }
-        }
-
-        public RelayCommand ChangeProfileCommand
-        {
-            get
-            {
-                return changeProfileCommand ??
-                (changeProfileCommand = new RelayCommand(obj =>
-                {
-                    ProfileViewModel? profileViewModel = obj as ProfileViewModel;
-                    if (profileViewModel != null)
-                    {
-                        if (_settingsService.ProfilesService.SelectedProfile.IsChangesSaved == false)
-                        {
-                            _changeProfileWindowService.ShowDialog();
-
-                            if (_changeProfileWindowService.Save)
-                                _settingsService.ProfilesService.SelectedProfile.SaveTables();
-
-                            if (_changeProfileWindowService.ChangeProfile)
-                                _settingsService.ProfilesService.SelectedProfile = profileViewModel.Profile;
-                        }
-                        else
-                        {
-                            _settingsService.ProfilesService.SelectedProfile = profileViewModel.Profile;
-                        }
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand AddProfileCommand
-        {
-            get
-            {
-                return addProfileCommand ??
-                (addProfileCommand = new RelayCommand(obj =>
-                {
-                    if (NewProfileName != String.Empty)
-                    {
-                        _settingsService.ProfilesService.CreateProfile(NewProfileName);
-                        NewProfileName = String.Empty;
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand DeleteProfileCommand
-        {
-            get
-            {
-                return deleteProfileCommand ??
-                (deleteProfileCommand = new RelayCommand(obj =>
-                {
-                    ProfileViewModel? profileViewModel = obj as ProfileViewModel;
-
-                    if (profileViewModel != null)
-                        _settingsService.ProfilesService.RemoveProfile(profileViewModel.Profile);
-                }));
-            }
-        }
-
-        public RelayCommand OpenExplorerCommand
-        {
-            get
-            {
-                return openExplorerCommand ??
-                (openExplorerCommand = new RelayCommand(obj =>
-                {
-                    _explorerService.OpenExplorer(PathHelper.ProfilesPath);
-                }));
-            }
-        }
-
-        public RelayCommand ImportProfileCommand
-        {
-            get
-            {
-                return importProfileCommand ??
-                (importProfileCommand = new RelayCommand(obj =>
-                {
-                    if (_importFileDialogService.OpenFileDialog())
-                    {
-                        string filePath = _importFileDialogService.FileName!;
-                        _settingsService.ProfilesService.ImportProfile(filePath);
-                    }
-                }));
+                string filePath = _importFileDialogService.FileName!;
+                _settingsService.ProfilesService.ImportProfile(filePath);
             }
         }
     }

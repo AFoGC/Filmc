@@ -63,7 +63,11 @@ namespace Filmc.Wpf.ViewModels
             FilmsSimplifiedVC.ChangeSortProperty("Id");
             FilmsVC.ChangeSortProperty("Id");
             SeriesVC.ChangeSortProperty("Id");
+
+            SortTable = new RelayCommand(Sort);
         }
+
+        public RelayCommand SortTable { get; }
 
         public ObservableCollection<FilmViewModel> FilmVMs { get; }
         public ObservableCollection<FilmCategoryViewModel> CategoryVMs { get; }
@@ -94,34 +98,28 @@ namespace Filmc.Wpf.ViewModels
             _progressEntityObserver.SetSource(_tablesContext.FilmProgresses);
         }
 
-        public RelayCommand SortTable
+        public void Sort(object? obj)
         {
-            get
+            string? str = obj as string;
+
+            switch (MenuMode)
             {
-                return sortTable ?? (sortTable = new RelayCommand(obj =>
-                {
-                    string str = obj as string;
+                case FilmsMenuMode.Categories:
+                    CategoriesVC.ChangeSortProperty(str);
+                    FilmsSimplifiedVC.ChangeSortProperty(str);
+                    break;
 
-                    switch (MenuMode)
-                    {
-                        case FilmsMenuMode.Categories:
-                            CategoriesVC.ChangeSortProperty(str);
-                            FilmsSimplifiedVC.ChangeSortProperty(str);
-                            break;
+                case FilmsMenuMode.Films:
+                    FilmsVC.ChangeSortProperty(str);
+                    break;
 
-                        case FilmsMenuMode.Films:
-                            FilmsVC.ChangeSortProperty(str);
-                            break;
+                case FilmsMenuMode.Series:
+                    SeriesVC.ChangeSortProperty(str);
+                    break;
 
-                        case FilmsMenuMode.Series:
-                            SeriesVC.ChangeSortProperty(str);
-                            break;
-
-                        case FilmsMenuMode.Priorities:
-                            PrioritiesVC.ChangeSortProperty(str);
-                            break;
-                    }
-                }));
+                case FilmsMenuMode.Priorities:
+                    PrioritiesVC.ChangeSortProperty(str);
+                    break;
             }
         }
 

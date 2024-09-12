@@ -19,15 +19,6 @@ namespace Filmc.Wpf.EntityViewModels
         private bool _isCollectionVisible;
         private bool _isSelected;
 
-        private RelayCommand? collapseCommand;
-        private RelayCommand? openedContextMenuCommand;
-        private RelayCommand? closedContextMenuCommand;
-        private RelayCommand? upInCategoryCommand;
-        private RelayCommand? downInCategoryCommand;
-        private RelayCommand? removeFromCategoryCommand;
-        private RelayCommand? openUpdateMenuCommand;
-        private RelayCommand? removeMarkCommand;
-
         public BookCategoryViewModel(BookCategory model, ObservableCollection<BookViewModel> bookViewModels, 
                                      UpdateMenuService updateMenuService, IRepositoriesSaved repositories)
         {
@@ -40,7 +31,25 @@ namespace Filmc.Wpf.EntityViewModels
 
             _isCollectionVisible = true;
             BooksVC = new BooksInCategoryViewCollection(model, bookViewModels);
+
+            CollapseCommand = new RelayCommand(Collapse);
+            OpenedContextMenuCommand = new RelayCommand(OpenedContextMenu);
+            ClosedContextMenuCommand = new RelayCommand(ClosedContextMenu);
+            UpInCategoryCommand = new RelayCommand(UpInCategory);
+            DownInCategoryCommand = new RelayCommand(DownInCategory);
+            RemoveFromCategoryCommand = new RelayCommand(RemoveFromCategory);
+            OpenUpdateMenuCommand = new RelayCommand(OpenUpdateMenu);
+            RemoveMarkCommand = new RelayCommand(RemoveMark);
         }
+
+        public RelayCommand CollapseCommand { get; }
+        public RelayCommand OpenedContextMenuCommand { get; }
+        public RelayCommand ClosedContextMenuCommand { get; }
+        public RelayCommand UpInCategoryCommand { get; }
+        public RelayCommand DownInCategoryCommand { get; }
+        public RelayCommand RemoveFromCategoryCommand { get; }
+        public RelayCommand OpenUpdateMenuCommand { get; }
+        public RelayCommand RemoveMarkCommand { get; }
 
         public BooksInCategoryViewCollection BooksVC { get; }
 
@@ -91,118 +100,62 @@ namespace Filmc.Wpf.EntityViewModels
             set { _isSelected = value; OnPropertyChanged(); }
         }
 
-        public RelayCommand CollapseCommand
+        public void Collapse(object? obj)
         {
-            get
+            IsCollectionVisible = !IsCollectionVisible;
+        }
+
+        public void OpenedContextMenu(object? obj)
+        {
+            IsSelected = true;
+        }
+
+        public void ClosedContextMenu(object? obj)
+        {
+            IsSelected = false;
+        }
+
+        public void UpInCategory(object? obj)
+        {
+            BookViewModel? bookViewModel = obj as BookViewModel;
+
+            if (bookViewModel != null)
             {
-                return collapseCommand ??
-                (collapseCommand = new RelayCommand(obj =>
-                {
-                    IsCollectionVisible = !IsCollectionVisible;
-                }));
+                Model.ChangeCategoryListId(bookViewModel.Model, bookViewModel.Model.CategoryListId - 1);
+                _repositories.SaveChanges();
             }
         }
 
-        public RelayCommand OpenedContextMenuCommand
+        public void DownInCategory(object? obj)
         {
-            get
+            BookViewModel? bookViewModel = obj as BookViewModel;
+
+            if (bookViewModel != null)
             {
-                return openedContextMenuCommand ??
-                (openedContextMenuCommand = new RelayCommand(obj =>
-                {
-                    IsSelected = true;
-                }));
+                Model.ChangeCategoryListId(bookViewModel.Model, bookViewModel.Model.CategoryListId + 1);
+                _repositories.SaveChanges();
             }
         }
 
-        public RelayCommand ClosedContextMenuCommand
+        public void RemoveFromCategory(object? obj)
         {
-            get
+            BookViewModel? bookViewModel = obj as BookViewModel;
+
+            if (bookViewModel != null)
             {
-                return closedContextMenuCommand ??
-                (closedContextMenuCommand = new RelayCommand(obj =>
-                {
-                    IsSelected = false;
-                }));
+                Model.RemoveBookInOrder(bookViewModel.Model);
+                _repositories.SaveChanges();
             }
         }
 
-        public RelayCommand UpInCategoryCommand
+        public void OpenUpdateMenu(object? obj)
         {
-            get
-            {
-                return upInCategoryCommand ??
-                (upInCategoryCommand = new RelayCommand(obj =>
-                {
-                    BookViewModel? bookViewModel = obj as BookViewModel;
-
-                    if (bookViewModel != null)
-                    {
-                        Model.ChangeCategoryListId(bookViewModel.Model, bookViewModel.Model.CategoryListId - 1);
-                        _repositories.SaveChanges();
-                    }
-                }));
-            }
+            _updateMenuService.OpenUpdateMenu(this);
         }
 
-        public RelayCommand DownInCategoryCommand
+        public void RemoveMark(object? obj)
         {
-            get
-            {
-                return downInCategoryCommand ??
-                (downInCategoryCommand = new RelayCommand(obj =>
-                {
-                    BookViewModel? bookViewModel = obj as BookViewModel;
-
-                    if (bookViewModel != null)
-                    {
-                        Model.ChangeCategoryListId(bookViewModel.Model, bookViewModel.Model.CategoryListId + 1);
-                        _repositories.SaveChanges();
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand RemoveFromCategoryCommand
-        {
-            get
-            {
-                return removeFromCategoryCommand ??
-                (removeFromCategoryCommand = new RelayCommand(obj =>
-                {
-                    BookViewModel? bookViewModel = obj as BookViewModel;
-
-                    if (bookViewModel != null)
-                    {
-                        Model.RemoveBookInOrder(bookViewModel.Model);
-                        _repositories.SaveChanges();
-                    }
-                }));
-            }
-        }
-
-        public RelayCommand OpenUpdateMenuCommand
-        {
-            get
-            {
-                return openUpdateMenuCommand ??
-                (openUpdateMenuCommand = new RelayCommand(obj =>
-                {
-                    _updateMenuService.OpenUpdateMenu(this);
-                }));
-            }
-        }
-
-        public RelayCommand RemoveMarkCommand
-        {
-            get
-            {
-                return removeMarkCommand ??
-                (removeMarkCommand = new RelayCommand(obj =>
-                {
-                    Model.Mark.RawMark = null;
-                }));
-            }
+            Model.Mark.RawMark = null;
         }
 
         private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
