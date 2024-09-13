@@ -39,13 +39,13 @@
             </StackPanel.Resources>
 
             <TextBlock Text="{DynamicResource id_tt}" />
-            <TextBox Text="{Binding Id}" IsReadOnly="True" Width="50" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding Id}" ToolTip="{DynamicResource int_utt}" IsReadOnly="True" Width="50" HorizontalAlignment="Left" />
 
             <TextBlock Text="{DynamicResource name_tt}" />
-            <TextBox Text="{Binding Name}" />
+            <TextBox Text="{Binding Name}" ToolTip="{DynamicResource string_utt}"/>
 
             <TextBlock Text="{DynamicResource genre_tt}" />
-            <ComboBox SelectedItem="{Binding Genre}" ToolTip="{DynamicResource genre_utt}" Width="145" HorizontalAlignment="Left"
+            <ComboBox SelectedItem="{Binding Genre}" Width="145" HorizontalAlignment="Left"
                       ItemsSource="{Binding Path=DataContext.FilmGenres, 
                       RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
 
@@ -57,10 +57,10 @@
             </ComboBox>
 
             <TextBlock Text="{DynamicResource year_tt}" />
-            <TextBox Text="{Binding RealiseYear, TargetNullValue=''}" Width="50" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding RealiseYear, TargetNullValue=''}" ToolTip="{DynamicResource int_utt}" Width="50" HorizontalAlignment="Left" />
             
             <TextBlock Text="{DynamicResource watched_tt}" />
-            <ComboBox SelectedItem="{Binding WatchProgress}" ToolTip="{DynamicResource watched_tt}" Width="145" HorizontalAlignment="Left"
+            <ComboBox SelectedItem="{Binding WatchProgress}" Width="145" HorizontalAlignment="Left"
                       ItemsSource="{Binding Path=DataContext.FilmProgresses, 
                       RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
 
@@ -111,7 +111,7 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            <TextBox Text="{Binding WatchedSeries, TargetNullValue=''}" Width="50" HorizontalAlignment="Left">
+            <TextBox Text="{Binding WatchedSeries, TargetNullValue=''}" ToolTip="{DynamicResource int_utt}" Width="50" HorizontalAlignment="Left">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                         <Style.Triggers>
@@ -148,7 +148,7 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            <TextBox Text="{Binding TotalSeries, TargetNullValue=''}" Width="50" HorizontalAlignment="Left">
+            <TextBox Text="{Binding TotalSeries, TargetNullValue=''}" ToolTip="{DynamicResource int_utt}" Width="50" HorizontalAlignment="Left">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                         <Style.Triggers>
@@ -162,7 +162,7 @@
 
             <TextBlock Text="{DynamicResource mark_tt}" />
             <StackPanel Orientation="Horizontal">
-                <ComboBox SelectedItem="{Binding FormatedMark, Mode=TwoWay}" ToolTip="{DynamicResource mark_utt}" Width="145"
+                <ComboBox SelectedItem="{Binding FormatedMark, Mode=TwoWay}" Width="145"
                           HorizontalAlignment="Left"
                           ItemsSource="{Binding Path=DataContext.FilmMarks, 
                           RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
@@ -185,7 +185,7 @@
             </StackPanel>
 
             <TextBlock Text="{DynamicResource cov_tt}" />
-            <TextBox Text="{Binding CountOfViews, TargetNullValue=''}" Width="50" HorizontalAlignment="Left">
+            <TextBox Text="{Binding CountOfViews, TargetNullValue=''}" ToolTip="{DynamicResource int_utt}" Width="50" HorizontalAlignment="Left">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewTextInput">
                         <i:InvokeCommandAction Command="{Binding Path=DataContext.CheckIsTextCommand, 
@@ -196,7 +196,7 @@
             </TextBox>
 
             <TextBlock Text="{DynamicResource comment_tt}" />
-            <TextBox Text="{Binding Comment}" TextWrapping="Wrap" AcceptsReturn="True" Height="Auto"/>
+            <TextBox Text="{Binding Comment}" ToolTip="{DynamicResource string_utt}" TextWrapping="Wrap" AcceptsReturn="True" Height="Auto"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1">

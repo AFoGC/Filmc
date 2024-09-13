@@ -159,27 +159,10 @@
     <v:String x:Key="del_source_cm">Видалити джерело</v:String>
 
     <!--Update Controls ToolTips-->
-    <v:String x:Key="hidename_utt">Приховане ім'я (Текст)</v:String>
-
-    <v:String x:Key="id_utt">ID (не може бути змінено)</v:String>
-    <v:String x:Key="name_utt">Назва (Текст)</v:String>
-    <v:String x:Key="genre_utt">Категорія</v:String>
-    <v:String x:Key="year_utt">Рік випуску (Ціле число)</v:String>
-    <v:String x:Key="mark_utt">Оцінка</v:String>
-
-    <v:String x:Key="start_watch_date_utt">Дата початку перегляду (Дата(дд.мм.рррр))</v:String>
-    <v:String x:Key="end_watch_date_utt">Дата закінчення перегляду (Дата(дд.мм.рррр))</v:String>
-    <v:String x:Key="watched_series_utt">Кількість переглянутих серій (Ціле число)</v:String>
-    <v:String x:Key="total_series_utt">Всього серій (Ціле число)</v:String>
-    <v:String x:Key="watched_utt">Статус перегляду</v:String>
-    <v:String x:Key="cov_utt">Кількісить переглядів (Ціле число)</v:String>
-    <v:String x:Key="comment_utt">Коментар (Текст)</v:String>
-
-    <v:String x:Key="author_utt">Автор (Текст)</v:String>
-    <v:String x:Key="bookmark_utt">Закладка (Текст)</v:String>
-    <v:String x:Key="end_read_date_utt">Дата закінчення читання (Дата(дд.мм.рррр))</v:String>
-    <v:String x:Key="readed_utt">Статус читання</v:String>
-    <v:String x:Key="cor_utt">Кількість читань (Ціле число)</v:String>
+    <v:String x:Key="cb_utt">Випадаючий список</v:String>
+    <v:String x:Key="int_utt">Ціле число</v:String>
+    <v:String x:Key="string_utt">Текст</v:String>
+    <v:String x:Key="date_utt">Дата(дд.мм.рррр)</v:String>
 
     <!--Update Menu ToolTips-->
     <v:String x:Key="go_back_btn">Повернутись назад</v:String>

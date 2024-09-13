@@ -39,14 +39,14 @@
             </StackPanel.Resources>
 
             <TextBlock Text="{DynamicResource id_tt}" />
-            <TextBox Text="{Binding Id}" IsReadOnly="True" Width="50" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding Id}" ToolTip="{DynamicResource int_utt}" IsReadOnly="True" Width="50" HorizontalAlignment="Left" />
 
             <TextBlock Text="{DynamicResource name_tt}" />
-            <TextBox Text="{Binding Name}" />
+            <TextBox Text="{Binding Name}" ToolTip="{DynamicResource string_utt}"/>
 
             <TextBlock Text="{DynamicResource genre_tt}" />
-            <ComboBox SelectedItem="{Binding Genre}" ToolTip="{DynamicResource genre_utt}" Width="145" HorizontalAlignment="Left"
-                      ItemsSource="{Binding Path=DataContext.BookGenres, 
+            <ComboBox SelectedItem="{Binding Genre}" Width="145" 
+                      HorizontalAlignment="Left" ItemsSource="{Binding Path=DataContext.BookGenres, 
                       RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
 
                 <ComboBox.ItemTemplate>
@@ -57,11 +57,12 @@
             </ComboBox>
 
             <TextBlock Text="{DynamicResource year_tt}" />
-            <TextBox Text="{Binding PublicationYear, TargetNullValue=''}" Width="50" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding PublicationYear, TargetNullValue=''}" ToolTip="{DynamicResource int_utt}" 
+                     Width="50" HorizontalAlignment="Left" />
 
             <TextBlock Text="{DynamicResource readed_tt}" />
-            <ComboBox SelectedItem="{Binding ReadProgress}" ToolTip="{DynamicResource readed_tt}" Width="145" HorizontalAlignment="Left"
-                      ItemsSource="{Binding Path=DataContext.BookProgresses, 
+            <ComboBox SelectedItem="{Binding ReadProgress}" Width="145" 
+                      HorizontalAlignment="Left" ItemsSource="{Binding Path=DataContext.BookProgresses, 
                       RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
 
                 <ComboBox.ItemTemplate>
@@ -72,10 +73,11 @@
             </ComboBox>
 
             <TextBlock Text="{DynamicResource bookmark_tt}" />
-            <TextBox Text="{Binding Bookmark}" />
+            <TextBox Text="{Binding Bookmark}" ToolTip="{DynamicResource string_utt}"/>
 
             <TextBlock Text="{DynamicResource start_read_date_tt}" />
-            <DatePicker SelectedDate="{Binding StartReadDate}" Foreground="WhiteSmoke" Width="145" HorizontalAlignment="Left">
+            <DatePicker SelectedDate="{Binding StartReadDate}" 
+                        Foreground="WhiteSmoke" Width="145" HorizontalAlignment="Left">
                 <DatePicker.Style>
                     <Style TargetType="DatePicker">
                         <Setter Property="Margin" Value="0,0,0,10"/>
@@ -89,7 +91,8 @@
             </DatePicker>
             
             <TextBlock Text="{DynamicResource end_read_date_tt}" />
-            <DatePicker SelectedDate="{Binding FullReadDate}" Foreground="WhiteSmoke" Width="145" HorizontalAlignment="Left">
+            <DatePicker SelectedDate="{Binding FullReadDate}" 
+                        Foreground="WhiteSmoke" Width="145" HorizontalAlignment="Left">
                 <DatePicker.Style>
                     <Style TargetType="DatePicker">
                         <Setter Property="Margin" Value="0,0,0,10"/>
@@ -104,9 +107,8 @@
 
             <TextBlock Text="{DynamicResource mark_tt}" />
             <StackPanel Orientation="Horizontal">
-                <ComboBox SelectedItem="{Binding FormatedMark, Mode=TwoWay}" ToolTip="{DynamicResource mark_utt}" Width="145"
-                          HorizontalAlignment="Left"
-                          ItemsSource="{Binding Path=DataContext.BookMarks, 
+                <ComboBox SelectedItem="{Binding FormatedMark, Mode=TwoWay}" 
+                          Width="145" HorizontalAlignment="Left" ItemsSource="{Binding Path=DataContext.BookMarks, 
                           RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
 
                     <ComboBox.ItemTemplate>
@@ -127,7 +129,8 @@
             </StackPanel>
 
             <TextBlock Text="{DynamicResource cor_tt}" />
-            <TextBox Text="{Binding CountOfReadings, TargetNullValue=''}" Width="50" HorizontalAlignment="Left">
+            <TextBox Text="{Binding CountOfReadings, TargetNullValue=''}" ToolTip="{DynamicResource int_utt}" 
+                     Width="50" HorizontalAlignment="Left">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewTextInput">
                         <i:InvokeCommandAction Command="{Binding Path=DataContext.CheckIsTextCommand, 

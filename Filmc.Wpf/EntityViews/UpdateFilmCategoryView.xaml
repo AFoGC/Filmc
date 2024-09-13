@@ -38,19 +38,18 @@
             </StackPanel.Resources>
 
             <TextBlock Text="{DynamicResource id_tt}" />
-            <TextBox Text="{Binding Id}" IsReadOnly="True" Width="50" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding Id}" ToolTip="{DynamicResource int_utt}" IsReadOnly="True" Width="50" HorizontalAlignment="Left" />
 
             <TextBlock Text="{DynamicResource name_tt}" />
-            <TextBox Text="{Binding Name}" />
+            <TextBox Text="{Binding Name}" ToolTip="{DynamicResource string_utt}"/>
 
             <TextBlock Text="{DynamicResource hidename_tt}" />
-            <TextBox Text="{Binding HideName}" />
+            <TextBox Text="{Binding HideName}" ToolTip="{DynamicResource string_utt}"/>
 
             <TextBlock Text="{DynamicResource mark_tt}" />
             <StackPanel Orientation="Horizontal">
-                <ComboBox SelectedItem="{Binding FormatedMark, Mode=TwoWay}" ToolTip="{DynamicResource mark_utt}" Width="145"
-                          HorizontalAlignment="Left"
-                          ItemsSource="{Binding Path=DataContext.FilmMarks, 
+                <ComboBox SelectedItem="{Binding FormatedMark, Mode=TwoWay}" Width="145"
+                          HorizontalAlignment="Left" ItemsSource="{Binding Path=DataContext.FilmMarks, 
                           RelativeSource={RelativeSource AncestorType={x:Type menus:UpdateMenuView}}, Mode=Default}">
 
                     <ComboBox.ItemTemplate>
