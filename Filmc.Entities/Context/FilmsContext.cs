@@ -223,6 +223,11 @@ namespace Filmc.Entities.Context
                     .HasField("_name")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
+                entity.Property(e => e.IndexInList)
+                    .HasColumnName("IndexInList")
+                    .HasField("_indexInList")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
                 entity.Property(e => e.Url)
                     .HasColumnName("Url")
                     .HasField("_url")
@@ -473,6 +478,11 @@ namespace Filmc.Entities.Context
                 entity.Property(e => e.Url)
                     .HasColumnName("Url")
                     .HasField("_url")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.IndexInList)
+                    .HasColumnName("IndexInList")
+                    .HasField("_indexInList")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
                 entity.HasOne(d => d.Film)

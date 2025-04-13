@@ -83,6 +83,13 @@ namespace Filmc.Wpf.Models
             if (book.Priority != null)
                 TablesContext.BooksInPriorities.Remove(book.Priority);
 
+            var sources = book.Sources.ToList();
+            foreach (var source in sources)
+            {
+                book.Sources.Remove(source);
+                TablesContext.BookSources.Remove(source);
+            }
+
             TablesContext.Books.Remove(book);
             TablesContext.SaveChanges();
         }

@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:Filmc.Wpf.EntityViews"
-             xmlns:menus="clr-namespace:Filmc.Wpf.Views"
+             xmlns:menus="clr-namespace:Filmc.Wpf.Views" 
+             xmlns:componentmodel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="679" d:DesignWidth="1265">
     <Grid>
@@ -143,8 +144,16 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1">
+            <StackPanel.Resources>
+                <CollectionViewSource x:Key="sources" Source="{Binding Sources}" IsLiveSortingRequested="True">
+                    <CollectionViewSource.SortDescriptions>
+                        <componentmodel:SortDescription PropertyName="IndexInList"/>
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </StackPanel.Resources>
+            
             <TextBlock Text="{DynamicResource sources_list_tb}" HorizontalAlignment="Center" Foreground="WhiteSmoke" FontSize="10"/>
-            <ItemsControl ItemsSource="{Binding Sources}">
+            <ItemsControl ItemsSource="{Binding Source={StaticResource sources}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <local:SourceView />

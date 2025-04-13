@@ -194,13 +194,17 @@ namespace Filmc.Wpf.EntityViewModels
             {
                 if (Model.Sources.Count != 0)
                 {
-                    if (Model.Sources[0].Name == String.Empty)
+                    var source = Model.Sources
+                        .OrderBy(x => x.IndexInList)
+                        .First();
+
+                    if (source.Name == String.Empty)
                     {
                         return "Copy url";
                     }
                     else
                     {
-                        return Model.Sources[0].Name;
+                        return source.Name;
                     }
                 }
                 else
@@ -277,6 +281,8 @@ namespace Filmc.Wpf.EntityViewModels
         public void AddSource(Profile profile)
         {
             FilmSource source = new FilmSource();
+
+            source.IndexInList = Model.Sources.Count;
             Model.Sources.Add(source);
 
             profile.TablesContext.SaveChanges();
@@ -289,6 +295,17 @@ namespace Filmc.Wpf.EntityViewModels
             if (filmSource != null)
             {
                 Model.Sources.Remove(filmSource);
+
+                var items = Model.Sources
+                    .OrderBy(x => x.IndexInList);
+
+                int i = 0;
+                foreach (var item in items)
+                {
+                    item.IndexInList = i;
+                    i++;
+                }
+
                 profile.TablesContext.FilmSources.Remove(filmSource);
                 profile.TablesContext.SaveChanges();
             }
@@ -300,9 +317,21 @@ namespace Filmc.Wpf.EntityViewModels
 
             if (filmSource != null)
             {
-                Model.Sources.Remove(filmSource);
-                Model.Sources.Insert(0, filmSource);
+                filmSource.IndexInList = 0;
+                int i = 1;
+
+                var items = Model.Sources
+                    .OrderBy(x => x.IndexInList)
+                    .Where(x => x.Id != filmSource.Id);
+
+                foreach (var item in items)
+                {
+                    item.IndexInList = i;
+                    i++;
+                }
+
                 profile.TablesContext.SaveChanges();
+                OnPropertyChanged(nameof(SourcesText));
             }
         }
     }

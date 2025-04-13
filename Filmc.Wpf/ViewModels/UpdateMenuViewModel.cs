@@ -201,7 +201,7 @@ namespace Filmc.Wpf.ViewModels
 
             if (viewModel != null)
                 if (source != null)
-                    viewModel.RemoveSource(source, profile);
+                    viewModel.SetFirstSource(source, profile);
         }
 
         public void CheckIsText(object? obj)

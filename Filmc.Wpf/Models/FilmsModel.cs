@@ -83,6 +83,13 @@ namespace Filmc.Wpf.Models
             if (film.Priority != null)
                 TablesContext.FilmInPriorities.Remove(film.Priority);
 
+            var sources = film.Sources.ToList();
+            foreach (var source in sources)
+            {
+                film.Sources.Remove(source);
+                TablesContext.FilmSources.Remove(source);
+            }
+
             TablesContext.Films.Remove(film);
             TablesContext.SaveChanges();
         }

@@ -9,6 +9,7 @@ namespace Filmc.Entities.Entities
         private int _filmId;
         private string _name = null!;
         private string _url = null!;
+        private int _indexInList;
 
         private Film film = null!;
 
@@ -16,6 +17,7 @@ namespace Filmc.Entities.Entities
         {
             Name = String.Empty;
             Url = String.Empty;
+            _indexInList = 0;
         }
 
         public int Id
@@ -37,6 +39,11 @@ namespace Filmc.Entities.Entities
         {
             get => _url;
             set { _url = value; OnPropertyChanged(); }
+        }
+        public int IndexInList
+        {
+            get => _indexInList;
+            set { _indexInList = value; OnPropertyChanged(); }
         }
 
         public virtual Film Film 
