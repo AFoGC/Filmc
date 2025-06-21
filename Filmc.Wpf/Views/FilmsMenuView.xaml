@@ -403,12 +403,30 @@
                         </StackPanel.Resources>
                         <Separator Background="White"/>
                         <Label Foreground="White" Content="{DynamicResource filter_title}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                        <StackPanel Orientation="Horizontal" Height="20" Margin="0,0,0,5">
-                            <ToggleButton IsChecked="{Binding IsWatchedChecked}" Content="{DynamicResource watched_btn}"
-                                      Command="{Binding FilterCommand}"/>
-                            <ToggleButton IsChecked="{Binding IsUnWatchedChecked}" Content="{DynamicResource unwatched_btn}"
-                                      Command="{Binding FilterCommand}"/>
-                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding TablesViewModel.ProgressVMs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <cont:GenreButton Command="{Binding Path=DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=Grid}, Mode=Default}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Command="{Binding CheckProgressesCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource BlueCheckButton}">
+                                    <Setter Property="Content" Value="Uncheck All"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAllProgressesChecked}" Value="False">
+                                            <Setter Property="Content" Value="Check All"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
                         <Separator Background="White"/>
                         <Label Foreground="White" Content="{DynamicResource filter_by_genre}" HorizontalAlignment="Center"/>

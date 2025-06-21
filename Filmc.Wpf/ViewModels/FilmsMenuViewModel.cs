@@ -30,6 +30,7 @@ namespace Filmc.Wpf.ViewModels
         private bool _isUnWatchedChecked;
         private bool _isAllGenresChecked;
         private bool _isAllTagsChecked;
+        private bool _isAllProgressesChecked;
 
         private FilmViewModel? _selectedFilm;
 
@@ -48,6 +49,7 @@ namespace Filmc.Wpf.ViewModels
 
             RefreshGenresChecked();
             RefreshTagsChecked();
+            RefreshProgressesChecked();
 
             ChangeMenuModeCommand = new RelayCommand(ChangeMenuMode);
             AddCategoryCommand = new RelayCommand(AddCategory);
@@ -65,6 +67,7 @@ namespace Filmc.Wpf.ViewModels
             DeleteFilmCommand = new RelayCommand(DeleteFilm);
             CheckGenresCommand = new RelayCommand(CheckGenres);
             CheckTagsCommand = new RelayCommand(CheckTags);
+            CheckProgressesCommand = new RelayCommand(CheckProgresses);
         }
 
         public RelayCommand ChangeMenuModeCommand { get; }
@@ -83,6 +86,7 @@ namespace Filmc.Wpf.ViewModels
         public RelayCommand DeleteFilmCommand { get; }
         public RelayCommand CheckGenresCommand { get; }
         public RelayCommand CheckTagsCommand { get; }
+        public RelayCommand CheckProgressesCommand { get; }
 
         public FilmTablesViewModel TablesViewModel { get; }
         public BackgroundImageViewModel BackgroundImageViewModel { get; }
@@ -139,6 +143,12 @@ namespace Filmc.Wpf.ViewModels
         {
             get => _isAllTagsChecked;
             set { _isAllTagsChecked = value; OnPropertyChanged(); }
+        }
+
+        public bool IsAllProgressesChecked
+        {
+            get => _isAllProgressesChecked;
+            set { _isAllProgressesChecked = value; OnPropertyChanged(); }
         }
 
         public FilmViewModel? SelectedFilm
@@ -205,6 +215,7 @@ namespace Filmc.Wpf.ViewModels
         {
             RefreshGenresChecked();
             RefreshTagsChecked();
+            RefreshProgressesChecked();
 
             var selectedGenres = TablesViewModel.GenreVMs.Where(x => x.IsChecked);
             var selectedTags = TablesViewModel.TagVMs.Where(x => x.IsChecked);
@@ -314,6 +325,23 @@ namespace Filmc.Wpf.ViewModels
             FilterCommand.Execute(obj);
         }
 
+        public void CheckProgresses(object? obj)
+        {
+            if (IsAllProgressesChecked)
+            {
+                foreach (var vm in TablesViewModel.ProgressVMs)
+                    vm.IsChecked = false;
+            }
+            else
+            {
+                foreach (var vm in TablesViewModel.ProgressVMs)
+                    vm.IsChecked = true;
+            }
+
+            RefreshProgressesChecked();
+            FilterCommand.Execute(obj);
+        }
+
         private void RefreshGenresChecked()
         {
             IsAllGenresChecked = TablesViewModel.GenreVMs.All(x => x.IsChecked);
@@ -322,6 +350,11 @@ namespace Filmc.Wpf.ViewModels
         private void RefreshTagsChecked()
         {
             IsAllTagsChecked = TablesViewModel.TagVMs.All(x => x.IsChecked);
+        }
+
+        private void RefreshProgressesChecked()
+        {
+            IsAllProgressesChecked = TablesViewModel.ProgressVMs.All(x => x.IsChecked);
         }
 
         private void SearchInFilms(string search)

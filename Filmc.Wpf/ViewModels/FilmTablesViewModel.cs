@@ -30,8 +30,6 @@ namespace Filmc.Wpf.ViewModels
         private RepositoriesFacade? _tablesContext;
         private FilmsMenuMode _menuMode;
 
-        private RelayCommand? sortTable;
-
         public FilmTablesViewModel(FilmsModel model, UpdateMenuService updateMenuService)
         {
             _menuMode = FilmsMenuMode.Categories;
