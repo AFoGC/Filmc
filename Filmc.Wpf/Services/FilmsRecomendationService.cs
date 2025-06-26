@@ -1,4 +1,5 @@
 ﻿using Filmc.Entities.Entities;
+using Filmc.Entities.PropertyTypes;
 using Filmc.Wpf.Repositories;
 using System;
 using System.Collections.Generic;
@@ -19,94 +20,94 @@ namespace Filmc.Wpf.Services
 
         public void CreateRecomendations()
         {
-            var watched = GetWatchedFilms();
-            GetUserProfile(watched);
+            Film[] watchedFilms = GetWatchedFilms();
+            FilmTag[] tags = GetTags();
 
-
-
+            VectorMatrix vectorMatrix = new VectorMatrix();
+            vectorMatrix.CalculateAvarageProfile(watchedFilms, tags);
         }
 
-        public IEnumerable<Film> GetWatchedFilms()
+        public Film[] GetWatchedFilms()
         {
             var watched = _repositories.FilmProgresses.Last();
-            return _repositories.Films.Where(x => x.WatchProgress == watched);
+             return _repositories.Films
+                .Where(x => x.WatchProgress == watched)
+                .ToArray();
         }
 
-        public IEnumerable<Film> GetNotWatchedFilms()
+        public Film[] GetNotWatchedFilms()
         {
             var watched = _repositories.FilmProgresses.First();
-            return _repositories.Films.Where(x => x.WatchProgress == watched);
+            return _repositories.Films
+                .Where(x => x.WatchProgress == watched)
+                .ToArray();
         }
 
-        public void GetUserProfile(IEnumerable<Film> films)
+        public FilmTag[] GetTags()
         {
-            Dictionary<FilmTag, RecomendationWeight> tagWeights = new Dictionary<FilmTag, RecomendationWeight>();
-            Dictionary<FilmGenre, RecomendationWeight> genreWeights = new Dictionary<FilmGenre, RecomendationWeight>(); 
-            Dictionary<FilmCategory, RecomendationWeight> categoryWeights = new Dictionary<FilmCategory, RecomendationWeight>();
+            return _repositories.FilmTags.ToArray();
+        }
+    }
 
-            foreach (var tag in _repositories.FilmTags)
-            {
-                tagWeights[tag] = new RecomendationWeight();
-            }
+    public class VectorMatrix
+    {
+        public double[] AvarageTagProfile { get; private set; }
+ 
+        public VectorMatrix()
+        {
+            AvarageTagProfile = new double[0];
+        }
 
-            foreach (var genre in _repositories.FilmGenres)
-            {
-                genreWeights[genre] = new RecomendationWeight();
-            }
-
-            foreach (var tag in _repositories.FilmTags)
-            {
-                tagWeights[tag] = new RecomendationWeight();
-            }
-
-            foreach (var film in films)
-            {
-                int rawMark = -1;
-
-                if (film.Mark.RawMark != null)
-                {
-                    rawMark = film.Mark.RawMark.Value;
-                }
-
-                if (rawMark != -1)
-                {
-                    foreach (var tag in film.Tags)
-                    {
-                        var weight = tagWeights[tag];
-
-                        weight.Count += 1;
-                        weight.MarkSum += rawMark;
-                    }
-
-                    genreWeights[film.Genre].Count += 1;
-                    genreWeights[film.Genre].MarkSum += rawMark;
-
-                    if (film.Category != null)
-                    {
-                        categoryWeights[film.Category].Count += 1;
-                        categoryWeights[film.Category].MarkSum += rawMark;
-                    }
-                }
-            }
+        public void CalculateAvarageProfile(Film[] filmsArr, FilmTag[] tagsArr)
+        {
+            double[,] tagMatrix = CreateTagMatrix(filmsArr, tagsArr);
+            AvarageTagProfile = CalculateAvarageTagProfile(tagMatrix);
 
 
         }
 
-        private class RecomendationWeight
+        private double[,] CreateTagMatrix(Film[] filmsArr, FilmTag[] tagsArr)
         {
-            public RecomendationWeight()
+            int filmsCount = filmsArr.Length;
+            int tagsCount = tagsArr.Length;
+            double[,] matrix = new double[filmsCount, tagsCount];
+
+            for (int filmIndex = 0; filmIndex < filmsCount; filmIndex++)
             {
-                Count = 0;
-                MarkSum = 0;
+                if (filmsArr[filmIndex].Mark.RawMark != null)
+                {
+                    double rawMark = (double)filmsArr[filmIndex].Mark.RawMark;
+
+                    foreach (FilmTag tag in filmsArr[filmIndex].Tags)
+                    {
+                        int tagIndex = Array.IndexOf(tagsArr, tag);
+                        matrix[filmIndex, tagIndex] = rawMark / Mark.MaxRawMark;
+                    }
+                }
             }
 
-            public int Count { get; set; }
-            public int MarkSum { get; set; }
+            return matrix;
+        }
 
-            public int GetMidMark()
+        private double[] CalculateAvarageTagProfile(double[,] tagMatrix)
+        {
+            double sum = 0;
+            int filmsCount = tagMatrix.GetLength(0);
+            int tagsCount = tagMatrix.GetLength(1);
+            double[] avarageTagProfile = new double[tagsCount];
+
+            for (int tagIndex = 0; tagIndex < tagsCount; tagIndex++)
             {
-                return MarkSum / Count;
+                for (int filmIndex = 0; filmIndex < filmsCount; filmIndex++)
+                {
+                    sum += tagMatrix[filmIndex, tagIndex];
+                }
+
+                avarageTagProfile[tagIndex] = sum / filmsCount;
+                sum = 0;
             }
+
+            return avarageTagProfile;
         }
     }
 }
