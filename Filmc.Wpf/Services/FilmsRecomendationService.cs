@@ -30,8 +30,8 @@ namespace Filmc.Wpf.Services
             FilmsMatrix watchedMatrix = new FilmsMatrix();
             FilmsMatrix notWatchedMatrix = new FilmsMatrix();
 
-            watchedMatrix.Config(watchedFilms, tags, genres, categories);
-            notWatchedMatrix.Config(notWatchedFilms, tags, genres, categories);
+            watchedMatrix.CreateProfiles(watchedFilms, tags, genres, categories, true);
+            notWatchedMatrix.CreateProfiles(notWatchedFilms, tags, genres, categories, false);
 
             FilmProfile avarageProfile = watchedMatrix.CreateAvarageProfile();
             Similarity[] similarities = notWatchedMatrix.GetSimilarities(avarageProfile);
@@ -43,7 +43,8 @@ namespace Filmc.Wpf.Services
                 recomendations[i] = new Tuple<Film, Similarity>(notWatchedFilms[i], similarities[i]);
             }
 
-            var output = recomendations.OrderByDescending(x => x.Item2.TotalSimilarity);
+            var output = recomendations.OrderByDescending(x => x.Item2.TotalSimilarity).ToArray();
+            var ooo = output.Select(x => $"{x.Item1.Id}, {x.Item1.Name}, {x.Item2.TotalSimilarity}").ToArray();
         }
 
         private Film[] GetWatchedFilms()
@@ -51,6 +52,7 @@ namespace Filmc.Wpf.Services
             var watched = _repositories.FilmProgresses.Last();
             return _repositories.Films
                .Where(x => x.WatchProgress == watched)
+               .Where(x => x.Mark.RawMark != null)
                .ToArray();
         }
 
@@ -86,6 +88,10 @@ namespace Filmc.Wpf.Services
         public FilmCategory[] Categories { get; private set; }
         public FilmProfile[] Profiles { get; private set; }
 
+        public int TagsVectorSize => Tags.Length + 1;
+        public int GenresVectorSize => Genres.Length;
+        public int CategoriesVectorSize => Categories.Length + 1;
+
         public FilmsMatrix()
         {
             Films = new Film[0];
@@ -95,14 +101,20 @@ namespace Filmc.Wpf.Services
             Profiles = new FilmProfile[0];
         }
 
-        public void Config(Film[] films, FilmTag[] tags, FilmGenre[] genres, FilmCategory[] categories)
+        public void CreateProfiles(Film[] films, FilmTag[] tags, FilmGenre[] genres, FilmCategory[] categories, bool isMarkCounting)
         {
+            Films = films;
+            Tags = tags;
+            Genres = genres;
+            Categories = categories;
+
             int filmsCount = films.Length;
-            int tagsCount = tags.Length;
-            int genresCount = genres.Length;
-            int categoriesCount = categories.Length;
+            int tagsCount = TagsVectorSize;
+            int genresCount = GenresVectorSize;
+            int categoriesCount = CategoriesVectorSize;
 
             FilmProfile[] profiles = new FilmProfile[filmsCount];
+            Profiles = profiles;
 
             for (int filmIndex = 0; filmIndex < filmsCount; filmIndex++)
             {
@@ -110,40 +122,46 @@ namespace Filmc.Wpf.Services
                 profiles[filmIndex] = profile;
 
                 Film film = films[filmIndex];
-                if (films[filmIndex].Mark.RawMark != null)
-                {
-                    double rawMark = (double)film.Mark.RawMark;
+                double vectorDirectionValue = 1;
 
+                if (isMarkCounting)
+                    vectorDirectionValue = (double)film.Mark.RawMark / Mark.MaxRawMark;
+
+                if (film.Tags.Count != 0)
+                {
                     foreach (FilmTag tag in film.Tags)
                     {
                         int tagIndex = Array.IndexOf(tags, tag);
-                        profile.TagVectors[tagIndex] = rawMark / Mark.MaxRawMark;
+                        profile.TagVectors[tagIndex] = vectorDirectionValue;
                     }
-
-                    if (film.Category != null)
-                    {
-                        int categotyIndex = Array.IndexOf(categories, film.Category);
-                        profile.CategoryVectors[categotyIndex] = rawMark / Mark.MaxRawMark;
-                    }
-
-                    int genreIndex = Array.IndexOf(genres, film.Genre);
-                    profile.GenreVectors[genreIndex] = rawMark / Mark.MaxRawMark;
                 }
-            }
+                else
+                {
+                    profile.TagVectors[tagsCount - 1] = vectorDirectionValue;
+                }
+                
 
-            Films = films;
-            Tags = tags;
-            Genres = genres;
-            Categories = categories;
-            Profiles = profiles;
+                if (film.Category != null)
+                {
+                    int categotyIndex = Array.IndexOf(categories, film.Category);
+                    profile.CategoryVectors[categotyIndex] = vectorDirectionValue;
+                }
+                else
+                {
+                    profile.CategoryVectors[categoriesCount - 1] = vectorDirectionValue;
+                }
+
+                int genreIndex = Array.IndexOf(genres, film.Genre);
+                profile.GenreVectors[genreIndex] = vectorDirectionValue;
+            }
         }
 
         public FilmProfile CreateAvarageProfile()
         {
             int filmsCount = Films.Length;
-            int tagsCount = Tags.Length;
-            int genresCount = Genres.Length;
-            int categoriesCount = Categories.Length;
+            int tagsCount = TagsVectorSize;
+            int genresCount = GenresVectorSize;
+            int categoriesCount = CategoriesVectorSize;
             double sum = 0;
 
             FilmProfile profile = new FilmProfile(tagsCount, genresCount, categoriesCount);
