@@ -21,21 +21,40 @@ namespace Filmc.Wpf.Services
         public void CreateRecomendations()
         {
             Film[] watchedFilms = GetWatchedFilms();
-            FilmTag[] tags = GetTags();
+            Film[] notWatchedFilms = GetNotWatchedFilms();
 
-            VectorMatrix vectorMatrix = new VectorMatrix();
-            vectorMatrix.CalculateAvarageProfile(watchedFilms, tags);
+            FilmTag[] tags = GetTags();
+            FilmGenre[] genres = GetGenres();
+            FilmCategory[] categories = GetCategories();
+
+            FilmsMatrix watchedMatrix = new FilmsMatrix();
+            FilmsMatrix notWatchedMatrix = new FilmsMatrix();
+
+            watchedMatrix.Config(watchedFilms, tags, genres, categories);
+            notWatchedMatrix.Config(notWatchedFilms, tags, genres, categories);
+
+            FilmProfile avarageProfile = watchedMatrix.CreateAvarageProfile();
+            Similarity[] similarities = notWatchedMatrix.GetSimilarities(avarageProfile);
+
+            Tuple<Film, Similarity>[] recomendations = new Tuple<Film, Similarity>[notWatchedFilms.Length];
+
+            for (int i = 0; i < notWatchedFilms.Length; i++)
+            {
+                recomendations[i] = new Tuple<Film, Similarity>(notWatchedFilms[i], similarities[i]);
+            }
+
+            var output = recomendations.OrderByDescending(x => x.Item2.TotalSimilarity);
         }
 
-        public Film[] GetWatchedFilms()
+        private Film[] GetWatchedFilms()
         {
             var watched = _repositories.FilmProgresses.Last();
-             return _repositories.Films
-                .Where(x => x.WatchProgress == watched)
-                .ToArray();
+            return _repositories.Films
+               .Where(x => x.WatchProgress == watched)
+               .ToArray();
         }
 
-        public Film[] GetNotWatchedFilms()
+        private Film[] GetNotWatchedFilms()
         {
             var watched = _repositories.FilmProgresses.First();
             return _repositories.Films
@@ -43,71 +62,201 @@ namespace Filmc.Wpf.Services
                 .ToArray();
         }
 
-        public FilmTag[] GetTags()
+        private FilmTag[] GetTags()
         {
             return _repositories.FilmTags.ToArray();
         }
+
+        private FilmGenre[] GetGenres()
+        {
+            return _repositories.FilmGenres.ToArray();
+        }
+
+        private FilmCategory[] GetCategories()
+        {
+            return _repositories.FilmCategories.ToArray();
+        }
     }
 
-    public class VectorMatrix
+    public class FilmsMatrix
     {
-        public double[] AvarageTagProfile { get; private set; }
- 
-        public VectorMatrix()
+        public Film[] Films { get; private set; }
+        public FilmTag[] Tags { get; private set; }
+        public FilmGenre[] Genres { get; private set; }
+        public FilmCategory[] Categories { get; private set; }
+        public FilmProfile[] Profiles { get; private set; }
+
+        public FilmsMatrix()
         {
-            AvarageTagProfile = new double[0];
+            Films = new Film[0];
+            Tags = new FilmTag[0];
+            Genres = new FilmGenre[0];
+            Categories = new FilmCategory[0];
+            Profiles = new FilmProfile[0];
         }
 
-        public void CalculateAvarageProfile(Film[] filmsArr, FilmTag[] tagsArr)
+        public void Config(Film[] films, FilmTag[] tags, FilmGenre[] genres, FilmCategory[] categories)
         {
-            double[,] tagMatrix = CreateTagMatrix(filmsArr, tagsArr);
-            AvarageTagProfile = CalculateAvarageTagProfile(tagMatrix);
+            int filmsCount = films.Length;
+            int tagsCount = tags.Length;
+            int genresCount = genres.Length;
+            int categoriesCount = categories.Length;
 
-
-        }
-
-        private double[,] CreateTagMatrix(Film[] filmsArr, FilmTag[] tagsArr)
-        {
-            int filmsCount = filmsArr.Length;
-            int tagsCount = tagsArr.Length;
-            double[,] matrix = new double[filmsCount, tagsCount];
+            FilmProfile[] profiles = new FilmProfile[filmsCount];
 
             for (int filmIndex = 0; filmIndex < filmsCount; filmIndex++)
             {
-                if (filmsArr[filmIndex].Mark.RawMark != null)
-                {
-                    double rawMark = (double)filmsArr[filmIndex].Mark.RawMark;
+                FilmProfile profile = new FilmProfile(tagsCount, genresCount, categoriesCount);
+                profiles[filmIndex] = profile;
 
-                    foreach (FilmTag tag in filmsArr[filmIndex].Tags)
+                Film film = films[filmIndex];
+                if (films[filmIndex].Mark.RawMark != null)
+                {
+                    double rawMark = (double)film.Mark.RawMark;
+
+                    foreach (FilmTag tag in film.Tags)
                     {
-                        int tagIndex = Array.IndexOf(tagsArr, tag);
-                        matrix[filmIndex, tagIndex] = rawMark / Mark.MaxRawMark;
+                        int tagIndex = Array.IndexOf(tags, tag);
+                        profile.TagVectors[tagIndex] = rawMark / Mark.MaxRawMark;
                     }
+
+                    if (film.Category != null)
+                    {
+                        int categotyIndex = Array.IndexOf(categories, film.Category);
+                        profile.CategoryVectors[categotyIndex] = rawMark / Mark.MaxRawMark;
+                    }
+
+                    int genreIndex = Array.IndexOf(genres, film.Genre);
+                    profile.GenreVectors[genreIndex] = rawMark / Mark.MaxRawMark;
                 }
             }
 
-            return matrix;
+            Films = films;
+            Tags = tags;
+            Genres = genres;
+            Categories = categories;
+            Profiles = profiles;
         }
 
-        private double[] CalculateAvarageTagProfile(double[,] tagMatrix)
+        public FilmProfile CreateAvarageProfile()
         {
+            int filmsCount = Films.Length;
+            int tagsCount = Tags.Length;
+            int genresCount = Genres.Length;
+            int categoriesCount = Categories.Length;
             double sum = 0;
-            int filmsCount = tagMatrix.GetLength(0);
-            int tagsCount = tagMatrix.GetLength(1);
-            double[] avarageTagProfile = new double[tagsCount];
+
+            FilmProfile profile = new FilmProfile(tagsCount, genresCount, categoriesCount);
 
             for (int tagIndex = 0; tagIndex < tagsCount; tagIndex++)
             {
                 for (int filmIndex = 0; filmIndex < filmsCount; filmIndex++)
                 {
-                    sum += tagMatrix[filmIndex, tagIndex];
+                    sum += Profiles[filmIndex].TagVectors[tagIndex];
                 }
 
-                avarageTagProfile[tagIndex] = sum / filmsCount;
+                profile.TagVectors[tagIndex] = sum / filmsCount;
                 sum = 0;
             }
 
-            return avarageTagProfile;
+            for (int genreIndex = 0; genreIndex < genresCount; genreIndex++)
+            {
+                for (int filmIndex = 0; filmIndex < filmsCount; filmIndex++)
+                {
+                    sum += Profiles[filmIndex].GenreVectors[genreIndex];
+                }
+
+                profile.GenreVectors[genreIndex] = sum / filmsCount;
+                sum = 0;
+            }
+
+            for (int categoryIndex = 0; categoryIndex < categoriesCount; categoryIndex++)
+            {
+                for (int filmIndex = 0; filmIndex < filmsCount; filmIndex++)
+                {
+                    sum += Profiles[filmIndex].CategoryVectors[categoryIndex];
+                }
+
+                profile.CategoryVectors[categoryIndex] = sum / filmsCount;
+                sum = 0;
+            }
+
+            return profile;
+        }
+
+        public Similarity[] GetSimilarities(FilmProfile avarage)
+        {
+            int filmsCount = Films.Length;
+            Similarity[] similarities = new Similarity[filmsCount];
+
+            for (int i = 0; i < filmsCount; i++)
+            {
+                similarities[i] = GetSimilarity(avarage, Profiles[i]);
+            }
+
+            return similarities;
+        }
+
+        public Similarity GetSimilarity(FilmProfile avarage, FilmProfile profile)
+        {
+            double tagSimilarity = CosSimilarity(avarage.TagVectors, profile.TagVectors);
+            double genreSimilarity = CosSimilarity(avarage.GenreVectors, profile.GenreVectors);
+            double categorySimilarity = CosSimilarity(avarage.CategoryVectors, profile.CategoryVectors);
+
+            return new Similarity(tagSimilarity, genreSimilarity, categorySimilarity);
+        }
+
+        public double CosSimilarity(double[] avarage, double[] profile)
+        {
+            int count = avarage.GetLength(0);
+            double numerator = 0;
+            double denominatorLeft = 0;
+            double denominatorRight = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                numerator += avarage[i] * profile[i];
+
+                denominatorLeft += Math.Pow(avarage[i], 2);
+                denominatorRight += Math.Pow(profile[i], 2);
+            }
+
+            return numerator / (Math.Sqrt(denominatorLeft) * Math.Sqrt(denominatorRight)); //Cosine Similarity (A, B)
+        }
+    }
+
+    public class FilmProfile
+    {
+        public double[] TagVectors { get; private set; }
+        public double[] GenreVectors { get; private set; }
+        public double[] CategoryVectors { get; private set; }
+
+        public FilmProfile(int tagsCount, int genresCount, int categoryCount)
+        {
+            TagVectors = new double[tagsCount];
+            GenreVectors = new double[genresCount];
+            CategoryVectors = new double[categoryCount];
+        }
+    }
+
+    public class Similarity
+    {
+        public double TagSimilarity { get; }
+        public double GenreSimilarity { get; }
+        public double CategorySimilarity { get; }
+
+        public double TotalSimilarity { get; }
+
+        public Similarity(double tagSimilarity, double genreSimilarity, double categorySimilarity)
+        {
+            TagSimilarity = tagSimilarity;
+            GenreSimilarity = genreSimilarity;
+            CategorySimilarity = categorySimilarity;
+
+            TotalSimilarity = 
+                tagSimilarity * 0.75 + 
+                genreSimilarity * 0.15 + 
+                categorySimilarity * 0.05;
         }
     }
 }
