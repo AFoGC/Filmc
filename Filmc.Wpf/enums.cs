@@ -30,6 +30,13 @@ namespace Filmc.Wpf
         Priorities
     }
 
+
+    public enum EntityFamily
+    {
+        Films,
+        Books
+    }
+
     //Нельзя менять имена перечисления
     public enum ScaleEnum
     {

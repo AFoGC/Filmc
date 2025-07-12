@@ -52,6 +52,7 @@ namespace Filmc.Wpf.ViewModels
             RefreshProgressesChecked();
 
             ChangeMenuModeCommand = new RelayCommand(ChangeMenuMode);
+            OpenRecomentationsCommand = new RelayCommand(OpenRecomentations);
             AddCategoryCommand = new RelayCommand(AddCategory);
             RemoveCategoryCommand = new RelayCommand(RemoveCategory);
             AddFilmCommand = new RelayCommand(AddFilm);
@@ -71,6 +72,7 @@ namespace Filmc.Wpf.ViewModels
         }
 
         public RelayCommand ChangeMenuModeCommand { get; }
+        public RelayCommand OpenRecomentationsCommand { get; }
         public RelayCommand AddCategoryCommand { get; }
         public RelayCommand RemoveCategoryCommand { get; }
         public RelayCommand AddFilmCommand { get; }
@@ -171,6 +173,11 @@ namespace Filmc.Wpf.ViewModels
         public void ChangeMenuMode(object? obj)
         {
             TablesViewModel.MenuMode = (FilmsMenuMode)obj;
+        }
+
+        public void OpenRecomentations(object? obj)
+        {
+            //Add logic of opening recomendations
         }
 
         public void AddCategory(object? obj)

@@ -345,6 +345,7 @@
                             <RowDefinition Height="28"/>
                             <RowDefinition Height="28"/>
                             <RowDefinition Height="28"/>
+                            <RowDefinition Height="28"/>
                         </Grid.RowDefinitions>
                         <Button Style="{StaticResource BB}" Content="{DynamicResource save_tab_btn}"
 							VerticalAlignment="Top" Command="{Binding SaveTablesCommand}"
@@ -379,6 +380,10 @@
                         <Button Content="{DynamicResource show_bprior_btn}" Style="{StaticResource GB}" 
                             VerticalAlignment="Top" Grid.Column="2" Grid.Row="4"
                             Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Priorities}"/>
+
+                        <Button Content="RECOMENDATIONS" Style="{StaticResource GB}" 
+                            VerticalAlignment="Top" Grid.Column="2" Grid.Row="5"
+                            Command="{Binding OpenRecomentationsCommand}"/>
                     </Grid>
                     <StackPanel Grid.Row="1">
                         <StackPanel.Resources>

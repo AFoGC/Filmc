@@ -18,7 +18,7 @@ namespace Filmc.Wpf.Services
             _repositories = repositories;
         }
 
-        public void CreateRecomendations()
+        public Tuple<Film, Similarity>[] CreateRecomendations()
         {
             Film[] watchedFilms = GetWatchedFilms();
             Film[] notWatchedFilms = GetNotWatchedFilms();
@@ -43,8 +43,9 @@ namespace Filmc.Wpf.Services
                 recomendations[i] = new Tuple<Film, Similarity>(notWatchedFilms[i], similarities[i]);
             }
 
-            var output = recomendations.OrderByDescending(x => x.Item2.TotalSimilarity).ToArray();
-            var ooo = output.Select(x => $"{x.Item1.Id}, {x.Item1.Name}, {x.Item2.TotalSimilarity}").ToArray();
+            return recomendations
+                .OrderByDescending(x => x.Item2.TotalSimilarity)
+                .ToArray();
         }
 
         private Film[] GetWatchedFilms()
