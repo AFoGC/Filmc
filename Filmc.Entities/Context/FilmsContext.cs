@@ -31,6 +31,8 @@ namespace Filmc.Entities.Context
         public virtual DbSet<BookTag> BookTags { get; set; } = null!;
         public virtual DbSet<BooksInPriority> BooksInPriorities { get; set; } = null!;
         public virtual DbSet<BookReadProgress> BookReadProgresses { get; set; } = null!;
+        public virtual DbSet<BookTagCategory> BookTagCategories { get; set; } = null!;
+
         public virtual DbSet<Film> Films { get; set; } = null!;
         public virtual DbSet<FilmCategory> FilmCategories { get; set; } = null!;
         public virtual DbSet<FilmGenre> FilmGenres { get; set; } = null!;
@@ -38,6 +40,7 @@ namespace Filmc.Entities.Context
         public virtual DbSet<FilmTag> FilmTags { get; set; } = null!;
         public virtual DbSet<FilmsInPriority> FilmsInPriorities { get; set; } = null!;
         public virtual DbSet<FilmWatchProgress> FilmWatchProgresses { get; set; } = null!;
+        public virtual DbSet<FilmTagCategory> FilmTagCategories { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -253,6 +256,11 @@ namespace Filmc.Entities.Context
                     .HasColumnName("Name")
                     .HasField("_name")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Tags)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<BooksInPriority>(entity =>
@@ -292,6 +300,27 @@ namespace Filmc.Entities.Context
                 entity.Property(e => e.Name)
                     .HasColumnName("Name")
                     .HasField("_name")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+            });
+
+            modelBuilder.Entity<BookTagCategory>(entity =>
+            {
+                entity.HasIndex(e => e.Id, "IX_BookTagCategories_Id")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("Id")
+                    .HasField("_id")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("Name")
+                    .HasField("_name")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.Color)
+                    .HasColumnName("Color")
+                    .HasField("_color")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
             });
 
@@ -505,6 +534,11 @@ namespace Filmc.Entities.Context
                     .HasColumnName("Name")
                     .HasField("_name")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Tags)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<FilmsInPriority>(entity =>
@@ -544,6 +578,27 @@ namespace Filmc.Entities.Context
                 entity.Property(e => e.Name)
                     .HasColumnName("Name")
                     .HasField("_name")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+            });
+
+            modelBuilder.Entity<FilmTagCategory>(entity =>
+            {
+                entity.HasIndex(e => e.Id, "IX_FilmTagCategories_Id")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("Id")
+                    .HasField("_id")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("Name")
+                    .HasField("_name")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.Color)
+                    .HasColumnName("Color")
+                    .HasField("_color")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
             });
 

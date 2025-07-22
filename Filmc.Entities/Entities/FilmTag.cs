@@ -9,6 +9,9 @@ namespace Filmc.Entities.Entities
     {
         private int _id;
         private string _name = null!;
+        private int? _categoryId;
+
+        private FilmTagCategory? category;
 
         public FilmTag()
         {
@@ -26,6 +29,17 @@ namespace Filmc.Entities.Entities
         { 
             get => _name; 
             set { _name = value; OnPropertyChanged(); }
+        }
+        public int? CategoryId
+        {
+            get => _categoryId;
+            set { _categoryId = value; OnPropertyChanged(); }
+        }
+
+        public virtual FilmTagCategory? Category
+        {
+            get => category;
+            set { category = value; OnPropertyChanged(); }
         }
 
         public virtual ObservableCollection<Film> Films { get; }
