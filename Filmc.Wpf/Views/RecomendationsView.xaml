@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Filmc.Wpf.Views"
              mc:Ignorable="d" 
              d:DesignHeight="705" d:DesignWidth="1265">
-    <Grid>
+    <Grid Background="{StaticResource MainBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition />
@@ -15,11 +15,12 @@
         <Button Style="{StaticResource GrayButton}" HorizontalAlignment="Left" Width="120" Margin="3"
                 Content="Go_Back" Command="{Binding CloseMenuCommand}"/>
 
-        <DataGrid Margin="3" Grid.Row="1" >
+        <DataGrid Margin="3" Grid.Row="1" ItemsSource="{Binding RecomendedFilms}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="300" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Year" Binding="{Binding Year}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding Item.Id}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Item.Name}" Width="300" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Year" Binding="{Binding Item.RealiseYear}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Similarity" Binding="{Binding Similarity}" Width="300" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

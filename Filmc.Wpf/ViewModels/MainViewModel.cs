@@ -24,6 +24,7 @@ namespace Filmc.Wpf.ViewModels
         private readonly SettingsMenuViewModel _settingsMenuViewModel;
         private readonly UpdateMenuViewModel _updateMenuViewModel;
         private readonly UpdateProgramSerivce _updateProgramSerivce;
+        private readonly RecomendationMenuViewModel _recomendationMenuViewModel;
 
         private readonly ExitWindowService _exitService;
         private readonly GlobalSettingsService _settingsService;
@@ -31,13 +32,15 @@ namespace Filmc.Wpf.ViewModels
         public MainViewModel(FilmsMenuViewModel filmsMenuViewModel, BooksMenuViewModel booksMenuViewModel,
                SettingsMenuViewModel settingsMenuViewModel, UpdateMenuViewModel updateMenuViewModel,
                StatusBarViewModel statusBarViewModel, GlobalSettingsService settingsService, 
-               ExitWindowService exitService, UpdateProgramSerivce updateProgramSerivce)
+               ExitWindowService exitService, UpdateProgramSerivce updateProgramSerivce, 
+               RecomendationMenuViewModel recomendationMenuViewModel)
         {
             _filmsMenuViewModel = filmsMenuViewModel;
             _booksMenuViewModel = booksMenuViewModel;
             _settingsMenuViewModel = settingsMenuViewModel;
             _updateMenuViewModel = updateMenuViewModel;
             _updateProgramSerivce = updateProgramSerivce;
+            _recomendationMenuViewModel = recomendationMenuViewModel;
 
             _exitService = exitService;
             _settingsService = settingsService;
@@ -120,6 +123,11 @@ namespace Filmc.Wpf.ViewModels
         public UpdateMenuViewModel UpdateMenuViewModel
         {
             get => _updateMenuViewModel;
+        }
+
+        public RecomendationMenuViewModel RecomendationMenuViewModel
+        {
+            get => _recomendationMenuViewModel;
         }
 
         public void SaveSettings(object? obj)

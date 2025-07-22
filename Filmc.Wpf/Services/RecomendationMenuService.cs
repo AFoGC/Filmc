@@ -25,15 +25,17 @@ namespace Filmc.Wpf.Services
         {
             RepositoriesFacade repositories = _profilesService.SelectedProfile.TablesContext;
             FilmsRecomendationService service = new FilmsRecomendationService(repositories);
-            Tuple<Film, Similarity>[] rec = service.CreateRecomendations();
+            ItemSimilarity<Film>[] rec = service.CreateRecomendations();
 
-            FilmViewModel[] viewModels = new FilmViewModel[rec.Length];
+            ItemSimilarity<FilmViewModel>[] viewModels = new ItemSimilarity<FilmViewModel>[rec.Length];
 
             for (int i = 0; i < rec.Length; i++)
             {
-                Film film = rec[i].Item1;
-                viewModels[i] = tablesViewModel.FilmVMs
-                    .First(x => x.Model == film);
+                var recomendation = rec[i];
+                var viewModel = tablesViewModel.FilmVMs
+                    .First(x => x.Model == recomendation.Item);
+
+                viewModels[i] = new ItemSimilarity<FilmViewModel>(viewModel, recomendation.Similarity);
             }
 
             _menuViewModel.OpenMenu(viewModels);

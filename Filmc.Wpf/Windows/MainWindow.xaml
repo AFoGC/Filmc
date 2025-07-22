@@ -127,6 +127,9 @@
             </views:SettingsMenuView.Style>
         </views:SettingsMenuView>
 
+        <views:RecomendationsView DataContext="{Binding RecomendationMenuViewModel}" Visibility="{Binding MenuVisibility}"
+                                  Grid.Row="1" Grid.RowSpan="2"/>
+
         <views:UpdateMenuView DataContext="{Binding UpdateMenuViewModel}" Visibility="{Binding MenuVisibility}" 
                               Grid.Row="1" Grid.RowSpan="2"/>
 

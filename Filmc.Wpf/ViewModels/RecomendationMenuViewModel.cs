@@ -8,22 +8,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Filmc.Wpf.ViewModels
 {
     public class RecomendationMenuViewModel : BaseViewModel
     {
-        public EntityFamily? Status { get; private set; }
-        public FilmViewModel[]? RecomendedFilms { get; private set; }
-        public BookViewModel[]? RecomendedBooks { get; private set; }
-
-        public ICommand CloseMenuCommand { get; private set; }
-
         public RecomendationMenuViewModel()
         {
             Status = null;
             CloseMenuCommand = new RelayCommand(CloseMenu);
+        }
+
+        public EntityFamily? Status { get; private set; }
+        public ItemSimilarity<FilmViewModel>[]? RecomendedFilms { get; private set; }
+        public ItemSimilarity<BookViewModel>[]? RecomendedBooks { get; private set; }
+
+        public ICommand CloseMenuCommand { get; private set; }
+
+        public Visibility MenuVisibility
+        {
+            get
+            {
+                Visibility visibility = Visibility.Hidden;
+
+                if (Status != null)
+                    visibility = Visibility.Visible;
+
+                return visibility;
+            }
         }
 
         public void CloseMenu(object? obj)
@@ -31,7 +45,7 @@ namespace Filmc.Wpf.ViewModels
             CloseMenu();
         }
 
-        public void OpenMenu(FilmViewModel[] films)
+        public void OpenMenu(ItemSimilarity<FilmViewModel>[] films)
         {
             RecomendedFilms = films;
             RecomendedBooks = null;
@@ -39,9 +53,10 @@ namespace Filmc.Wpf.ViewModels
             OnPropertyChanged(nameof(RecomendedFilms));
             OnPropertyChanged(nameof(RecomendedBooks));
             OnPropertyChanged(nameof(Status));
+            OnPropertyChanged(nameof(MenuVisibility));
         }
 
-        public void OpenMenu(BookViewModel[] books)
+        public void OpenMenu(ItemSimilarity<BookViewModel>[] books)
         {
             RecomendedFilms = null;
             RecomendedBooks = books;
@@ -49,6 +64,7 @@ namespace Filmc.Wpf.ViewModels
             OnPropertyChanged(nameof(RecomendedFilms));
             OnPropertyChanged(nameof(RecomendedBooks));
             OnPropertyChanged(nameof(Status));
+            OnPropertyChanged(nameof(MenuVisibility));
         }
 
         public void CloseMenu()
@@ -59,6 +75,7 @@ namespace Filmc.Wpf.ViewModels
             OnPropertyChanged(nameof(RecomendedFilms));
             OnPropertyChanged(nameof(RecomendedBooks));
             OnPropertyChanged(nameof(Status));
+            OnPropertyChanged(nameof(MenuVisibility));
         }
     }
 }

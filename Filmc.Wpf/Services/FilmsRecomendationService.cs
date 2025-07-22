@@ -18,7 +18,7 @@ namespace Filmc.Wpf.Services
             _repositories = repositories;
         }
 
-        public Tuple<Film, Similarity>[] CreateRecomendations()
+        public ItemSimilarity<Film>[] CreateRecomendations()
         {
             Film[] watchedFilms = GetWatchedFilms();
             Film[] notWatchedFilms = GetNotWatchedFilms();
@@ -36,15 +36,15 @@ namespace Filmc.Wpf.Services
             FilmProfile avarageProfile = watchedMatrix.CreateAvarageProfile();
             Similarity[] similarities = notWatchedMatrix.GetSimilarities(avarageProfile);
 
-            Tuple<Film, Similarity>[] recomendations = new Tuple<Film, Similarity>[notWatchedFilms.Length];
+            ItemSimilarity<Film>[] recomendations = new ItemSimilarity<Film>[notWatchedFilms.Length];
 
             for (int i = 0; i < notWatchedFilms.Length; i++)
             {
-                recomendations[i] = new Tuple<Film, Similarity>(notWatchedFilms[i], similarities[i]);
+                recomendations[i] = new ItemSimilarity<Film>(notWatchedFilms[i], similarities[i]);
             }
 
             return recomendations
-                .OrderByDescending(x => x.Item2.TotalSimilarity)
+                .OrderByDescending(x => x.Similarity.TotalSimilarity)
                 .ToArray();
         }
 
@@ -277,5 +277,22 @@ namespace Filmc.Wpf.Services
                 genreSimilarity * 0.15 + 
                 categorySimilarity * 0.05;
         }
+
+        public override string ToString()
+        {
+            return $"t:{TagSimilarity}; g:{GenreSimilarity}; c:{CategorySimilarity}; T: {TotalSimilarity}";
+        }
+    }
+
+    public class ItemSimilarity<T> where T : class
+    {
+        public ItemSimilarity(T item, Similarity similarity)
+        {
+            Item = item;
+            Similarity = similarity;
+        }
+
+        public T Item { get; set; } = null!;
+        public Similarity Similarity { get; set; } = null!;
     }
 }

@@ -49,6 +49,7 @@ namespace Filmc.Wpf
             serviceCollection.AddSingleton<ChangeProfileWindowService>();
             serviceCollection.AddSingleton<AddEntityByUrlService>();
             serviceCollection.AddSingleton<AddEntityWindowService>();
+            serviceCollection.AddSingleton<RecomendationMenuService>();
 
             serviceCollection.AddSingleton<AutoSaveService>();
             serviceCollection.AddSingleton<BackgroundImageService>();
@@ -66,6 +67,7 @@ namespace Filmc.Wpf
             serviceCollection.AddSingleton<BooksMenuViewModel>();
             serviceCollection.AddSingleton<SettingsMenuViewModel>();
             serviceCollection.AddSingleton<UpdateMenuViewModel>();
+            serviceCollection.AddSingleton<RecomendationMenuViewModel>();
 
             serviceCollection.AddSingleton<StatusBarViewModel>();
             serviceCollection.AddSingleton<MainViewModel>();

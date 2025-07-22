@@ -23,6 +23,7 @@ namespace Filmc.Wpf.ViewModels
     {
         private readonly FilmsModel _model;
         private readonly AddEntityWindowService _addEntityWindowService;
+        private readonly RecomendationMenuService _recomendationMenuService;
 
         private string _searchText;
 
@@ -35,10 +36,12 @@ namespace Filmc.Wpf.ViewModels
         private FilmViewModel? _selectedFilm;
 
         public FilmsMenuViewModel(FilmsModel model, UpdateMenuService updateMenuService, 
-                                  BackgroundImageService backgroundImageService, AddEntityWindowService addEntityWindowService)
+                                  BackgroundImageService backgroundImageService, AddEntityWindowService addEntityWindowService,
+                                  RecomendationMenuService recomendationMenuService)
         {
             _model = model;
             _addEntityWindowService = addEntityWindowService;
+            _recomendationMenuService = recomendationMenuService;
 
             BackgroundImageViewModel = new BackgroundImageViewModel(backgroundImageService);
             TablesViewModel = new FilmTablesViewModel(model, updateMenuService);
@@ -177,7 +180,7 @@ namespace Filmc.Wpf.ViewModels
 
         public void OpenRecomentations(object? obj)
         {
-            //Add logic of opening recomendations
+            _recomendationMenuService.OpenRecomendations(TablesViewModel);
         }
 
         public void AddCategory(object? obj)
