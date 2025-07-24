@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Filmc.Entities.Entities
 {
-    public class BookTagCategory : BaseEntity
+    public class BookTagCategory : BaseEntity, ITagCategory
     {
         private int _id;
         private string _name = null!;
