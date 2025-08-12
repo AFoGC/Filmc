@@ -12,6 +12,9 @@ namespace Filmc.Entities.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Color { get; set; }
+        public byte ColorA { get; set; }
+        public byte ColorR { get; set; }
+        public byte ColorG { get; set; }
+        public byte ColorB { get; set; }
     }
 }

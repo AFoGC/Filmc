@@ -18,6 +18,7 @@ namespace Filmc.Wpf.Repositories
         public BookInPriorityRepository BooksInPriorities { get; }
         public BookRepository Books { get; }
         public BookSourceRepository BookSources { get; }
+        public BookTagCategoryRepository BookTagCategories { get; }
         public BookTagRepository BookTags { get; }
         public BookReadProgressRepository BookProgresses { get; }
 
@@ -26,6 +27,7 @@ namespace Filmc.Wpf.Repositories
         public FilmInPriorityRepository FilmInPriorities { get; }
         public FilmRepository Films { get; }
         public FilmSourceRepository FilmSources { get; }
+        public FilmTagCategoryRepository FilmTagCategories { get; }
         public FilmTagRepository FilmTags { get; }
         public FilmWatchProgressRepository FilmProgresses { get; }
 
@@ -40,6 +42,7 @@ namespace Filmc.Wpf.Repositories
             BooksInPriorities = new BookInPriorityRepository(filmsContext.BooksInPriorities);
             Books = new BookRepository(filmsContext.Books);
             BookSources = new BookSourceRepository(filmsContext.BookSources);
+            BookTagCategories = new BookTagCategoryRepository(filmsContext.BookTagCategories);
             BookTags = new BookTagRepository(filmsContext.BookTags);
             BookProgresses = new BookReadProgressRepository(filmsContext.BookReadProgresses);
 
@@ -48,6 +51,7 @@ namespace Filmc.Wpf.Repositories
             FilmInPriorities = new FilmInPriorityRepository(filmsContext.FilmsInPriorities);
             Films = new FilmRepository(filmsContext.Films);
             FilmSources = new FilmSourceRepository(filmsContext.FilmSources);
+            FilmTagCategories = new FilmTagCategoryRepository(filmsContext.FilmTagCategories);
             FilmTags = new FilmTagRepository(filmsContext.FilmTags);
             FilmProgresses = new FilmWatchProgressRepository(filmsContext.FilmWatchProgresses);
 
@@ -58,6 +62,7 @@ namespace Filmc.Wpf.Repositories
                 BooksInPriorities,
                 Books,
                 BookSources,
+                BookTagCategories,
                 BookTags,
                 BookProgresses,
                 FilmCategories,
@@ -65,6 +70,7 @@ namespace Filmc.Wpf.Repositories
                 FilmInPriorities,
                 Films,
                 FilmSources,
+                FilmTagCategories,
                 FilmTags,
                 FilmProgresses
             };

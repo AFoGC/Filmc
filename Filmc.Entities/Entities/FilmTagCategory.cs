@@ -11,12 +11,19 @@ namespace Filmc.Entities.Entities
     {
         private int _id;
         private string _name = null!;
-        private string _color = null!;
+
+        private byte _colorA;
+        private byte _colorR;
+        private byte _colorG;
+        private byte _colorB;
 
         public FilmTagCategory()
         {
-            Name = String.Empty;
-            Color = "#828282";
+            _name = String.Empty;
+            _colorA = 255;
+            _colorR = 130;
+            _colorG = 130;
+            _colorB = 130;
 
             Tags = new ObservableCollection<FilmTag>();
         }
@@ -31,10 +38,25 @@ namespace Filmc.Entities.Entities
             get => _name;
             set { _name = value; OnPropertyChanged(); }
         }
-        public string Color
+        public byte ColorA
         {
-            get => _color;
-            set { _color = value; OnPropertyChanged(); }
+            get => _colorA;
+            set { _colorA = value; OnPropertyChanged(); }
+        }
+        public byte ColorR
+        {
+            get => _colorR;
+            set { _colorR = value; OnPropertyChanged(); }
+        }
+        public byte ColorG
+        {
+            get => _colorG;
+            set { _colorG = value; OnPropertyChanged(); }
+        }
+        public byte ColorB
+        {
+            get => _colorB;
+            set { _colorB = value; OnPropertyChanged(); }
         }
 
         public virtual ObservableCollection<FilmTag> Tags { get; }

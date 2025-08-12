@@ -318,9 +318,24 @@ namespace Filmc.Entities.Context
                     .HasField("_name")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
-                entity.Property(e => e.Color)
-                    .HasColumnName("Color")
-                    .HasField("_color")
+                entity.Property(e => e.ColorA)
+                    .HasColumnName("ColorA")
+                    .HasField("_colorA")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.ColorR)
+                    .HasColumnName("ColorR")
+                    .HasField("_colorR")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.ColorG)
+                    .HasColumnName("ColorG")
+                    .HasField("_colorG")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.ColorB)
+                    .HasColumnName("ColorB")
+                    .HasField("_colorB")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
             });
 
@@ -596,9 +611,24 @@ namespace Filmc.Entities.Context
                     .HasField("_name")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
 
-                entity.Property(e => e.Color)
-                    .HasColumnName("Color")
-                    .HasField("_color")
+                entity.Property(e => e.ColorA)
+                    .HasColumnName("ColorA")
+                    .HasField("_colorA")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.ColorR)
+                    .HasColumnName("ColorR")
+                    .HasField("_colorR")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.ColorG)
+                    .HasColumnName("ColorG")
+                    .HasField("_colorG")
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                entity.Property(e => e.ColorB)
+                    .HasColumnName("ColorB")
+                    .HasField("_colorB")
                     .UsePropertyAccessMode(PropertyAccessMode.Property);
             });
 

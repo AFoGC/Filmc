@@ -98,7 +98,7 @@
                     <local:FilmToolTipView/>
                 </Button.ToolTip>
             </Button>
-            <ItemsControl ItemsSource="{Binding HasTags}">
+            <ItemsControl ItemsSource="{Binding FilmTags.Collection}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
@@ -106,7 +106,17 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="2,1" Padding="4,1" Background="{StaticResource ButtonDarkGray}" CornerRadius="8">
+                        <Border Margin="2,1" Padding="4,1" CornerRadius="8">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="{Binding Brush}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Brush}" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource ButtonDarkGray}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
                             <TextBlock Text="{Binding Name}" Foreground="WhiteSmoke" FontSize="11"/>
                         </Border>
                     </DataTemplate>

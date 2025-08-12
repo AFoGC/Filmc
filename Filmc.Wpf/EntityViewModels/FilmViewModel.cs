@@ -39,6 +39,7 @@ namespace Filmc.Wpf.EntityViewModels
             CopyUrlCommand = new RelayCommand(CopyUrl);
             OpenUpdateMenuCommand = new RelayCommand(OpenUpdateMenu);
             RemoveMarkCommand = new RelayCommand(RemoveMark);
+            FilmTags = new FilmTagsService(model.Tags);
         }
 
         public RelayCommand CopyUrlCommand { get; }
@@ -140,6 +141,8 @@ namespace Filmc.Wpf.EntityViewModels
         {
             get => Model.Tags;
         }
+
+        public FilmTagsService FilmTags { get; }
         
         public string ShortName
         {
