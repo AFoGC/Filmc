@@ -49,7 +49,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="23"/>
-            <RowDefinition Height="22"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -118,204 +117,28 @@
             </TextBlock.Style>
         </TextBlock>
 
-        <Grid Grid.Column="1" Grid.Row="2" Height="20" 
-              Margin="0,0,0,1" DataContext="{Binding TablesViewModel}">
-            
-            <Grid.Resources>
-                <Style TargetType="Button" BasedOn="{StaticResource GrayButton}">
-                    <Setter Property="Height" Value="20"/>
-                    <Setter Property="Margin" Value="1,0"/>
-                </Style>
-            </Grid.Resources>
-            <StackPanel Style="{StaticResource CategoriesVisiblity}" Orientation="Horizontal">
-                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
-                        ToolTip="{DynamicResource id_tt}" 
-                        Command="{Binding SortTable}" CommandParameter="Id"/>
+        <DataGrid ItemsSource="{Binding TablesViewModel.FilmsVC.View}" 
+                  Grid.Row="2" Grid.Column="1" Style="{StaticResource MainGrid}">
 
-                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
-                        ToolTip="{DynamicResource name_tt}" 
-                        Command="{Binding SortTable}" CommandParameter="Name"/>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Год" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата просмотра" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Оценка" Binding="{Binding RawMark}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Просмотры" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
 
-                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
-                        ToolTip="{DynamicResource mark_tt}" 
-                        Command="{Binding SortTable}" CommandParameter="RawMark"/>
-            </StackPanel>
-
-            <StackPanel Style="{StaticResource FilmsVisiblity}" Orientation="Horizontal">
-                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
-                        ToolTip="{DynamicResource id_tt}"
-                        Command="{Binding SortTable}" CommandParameter="Id"/>
-
-                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
-                        ToolTip="{DynamicResource name_tt}"
-                        Command="{Binding SortTable}" CommandParameter="Name"/>
-
-                <Button Width="{DynamicResource genre_width}" Content="{DynamicResource genre_sort}" 
-                        ToolTip="{DynamicResource genre_tt}"
-                        Command="{Binding SortTable}" CommandParameter="Genre.Name"/>
-
-                <Button Width="{DynamicResource id_width}" Content="{DynamicResource year_sort}" 
-                        ToolTip="{DynamicResource year_tt}"
-                        Command="{Binding SortTable}" CommandParameter="RealiseYear"/>
-
-                <Rectangle Width="56"/>
-                <Button Width="{DynamicResource date_width}" Content="{DynamicResource date_sort}" 
-                        ToolTip="{DynamicResource end_watch_date_tt}" 
-                        Command="{Binding SortTable}" CommandParameter="EndWatchDate"/>
-
-                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
-                        ToolTip="{DynamicResource mark_tt}"
-                        Command="{Binding SortTable}" CommandParameter="RawMark"/>
-
-                <Button Width="{DynamicResource id_width}" ToolTip="{DynamicResource cov_tt}"
-                        Command="{Binding SortTable}" CommandParameter="CountOfViews">
-                    <Button.Content>
-                        <Path Style="{StaticResource ArrowDownImage}"/>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-            <StackPanel Style="{StaticResource SeriesVisiblity}" Orientation="Horizontal">
-                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
-                        ToolTip="{DynamicResource id_tt}"
-                        Command="{Binding SortTable}" CommandParameter="Id"/>
-
-                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
-                        ToolTip="{DynamicResource name_tt}"
-                        Command="{Binding SortTable}" CommandParameter="Name"/>
-
-                <Button Width="{DynamicResource genre_width}" Content="{DynamicResource genre_sort}" 
-                        ToolTip="{DynamicResource genre_tt}"
-                        Command="{Binding SortTable}" CommandParameter="Genre.Name"/>
-
-                <Button Width="{DynamicResource id_width}" Content="{DynamicResource year_sort}"
-                        ToolTip="{DynamicResource year_tt}"
-                        Command="{Binding SortTable}" CommandParameter="RealiseYear"/>
-
-                <Rectangle Width="56"/>
-                <Button Width="{DynamicResource date_width}" Content="{DynamicResource date_sort}" 
-                        ToolTip="{DynamicResource start_watch_date_tt}"
-                        Command="{Binding SortTable}" CommandParameter="StartWatchDate"/>
-
-                <Button Width="{DynamicResource id_width}" ToolTip="{DynamicResource watched_series_tt}"
-                        Command="{Binding SortTable}" CommandParameter="WatchedSeries">
-
-                    <Button.Content>
-                        <Path Style="{StaticResource ArrowDownImage}"/>
-                    </Button.Content>
-                </Button>
-
-                <Button Width="{DynamicResource date_width}" Content="{DynamicResource date_sort}" 
-                        ToolTip="{DynamicResource end_watch_date_tt}"
-                        Command="{Binding SortTable}" CommandParameter="EndWatchDate"/>
-
-                <Button Width="{DynamicResource id_width}" ToolTip="{DynamicResource total_series_tt}"
-                        Command="{Binding SortTable}" CommandParameter="TotalSeries">
-
-                    <Button.Content>
-                        <Path Style="{StaticResource ArrowDownImage}"/>
-                    </Button.Content>
-                </Button>
-
-                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
-                        ToolTip="{DynamicResource mark_tt}" 
-                        Command="{Binding SortTable}" CommandParameter="RawMark"/>
-
-                <Button Width="{DynamicResource id_width}" ToolTip="{DynamicResource cov_tt}"
-                        Command="{Binding SortTable}" CommandParameter="CountOfViews">
-
-                    <Button.Content>
-                        <Path Style="{StaticResource ArrowDownImage}"/>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-
-            <StackPanel Style="{StaticResource PrioritiesVisiblity}" Orientation="Horizontal">
-                <Button Width="{DynamicResource id_width}" Content="{DynamicResource id_sort}" 
-                        ToolTip="{DynamicResource id_tt}"
-                        Command="{Binding SortTable}" CommandParameter="Id"/>
-
-                <Button Width="{DynamicResource name_width}" Content="{DynamicResource name_sort}" 
-                        ToolTip="{DynamicResource name_tt}"
-                        Command="{Binding SortTable}" CommandParameter="Name"/>
-
-                <Button Width="{DynamicResource genre_width}" Content="{DynamicResource genre_sort}" 
-                        ToolTip="{DynamicResource genre_tt}"
-                        Command="{Binding SortTable}" CommandParameter="Genre.Name"/>
-
-                <Button Width="{DynamicResource id_width}" Content="{DynamicResource year_sort}" 
-                        ToolTip="{DynamicResource year_tt}"
-                        Command="{Binding SortTable}" CommandParameter="RealiseYear"/>
-
-                <Rectangle Width="56"/>
-                <Button Width="{DynamicResource mark_width}" Content="{DynamicResource mark_sort}" 
-                        ToolTip="{DynamicResource mark_tt}"
-                        Command="{Binding SortTable}" CommandParameter="RawMark"/>
-            </StackPanel>
-        </Grid>
-
-        <ScrollViewer Grid.Column="1" Grid.Row="3">
-            <ScrollViewer.Resources>
-                <Style TargetType="ItemsControl">
-                    <Setter Property="ItemsPanel">
-                        <Setter.Value>
-                            <ItemsPanelTemplate >
-                                <StackPanel />
-                            </ItemsPanelTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ScrollViewer.Resources>
-
-            <StackPanel DataContext="{Binding TablesViewModel}">
-                <!--Categories Menu-->
-                <ItemsControl ItemsSource="{Binding CategoriesVC.View}"
-                              Style="{StaticResource CategoriesVisiblity}">
-                    <ItemsControl.ItemTemplate>
+                <!-- Tags -->
+                <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
+                    <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ev:FilmCategoryView />
+                            <ItemsControl ItemsSource="{Binding FilmTags.Collection}" Style="{StaticResource TagsItemsControl}"/>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <ItemsControl ItemsSource="{Binding FilmsSimplifiedVC.View}"
-                              Style="{StaticResource CategoriesVisiblity}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ev:FilmSimplifiedView />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <!--Films Menu-->
-                <ItemsControl ItemsSource="{Binding FilmsVC.View}"
-                              Style="{StaticResource FilmsVisiblity}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ev:FilmView />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <!--Series Menu-->
-                <ItemsControl ItemsSource="{Binding SeriesVC.View}"
-                              Style="{StaticResource SeriesVisiblity}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ev:FilmSerieView/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                <!--Priority Menu-->
-                <ItemsControl ItemsSource="{Binding PrioritiesVC.View}"
-                              Style="{StaticResource PrioritiesVisiblity}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ev:FilmInPriorityView/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </ScrollViewer>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <ScrollViewer Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
                       VerticalAlignment="Top" HorizontalAlignment="Right">
