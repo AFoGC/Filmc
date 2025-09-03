@@ -11,13 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Converters\**" />
-    <EmbeddedResource Remove="Converters\**" />
-    <None Remove="Converters\**" />
-    <Page Remove="Converters\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Resources\Images\BookIcon.ico" />
   </ItemGroup>
 

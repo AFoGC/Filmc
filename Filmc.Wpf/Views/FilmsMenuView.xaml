@@ -8,6 +8,8 @@
              xmlns:cont="clr-namespace:Filmc.Wpf.Controls"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:Filmc.Wpf.Views"
+             xmlns:entities="clr-namespace:Filmc.Wpf.EntityViews"
+             xmlns:con="clr-namespace:Filmc.Wpf.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="705" d:DesignWidth="1265">
     <UserControl.Resources>
@@ -46,6 +48,10 @@
     </UserControl.Resources>
     
     <Grid Background="{StaticResource MainBackground}">
+        <Grid.Resources>
+            <entities:BindingProxy x:Key="menuProxy" Data="{Binding}"/>
+        </Grid.Resources>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="23"/>
@@ -118,7 +124,39 @@
         </TextBlock>
 
         <DataGrid ItemsSource="{Binding TablesViewModel.FilmsVC.View}" 
-                  Grid.Row="2" Grid.Column="1" Style="{StaticResource MainGrid}">
+                  Grid.Row="2" Grid.Column="1">
+
+            <DataGrid.Style>
+                <Style TargetType="DataGrid" BasedOn="{StaticResource MainGrid}">
+                    <Setter Property="CellStyle">
+                        <Setter.Value>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MainGridCell}">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu>
+                                            <MenuItem Header="{DynamicResource edit_btn}" ToolTip="{DynamicResource open_edit_tt}"
+                                                      Command="{Binding OpenUpdateMenuCommand}"
+                                                      CommandParameter="{Binding}"/>
+
+                                            <MenuItem Header="{Binding SourcesText}" ToolTip="{DynamicResource copy_url_tt}" 
+                                                      Command="{Binding CopyUrlCommand}"/>
+
+                                            <MenuItem Header="{DynamicResource add_to_prior_cm}"
+                                                      Command="{Binding Path=Data.AddFilmToPriorityCommand, Source={StaticResource menuProxy}}"
+                                                      CommandParameter="{Binding}"/>
+
+                                            <Separator />
+                                            <MenuItem Header="{DynamicResource delete_this_cm}" 
+                                                      Command="{Binding Path=Data.DeleteFilmCommand, Source={StaticResource menuProxy}}"
+                                                      CommandParameter="{Binding}"/>
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Style>
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
@@ -126,7 +164,17 @@
                 <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Год" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата просмотра" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Оценка" Binding="{Binding RawMark}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding>
+                            <MultiBinding.Converter>
+                                <con:MarkValueConverter />
+                            </MultiBinding.Converter>
+                            <Binding Path="FormatedMark"/>
+                            <Binding Path="MarkSystem"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Просмотры" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
 
                 <!-- Tags -->
