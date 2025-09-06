@@ -125,9 +125,14 @@ namespace Filmc.Wpf.EntityViewModels
 
             if (filmViewModel != null)
             {
-                Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId - 1);
-                _repositories.SaveChanges();
+                UpInCategory(filmViewModel);
             }
+        }
+
+        public void UpInCategory(FilmViewModel filmViewModel)
+        {
+            Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId - 1);
+            _repositories.SaveChanges();
         }
 
         public void DownInCategory(object? obj)
@@ -136,9 +141,14 @@ namespace Filmc.Wpf.EntityViewModels
 
             if (filmViewModel != null)
             {
-                Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId + 1);
-                _repositories.SaveChanges();
+                DownInCategory(filmViewModel);
             }
+        }
+
+        public void DownInCategory(FilmViewModel filmViewModel)
+        {
+            Model.ChangeCategoryListId(filmViewModel.Model, filmViewModel.Model.CategoryListId + 1);
+            _repositories.SaveChanges();
         }
 
         public void RemoveFromCategory(object? obj)
@@ -147,9 +157,14 @@ namespace Filmc.Wpf.EntityViewModels
 
             if (filmViewModel != null)
             {
-                Model.RemoveFilmInOrder(filmViewModel.Model);
-                _repositories.SaveChanges();
+                RemoveFromCategory(filmViewModel);
             }
+        }
+
+        public void RemoveFromCategory(FilmViewModel filmViewModel)
+        {
+            Model.RemoveFilmInOrder(filmViewModel.Model);
+            _repositories.SaveChanges();
         }
 
         public void OpenUpdateMenu(object? obj)

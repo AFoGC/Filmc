@@ -123,7 +123,124 @@
             </TextBlock.Style>
         </TextBlock>
 
+        <DataGrid ItemsSource="{Binding TablesViewModel.FilmsSimplifiedVC.View}" 
+                  SelectedItem="{Binding SelectedFilm}"
+                  Grid.Row="2" Grid.Column="1">
+
+            <DataGrid.Style>
+                <Style TargetType="DataGrid" BasedOn="{StaticResource MainGrid}">
+                    <Setter Property="CellStyle">
+                        <Setter.Value>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MainGridCell}">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu>
+                                            <MenuItem Header="{DynamicResource edit_btn}" ToolTip="{DynamicResource open_edit_tt}"
+                                                      Command="{Binding OpenUpdateMenuCommand}"
+                                                      CommandParameter="{Binding}"/>
+
+                                            <MenuItem Header="{Binding SourcesText}" ToolTip="{DynamicResource copy_url_tt}" 
+                                                      Command="{Binding CopyUrlCommand}"/>
+
+                                            <MenuItem Header="{DynamicResource add_to_prior_cm}"
+                                                      Command="{Binding Path=Data.AddFilmToPriorityCommand, Source={StaticResource menuProxy}}"
+                                                      CommandParameter="{Binding}"/>
+
+                                            <Separator />
+                                            <MenuItem Header="{DynamicResource up_in_category_cm}"
+                                                      Command="{Binding Path=Data.UpInCategoryCommand, Source={StaticResource menuProxy}}"
+                                                      CommandParameter="{Binding}"/>
+
+                                            <MenuItem Header="{DynamicResource down_in_category_cm}"
+                                                      Command="{Binding Path=Data.DownInCategoryCommand, Source={StaticResource menuProxy}}"
+                                                      CommandParameter="{Binding}"/>
+
+                                            <MenuItem Header="{DynamicResource remove_from_category_cm}"
+                                                      Command="{Binding Path=Data.RemoveFromCategoryCommand, Source={StaticResource menuProxy}}"
+                                                      CommandParameter="{Binding}"/>
+
+                                            <Separator />
+                                            <MenuItem Header="{DynamicResource delete_this_cm}" 
+                                                      Command="{Binding Path=Data.DeleteFilmCommand, Source={StaticResource menuProxy}}"
+                                                      CommandParameter="{Binding}"/>
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.TablesViewModel.MenuMode, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="Categories">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+
+            <DataGrid.GroupStyle>
+                <!-- Style for groups at top level. -->
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,0,0,5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255" Foreground="#FFEEEEEE" BorderThickness="1,1,1,5">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock FontWeight="Bold" Text="{Binding Path=Name.Id}" Margin="5,0"/>
+                                                        <TextBlock FontWeight="Bold" Text="{Binding Path=Name.Name}" />
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <Expander.Content>
+                                                <ItemsPresenter />
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Год" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата просмотра" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding>
+                            <MultiBinding.Converter>
+                                <con:MarkValueConverter />
+                            </MultiBinding.Converter>
+                            <Binding Path="FormatedMark"/>
+                            <Binding Path="MarkSystem"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Просмотры" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
+
+                <!-- Tags -->
+                <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding FilmTags.Collection}" Style="{StaticResource TagsItemsControl}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
         <DataGrid ItemsSource="{Binding TablesViewModel.FilmsVC.View}" 
+                  SelectedItem="{Binding SelectedFilm}"
                   Grid.Row="2" Grid.Column="1">
 
             <DataGrid.Style>
@@ -155,6 +272,13 @@
                             </Style>
                         </Setter.Value>
                     </Setter>
+
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.TablesViewModel.MenuMode, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="Films">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </DataGrid.Style>
 

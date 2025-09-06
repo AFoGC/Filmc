@@ -72,6 +72,9 @@ namespace Filmc.Wpf.ViewModels
             CheckGenresCommand = new RelayCommand(CheckGenres);
             CheckTagsCommand = new RelayCommand(CheckTags);
             CheckProgressesCommand = new RelayCommand(CheckProgresses);
+            UpInCategoryCommand = new RelayCommand(UpInCategory);
+            DownInCategoryCommand = new RelayCommand(DownInCategory);
+            RemoveFromCategoryCommand = new RelayCommand(RemoveFromCategory);
         }
 
         public RelayCommand ChangeMenuModeCommand { get; }
@@ -92,6 +95,9 @@ namespace Filmc.Wpf.ViewModels
         public RelayCommand CheckGenresCommand { get; }
         public RelayCommand CheckTagsCommand { get; }
         public RelayCommand CheckProgressesCommand { get; }
+        public RelayCommand UpInCategoryCommand { get; }
+        public RelayCommand DownInCategoryCommand { get; }
+        public RelayCommand RemoveFromCategoryCommand { get; }
 
         public FilmTablesViewModel TablesViewModel { get; }
         public BackgroundImageViewModel BackgroundImageViewModel { get; }
@@ -411,6 +417,30 @@ namespace Filmc.Wpf.ViewModels
             }
 
             return watchedPassed && genresPassed && tagsPassed;
+        }
+
+        public void UpInCategory(object? obj)
+        {
+            FilmViewModel film = (FilmViewModel)obj!;
+
+            var category = TablesViewModel.CategoryVMs.First(x => x.Id == film.CategoryId);
+            category.UpInCategory(film);
+        }
+
+        public void DownInCategory(object? obj)
+        {
+            FilmViewModel film = (FilmViewModel)obj!;
+
+            var category = TablesViewModel.CategoryVMs.First(x => x.Id == film.CategoryId);
+            category.DownInCategory(film);
+        }
+
+        public void RemoveFromCategory(object? obj)
+        {
+            FilmViewModel film = (FilmViewModel)obj!;
+
+            var category = TablesViewModel.CategoryVMs.First(x => x.Id == film.CategoryId);
+            category.RemoveFromCategory(film);
         }
     }
 }

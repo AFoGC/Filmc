@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,13 @@ namespace Filmc.Wpf.ViewCollections
 
             CollectionViewSource.IsLiveFilteringRequested = true;
             CollectionViewSource.LiveFilteringProperties.Add("CategoryId");
+            //CollectionViewSource.LiveSortingProperties.Add("CategoryListId");
+
+            CollectionViewSource.GroupDescriptions.Clear();
+            CollectionViewSource.IsLiveSortingRequested = true;
+            var group = new PropertyGroupDescription("Model.Category");
+            group.SortDescriptions.Add(new SortDescription("Name.Id", ListSortDirection.Descending));
+            CollectionViewSource.GroupDescriptions.Add(group);
         }
 
         private void OnCollectionFilter(object sender, FilterEventArgs e)
@@ -28,11 +36,11 @@ namespace Filmc.Wpf.ViewCollections
             {
                 if (vm.Model.CategoryId == null)
                 {
-                    e.Accepted = true;
+                    e.Accepted = false;
                 }
                 else
                 {
-                    e.Accepted = false;
+                    e.Accepted = true;
                 }
             }
         }
