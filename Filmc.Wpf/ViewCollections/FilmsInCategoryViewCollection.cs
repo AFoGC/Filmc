@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,8 @@ namespace Filmc.Wpf.ViewCollections
 
             CollectionViewSource.IsLiveSortingRequested = true;
             CollectionViewSource.LiveSortingProperties.Add("CategoryListId");
+            CollectionViewSource.SortDescriptions.Clear();
+            CollectionViewSource.SortDescriptions.Add(new SortDescription("CategoryListId", ListSortDirection.Ascending));
 
             ChangeSortProperty("CategoryListId");
 

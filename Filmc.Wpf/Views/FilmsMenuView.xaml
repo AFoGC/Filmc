@@ -123,8 +123,8 @@
             </TextBlock.Style>
         </TextBlock>
 
-        <DataGrid ItemsSource="{Binding TablesViewModel.FilmsSimplifiedVC.View}" 
-                  SelectedItem="{Binding SelectedFilm}"
+        <DataGrid ItemsSource="{Binding TablesViewModel.CategoriesVC.View}" 
+                  RowDetailsVisibilityMode="Visible"
                   Grid.Row="2" Grid.Column="1">
 
             <DataGrid.Style>
@@ -172,7 +172,7 @@
 
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.TablesViewModel.MenuMode, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="Categories">
+                        <DataTrigger Binding="{Binding Data.TablesViewModel.MenuMode, Source={StaticResource menuProxy}}" Value="Categories">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -212,9 +212,6 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Год" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата просмотра" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
@@ -226,17 +223,19 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Просмотры" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
-
-                <!-- Tags -->
-                <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding FilmTags.Collection}" Style="{StaticResource TagsItemsControl}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DataGrid ItemsSource="{Binding FilmsVC.View}" AutoGenerateColumns="false" CanUserAddRows="False"
+                              HeadersVisibility="None">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="ListID" Binding="{Binding Path=CategoryListId}" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
         </DataGrid>
 
         <DataGrid ItemsSource="{Binding TablesViewModel.FilmsVC.View}" 
@@ -275,7 +274,7 @@
 
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.TablesViewModel.MenuMode, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="Films">
+                        <DataTrigger Binding="{Binding Data.TablesViewModel.MenuMode, Source={StaticResource menuProxy}}" Value="Films">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
