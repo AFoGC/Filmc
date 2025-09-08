@@ -10,6 +10,7 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="WhiteSmoke"/>
         <Setter Property="Background" Value="{StaticResource TextBoxColor}"/>
+        <Setter Property="FontSize" Value="16"/>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource ButtonGreen}"/>
@@ -57,29 +58,6 @@
 
         <Setter Property="CellStyle" Value="{StaticResource MainGridCell}"/>
     </Style>
-
-    <!--
-    <Style TargetType="{x:Type DataGridColumnHeader}">
-        <Setter Property="BorderBrush" Value="{StaticResource MainBackground}"/>
-        <Setter Property="Background" Value="{StaticResource ButtonDarkGray}"/>
-        <Setter Property="Height" Value="23"/>
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}" Margin="2"/>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource DefaultButtonColorMO}"/>
-            </Trigger>
-            <Trigger Property="IsMouseCaptureWithin" Value="True">
-                <Setter Property="Background" Value="{StaticResource DefaultButtonColorMCW}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    -->
 
     <!--Tags-->
     <Style x:Key="TagsColumn" TargetType="DataGridTemplateColumn">

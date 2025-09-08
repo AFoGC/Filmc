@@ -135,33 +135,23 @@
                                 <Setter Property="ContextMenu">
                                     <Setter.Value>
                                         <ContextMenu>
-                                            <MenuItem Header="{DynamicResource edit_btn}" ToolTip="{DynamicResource open_edit_tt}"
+                                            <MenuItem Header="{DynamicResource edit_category_btn}" ToolTip="{DynamicResource open_edit_tt}"
                                                       Command="{Binding OpenUpdateMenuCommand}"
                                                       CommandParameter="{Binding}"/>
 
-                                            <MenuItem Header="{Binding SourcesText}" ToolTip="{DynamicResource copy_url_tt}" 
-                                                      Command="{Binding CopyUrlCommand}"/>
-
-                                            <MenuItem Header="{DynamicResource add_to_prior_cm}"
-                                                      Command="{Binding Path=Data.AddFilmToPriorityCommand, Source={StaticResource menuProxy}}"
-                                                      CommandParameter="{Binding}"/>
-
                                             <Separator />
-                                            <MenuItem Header="{DynamicResource up_in_category_cm}"
-                                                      Command="{Binding Path=Data.UpInCategoryCommand, Source={StaticResource menuProxy}}"
+
+                                            <MenuItem Header="{DynamicResource add_selected_btn}"
+                                                      Command="{Binding Path=Data.AddSelectedToCategory, Source={StaticResource menuProxy}, Mode=Default}"
                                                       CommandParameter="{Binding}"/>
 
-                                            <MenuItem Header="{DynamicResource down_in_category_cm}"
-                                                      Command="{Binding Path=Data.DownInCategoryCommand, Source={StaticResource menuProxy}}"
+                                            <MenuItem Header="{DynamicResource remove_selected_cm}"
+                                                      Command="{Binding Path=Data.RemoveSelectedFromCategory, Source={StaticResource menuProxy}, Mode=Default}"
                                                       CommandParameter="{Binding}"/>
 
-                                            <MenuItem Header="{DynamicResource remove_from_category_cm}"
-                                                      Command="{Binding Path=Data.RemoveFromCategoryCommand, Source={StaticResource menuProxy}}"
-                                                      CommandParameter="{Binding}"/>
-
-                                            <Separator />
-                                            <MenuItem Header="{DynamicResource delete_this_cm}" 
-                                                      Command="{Binding Path=Data.DeleteFilmCommand, Source={StaticResource menuProxy}}"
+                                            <Separator/>
+                                            <MenuItem Header="{DynamicResource delete_category_cm}"
+                                                      Command="{Binding Path=Data.RemoveCategoryCommand, Source={StaticResource menuProxy}, Mode=Default}"
                                                       CommandParameter="{Binding}"/>
                                         </ContextMenu>
                                     </Setter.Value>
@@ -179,36 +169,6 @@
                 </Style>
             </DataGrid.Style>
 
-            <DataGrid.GroupStyle>
-                <!-- Style for groups at top level. -->
-                <GroupStyle>
-                    <GroupStyle.ContainerStyle>
-                        <Style TargetType="{x:Type GroupItem}">
-                            <Setter Property="Margin" Value="0,0,0,5"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255" Foreground="#FFEEEEEE" BorderThickness="1,1,1,5">
-                                            <Expander.Header>
-                                                <DockPanel>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock FontWeight="Bold" Text="{Binding Path=Name.Id}" Margin="5,0"/>
-                                                        <TextBlock FontWeight="Bold" Text="{Binding Path=Name.Name}" />
-                                                    </StackPanel>
-                                                </DockPanel>
-                                            </Expander.Header>
-                                            <Expander.Content>
-                                                <ItemsPresenter />
-                                            </Expander.Content>
-                                        </Expander>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GroupStyle.ContainerStyle>
-                </GroupStyle>
-            </DataGrid.GroupStyle>
-
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
@@ -224,18 +184,6 @@
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <DataGrid ItemsSource="{Binding FilmsVC.View}" AutoGenerateColumns="false" CanUserAddRows="False"
-                              HeadersVisibility="None">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="ListID" Binding="{Binding Path=CategoryListId}" IsReadOnly="True"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
         </DataGrid>
 
         <DataGrid ItemsSource="{Binding TablesViewModel.FilmsVC.View}" 

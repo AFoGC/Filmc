@@ -23,16 +23,14 @@ namespace Filmc.Wpf.ViewCollections
             CollectionViewSource.Source = source;
             CollectionViewSource.Filter += OnCollectionFilter;
 
+            CollectionViewSource.IsLiveSortingRequested = true;
             CollectionViewSource.IsLiveFilteringRequested = true;
             CollectionViewSource.LiveFilteringProperties.Add("CategoryId");
 
-            CollectionViewSource.IsLiveSortingRequested = true;
             CollectionViewSource.LiveSortingProperties.Add("CategoryListId");
-            CollectionViewSource.SortDescriptions.Clear();
             CollectionViewSource.SortDescriptions.Add(new SortDescription("CategoryListId", ListSortDirection.Ascending));
 
             ChangeSortProperty("CategoryListId");
-
         }
 
         private void OnCollectionFilter(object sender, FilterEventArgs e)
