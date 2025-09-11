@@ -14,6 +14,21 @@ namespace Filmc.Wpf.ViewCollections
         public BooksViewCollection(ObservableCollection<BookViewModel> source)
         {
             CollectionViewSource.Source = source;
+
+            CollectionViewSource.Filter += OnCollectionFilter;
+            CollectionViewSource.IsLiveFilteringRequested = true;
+            CollectionViewSource.LiveFilteringProperties.Add("IsFiltered");
+            CollectionViewSource.LiveFilteringProperties.Add("IsFinded");
+        }
+
+        private void OnCollectionFilter(object sender, FilterEventArgs e)
+        {
+            BookViewModel? vm = e.Item as BookViewModel;
+
+            if (vm != null)
+            {
+                e.Accepted = vm.IsFiltered && vm.IsFinded;
+            }
         }
 
         protected override IEnumerable<string> GetDescendingProperties()

@@ -18,6 +18,8 @@ namespace Filmc.Wpf.ViewCollections
 
             CollectionViewSource.IsLiveFilteringRequested = true;
             CollectionViewSource.LiveFilteringProperties.Add("Genre.IsSerial");
+            CollectionViewSource.LiveFilteringProperties.Add("IsFiltered");
+            CollectionViewSource.LiveFilteringProperties.Add("IsFinded");
         }
 
         private void OnCollectionFilter(object sender, FilterEventArgs e)
@@ -26,14 +28,8 @@ namespace Filmc.Wpf.ViewCollections
 
             if (vm != null)
             {
-                if (vm.Model.Genre?.IsSerial == true)
-                {
-                    e.Accepted = true;
-                }
-                else
-                {
-                    e.Accepted = false;
-                }
+                bool isAccepted = vm.Model.Genre.IsSerial == true;
+                e.Accepted = isAccepted && vm.IsFiltered && vm.IsFinded;
             }
         }
 

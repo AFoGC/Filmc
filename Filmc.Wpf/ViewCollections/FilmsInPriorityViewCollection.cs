@@ -18,6 +18,8 @@ namespace Filmc.Wpf.ViewCollections
 
             CollectionViewSource.IsLiveFilteringRequested = true;
             CollectionViewSource.LiveFilteringProperties.Add("HasPriority");
+            CollectionViewSource.LiveFilteringProperties.Add("IsFiltered");
+            CollectionViewSource.LiveFilteringProperties.Add("IsFinded");
 
             CollectionViewSource.IsLiveSortingRequested = true;
             CollectionViewSource.LiveSortingProperties.Add("AddToPriorityTime");
@@ -31,14 +33,8 @@ namespace Filmc.Wpf.ViewCollections
 
             if (vm != null)
             {
-                if (vm.Model.Priority != null)
-                {
-                    e.Accepted = true;
-                }
-                else
-                {
-                    e.Accepted = false;
-                }
+                bool isAccepted = vm.Model.Priority != null;
+                e.Accepted = isAccepted && vm.IsFiltered && vm.IsFinded;
             }
         }
 
