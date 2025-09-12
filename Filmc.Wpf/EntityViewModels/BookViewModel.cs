@@ -37,13 +37,12 @@ namespace Filmc.Wpf.EntityViewModels
             _isSelected = false;
 
             CopyUrlCommand = new RelayCommand(CopyUrl);
-            OpenCommentCommand = new RelayCommand(OpenComment);
             OpenUpdateMenuCommand = new RelayCommand(OpenUpdateMenu);
             RemoveMarkCommand = new RelayCommand(RemoveMark);
+            BookTags = new BookTagsService(model.Tags);
         }
 
         public RelayCommand CopyUrlCommand { get; }
-        public RelayCommand OpenCommentCommand { get; }
         public RelayCommand OpenUpdateMenuCommand { get; }
         public RelayCommand RemoveMarkCommand { get; }
 
@@ -138,6 +137,8 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Tags;
         }
 
+        public BookTagsService BookTags { get; }
+
         public string ShortName
         {
             get
@@ -180,11 +181,6 @@ namespace Filmc.Wpf.EntityViewModels
             get => Model.Priority?.CreationTime;
         }
 
-        public bool IsCommentVisible
-        {
-            get => _isCommentVisible;
-            set { _isCommentVisible = value; OnPropertyChanged(); }
-        }
         public bool IsSelected
         {
             get => _isSelected;
@@ -219,11 +215,6 @@ namespace Filmc.Wpf.EntityViewModels
         public void CopyUrl(object? obj)
         {
             ClipboardHelper.CopySourceUrlToClipboard(Model.Sources);
-        }
-
-        public void OpenComment(object? obj)
-        {
-            IsCommentVisible = !IsCommentVisible;
         }
 
         public void OpenUpdateMenu(object? obj)

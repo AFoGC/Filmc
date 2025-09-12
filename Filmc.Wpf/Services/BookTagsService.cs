@@ -10,12 +10,12 @@ using System.Windows.Media;
 
 namespace Filmc.Wpf.Services
 {
-    public class FilmTagViewMoel
+    public class BookTagViewMoel
     {
-        private readonly FilmTag _tag;
+        private readonly BookTag _tag;
         private SolidColorBrush? _brush;
 
-        public FilmTagViewMoel(FilmTag tag)
+        public BookTagViewMoel(BookTag tag)
         {
             _tag = tag;
         }
@@ -48,42 +48,42 @@ namespace Filmc.Wpf.Services
             }
         }
 
-        public bool HasTag(FilmTag tag)
+        public bool HasTag(BookTag tag)
         {
             return _tag == tag;
         }
     }
 
-    public class FilmTagsService
+    public class BookTagsService
     {
-        private readonly ObservableCollection<FilmTag> _tags;
-        private readonly ObservableCollection<FilmTagViewMoel> _viewModels;
+        private readonly ObservableCollection<BookTag> _tags;
+        private readonly ObservableCollection<BookTagViewMoel> _viewModels;
 
-        public FilmTagsService(ObservableCollection<FilmTag> tags)
+        public BookTagsService(ObservableCollection<BookTag> tags)
         {
             _tags = tags;
-            _viewModels = new ObservableCollection<FilmTagViewMoel>();
+            _viewModels = new ObservableCollection<BookTagViewMoel>();
 
             _tags.CollectionChanged += OnCollectionChanged;
             foreach (var item in _tags)
             {
-                _viewModels.Add(new FilmTagViewMoel(item));
+                _viewModels.Add(new BookTagViewMoel(item));
             }
         }
 
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            FilmTag tag;
+            BookTag tag;
 
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    tag = (FilmTag)e.NewItems[0];
-                    _viewModels.Add(new FilmTagViewMoel(tag));
+                    tag = (BookTag)e.NewItems[0];
+                    _viewModels.Add(new BookTagViewMoel(tag));
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    tag = (FilmTag)e.OldItems[0];
+                    tag = (BookTag)e.OldItems[0];
                     var viewModel = _viewModels.First(x => x.HasTag(tag));
                     break;
 
@@ -91,7 +91,7 @@ namespace Filmc.Wpf.Services
                     _viewModels.Clear();
                     foreach (var item in _tags)
                     {
-                        _viewModels.Add(new FilmTagViewMoel(item));
+                        _viewModels.Add(new BookTagViewMoel(item));
                     }
                     break;
 
