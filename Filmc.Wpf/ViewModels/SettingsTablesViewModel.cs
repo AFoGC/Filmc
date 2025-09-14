@@ -177,12 +177,12 @@ namespace Filmc.Wpf.ViewModels
 
         private FilmTagSettingsViewModel CreateFilmTag(FilmTag entity)
         {
-            return new FilmTagSettingsViewModel(entity, FilmTagCategoriesVMs);
+            return new FilmTagSettingsViewModel(entity, _profilesService.SelectedProfile.TablesContext, FilmTagCategoriesVMs);
         }
 
         private BookTagSettingsViewModel CreateBookTag(BookTag entity)
         {
-            return new BookTagSettingsViewModel(entity, BookTagCategoriesVMs);
+            return new BookTagSettingsViewModel(entity, _profilesService.SelectedProfile.TablesContext, BookTagCategoriesVMs);
         }
 
         private FilmTagCategorySettingsViewModel CreateFilmTagCategory(FilmTagCategory entity)

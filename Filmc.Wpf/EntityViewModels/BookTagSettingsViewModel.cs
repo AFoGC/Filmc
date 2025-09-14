@@ -1,5 +1,6 @@
 ﻿using Filmc.Entities.Entities;
 using Filmc.Wpf.Commands;
+using Filmc.Wpf.Repositories;
 using Filmc.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace Filmc.Wpf.EntityViewModels
     {
         private readonly BookTag _model;
         private readonly IEnumerable<BookTagCategorySettingsViewModel> _categories;
+        private readonly IRepositoriesSaved _repositories;
 
-        public BookTagSettingsViewModel(BookTag model, IEnumerable<BookTagCategorySettingsViewModel> categories)
+        public BookTagSettingsViewModel(BookTag model, IRepositoriesSaved repositories, IEnumerable<BookTagCategorySettingsViewModel> categories)
         {
             _model = model;
+            _repositories = repositories;
             _categories = categories;
 
             _model.PropertyChanged += OnModelPropertyChanged;
@@ -50,6 +53,7 @@ namespace Filmc.Wpf.EntityViewModels
                 {
                     _model.Category = null;
                 }
+                _repositories.SaveChanges();
             }
         }
 

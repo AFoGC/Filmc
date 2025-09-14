@@ -80,10 +80,10 @@ namespace Filmc.Wpf.ViewModels
         public RelayCommand DeleteFilmTagCommand { get; }
         public RelayCommand AddBookTagCommand { get; }
         public RelayCommand DeleteBookTagCommand { get; }
-        public RelayCommand AddFilmTagCategoryCommand { get; }//
-        public RelayCommand DeleteFilmTagCategoryCommand { get; }//
-        public RelayCommand AddBookTagCategoryCommand { get; }//
-        public RelayCommand DeleteBookTagCategoryCommand { get; }//
+        public RelayCommand AddFilmTagCategoryCommand { get; }
+        public RelayCommand DeleteFilmTagCategoryCommand { get; }
+        public RelayCommand AddBookTagCategoryCommand { get; }
+        public RelayCommand DeleteBookTagCategoryCommand { get; }
         public RelayCommand AddFilmProgressCommand { get; }
         public RelayCommand DeleteFilmProgressCommand { get; }
         public RelayCommand AddBookProgressCommand { get; }
