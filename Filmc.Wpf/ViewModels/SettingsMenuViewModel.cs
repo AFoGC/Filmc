@@ -57,6 +57,10 @@ namespace Filmc.Wpf.ViewModels
             DeleteFilmTagCommand = new RelayCommand(DeleteFilmTag);
             AddBookTagCommand = new RelayCommand(AddBookTag);
             DeleteBookTagCommand = new RelayCommand(DeleteBookTag);
+            AddFilmTagCategoryCommand = new RelayCommand(AddFilmTagCategory);
+            DeleteFilmTagCategoryCommand = new RelayCommand(DeleteFilmTagCategory);
+            AddBookTagCategoryCommand = new RelayCommand(AddBookTagCategory);
+            DeleteBookTagCategoryCommand = new RelayCommand(DeleteBookTagCategory);
             AddFilmProgressCommand = new RelayCommand(AddFilmProgress);
             DeleteFilmProgressCommand = new RelayCommand(DeleteFilmProgress);
             AddBookProgressCommand = new RelayCommand(AddBookProgress);
@@ -76,6 +80,10 @@ namespace Filmc.Wpf.ViewModels
         public RelayCommand DeleteFilmTagCommand { get; }
         public RelayCommand AddBookTagCommand { get; }
         public RelayCommand DeleteBookTagCommand { get; }
+        public RelayCommand AddFilmTagCategoryCommand { get; }//
+        public RelayCommand DeleteFilmTagCategoryCommand { get; }//
+        public RelayCommand AddBookTagCategoryCommand { get; }//
+        public RelayCommand DeleteBookTagCategoryCommand { get; }//
         public RelayCommand AddFilmProgressCommand { get; }
         public RelayCommand DeleteFilmProgressCommand { get; }
         public RelayCommand AddBookProgressCommand { get; }
@@ -157,6 +165,7 @@ namespace Filmc.Wpf.ViewModels
             int i = filmGenres.Count + 1;
             FilmGenre filmGenre = new FilmGenre { Name = $"Genre{i}" };
             _selectedProfile?.TablesContext.FilmGenres.Add(filmGenre);
+            _selectedProfile?.TablesContext.SaveChanges();
         }
 
         public void AddBookGenre(object? obj)
@@ -166,6 +175,7 @@ namespace Filmc.Wpf.ViewModels
             int i = bookGenres.Count + 1;
             BookGenre bookGenre = new BookGenre { Name = $"Genre{i}" };
             _selectedProfile?.TablesContext.BookGenres.Add(bookGenre);
+            _selectedProfile?.TablesContext.SaveChanges();
         }
 
         public void DeleteFilmGenre(object? obj)
@@ -173,7 +183,10 @@ namespace Filmc.Wpf.ViewModels
             FilmGenreViewModel? genre = obj as FilmGenreViewModel;
 
             if (genre != null && genre.Model.Films.Count == 0)
-                TablesViewModel.FilmGenres!.Remove(genre.Model);
+            {
+                _selectedProfile?.TablesContext.FilmGenres!.Remove(genre.Model);
+                _selectedProfile?.TablesContext.SaveChanges();
+            }
         }
 
         public void DeleteBookGenre(object? obj)
@@ -181,7 +194,11 @@ namespace Filmc.Wpf.ViewModels
             BookGenreViewModel? genre = obj as BookGenreViewModel;
 
             if (genre != null && genre.Model.Books.Count == 0)
-                TablesViewModel.BookGenres!.Remove(genre.Model);
+            {
+                _selectedProfile?.TablesContext.BookGenres!.Remove(genre.Model);
+                _selectedProfile?.TablesContext.SaveChanges();
+            }
+                
         }
 
         public void AddFilmTag(object? obj)
@@ -191,14 +208,18 @@ namespace Filmc.Wpf.ViewModels
             int i = filmTags.Count + 1;
             FilmTag filmTag = new FilmTag { Name = $"Tag{i}" };
             _selectedProfile?.TablesContext.FilmTags.Add(filmTag);
+            _selectedProfile?.TablesContext.SaveChanges();
         }
 
         public void DeleteFilmTag(object? obj)
         {
-            FilmTagViewModel? genre = obj as FilmTagViewModel;
+            FilmTagSettingsViewModel? genre = obj as FilmTagSettingsViewModel;
 
             if (genre != null && genre.Model.Films.Count == 0)
-                TablesViewModel.FilmTags!.Remove(genre.Model);
+            {
+                _selectedProfile?.TablesContext.FilmTags!.Remove(genre.Model);
+                _selectedProfile?.TablesContext.SaveChanges();
+            }
         }
 
         public void AddBookTag(object? obj)
@@ -208,14 +229,60 @@ namespace Filmc.Wpf.ViewModels
             int i = bookTags.Count + 1;
             BookTag bookTag = new BookTag { Name = $"Tag{i}" };
             _selectedProfile?.TablesContext.BookTags.Add(bookTag);
+            _selectedProfile?.TablesContext.SaveChanges();
         }
 
         public void DeleteBookTag(object? obj)
         {
-            BookTagViewModel? genre = obj as BookTagViewModel;
+            BookTagSettingsViewModel? genre = obj as BookTagSettingsViewModel;
 
             if (genre != null && genre.Model.Books.Count == 0)
-                TablesViewModel.BookTags!.Remove(genre.Model);
+            {
+                _selectedProfile?.TablesContext.BookTags!.Remove(genre.Model);
+                _selectedProfile?.TablesContext.SaveChanges();
+            }
+        }
+
+        public void AddFilmTagCategory(object? obj)
+        {
+            var categories = _selectedProfile!.TablesContext.FilmTagCategories;
+
+            int i = categories.Count + 1;
+            FilmTagCategory category = new FilmTagCategory { Name = $"Tag{i}" };
+            _selectedProfile?.TablesContext.FilmTagCategories.Add(category);
+            _selectedProfile?.TablesContext.SaveChanges();
+        }
+
+        public void DeleteFilmTagCategory(object? obj)
+        {
+            FilmTagCategorySettingsViewModel? category = obj as FilmTagCategorySettingsViewModel;
+
+            if (category != null && category.Model.Tags.Count() == 0)
+            {
+                _selectedProfile?.TablesContext.FilmTagCategories!.Remove(category.Model);
+                _selectedProfile?.TablesContext.SaveChanges();
+            }
+        }
+
+        public void AddBookTagCategory(object? obj)
+        {
+            var categories = _selectedProfile!.TablesContext.BookTagCategories;
+
+            int i = categories.Count + 1;
+            BookTagCategory bookTag = new BookTagCategory { Name = $"Tag{i}" };
+            _selectedProfile?.TablesContext.BookTagCategories.Add(bookTag);
+            _selectedProfile?.TablesContext.SaveChanges();
+        }
+
+        public void DeleteBookTagCategory(object? obj)
+        {
+            BookTagCategorySettingsViewModel? category = obj as BookTagCategorySettingsViewModel;
+
+            if (category != null && category.Model.Tags.Count == 0)
+            {
+                _selectedProfile?.TablesContext.BookTagCategories!.Remove(category.Model);
+                _selectedProfile?.TablesContext.SaveChanges();
+            }
         }
 
         public void AddFilmProgress(object? obj)
@@ -225,6 +292,7 @@ namespace Filmc.Wpf.ViewModels
             int i = progresses.Count + 1;
             FilmWatchProgress progress = new FilmWatchProgress { Name = $"Name{i}" };
             _selectedProfile?.TablesContext.FilmProgresses.Add(progress);
+            _selectedProfile?.TablesContext.SaveChanges();
         }
 
         public void DeleteFilmProgress(object? obj)
@@ -232,7 +300,10 @@ namespace Filmc.Wpf.ViewModels
             FilmWatchProgressViewModel? vm = obj as FilmWatchProgressViewModel;
 
             if (vm != null && vm.Model.Films.Count == 0)
-                TablesViewModel.FilmProgresses!.Remove(vm.Model);
+            {
+                _selectedProfile?.TablesContext.FilmProgresses!.Remove(vm.Model);
+                _selectedProfile?.TablesContext.SaveChanges();
+            }
         }
 
         public void AddBookProgress(object? obj)
@@ -242,6 +313,7 @@ namespace Filmc.Wpf.ViewModels
             int i = progresses.Count + 1;
             BookReadProgress progress = new BookReadProgress { Name = $"Name{i}" };
             _selectedProfile?.TablesContext.BookProgresses.Add(progress);
+            _selectedProfile?.TablesContext.SaveChanges();
         }
 
         public void DeleteBookProgress(object? obj)
@@ -249,7 +321,10 @@ namespace Filmc.Wpf.ViewModels
             BookReadProgressViewModel? vm = obj as BookReadProgressViewModel;
 
             if (vm != null && vm.Model.Books.Count == 0)
-                TablesViewModel.BookProgresses!.Remove(vm.Model);
+            {
+                _selectedProfile?.TablesContext.BookProgresses!.Remove(vm.Model);
+                _selectedProfile?.TablesContext.SaveChanges();
+            }
         }
 
         public void ChangeProfile(object? obj)

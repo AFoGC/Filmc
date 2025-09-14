@@ -1,8 +1,10 @@
 ﻿using Filmc.Entities.Entities;
+using Filmc.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,14 +12,22 @@ using System.Windows.Media;
 
 namespace Filmc.Wpf.Services
 {
-    public class FilmTagViewMoel
+    public class FilmTagViewMoel : BaseViewModel
     {
         private readonly FilmTag _tag;
         private SolidColorBrush? _brush;
+        private FilmTagCategory? _category;
 
         public FilmTagViewMoel(FilmTag tag)
         {
             _tag = tag;
+            _tag.PropertyChanged += OnTagPropertyChanged;
+
+            _category = tag.Category;
+            if (_category != null)
+            {
+                _category.PropertyChanged += OnCategoryPropertyChanged;
+            }
         }
 
         public string Name
@@ -29,19 +39,20 @@ namespace Filmc.Wpf.Services
         {
             get
             {
-                if (_brush == null)
+                if (_tag.Category != null)
                 {
-                    if (_tag.Category != null)
-                    {
-                        var category = _tag.Category;
-                        Color color = new Color();
-                        color.A = category.ColorA;
-                        color.R = category.ColorR;
-                        color.G = category.ColorG;
-                        color.B = category.ColorB;
+                    var category = _tag.Category;
+                    Color color = new Color();
+                    color.A = category.ColorA;
+                    color.R = category.ColorR;
+                    color.G = category.ColorG;
+                    color.B = category.ColorB;
 
-                        _brush = new SolidColorBrush(color);
-                    }
+                    _brush = new SolidColorBrush(color);
+                }
+                else
+                {
+                    _brush = null;
                 }
 
                 return _brush;
@@ -51,6 +62,30 @@ namespace Filmc.Wpf.Services
         public bool HasTag(FilmTag tag)
         {
             return _tag == tag;
+        }
+
+        private void OnTagPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(_tag.Name))
+                OnPropertyChanged(nameof(Name));
+
+            if (e.PropertyName == nameof(_tag.Category))
+            {
+                if (_category != null)
+                    _category.PropertyChanged -= OnCategoryPropertyChanged;
+
+                _category = _tag.Category;
+
+                if (_category != null)
+                    _category.PropertyChanged += OnCategoryPropertyChanged;
+
+                OnPropertyChanged(nameof(Brush));
+            }
+        }
+
+        private void OnCategoryPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Brush));
         }
     }
 
