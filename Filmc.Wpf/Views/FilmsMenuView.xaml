@@ -251,7 +251,7 @@
                 <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding FilmTags.Collection}" Style="{StaticResource TagsItemsControl}"/>
+                            <ItemsControl ItemsSource="{Binding FilmTags.SortView}" Style="{StaticResource TagsItemsControl}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -328,7 +328,7 @@
                 <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding FilmTags.Collection}" Style="{StaticResource TagsItemsControl}"/>
+                            <ItemsControl ItemsSource="{Binding FilmTags.SortView}" Style="{StaticResource TagsItemsControl}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -400,7 +400,7 @@
                 <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding FilmTags.Collection}" Style="{StaticResource TagsItemsControl}"/>
+                            <ItemsControl ItemsSource="{Binding FilmTags.SortView}" Style="{StaticResource TagsItemsControl}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

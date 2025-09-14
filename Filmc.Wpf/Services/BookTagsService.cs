@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace Filmc.Wpf.Services
@@ -33,6 +34,11 @@ namespace Filmc.Wpf.Services
         public string Name
         {
             get => _tag.Name;
+        }
+
+        public string? CategoryName
+        {
+            get => _tag.Category?.Name;
         }
 
         public SolidColorBrush? Brush
@@ -80,12 +86,14 @@ namespace Filmc.Wpf.Services
                     _category.PropertyChanged += OnCategoryPropertyChanged;
 
                 OnPropertyChanged(nameof(Brush));
+                OnPropertyChanged(nameof(CategoryName));
             }
         }
 
         private void OnCategoryPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(Brush));
+            OnPropertyChanged(nameof(CategoryName));
         }
     }
 
@@ -93,6 +101,7 @@ namespace Filmc.Wpf.Services
     {
         private readonly ObservableCollection<BookTag> _tags;
         private readonly ObservableCollection<BookTagViewMoel> _viewModels;
+        private readonly CollectionViewSource _tagsViewSource;
 
         public BookTagsService(ObservableCollection<BookTag> tags)
         {
@@ -104,6 +113,13 @@ namespace Filmc.Wpf.Services
             {
                 _viewModels.Add(new BookTagViewMoel(item));
             }
+
+            _tagsViewSource = new CollectionViewSource();
+            _tagsViewSource.Source = _viewModels;
+
+            _tagsViewSource.IsLiveSortingRequested = true;
+            _tagsViewSource.SortDescriptions.Add(new SortDescription("CategoryName", ListSortDirection.Ascending));
+            _tagsViewSource.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
 
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -136,5 +152,6 @@ namespace Filmc.Wpf.Services
         }
 
         public INotifyCollectionChanged Collection => _viewModels;
+        public ICollectionView SortView => _tagsViewSource.View;
     }
 }
