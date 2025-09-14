@@ -55,6 +55,19 @@ namespace Filmc.Wpf.EntityViewModels
             }
         }
 
+        public Color Color
+        {
+            get => _brush.Color;
+            set
+            {
+                _brush.Color = value;
+                _model.ColorA = _brush.Color.A;
+                _model.ColorR = _brush.Color.R;
+                _model.ColorG = _brush.Color.G;
+                _model.ColorB = _brush.Color.B;
+            }
+        }
+
         private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
@@ -63,6 +76,7 @@ namespace Filmc.Wpf.EntityViewModels
                 e.PropertyName == nameof(_model.ColorG) || e.PropertyName == nameof(_model.ColorB))
             {
                 OnPropertyChanged(nameof(Brush));
+                OnPropertyChanged(nameof(Color));
             }
         }
     }

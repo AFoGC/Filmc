@@ -7,6 +7,7 @@
              xmlns:vm="clr-namespace:Filmc.Wpf.EntityViews"
              xmlns:local="clr-namespace:Filmc.Wpf.Views"
              xmlns:global="clr-namespace:Filmc.Wpf"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              
              d:DesignHeight="705" d:DesignWidth="1265">
@@ -206,6 +207,8 @@
                                     <StackPanel Height="20" Orientation="Horizontal">
                                         <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
                                         <Rectangle Width="20"/>
+                                        <xctk:ColorPicker SelectedColor="{Binding Color}" Width="100"/>
+                                        <Rectangle Width="20"/>
                                         <Button Style="{StaticResource GrayButton}"
                                                 Content="Delete-Category" Width="100"
                                                 Command="{Binding Path=DataContext.DeleteFilmTagCategoryCommand, 
@@ -372,21 +375,7 @@
                                     <StackPanel Height="20" Orientation="Horizontal">
                                         <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
                                         <Rectangle Width="20"/>
-                                        <ComboBox Style="{StaticResource DarkComboBox}" Width="100"
-                                                  ItemsSource="{Binding Path=DataContext.TablesViewModel.BookTagCategoriesVMs, 
-                                                  RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
-                                                  SelectedItem="{Binding Category}">
-
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Name}" />
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                        <Rectangle Width="20"/>
-                                        <Button Style="{StaticResource GrayButton}"
-                                                Content="Remove-Category" Width="100"
-                                                Command="{Binding RemoveTagCategoryCommand}"/>
+                                        <xctk:ColorPicker SelectedColor="{Binding Color}" Width="100"/>
                                         <Rectangle Width="20"/>
                                         <Button Style="{StaticResource GrayButton}"
                                                 Content="Delete-Category" Width="100"
@@ -422,8 +411,20 @@
                                         <StackPanel Height="20" Orientation="Horizontal">
                                             <TextBox Text="{Binding Name}" Width="200" Style="{StaticResource Wtextbox}"/>
                                             <Rectangle Width="20"/>
+                                            <ComboBox Style="{StaticResource DarkComboBox}" Width="100"
+                                                      ItemsSource="{Binding Path=DataContext.TablesViewModel.BookTagCategoriesVMs, 
+                                                      RelativeSource={RelativeSource AncestorType={x:Type local:SettingsMenuView}}, Mode=Default}"
+                                                      SelectedItem="{Binding Category}">
+
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <Rectangle Width="20"/>
                                             <Button Style="{StaticResource GrayButton}"
-                                                    Content="{DynamicResource st_del_tag}" Width="100"
+                                                    Content="Remove-Category" Width="100"
                                                     Command="{Binding RemoveTagCategoryCommand}"/>
                                             <Rectangle Width="20"/>
                                             <Button Style="{StaticResource GrayButton}"
