@@ -1,5 +1,6 @@
 ﻿using Filmc.Entities.Entities;
 using Filmc.Wpf.EntityViewModels;
+using Filmc.Wpf.Recomendations;
 using Filmc.Wpf.Repositories;
 using Filmc.Wpf.ViewModels;
 using System;
@@ -14,28 +15,36 @@ namespace Filmc.Wpf.Services
     {
         private RecomendationMenuViewModel _menuViewModel;
         private readonly ProfilesService _profilesService;
+        private readonly FilmsRecomendationService _filmsRecomendationService;
 
         public RecomendationMenuService(RecomendationMenuViewModel menuViewModel, ProfilesService profilesService)
         {
             _menuViewModel = menuViewModel;
             _profilesService = profilesService;
+            _filmsRecomendationService = new FilmsRecomendationService();
         }
 
         public void OpenRecomendations(FilmTablesViewModel tablesViewModel)
         {
             RepositoriesFacade repositories = _profilesService.SelectedProfile.TablesContext;
-            FilmsRecomendationService service = new FilmsRecomendationService(repositories);
-            ItemSimilarity<Film>[] rec = service.CreateRecomendations();
+            FilmsRecomendationService service = new FilmsRecomendationService();
+            var ratings = service.CreateRecomendations(repositories);
 
-            ItemSimilarity<FilmViewModel>[] viewModels = new ItemSimilarity<FilmViewModel>[rec.Length];
+            EntityRating<FilmViewModel>[] viewModels = new EntityRating<FilmViewModel>[ratings.Length];
 
-            for (int i = 0; i < rec.Length; i++)
+            for (int i = 0; i < ratings.Length; i++)
             {
-                var recomendation = rec[i];
+                var ratingEntity = ratings[i];
                 var viewModel = tablesViewModel.FilmVMs
-                    .First(x => x.Model == recomendation.Item);
+                    .First(x => x.Model == ratingEntity.Entity);
 
-                viewModels[i] = new ItemSimilarity<FilmViewModel>(viewModel, recomendation.Similarity);
+                viewModels[i] = new EntityRating<FilmViewModel>(viewModel)
+                {
+                    TagRating = ratingEntity.TagRating,
+                    GenreRating = ratingEntity.GenreRating,
+                    CategoryRating = ratingEntity.CategoryRating,
+                    TotalRating = ratingEntity.TotalRating
+                };
             }
 
             _menuViewModel.OpenMenu(viewModels);

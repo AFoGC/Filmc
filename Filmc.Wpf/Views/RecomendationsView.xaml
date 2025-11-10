@@ -17,10 +17,13 @@
 
         <DataGrid Margin="3" Grid.Row="1" ItemsSource="{Binding RecomendedFilms}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Item.Id}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Item.Name}" Width="300" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Year" Binding="{Binding Item.RealiseYear}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Similarity" Binding="{Binding Similarity}" Width="300" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding Entity.Id}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Entity.Name}" Width="300" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Year" Binding="{Binding Entity.RealiseYear}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="TotalRating" Binding="{Binding TotalRating}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="TagRating" Binding="{Binding TagRating}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="GenreRating" Binding="{Binding GenreRating}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="CategoryRating" Binding="{Binding CategoryRating}" Width="80" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

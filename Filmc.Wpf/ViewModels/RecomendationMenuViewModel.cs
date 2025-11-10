@@ -1,6 +1,7 @@
 ﻿using Filmc.Entities.Entities;
 using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
+using Filmc.Wpf.Recomendations;
 using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using System;
@@ -22,8 +23,8 @@ namespace Filmc.Wpf.ViewModels
         }
 
         public EntityFamily? Status { get; private set; }
-        public ItemSimilarity<FilmViewModel>[]? RecomendedFilms { get; private set; }
-        public ItemSimilarity<BookViewModel>[]? RecomendedBooks { get; private set; }
+        public EntityRating<FilmViewModel>[]? RecomendedFilms { get; private set; }
+        public EntityRating<BookViewModel>[]? RecomendedBooks { get; private set; }
 
         public ICommand CloseMenuCommand { get; private set; }
 
@@ -45,7 +46,7 @@ namespace Filmc.Wpf.ViewModels
             CloseMenu();
         }
 
-        public void OpenMenu(ItemSimilarity<FilmViewModel>[] films)
+        public void OpenMenu(EntityRating<FilmViewModel>[] films)
         {
             RecomendedFilms = films;
             RecomendedBooks = null;
@@ -56,7 +57,7 @@ namespace Filmc.Wpf.ViewModels
             OnPropertyChanged(nameof(MenuVisibility));
         }
 
-        public void OpenMenu(ItemSimilarity<BookViewModel>[] books)
+        public void OpenMenu(EntityRating<BookViewModel>[] books)
         {
             RecomendedFilms = null;
             RecomendedBooks = books;

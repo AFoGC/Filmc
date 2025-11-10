@@ -12,7 +12,8 @@ namespace Filmc.Wpf.Recomendations
 {
     public class FilmsRecomendationService
     {
-        private readonly RepositoriesFacade _repositories;
+        private RepositoriesFacade _repositories;
+
         private readonly CategoryRecomendationsBuilder _categoryRecomendationsBuilder;
         private readonly GenreRecomendationsBuilder _genreRecomendationsBuilder;
         private readonly TagRecomendationsBuilder _tagRecomendationsBuilder;
@@ -28,10 +29,8 @@ namespace Filmc.Wpf.Recomendations
         private double[] _ratingByGenres;
         private double[] _ratingByCategories;
 
-        public FilmsRecomendationService(RepositoriesFacade repositories)
+        public FilmsRecomendationService()
         {
-            _repositories = repositories;
-
             _categoryRecomendationsBuilder = new CategoryRecomendationsBuilder();
             _genreRecomendationsBuilder = new GenreRecomendationsBuilder();
             _tagRecomendationsBuilder = new TagRecomendationsBuilder();
@@ -48,8 +47,10 @@ namespace Filmc.Wpf.Recomendations
             _ratingByCategories = new double[0];
         }
 
-        public EntityRating<Film>[] CreateRecomendations()
+        public EntityRating<Film>[] CreateRecomendations(RepositoriesFacade repositories)
         {
+            _repositories = repositories;
+
             Refresh();
             CalculateRatingByTags();
             CalculateRatingByGenres();
@@ -57,7 +58,7 @@ namespace Filmc.Wpf.Recomendations
 
             EntityRating<Film>[] ratings = new EntityRating<Film>[_unwatchedFilms.Length];
 
-            for (int filmIndex = 0; filmIndex < ratings.Length; filmIndex++)
+            for (int filmIndex = 0; filmIndex < _unwatchedFilms.Length; filmIndex++)
             {
                 var film = _unwatchedFilms[filmIndex];
                 var rating = new EntityRating<Film>(film)
@@ -68,6 +69,7 @@ namespace Filmc.Wpf.Recomendations
                 };
 
                 rating.TotalRating = GetTotalRating(rating);
+                ratings[filmIndex] = rating;
             }
 
             return ratings

@@ -58,7 +58,7 @@ namespace Filmc.Wpf.Recomendations
             for (int i = 0; i < _categoriesCount; i++)
                 categoriesRating[i] = 0d;
 
-            var filmsByCategory = _watchedFilms.GroupBy(x => x.Genre);
+            var filmsByCategory = _watchedFilms.GroupBy(x => x.Category);
 
             foreach (var filmByCategory in filmsByCategory)
             {
