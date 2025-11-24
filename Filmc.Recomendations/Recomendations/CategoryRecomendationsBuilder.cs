@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Recomendations
+namespace Filmc.Recomendations.Recomendations
 {
     public class CategoryRecomendationsBuilder
     {
@@ -79,7 +79,7 @@ namespace Filmc.Wpf.Recomendations
                 int filmsCount = filmByCategory.Count();
                 int categoryIndex = _categoriesCount - 1;
 
-                double avarageMarkRating = (rawMarkSum / filmsCount) / 300d;
+                double avarageMarkRating = rawMarkSum / filmsCount / 300d;
                 double countRaiting = 0;
 
                 if (filmByCategory.Key != null)

@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Repositories
+namespace Filmc.Entities.Repositories
 {
     public class BaseRepository<T> : IEnumerable<T>, ICollection<T>, INotifyCollectionChanged, INotifyPropertyChanged, IBaseRepository where T : class
     {

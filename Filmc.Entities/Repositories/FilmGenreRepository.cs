@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Repositories
+namespace Filmc.Entities.Repositories
 {
-    public class BookSourceRepository : BaseRepository<BookSource>
+    public class FilmGenreRepository : BaseRepository<FilmGenre>
     {
-        public BookSourceRepository(DbSet<BookSource> dbSet) : base(dbSet)
+        public FilmGenreRepository(DbSet<FilmGenre> dbSet) : base(dbSet)
         {
 
         }
 
-        public override void Add(BookSource item)
+        public override void Add(FilmGenre item)
         {
             if (item.Id == 0)
                 item.Id = GetNewId(x => x.Id);

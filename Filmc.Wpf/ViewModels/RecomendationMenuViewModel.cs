@@ -1,8 +1,7 @@
 ﻿using Filmc.Entities.Entities;
+using Filmc.Recomendations.Recomendations;
 using Filmc.Wpf.Commands;
 using Filmc.Wpf.EntityViewModels;
-using Filmc.Wpf.Recomendations;
-using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using System;
 using System.Collections.Generic;

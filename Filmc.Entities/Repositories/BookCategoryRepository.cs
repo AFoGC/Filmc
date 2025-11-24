@@ -1,4 +1,5 @@
-﻿using Filmc.Entities.Entities;
+﻿using Filmc.Entities.Context;
+using Filmc.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Repositories
+namespace Filmc.Entities.Repositories
 {
-    public class FilmCategoryRepository : BaseRepository<FilmCategory>
+    public class BookCategoryRepository : BaseRepository<BookCategory>
     {
         private int _markSystem;
 
-        public FilmCategoryRepository(DbSet<FilmCategory> dbSet) : base(dbSet)
+        public BookCategoryRepository(DbSet<BookCategory> dbSet) : base(dbSet)
         {
             _markSystem = 6;
         }
@@ -29,7 +30,7 @@ namespace Filmc.Wpf.Repositories
             }
         }
 
-        public override void Add(FilmCategory item)
+        public override void Add(BookCategory item)
         {
             if (item.Id == 0)
                 item.Id = GetNewId(x => x.Id);
@@ -40,7 +41,7 @@ namespace Filmc.Wpf.Repositories
 
         public void Add()
         {
-            FilmCategory item = new FilmCategory();
+            BookCategory item = new BookCategory();
             item.Id = GetNewId(x => x.Id);
 
             Add(item);

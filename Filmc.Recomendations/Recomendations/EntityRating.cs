@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Recomendations
+namespace Filmc.Recomendations.Recomendations
 {
     public class EntityRating<T>
     {

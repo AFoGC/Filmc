@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Repositories
+namespace Filmc.Entities.Repositories
 {
-    public class FilmTagRepository : BaseRepository<FilmTag>
+    public class BookTagRepository : BaseRepository<BookTag>
     {
-        public FilmTagRepository(DbSet<FilmTag> dbSet) : base(dbSet)
+        public BookTagRepository(DbSet<BookTag> dbSet) : base(dbSet)
         {
 
         }

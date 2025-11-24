@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Filmc.Entities\Filmc.Entities.csproj" />
+    <ProjectReference Include="..\Filmc.Recomendations\Filmc.Recomendations.csproj" />
     <ProjectReference Include="..\Filmc.SitesIntegration\Filmc.SitesIntegration.csproj" />
     <ProjectReference Include="..\Filmc.Wpf.Updater.Module\Filmc.Wpf.Updater.Module.csproj" />
   </ItemGroup>

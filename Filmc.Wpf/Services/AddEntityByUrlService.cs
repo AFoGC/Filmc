@@ -1,6 +1,6 @@
 ﻿using Filmc.Entities.Entities;
+using Filmc.Entities.Repositories;
 using Filmc.SitesIntegration;
-using Filmc.Wpf.Repositories;
 using Filmc.Wpf.SettingsServices;
 using Filmc.Wpf.Windows;
 using System;

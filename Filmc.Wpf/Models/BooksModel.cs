@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Filmc.Entities.Entities;
-using Filmc.Wpf.Repositories;
+using Filmc.Entities.Repositories;
 using Filmc.Wpf.Services;
 
 namespace Filmc.Wpf.Models

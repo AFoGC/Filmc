@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.Entities", "Filmc.Ent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filmc.SitesIntegration", "Filmc.SitesIntegration\Filmc.SitesIntegration.csproj", "{8C11364A-5EFF-4777-857F-A089C61D1585}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filmc.Recomendations", "Filmc.Recomendations\Filmc.Recomendations.csproj", "{4A17E492-DBE7-4625-A62A-7EBA9422B725}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8C11364A-5EFF-4777-857F-A089C61D1585}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C11364A-5EFF-4777-857F-A089C61D1585}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C11364A-5EFF-4777-857F-A089C61D1585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A17E492-DBE7-4625-A62A-7EBA9422B725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A17E492-DBE7-4625-A62A-7EBA9422B725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A17E492-DBE7-4625-A62A-7EBA9422B725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A17E492-DBE7-4625-A62A-7EBA9422B725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

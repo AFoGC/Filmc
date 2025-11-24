@@ -1,6 +1,6 @@
 ﻿using Filmc.Entities.Entities;
+using Filmc.Entities.Repositories;
 using Filmc.Wpf.Commands;
-using Filmc.Wpf.Repositories;
 using Filmc.Wpf.Services;
 using Filmc.Wpf.ViewCollections;
 using System;

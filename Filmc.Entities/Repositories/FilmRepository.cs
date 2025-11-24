@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Repositories
+namespace Filmc.Entities.Repositories
 {
-    public class BookRepository : BaseRepository<Book>
+    public class FilmRepository : BaseRepository<Film>
     {
         private int _markSystem;
 
-        public BookRepository(DbSet<Book> dbSet) : base(dbSet)
+        public FilmRepository(DbSet<Film> dbSet) : base(dbSet)
         {
             _markSystem = 6;
             dbSet.Include(x => x.Tags).ToList();
@@ -30,7 +30,7 @@ namespace Filmc.Wpf.Repositories
             }
         }
 
-        public override void Add(Book item)
+        public override void Add(Film item)
         {
             if (item.Id == 0)
                 item.Id = GetNewId(x => x.Id);

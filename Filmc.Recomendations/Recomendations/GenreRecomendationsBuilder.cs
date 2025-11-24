@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Recomendations
+namespace Filmc.Recomendations.Recomendations
 {
     public class GenreRecomendationsBuilder
     {
@@ -75,7 +75,7 @@ namespace Filmc.Wpf.Recomendations
                 int filmsCount = filmByGenre.Count();
                 int genreIndex = Array.IndexOf(_genres, filmByGenre.Key);
 
-                genresRating[genreIndex] = (rawMarkSum / filmsCount) / 300d;
+                genresRating[genreIndex] = rawMarkSum / filmsCount / 300d;
             }
 
             _genresRating = genresRating;

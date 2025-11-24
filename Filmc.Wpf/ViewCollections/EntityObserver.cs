@@ -1,4 +1,4 @@
-﻿using Filmc.Wpf.Repositories;
+﻿using Filmc.Entities.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

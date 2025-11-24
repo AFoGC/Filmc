@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filmc.Wpf.Repositories
+namespace Filmc.Entities.Repositories
 {
-    public class FilmSourceRepository : BaseRepository<FilmSource>
+    public class FilmWatchProgressRepository : BaseRepository<FilmWatchProgress>
     {
-        public FilmSourceRepository(DbSet<FilmSource> dbSet) : base(dbSet)
+        public FilmWatchProgressRepository(DbSet<FilmWatchProgress> dbSet) : base(dbSet)
         {
 
         }
 
-        public override void Add(FilmSource item)
+        public override void Add(FilmWatchProgress item)
         {
             if (item.Id == 0)
                 item.Id = GetNewId(x => x.Id);

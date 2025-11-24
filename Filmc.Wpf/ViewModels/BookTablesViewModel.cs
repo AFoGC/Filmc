@@ -10,8 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Filmc.Wpf.Services;
-using Filmc.Wpf.Repositories;
 using Filmc.Entities.Entities;
+using Filmc.Entities.Repositories;
 
 namespace Filmc.Wpf.ViewModels
 {

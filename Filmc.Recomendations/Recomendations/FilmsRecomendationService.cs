@@ -1,14 +1,13 @@
 ﻿using Filmc.Entities.Entities;
 using Filmc.Entities.PropertyTypes;
-using Filmc.Wpf.Repositories;
+using Filmc.Entities.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
-namespace Filmc.Wpf.Recomendations
+namespace Filmc.Recomendations.Recomendations
 {
     public class FilmsRecomendationService
     {

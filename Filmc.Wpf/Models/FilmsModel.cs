@@ -1,5 +1,5 @@
 ﻿using Filmc.Entities.Entities;
-using Filmc.Wpf.Repositories;
+using Filmc.Entities.Repositories;
 using Filmc.Wpf.Services;
 using System;
 using System.Collections.Generic;
