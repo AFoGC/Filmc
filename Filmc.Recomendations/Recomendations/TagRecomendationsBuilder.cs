@@ -128,9 +128,9 @@ namespace Filmc.Recomendations.Recomendations
                 throw new InvalidOperationException();
             }
 
-            double[] profile = new double[_tags.Length];
+            double[] profile = new double[_tagsCount];
 
-            for (int i = 0; i < _tags.Length; i++)
+            for (int i = 0; i < _tagsCount; i++)
             {
                 profile[i] = profilesMatrix[filmIndex, i];
             }

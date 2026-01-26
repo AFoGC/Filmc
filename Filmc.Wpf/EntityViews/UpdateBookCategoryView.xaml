@@ -117,6 +117,7 @@
             </DataGrid.Style>
 
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Порядок" Binding="{Binding CategoryListId}" Width="50" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
