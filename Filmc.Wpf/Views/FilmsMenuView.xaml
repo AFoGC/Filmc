@@ -169,8 +169,8 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="name" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="mark" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -229,12 +229,12 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Год" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Просмотр" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата просмотра" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="name" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="category" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="year" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="watched" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="watch_date" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="mark" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -245,10 +245,10 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Просмотры" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="views" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
 
                 <!-- Tags -->
-                <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
+                <DataGridTemplateColumn Header="tags" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ItemsControl ItemsSource="{Binding FilmTags.SortView}" Style="{StaticResource TagsItemsControl}"/>
@@ -303,15 +303,15 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Год" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Просмотр" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата начала просмотра" Binding="{Binding StartWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Просмотренные серии" Binding="{Binding WatchedSeries, StringFormat='{}{0:#}'}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата конца просмотра" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Все серии" Binding="{Binding TotalSeries, StringFormat='{}{0:#}'}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="name" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="category" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="year" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="watched" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="start_watch_date" Binding="{Binding StartWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="watched_series" Binding="{Binding WatchedSeries, StringFormat='{}{0:#}'}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="end_watch_date" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="series_count" Binding="{Binding TotalSeries, StringFormat='{}{0:#}'}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="mark" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -322,10 +322,10 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Просмотры" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="views" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
 
                 <!-- Tags -->
-                <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
+                <DataGridTemplateColumn Header="tags" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ItemsControl ItemsSource="{Binding FilmTags.SortView}" Style="{StaticResource TagsItemsControl}"/>
@@ -380,11 +380,11 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Год" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Просмотр" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="name" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="category" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="year" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="watched" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="maek" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -397,7 +397,7 @@
                 </DataGridTextColumn>
 
                 <!-- Tags -->
-                <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
+                <DataGridTemplateColumn Header="tags" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ItemsControl ItemsSource="{Binding FilmTags.SortView}" Style="{StaticResource TagsItemsControl}"/>

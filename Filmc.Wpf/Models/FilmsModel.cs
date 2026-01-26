@@ -45,6 +45,7 @@ namespace Filmc.Wpf.Models
         {
             Film film = new Film();
             film.GenreId = TablesContext.FilmGenres.First().Id;
+            film.WatchProgressId = TablesContext.FilmProgresses.First().Id;
             TablesContext.Films.Add(film);
             TablesContext.SaveChanges();
         }

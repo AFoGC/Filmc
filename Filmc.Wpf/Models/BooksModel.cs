@@ -45,6 +45,7 @@ namespace Filmc.Wpf.Models
         {
             Book book = new Book();
             book.GenreId = TablesContext.BookGenres.First().Id;
+            book.ReadProgressId = TablesContext.BookProgresses.First().Id;
             TablesContext.Books.Add(book);
             TablesContext.SaveChanges();
         }

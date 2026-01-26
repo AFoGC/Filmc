@@ -114,7 +114,11 @@ namespace Filmc.Recomendations.Recomendations
                 denominatorB += Math.Pow(profileB[tagIndex], 2);
             }
 
-            return numerator / (Math.Sqrt(denominatorA) * Math.Sqrt(denominatorB)); //Cosine Similarity (A, B)
+            double output = numerator / (Math.Sqrt(denominatorA) * Math.Sqrt(denominatorB)); //Cosine Similarity (A, B)
+            if (output == double.NaN)
+                return 0;
+
+            return output;
         }
 
         private double[] GetOneProfile(double[,] profilesMatrix, int filmIndex)
