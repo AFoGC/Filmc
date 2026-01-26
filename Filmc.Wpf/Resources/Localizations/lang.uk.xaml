@@ -96,6 +96,7 @@
     <v:String x:Key="show_fprior_btn">Меню пріорітетів</v:String>
     <v:String x:Key="watched_btn">Переглянуто</v:String>
     <v:String x:Key="unwatched_btn">Непереглянуто</v:String>
+    <v:String x:Key="recomend_btn">Рекомендації</v:String>
 
     <!--Booksmenu ButtonPanel-->
     <v:String x:Key="add_book_btn">Додати книжку</v:String>
@@ -116,7 +117,8 @@
 
     <!--Table ToolTips-->
     <v:String x:Key="hidename_tt">Приховане ім'я</v:String>
-    
+
+    <v:String x:Key="order_tt">Порядок</v:String>
     <v:String x:Key="id_tt">ID</v:String>
     <v:String x:Key="name_tt">Назва</v:String>
     <v:String x:Key="genre_tt">Категорія</v:String>
@@ -198,5 +200,5 @@
     <v:String x:Key="book_progress_label">Статуси читання</v:String>
     <v:String x:Key="add_status_btn">Додати статус</v:String>
     <v:String x:Key="st_del_status">Видалити статус</v:String>
-
+    
 </ResourceDictionary>

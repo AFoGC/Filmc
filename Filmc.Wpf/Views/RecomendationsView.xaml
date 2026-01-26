@@ -12,8 +12,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Button Style="{StaticResource GrayButton}" HorizontalAlignment="Left" Width="120" Margin="3"
-                Content="Go_Back" Command="{Binding CloseMenuCommand}"/>
+        <Button Style="{StaticResource GrayButton}" HorizontalAlignment="Left" Width="200" Margin="3"
+                Content="{DynamicResource go_back_btn}" Command="{Binding CloseMenuCommand}"/>
 
         <DataGrid Margin="3" Grid.Row="1" ItemsSource="{Binding RecomendedFilms}" AutoGenerateColumns="False">
             <DataGrid.Columns>

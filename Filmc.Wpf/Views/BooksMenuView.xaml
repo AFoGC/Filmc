@@ -154,9 +154,9 @@
             </DataGrid.Style>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="{DynamicResource id_tt}" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource name_tt}" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource mark_tt}" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -214,15 +214,15 @@
             </DataGrid.Style>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Год" Binding="{Binding PublicationYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Прочтение" Binding="{Binding ReadProgress.Name}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Закладка" Binding="{Binding Bookmark}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата начала чтения" Binding="{Binding StartReadDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата конца чтения" Binding="{Binding FullReadDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="{DynamicResource id_tt}" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource name_tt}" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource genre_tt}" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource year_tt}" Binding="{Binding PublicationYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource readed_tt}" Binding="{Binding ReadProgress.Name}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource bookmark_tt}" Binding="{Binding Bookmark}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource start_read_date_tt}" Binding="{Binding StartReadDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource end_read_date_tt}" Binding="{Binding FullReadDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource mark_tt}" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -233,10 +233,10 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Прочтения" Binding="{Binding CountOfReadings}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource cor_tt}" Binding="{Binding CountOfReadings}" Width="100" IsReadOnly="True"/>
 
                 <!-- Tags -->
-                <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
+                <DataGridTemplateColumn Header="tags" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ItemsControl ItemsSource="{Binding BookTags.SortView}" Style="{StaticResource TagsItemsControl}"/>
@@ -290,12 +290,12 @@
             </DataGrid.Style>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Год" Binding="{Binding PublicationYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Прочтение" Binding="{Binding ReadProgress.Name}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="{DynamicResource id_tt}" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource name_tt}" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource genre_tt}" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource year_tt}" Binding="{Binding PublicationYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource readed_tt}" Binding="{Binding ReadProgress.Name}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource mark_tt}" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -309,7 +309,7 @@
                 <DataGridTextColumn Header="Прочтения" Binding="{Binding CountOfReadings}" Width="100" IsReadOnly="True"/>
 
                 <!-- Tags -->
-                <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
+                <DataGridTemplateColumn Header="tags" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ItemsControl ItemsSource="{Binding BookTags.SortView}" Style="{StaticResource TagsItemsControl}"/>

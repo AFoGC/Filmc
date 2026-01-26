@@ -96,6 +96,7 @@
     <v:String x:Key="show_fprior_btn">Priority Menu</v:String>
     <v:String x:Key="watched_btn">Watched</v:String>
     <v:String x:Key="unwatched_btn">Unwatched</v:String>
+    <v:String x:Key="recomend_btn">Recomendations</v:String>
 
     <!--Booksmenu ButtonPanel-->
     <v:String x:Key="add_book_btn">Add Book</v:String>
@@ -116,7 +117,8 @@
 
     <!--Table ToolTips-->
     <v:String x:Key="hidename_tt">Hide Name</v:String>
-    
+
+    <v:String x:Key="order_tt">Order</v:String>
     <v:String x:Key="id_tt">ID</v:String>
     <v:String x:Key="name_tt">Name</v:String>
     <v:String x:Key="genre_tt">Category</v:String>

@@ -168,9 +168,9 @@
             </DataGrid.Style>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="name" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="mark" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="{DynamicResource id_tt}" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource name_tt}" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource mark_tt}" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -228,13 +228,13 @@
             </DataGrid.Style>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="name" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="category" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="year" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="watched" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="watch_date" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="mark" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="{DynamicResource id_tt}" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource name_tt}" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource genre_tt}" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource year_tt}" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource watched_tt}" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource end_watch_date_tt}" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource mark_tt}" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -245,7 +245,7 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="views" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource cov_tt}" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
 
                 <!-- Tags -->
                 <DataGridTemplateColumn Header="tags" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
@@ -302,16 +302,16 @@
             </DataGrid.Style>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="name" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="category" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="year" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="watched" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="start_watch_date" Binding="{Binding StartWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="watched_series" Binding="{Binding WatchedSeries, StringFormat='{}{0:#}'}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="end_watch_date" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="series_count" Binding="{Binding TotalSeries, StringFormat='{}{0:#}'}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="mark" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="{DynamicResource id_tt}" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource name_tt}" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource genre_tt}" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource year_tt}" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource watched_tt}" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource start_watch_date_tt}" Binding="{Binding StartWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource watched_series_tt}" Binding="{Binding WatchedSeries, StringFormat='{}{0:#}'}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource end_watch_date_tt}" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource total_series_tt}" Binding="{Binding TotalSeries, StringFormat='{}{0:#}'}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource mark_tt}" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -322,7 +322,7 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="views" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource cov_tt}" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
 
                 <!-- Tags -->
                 <DataGridTemplateColumn Header="tags" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
@@ -379,12 +379,12 @@
             </DataGrid.Style>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="name" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="category" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="year" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="watched" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="maek" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="{DynamicResource id_tt}" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource name_tt}" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource genre_tt}" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource year_tt}" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource watched_tt}" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource mark_tt}" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -471,7 +471,7 @@
                             VerticalAlignment="Top" Grid.Column="2" Grid.Row="4"
                             Command="{Binding ChangeMenuModeCommand}" CommandParameter="{x:Static global:FilmsMenuMode.Priorities}"/>
 
-                        <Button Content="RECOMENDATIONS" Style="{StaticResource GB}" 
+                        <Button Content="{DynamicResource recomend_btn}" Style="{StaticResource GB}" 
                             VerticalAlignment="Top" Grid.Column="2" Grid.Row="5"
                             Command="{Binding OpenRecomentationsCommand}"/>
                     </Grid>

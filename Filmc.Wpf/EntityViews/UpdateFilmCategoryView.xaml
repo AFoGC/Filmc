@@ -116,14 +116,14 @@
             </DataGrid.Style>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Порядок" Binding="{Binding CategoryListId}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Год" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Просмотрено" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата просмотра" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Оценка" Width="80" IsReadOnly="True">
+                <DataGridTextColumn Header="{DynamicResource order_tt}" Binding="{Binding CategoryListId}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource id_tt}" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource name_tt}" Binding="{Binding Name}" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource genre_tt}" Binding="{Binding Genre.Name}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource year_tt}" Binding="{Binding RealiseYear}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource watched_tt}" Binding="{Binding WatchProgress.Name}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource end_watch_date_tt}" Binding="{Binding EndWatchDate, StringFormat=dd.MM.yyyy}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource mark_tt}" Width="80" IsReadOnly="True">
                     <DataGridTextColumn.Binding>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -134,10 +134,10 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Просмотры" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{DynamicResource cov_tt}" Binding="{Binding CountOfViews}" Width="100" IsReadOnly="True"/>
 
                 <!-- Tags -->
-                <DataGridTemplateColumn Header="Теги" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
+                <DataGridTemplateColumn Header="Tags" HeaderStyle="{StaticResource TagsColumnHeader}" CellStyle="{StaticResource TagsGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ItemsControl ItemsSource="{Binding FilmTags.SortView}" Style="{StaticResource TagsItemsControl}"/>
